@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 
-import Utilities.InstitutionUtil;
+import Utilities.TertiaryUtil;
 import Utilities.SchoolSystemUtil;
 
 /**
@@ -34,9 +34,9 @@ public class InstitutionsLoader extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setContentType("application/json");
 		JSONArray jArray = new JSONArray();
-		InstitutionUtil insUtil = new InstitutionUtil();
+		TertiaryUtil insUtil = new TertiaryUtil();
 		int systemID = Integer.parseInt(request.getParameter("systemID"));
-		jArray = insUtil.getInstitutionsJSON(systemID);
+		jArray = insUtil.getTertiaryJSON(systemID);
 		response.getWriter().write(jArray.toString());	
 	}
 

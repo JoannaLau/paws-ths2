@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Models.Institution;
 import Models.SchoolSystem;
-import Utilities.InstitutionUtil;
+import Utilities.TertiaryUtil;
 import Utilities.SchoolSystemUtil;
 
 /**

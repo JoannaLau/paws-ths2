@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 
-import Utilities.InstitutionUtil;
+import Utilities.TertiaryUtil;
 import Utilities.ProgramUtil;
 
 /**

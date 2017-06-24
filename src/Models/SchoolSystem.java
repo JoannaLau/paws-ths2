@@ -3,9 +3,9 @@ package Models;
 public class SchoolSystem {
 
 
-	private int schoolsystemID;
+	private int schoolSystemID;
 	private String name;
-	private String date_joined = "";
+	private String dateJoined = "";
 	private int numberOfInstitutions;
 	
 	public SchoolSystem(){}
@@ -20,17 +20,17 @@ public class SchoolSystem {
 
 	public SchoolSystem(int schoolsystemID, String name, String date_joined) {
 		super();
-		this.schoolsystemID = schoolsystemID;
+		this.schoolSystemID = schoolsystemID;
 		this.name = name;
-		this.date_joined = date_joined;
+		this.dateJoined = date_joined;
 	}
 
 	public int getSchoolSystemID() {
-		return schoolsystemID;
+		return schoolSystemID;
 	}
 
 	public void setSchoolSystemID(int schoolsystemID) {
-		this.schoolsystemID = schoolsystemID;
+		this.schoolSystemID = schoolsystemID;
 	}
 
 	public String getName() {
@@ -41,12 +41,12 @@ public class SchoolSystem {
 		this.name = name;
 	}
 
-	public String getDate_joined() {
-		return date_joined;
+	public String getDateJoined() {
+		return dateJoined;
 	}
 
-	public void setDate_joined(String date_joined) {
-		this.date_joined = date_joined;
+	public void setDateJoined(String date_joined) {
+		this.dateJoined = date_joined;
 	}
 	
 	

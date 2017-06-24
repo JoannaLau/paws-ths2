@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import Models.Institution;
 import Models.Program;
 import Models.SchoolProgram;
-import Utilities.InstitutionUtil;
+import Utilities.TertiaryUtil;
 import Utilities.ProgramUtil;
 
 /**
@@ -38,7 +38,7 @@ public class ViewInstitution extends HttpServlet {
 		// TODO Auto-generated method stub
 		int institutionID = Integer.parseInt(request.getParameter("institutionID"));
 		System.out.println("View Institution: " + institutionID);
-		InstitutionUtil instUtil = new InstitutionUtil();
+		TertiaryUtil instUtil = new TertiaryUtil();
 		Institution inst = instUtil.getInstitution(institutionID);
 		request.setAttribute("institution", inst);
 		ProgramUtil progUtil = new ProgramUtil();

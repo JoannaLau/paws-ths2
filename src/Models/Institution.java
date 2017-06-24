@@ -4,65 +4,28 @@ public class Institution {
 
 	private int institutionID;
 	private String institutionAcronym;
-	public String getInstitutionAcronym() {
-		return institutionAcronym;
-	}
-
-	public void setInstitutionAcronym(String institutionAcronym) {
-		this.institutionAcronym = institutionAcronym;
-	}
-
-	private int schoolsystemID;
-	public String getContact_email() {
-		return contact_email;
-	}
-
-	public void setContact_email(String contact_email) {
-		this.contact_email = contact_email;
-	}
-
-	private String schoolsystemName;
-	public String getSchoolsystemName() {
-		return schoolsystemName;
-	}
-
-	public void setSchoolsystemName(String schoolsystemName) {
-		this.schoolsystemName = schoolsystemName;
-	}
-
 	private String name;
 	private String head="";
-	private String position="";
-	private String email="";
+	private String hPosition="";
+	private String hEmail="";
 	private String address="";
 	private String region="";
 	private String status="";
-	private String date_added="";
+	private String dateAdded="";
 	private String city="";
 	private String fax="";
-	private String contact_person="";
-	private String contact_number="";
-	private String contact_position="";
-	public String getContact_position() {
-		return contact_position;
-	}
-
-	public void setContact_position(String contact_position) {
-		this.contact_position = contact_position;
-	}
-
+	private String contactPerson="";
+	private String contactNumber="";
+	private String contactPosition="";
+	private String schoolSystemName;
+	private int schoolSystemID;
 	private String website;
 	private String country;
-	private String contact_email;
-	private String date_addedWord;
-	
-	public String getCountry() {
-		return country;
-	}
+	private String contactEmail;
+	private String dateAddedWord;
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+
+	
 
 	public int getInstitutionID() {
 		return institutionID;
@@ -72,12 +35,12 @@ public class Institution {
 		this.institutionID = institutionID;
 	}
 
-	public int getSchoolsystemID() {
-		return schoolsystemID;
+	public String getInstitutionAcronym() {
+		return institutionAcronym;
 	}
 
-	public void setSchoolsystemID(int schoolsystemID) {
-		this.schoolsystemID = schoolsystemID;
+	public void setInstitutionAcronym(String institutionAcronym) {
+		this.institutionAcronym = institutionAcronym;
 	}
 
 	public String getName() {
@@ -96,20 +59,20 @@ public class Institution {
 		this.head = head;
 	}
 
-	public String getPosition() {
-		return position;
+	public String gethPosition() {
+		return hPosition;
 	}
 
-	public void setPosition(String position) {
-		this.position = position;
+	public void sethPosition(String hPosition) {
+		this.hPosition = hPosition;
 	}
 
-	public String getEmail() {
-		return email;
+	public String gethEmail() {
+		return hEmail;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void sethEmail(String hEmail) {
+		this.hEmail = hEmail;
 	}
 
 	public String getAddress() {
@@ -136,12 +99,12 @@ public class Institution {
 		this.status = status;
 	}
 
-	public String getDate_added() {
-		return date_added;
+	public String getDateAdded() {
+		return dateAdded;
 	}
 
-	public void setDate_added(String date_added) {
-		this.date_added = date_added;
+	public void setDateAdded(String dateAdded) {
+		this.dateAdded = dateAdded;
 	}
 
 	public String getCity() {
@@ -160,20 +123,44 @@ public class Institution {
 		this.fax = fax;
 	}
 
-	public String getContact_person() {
-		return contact_person;
+	public String getContactPerson() {
+		return contactPerson;
 	}
 
-	public void setContact_person(String contact_person) {
-		this.contact_person = contact_person;
+	public void setContactPerson(String contactPerson) {
+		this.contactPerson = contactPerson;
 	}
 
-	public String getContact_number() {
-		return contact_number;
+	public String getContactNumber() {
+		return contactNumber;
 	}
 
-	public void setContact_number(String contact_number) {
-		this.contact_number = contact_number;
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	public String getContactPosition() {
+		return contactPosition;
+	}
+
+	public void setContactPosition(String contactPosition) {
+		this.contactPosition = contactPosition;
+	}
+
+	public String getSchoolSystemName() {
+		return schoolSystemName;
+	}
+
+	public void setSchoolsystemName(String schoolsystemName) {
+		this.schoolSystemName = schoolsystemName;
+	}
+
+	public int getSchoolSystemID() {
+		return schoolSystemID;
+	}
+
+	public void setSchoolSystemID(int schoolsystemID) {
+		this.schoolSystemID = schoolsystemID;
 	}
 
 	public String getWebsite() {
@@ -184,6 +171,30 @@ public class Institution {
 		this.website = website;
 	}
 
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getContactEmail() {
+		return contactEmail;
+	}
+
+	public void setContactEmail(String contactEmail) {
+		this.contactEmail = contactEmail;
+	}
+
+	public String getDateAddedWord() {
+		return dateAddedWord;
+	}
+
+	public void setDateAddedWord(String dateAddedWord) {
+		this.dateAddedWord = dateAddedWord;
+	}
+
 	public Institution(){}
 	
 	public Institution(int institutionID, int schoolsystemID, String name, String head, String position, String email,
@@ -191,33 +202,25 @@ public class Institution {
 			String contact_person, String contact_position, String contact_number, String website, String country, String contact_email, String institutionAcronym) {
 		super();
 		this.institutionID = institutionID;
-		this.schoolsystemID = schoolsystemID;
+		this.schoolSystemID = schoolsystemID;
 		this.institutionAcronym = institutionAcronym;
 		this.name = name;
 		this.head = head;
-		this.position = position;
-		this.email = email;
+		this.hPosition = position;
+		this.hEmail = email;
 		this.address = address;
 		this.country = country;
 		this.status = status;
-		this.date_added = formatDate_yearFirst(date_added);
-		this.date_addedWord = formatDate(date_added);
+		this.dateAdded = formatDate_yearFirst(date_added);
+		this.dateAddedWord = formatDate(date_added);
 		this.city = city;
 		this.fax = fax;
-		this.contact_person = contact_person;
-		this.contact_number = contact_number;
-		this.contact_email = contact_email;
+		this.contactPerson = contact_person;
+		this.contactNumber = contact_number;
+		this.contactEmail = contact_email;
 		this.website = website;
-		this.contact_position =contact_position;
+		this.contactPosition =contact_position;
 		System.out.println(date_added+"CITY!!!!!!!!!!"+ institutionAcronym);
-	}
-	
-	public String getDate_addedWord() {
-		return date_addedWord;
-	}
-
-	public void setDate_addedWord(String date_addedWord) {
-		this.date_addedWord = date_addedWord;
 	}
 
 	private static String formatDate(String date){

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Utilities.InstitutionUtil;
+import Utilities.TertiaryUtil;
 import Utilities.SchoolSystemUtil;
 
 /**
@@ -43,7 +43,7 @@ public class AddProgramToInst extends HttpServlet {
 		int generalID = Integer.parseInt((String)request.getParameter("general"));
 		int instID = Integer.parseInt((String)request.getParameter("instID"));
 		
-		InstitutionUtil instUtil = new InstitutionUtil();
+		TertiaryUtil instUtil = new TertiaryUtil();
 		instUtil.addProgramToInst(specific, generalID, instID);	
 	System.out.println("output1:"+ specific);
 		RequestDispatcher rd = request.getRequestDispatcher("ViewInstitution?institutionID="+instID);
