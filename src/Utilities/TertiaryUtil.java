@@ -38,7 +38,11 @@ public class TertiaryUtil {
 				
 			}
 		} catch (Exception e){
+<<<<<<< HEAD
 			System.out.println("Error in TertiaryUtil:getInstitutionsJSON()");
+=======
+			System.out.println("Error in InstitutionUtil:getInstitutionsJSON()");
+>>>>>>> c1cbcadb0ac939bc56645851ecc3848a2cf636df
 			e.printStackTrace();
 		}
 		
@@ -173,7 +177,11 @@ public class TertiaryUtil {
 			ps.setString(17, institutionAcronym);
 			ps.executeUpdate();
 		} catch (Exception e){
+<<<<<<< HEAD
 			System.out.println("Error in TertiaryUtil:addInstitution()");
+=======
+			System.out.println("Error in InstitutionUtil:addInstitution()");
+>>>>>>> c1cbcadb0ac939bc56645851ecc3848a2cf636df
 			e.printStackTrace();	
 		}
 	}
@@ -209,7 +217,11 @@ public class TertiaryUtil {
 			
 			ps.executeUpdate();
 		} catch (Exception e){
+<<<<<<< HEAD
 			System.out.println("Error in TertiaryUtil:editInstitution()");
+=======
+			System.out.println("Error in InstitutionUtil:editInstitution()");
+>>>>>>> c1cbcadb0ac939bc56645851ecc3848a2cf636df
 			e.printStackTrace();	
 		}
 	}
@@ -232,7 +244,11 @@ public class TertiaryUtil {
 			
 			ps.executeUpdate();
 		} catch (Exception e){
+<<<<<<< HEAD
 			System.out.println("Error in TertiaryUtil:addProgramToInstitution()");
+=======
+			System.out.println("Error in InstitutionUtil:addProgramToInstitution()");
+>>>>>>> c1cbcadb0ac939bc56645851ecc3848a2cf636df
 			e.printStackTrace();	
 		}
 		
