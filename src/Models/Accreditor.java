@@ -19,8 +19,8 @@ public class Accreditor {
 	private int totalSurveys;
 	private String city;
 	private String country;
-	private String venue_trained;
-	private String date_trained;
+	private String venueTrained;
+	private String dateTrained;
 	private String address;
 	private ArrayList<Degree> degrees;
 	private ArrayList<Work> works;
@@ -43,8 +43,8 @@ public class Accreditor {
 		this.totalSurveys = totalSurveys;
 		this.city = city;
 		this.country = country;
-		this.venue_trained = venue_trained;
-		this.date_trained = date_trained;
+		this.venueTrained = venue_trained;
+		this.dateTrained = date_trained;
 		this.address = address;
 		this.contact = contact;
 		
@@ -210,17 +210,17 @@ public class Accreditor {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	public String getVenue_trained() {
-		return venue_trained;
+	public String getVenueTrained() {
+		return venueTrained;
 	}
-	public void setVenue_trained(String venue_trained) {
-		this.venue_trained = venue_trained;
+	public void setVenueTrained(String venue_trained) {
+		this.venueTrained = venue_trained;
 	}
-	public String getDate_trained() {
-		return date_trained;
+	public String getDateTrained() {
+		return dateTrained;
 	}
-	public void setDate_trained(String date_trained) {
-		this.date_trained = date_trained;
+	public void setDateTrained(String date_trained) {
+		this.dateTrained = date_trained;
 	}
 	public String getAddress() {
 		return address;

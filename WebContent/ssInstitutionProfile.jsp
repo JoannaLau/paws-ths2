@@ -318,7 +318,7 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
 										<%@page import="Models.Institution" %>
 										<% Institution inst = (Institution)request.getAttribute("institution"); %>
 													<h2>
-													<%=inst.getName() %> - <%=inst.getDate_added() %>
+													<%=inst.getName() %> - <%=inst.getDateAdded() %>
 													</h2>
 													<h6><%=inst.getAddress() %></h6>
 													<hr>
@@ -338,17 +338,17 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
 													<%= inst.getHead() %>
 													<br>
 													Position:
-													<%= inst.getPosition() %><br>
+													<%= inst.gethPosition() %><br>
 													Email:
-													<%= inst.getEmail() %>
+													<%= inst.gethEmail() %>
 													
 													<br><br>
 													
 													Contact Person: 
-													<%= inst.getContact_person() %>	
+													<%= inst.getContactPerson() %>	
 													<br>
 													Contact Number:
-													<%= inst.getContact_number()%>
+													<%= inst.getContactNumber()%>
 													<br>
 													lazojennifer@yahoo.com<br>
 													</p>
@@ -363,7 +363,7 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
                                                   Tel. Nos.: <%= inst.getFax()%><br>
 													(632) 523-4148 (direct line)<br>
 													Fax No.: (632) 521-9094<br>
-													E-mail: <%= inst.getEmail()%><br>
+													E-mail: <%= inst.gethEmail()%><br>
 													Website: <%= inst.getWebsite()%>
                                                 </div>
                                           

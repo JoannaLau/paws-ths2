@@ -26,7 +26,7 @@ public class ConfirmationUtil {
 				
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("UPDATE `program-area` SET attendance_confirmation='Attended' WHERE  PSID= "+ PSID+" AND areaID="+areaID+" AND accreditorID="+accID+"");
+			PreparedStatement ps = conn.prepareStatement("UPDATE `program-area` SET attendanceConfirmation='Attended' WHERE  PSID= "+ PSID+" AND areaID="+areaID+" AND accreditorID="+accID+"");
 		
 			ps.executeUpdate();
 			conn.close();
@@ -55,7 +55,7 @@ public class ConfirmationUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("UPDATE `decisions` SET decision=?, `remarks`=? , `for_interim`=? ,`for_consultation`=?, `for_progressReport`=?  WHERE  PSID= ? AND `decisionBy`=?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE `decisions` SET decision=?, `remarks`=? , `forInterim`=? ,`forConsultation`=?, `forCrogressReport`=?  WHERE  PSID= ? AND `decisionBy`=?");
 			ps.setString(1, decision);
 			System.out.println(remarks);
 			ps.setString(2, remarks);
@@ -97,13 +97,13 @@ public class ConfirmationUtil {
 public void updateCurrentDecisionBy(String by, int PSID, String boardApproval, String valid_thru){
 				
 		try{
-			String queryPortion = "`valid_thru` =?,";
+			String queryPortion = "`validThru` =?,";
 			Connection conn = db.getConnection();
 			if(valid_thru==""|| valid_thru == null){
 				queryPortion = "";
 			}
 			else{
-				queryPortion= "`valid_thru` ="+valid_thru+",";
+				queryPortion= "`validThru` ="+valid_thru+",";
 			}
 			PreparedStatement ps = conn.prepareStatement("UPDATE `program-survey` SET `currentDecisionBy` =?, "+queryPortion+"  `boardApprovalDate`=? WHERE  PSID= ?");
 			ps.setString(1, by);

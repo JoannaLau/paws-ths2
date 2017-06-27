@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Models.Institution;
 import Models.ProgramSurvey;
-import Utilities.InstitutionUtil;
+import Utilities.TertiaryUtil;
 import Utilities.ProgramUtil;
 
 /**

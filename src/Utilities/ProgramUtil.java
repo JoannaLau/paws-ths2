@@ -25,7 +25,7 @@ public class ProgramUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT SPID, degree_name, next_survey_type FROM `school-program` WHERE institutionID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT SPID, degreeName, nextSurveyType FROM `school-program` WHERE institutionID = ?");
 			ps.setInt(1, institutionID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
@@ -82,7 +82,7 @@ public class ProgramUtil {
 			}
 		
 		} catch (Exception e){
-			System.out.println("Error in ProgramUtil:getSps()");
+			System.out.println("Error in ProgramUtil:getInstitutionPrograms()");
 			e.printStackTrace();
 		}
 		return sps;
@@ -101,7 +101,7 @@ public class ProgramUtil {
 			}
 		
 		} catch (Exception e){
-			System.out.println("Error in ProgramUtil:getSps()");
+			System.out.println("Error in ProgramUtil:getDisciplines()");
 			e.printStackTrace();
 		}
 		return sps;
@@ -159,7 +159,7 @@ public class ProgramUtil {
 		String temp = new String();
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM institutions WHERE institutionID=?");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM tertiary WHERE tID=?");
 			ps.setInt(1, institutionID);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
@@ -244,7 +244,7 @@ public class ProgramUtil {
 				}
 			
 			} catch (Exception e){
-				System.out.println("Error in ProgramUtil:getInstitution()");
+				System.out.println("Error in ProgramUtil:getLatestAccreditor()");
 				e.printStackTrace();
 			}
 		}
@@ -262,7 +262,7 @@ public class ProgramUtil {
 			temp = rs.getString(2) + ", " + rs.getString(3) + " " + rs.getString(4);
 		
 		} catch (Exception e){
-			System.out.println("Error in ProgramUtil:getInstitution()");
+			System.out.println("Error in ProgramUtil:getAccreditorName()");
 			e.printStackTrace();
 		}
 		return temp;
@@ -281,7 +281,7 @@ public class ProgramUtil {
 			}
 		
 		} catch (Exception e){
-			System.out.println("Error in ProgramUtil:getInstitution()");
+			System.out.println("Error in ProgramUtil:getLatestPSID()");
 			e.printStackTrace();
 		}
 		
@@ -293,7 +293,7 @@ public class ProgramUtil {
 		ArrayList<ProgramSurvey> hist= new ArrayList();
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT `PSID`, `surveyID`, `survey_type`, `valid_thru`, `boardApprovalDate` FROM `program-survey` WHERE SPID = ? AND currentDecisionBy = 'Board' ");
+			PreparedStatement ps = conn.prepareStatement("SELECT `PSID`, `surveyID`, `surveyType`, `validThru`, `boardApprovalDate` FROM `program-survey` WHERE SPID = ? AND currentDecisionBy = 'Board' ");
 			ps.setInt(1, SPID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
@@ -301,17 +301,17 @@ public class ProgramUtil {
 				String decision = getBoardDecision(rs.getInt(1));
 				
 				ProgramSurvey temp = new ProgramSurvey();
-				temp.setBoard_decision(decision);
-				temp.setDecision_date(rs.getString(5));
+				temp.setBoardDecision(decision);
+				temp.setDecisionDate(rs.getString(5));
 				temp.setSurveyDate(surveydate);
-				temp.setSurvey_type(rs.getString(3));
-				temp.setValid_thru(rs.getString(4));
+				temp.setSurveyType(rs.getString(3));
+				temp.setValidThru(rs.getString(4));
 				hist.add(temp);
 			}
 	
 		
 		} catch (Exception e){
-			System.out.println("Error in ProgramUtil:getInstitution()");
+			System.out.println("Error in ProgramUtil:getInstitutionProgramSurvey()");
 			e.printStackTrace();
 		}
 		
@@ -323,7 +323,7 @@ public class ProgramUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT `start_date`, `end_date` FROM `surveys` WHERE surveyID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT `startDate`, `endDate` FROM `surveys` WHERE surveyID = ?");
 			ps.setInt(1, surveyID);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()){
@@ -334,7 +334,7 @@ public class ProgramUtil {
 				}
 			}
 		} catch (Exception e){
-			System.out.println("Error in ProgramUtil:getInstitution()");
+			System.out.println("Error in ProgramUtil:getSurveyDate()");
 			e.printStackTrace();
 		}
 		

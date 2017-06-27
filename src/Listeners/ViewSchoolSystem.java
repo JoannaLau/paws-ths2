@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Models.Institution;
 import Models.SchoolSystem;
-import Utilities.InstitutionUtil;
+import Utilities.TertiaryUtil;
 import Utilities.SchoolSystemUtil;
 
 /**
@@ -38,7 +38,7 @@ public class ViewSchoolSystem extends HttpServlet {
 		System.out.println("View Institution: " + systemID);
 		SchoolSystemUtil ssUtil = new SchoolSystemUtil();
 		SchoolSystem ss = ssUtil.getSchoolSystem(systemID);
-		InstitutionUtil instUtil = new InstitutionUtil();
+		TertiaryUtil instUtil = new TertiaryUtil();
 		ArrayList<Institution> inst = instUtil.getSchoolSystemInstitutions(systemID);
 		request.setAttribute("schoolsystem", ss);
 		request.setAttribute("institutions", inst);

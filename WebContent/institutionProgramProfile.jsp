@@ -439,10 +439,10 @@ position:relative;float:left;top:20px;left:30px;color:white;
 													<%for(ProgramSurvey ps: hist){ %>
                                                         <tr>
                                                             <td><%=ps.getSurveyDate()%></td>
-                                                            <td><%=ps.getSurvey_type()%></td>                                                           
-                                                            <td><%=ps.getDecision_date()%></td>
-                                                            <td><%=ps.getBoard_decision()%></td>
-                                                            <td><%=ps.getValid_thru()%></td>
+                                                            <td><%=ps.getSurveyType()%></td>                                                           
+                                                            <td><%=ps.getDecisionDate()%></td>
+                                                            <td><%=ps.getBoardDecision()%></td>
+                                                            <td><%=ps.getValidThru()%></td>
                                                         </tr>
 													<%} %>
 														

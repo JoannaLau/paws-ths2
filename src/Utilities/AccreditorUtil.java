@@ -43,7 +43,7 @@ public class AccreditorUtil {
 		Accreditation temp = new Accreditation();
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT s.surveyID, s.start_date, s.end_date, s.institutionID, ps.survey_type, ps.SPID, pa.areaID, pa.accreditorID FROM `program-area` pa JOIN `program-survey` ps ON pa.PSID = ps.PSID JOIN surveys s ON ps.surveyID = s.surveyID WHERE accreditorID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT s.surveyID, s.startDate, s.endDate, s.institutionID, ps.surveyType, ps.SPID, pa.areaID, pa.accreditorID FROM `program-area` pa JOIN `program-survey` ps ON pa.PSID = ps.PSID JOIN surveys s ON ps.surveyID = s.surveyID WHERE accreditorID = ?");
 			ps.setInt(1, accreditorID);
 			ResultSet rs = ps.executeQuery();
 			int surveyID = 0; int tempID = 0; int programID = 0; int tempID2 = 0;
@@ -95,7 +95,7 @@ public class AccreditorUtil {
 		String temp = new String();
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("UPDATE `program-area` SET `attendance_confirmation` = ? WHERE accreditorID=? AND PSID = ? AND areaID = ?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE `program-area` SET `attendanceConfirmation` = ? WHERE accreditorID=? AND PSID = ? AND areaID = ?");
 			ps.setString(1, confirmation);
 			ps.setInt(2, accreditorID);
 			ps.setInt(3, PSID);
@@ -115,19 +115,19 @@ public class AccreditorUtil {
 			removeAffiliations(accreditorID);
 
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("UPDATE `pads`.`accreditors` SET `lastname` = ?, `firstname` = ?, `middlename` = ?, `honorifics` = ?, `email` = ?, `num_surveys` = ?, `date_trained` = ?, `contact` = ?, `address` = ?, `city` = ?, `country` = ?, `venue_trained` = ?, `primaryAreaID` = ?, `secondaryAreaID` = ?, `thirdAreaID` = ?, `discipline` = ? WHERE accreditorID = ?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE `pads`.`accreditors` SET `lastname` = ?, `firstname` = ?, `middlename` = ?, `honorifics` = ?, `email` = ?, `numSurveys` = ?, `dateTrained` = ?, `contact` = ?, `address` = ?, `city` = ?, `country` = ?, `venueTrained` = ?, `primaryAreaID` = ?, `secondaryAreaID` = ?, `thirdAreaID` = ?, `discipline` = ? WHERE accreditorID = ?");
 			ps.setString(1, acc.getLastName());
 			ps.setString(2, acc.getFirstName());
 			ps.setString(3, acc.getMiddleName());
 			ps.setString(4, acc.getHonorifics());
 			ps.setString(5, acc.getEmail());
 			ps.setInt(6, acc.getTotalSurveys());
-			ps.setString(7, acc.getDate_trained());
+			ps.setString(7, acc.getDateTrained());
 			ps.setString(8, acc.getContact());
 			ps.setString(9, acc.getAddress());
 			ps.setString(10, acc.getCity());
 			ps.setString(11, acc.getCountry());
-			ps.setString(12, acc.getVenue_trained());
+			ps.setString(12, acc.getVenueTrained());
 			ps.setInt(13, acc.getPrimaryAreaID());
 			ps.setInt(14, acc.getSecondaryAreaID());
 			ps.setInt(15, acc.getTertiaryAreaID());
@@ -207,7 +207,7 @@ public class AccreditorUtil {
 		String name = null;
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM work WHERE accreditorID = ? and date_finished IS NULL");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM work WHERE accreditorID = ? and dateFinished IS NULL");
 			ps.setInt(1, accreditorID);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
@@ -305,7 +305,7 @@ public class AccreditorUtil {
 		String name = null;
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM institutions WHERE institutionID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM tertiary WHERE institutionID = ?");
 			ps.setInt(1, institutionID);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()){
@@ -383,19 +383,19 @@ public class AccreditorUtil {
 	public void addAccreditor(Accreditor acc, JSONObject affObject){
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO `pads`.`accreditors` (`lastname`, `firstname`, `middlename`, `honorifics`, `email`, `num_surveys`, `date_trained`, `contact`, `address`, `city`, `country`, `venue_trained`, `primaryAreaID`, `secondaryAreaID`, `tertiaryAreaID`,`discipline`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `pads`.`accreditors` (`lastname`, `firstname`, `middlename`, `honorifics`, `email`, `numSurveys`, `dateTrained`, `contact`, `address`, `city`, `country`, `venueTrained`, `primaryAreaID`, `secondaryAreaID`, `tertiaryAreaID`,`discipline`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			ps.setString(1, acc.getLastName());
 			ps.setString(2, acc.getFirstName());
 			ps.setString(3, acc.getMiddleName());
 			ps.setString(4, acc.getHonorifics());
 			ps.setString(5, acc.getEmail());
 			ps.setInt(6, acc.getTotalSurveys());
-			ps.setString(7, formatDate(acc.getDate_trained()));
+			ps.setString(7, formatDate(acc.getDateTrained()));
 			ps.setString(8, acc.getContact());
 			ps.setString(9, acc.getAddress());
 			ps.setString(10, acc.getCity());
 			ps.setString(11, acc.getCountry());
-			ps.setString(12, acc.getVenue_trained());
+			ps.setString(12, acc.getVenueTrained());
 			ps.setInt(13, acc.getPrimaryAreaID());
 			ps.setInt(14, acc.getSecondaryAreaID());
 			ps.setInt(15, acc.getTertiaryAreaID());
@@ -419,7 +419,7 @@ public class AccreditorUtil {
 			if(start == null || position == null){
 				System.out.println("WALA");
 			}
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO `work` (institutionID, accreditorID, `date_entered`, `position`) VALUES (?, ?, ?, ?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `work` (institutionID, accreditorID, `dateEntered`, `position`) VALUES (?, ?, ?, ?)");
 			ps.setInt(1, institutionID);
 			ps.setInt(2, accreditorID);
 			ps.setString(3, start);
@@ -457,7 +457,7 @@ public class AccreditorUtil {
 		try{
 			Connection conn = db.getConnection();
 			if(to.equals("")){
-				PreparedStatement ps = conn.prepareStatement("INSERT INTO `work` (institutionID, accreditorID, `date_entered`, `position`) VALUES (?, ?, ?, ?)");
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO `work` (institutionID, accreditorID, `dateEntered`, `position`) VALUES (?, ?, ?, ?)");
 				
 				ps.setInt(1, institutionID);
 				ps.setInt(2, accreditorID);
@@ -465,7 +465,7 @@ public class AccreditorUtil {
 				ps.setString(4, position);
 				ps.executeUpdate();	
 			}else{
-				PreparedStatement ps = conn.prepareStatement("INSERT INTO `work` (institutionID, accreditorID, `date_entered`, `date_finished`, `position`) VALUES (?, ?, ?, ?, ?)");
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO `work` (institutionID, accreditorID, `dateEntered`, `dateFinished`, `position`) VALUES (?, ?, ?, ?, ?)");
 				
 				ps.setInt(1, institutionID);
 				ps.setInt(2, accreditorID);
@@ -485,7 +485,7 @@ public class AccreditorUtil {
 		try{
 			Connection conn = db.getConnection();
 
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO `accreditor-degree` (accreditorID, `degree_name`, `institutionID`) VALUES (?, ?, ?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `accreditor-degree` (accreditorID, `degreeName`, `institutionID`) VALUES (?, ?, ?)");
 			ps.setInt(1, accreditorID);
 			ps.setString(2, course);
 			ps.setInt(3, institutionID);
@@ -513,7 +513,7 @@ public class AccreditorUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT accreditorID, lastname, firstname, middlename, `num_surveys`, city, primaryAreaID, secondaryAreaID, tertiaryAreaID, discipline FROM `accreditors`");
+			PreparedStatement ps = conn.prepareStatement("SELECT accreditorID, lastname, firstname, middlename, `numSurveys`, city, primaryAreaID, secondaryAreaID, tertiaryAreaID, discipline FROM `accreditors`");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				job = new JSONObject();
@@ -560,7 +560,7 @@ public class AccreditorUtil {
 		boolean nice = false;
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM work INNER JOIN institutions ON work.institutionID = institutions.institutionID WHERE accreditorID = ? and systemID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM work INNER JOIN tertiary ON work.institutionID = tertiary.institutionID WHERE accreditorID = ? and systemID = ?");
 			ps.setInt(1, accreditorID);
 			ps.setInt(2, systemID);
 			ResultSet rs = ps.executeQuery();

@@ -82,7 +82,7 @@ public class InstitutionUtil {
 			
 				System.out.println(rs.getString(3));
 				temp = new Institution(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), rs.getString(17), rs.getString(18));
-				temp.setSchoolsystemName(getSchoolSystemName(rs.getInt(2)));
+				temp.setSchoolSystemName(getSchoolSystemName(rs.getInt(2)));
 				
 				institutions.add(temp);
 			}
@@ -213,7 +213,7 @@ public class InstitutionUtil {
 	}
 	
 	
-	public void addProgramToInst(String specific, int generalID, int instID){
+	public void addProgramToInst(String specific, int generalID, int instID, String level){
 		try{
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
@@ -224,11 +224,28 @@ public class InstitutionUtil {
 		
 			ps.setInt(1, generalID);
 			ps.setInt(2, instID);
-			ps.setString(3, "NA");
+			ps.setString(3, level);
 			
 			ps.setString(5, specific);
 			ps.setString(4, strDate);
 			
+			ps.executeUpdate();
+		} catch (Exception e){
+			System.out.println("Error in InstitutionUtil:addProgramToInstitution()");
+			e.printStackTrace();	
+		}
+		
+	}
+	
+	public void updateProgramToInst(String SPID, String level){
+		try{
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!00000000"+level);
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("UPDATE `school-program` SET level=? WHERE `SPID`=?");
+						
+			ps.setString(1, level);
+			ps.setString(2, SPID);
+					
 			ps.executeUpdate();
 		} catch (Exception e){
 			System.out.println("Error in InstitutionUtil:addProgramToInstitution()");
@@ -256,29 +273,29 @@ public class InstitutionUtil {
 		String year;
 		if(date!=null&&date!=""){
 		String[] parts = date.split(" ");
-		if(parts[0].equals("January")){
+		if(parts[0].equals("Jan")){
 			month = "01";
-		}else if(parts[0].equals("February")){
+		}else if(parts[0].equals("Feb")){
 			month = "02";
-		}else if(parts[0].equals("March")){
+		}else if(parts[0].equals("Mar")){
 			month = "03";
-		}else if(parts[0].equals("April")){
+		}else if(parts[0].equals("Apr")){
 			month = "04";
 		}else if(parts[0].equals("May")){
 			month = "05";
-		}else if(parts[0].equals("June")){
+		}else if(parts[0].equals("Jun")){
 			month = "06";
-		}else if(parts[0].equals("July")){
+		}else if(parts[0].equals("Jul")){
 			month = "07";
-		}else if(parts[0].equals("August")){
+		}else if(parts[0].equals("Aug")){
 			month = "08";
-		}else if(parts[0].equals("September")){
+		}else if(parts[0].equals("Sep")){
 			month = "09";
-		}else if(parts[0].equals("October")){
+		}else if(parts[0].equals("Oct")){
 			month = "10";
-		}else if(parts[0].equals("November")){
+		}else if(parts[0].equals("Nov")){
 			month = "11";
-		}else if(parts[0].equals("December")){
+		}else if(parts[0].equals("Dec")){
 			month = "12";
 		}
 		year = parts[2];

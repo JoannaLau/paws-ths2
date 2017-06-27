@@ -23,7 +23,7 @@ public class SurveyUtil {
 		String temp = new String();
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("UPDATE `surveys` SET `start_date` = ? , `end_date` = ? WHERE surveyID=?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE `surveys` SET `startDate` = ? , `endDate` = ? WHERE surveyID=?");
 			ps.setString(1, start);
 			ps.setString(2, end);
 			ps.setInt(3, surveyID);
@@ -71,7 +71,7 @@ public class SurveyUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM surveys WHERE `start_date` IS NULL");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM surveys WHERE `startDate` IS NULL");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				job = new JSONObject();
@@ -206,7 +206,7 @@ public class SurveyUtil {
 				areas = temp.getJSONArray("areas");
 				type = temp.getString("surveyType");
 				SPID = temp.getInt("SPID");
-				PreparedStatement ps = conn.prepareStatement("INSERT INTO `program-survey` (surveyID, SPID, `survey_type`) VALUES (?, ?, ?)");
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO `program-survey` (surveyID, SPID, `surveyType`) VALUES (?, ?, ?)");
 				ps.setInt(1, surveyID);
 				ps.setInt(2, SPID);
 				ps.setString(3, type);
@@ -240,7 +240,7 @@ public class SurveyUtil {
 				accs = temp.getJSONArray("accreditorIDs");
 				
 				if(accs.length() == 0){
-					PreparedStatement ps = conn.prepareStatement("INSERT INTO `program-area` (PSID, areaID, position, `attendance_confirmation`) VALUES (?, ?, ?, ?)");
+					PreparedStatement ps = conn.prepareStatement("INSERT INTO `program-area` (PSID, areaID, position, `attendanceConfirmation`) VALUES (?, ?, ?, ?)");
 					ps.setInt(1, PSID);
 					ps.setInt(2, areaID);
 					ps.setString(3, "None");
@@ -250,7 +250,7 @@ public class SurveyUtil {
 				}
 				for(int j = 0; j < accs.length(); j++){
 					accreditorID = accs.getInt(j);
-					PreparedStatement ps = conn.prepareStatement("INSERT INTO `program-area` (PSID, areaID, accreditorID, position, `attendance_confirmation`) VALUES (?, ?, ?, ?, ?)");
+					PreparedStatement ps = conn.prepareStatement("INSERT INTO `program-area` (PSID, areaID, accreditorID, position, `attendanceConfirmation`) VALUES (?, ?, ?, ?, ?)");
 					ps.setInt(1, PSID);
 					ps.setInt(2, areaID);
 					ps.setInt(3, accreditorID);
@@ -304,7 +304,7 @@ public class SurveyUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM surveys WHERE `start_date` IS NOT NULL");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM surveys WHERE `startDate` IS NOT NULL");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				job = new JSONObject();
@@ -456,7 +456,7 @@ public class SurveyUtil {
 		ArrayList<String> aff = new ArrayList<String>();
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT institutionID, position FROM work WHERE accreditorID = ? and date_finished IS NULL");
+			PreparedStatement ps = conn.prepareStatement("SELECT institutionID, position FROM work WHERE accreditorID = ? and dateFinished IS NULL");
 			ps.setInt(1, accreditorID);
 			ResultSet rs = ps.executeQuery();
 			aff.add(getAccreditor(accreditorID));
@@ -483,7 +483,7 @@ public class SurveyUtil {
 		String temp;
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT `PSID`,`survey_type`, `SPID`, `valid_thru`, `currentDecisionBy` , `boardApprovalDate` FROM `program-survey` WHERE surveyID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT `PSID`,`surveyType`, `SPID`, `validThru`, `currentDecisionBy` , `boardApprovalDate` FROM `program-survey` WHERE surveyID = ?");
 			ps.setInt(1, surveyID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
@@ -502,10 +502,10 @@ public class SurveyUtil {
 				System.out.println("HEEEEEEEEEY !!!!! +++++++" + rs.getString(6));
 				rs.getDate(4);
 				if(!rs.wasNull()){
-					job.put("valid_thru", formatDate(rs.getString(4)));
+					job.put("validThru", formatDate(rs.getString(4)));
 
 				}else{
-					job.put("valid_thru", "");
+					job.put("validThru", "");
 				}
 				programArea = getPA(rs.getInt(1));
 				job.put("areas", programArea);
@@ -553,7 +553,7 @@ public class SurveyUtil {
 		JSONObject job = new JSONObject();
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT `decisionID`, `decisionBy`, `decision`, `valid_thru`, `remarks`, `for_interim`, `for_consultation`, `for_progressReport` , `PSID` FROM `decisions` WHERE PSID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT `decisionID`, `decisionBy`, `decision`, `validThru`, `remarks`, `forInterim`, `forConsultation`, `forProgressReport` , `PSID` FROM `decisions` WHERE PSID = ?");
 			ps.setInt(1, PSID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
@@ -561,11 +561,11 @@ public class SurveyUtil {
 				job.put("decisionID", rs.getInt(1));
 				job.put("decisionBy", rs.getString(2));
 				job.put("decision", rs.getString(3));
-				job.put("valid_thru", rs.getString(4));
+				job.put("validThru", rs.getString(4));
 				job.put("remarks", rs.getString(5));
-				job.put("for_interim", rs.getString(6));
-				job.put("for_consultation", rs.getString(7));
-				job.put("for_progressReport", rs.getString(8));
+				job.put("forInterim", rs.getString(6));
+				job.put("forConsultation", rs.getString(7));
+				job.put("forProgressReport", rs.getString(8));
 				job.put("decisionID", rs.getInt(9));
 				
 				decisionJSON.put(job);
@@ -747,7 +747,7 @@ public JSONArray getConfirmationSurvey(int SurveyID){
 public void confirmAttendance(int PSID,int areaID,int accID){
 	try{
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("UPDATE `program-area` SET `attendance_confirmation` = ? WHERE accreditorID=? AND PSID = ? AND areaID = ?");
+		PreparedStatement ps = conn.prepareStatement("UPDATE `program-area` SET `attendanceConfirmation` = ? WHERE accreditorID=? AND PSID = ? AND areaID = ?");
 		ps.setString(1, "Confirmed");
 		ps.setInt(2, accID);
 		ps.setInt(3, PSID);

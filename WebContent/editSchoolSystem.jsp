@@ -391,7 +391,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 										<br><br>
 										
 											<div style="width:48%; padding-right"> <label class="control-label">Membership Date</label> 
-											<input type="text" class="form-control underlined" style="width:90%;" value="<%=ss.getDate_joined()%>" placeholder="e.g. 2017-01-01" name="joinDate"> </div>
+											<input type="text" class="form-control underlined" style="width:90%;" value="<%=ss.getDateJoined()%>" placeholder="e.g. 2017-01-01" name="joinDate"> </div>
 											
 										
 									</div>

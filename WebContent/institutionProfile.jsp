@@ -320,7 +320,7 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
 													<%=inst.getName() %> - <%=inst.getCity() %>
 													</h2>
 													<h6><%=inst.getAddress() %></h6>
-													<h6>Date of Membership: <%=inst.getDate_addedWord() %></h6>
+													<h6>Date of Membership: <%=inst.getDateAddedWord() %></h6>
 													<hr>
 												</div>
 												
@@ -338,19 +338,19 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
 													<%= inst.getHead() %>
 													<br>
 													Position:
-													<%= inst.getPosition() %><br>
+													<%= inst.gethPosition() %><br>
 													Email:
-													<%= inst.getEmail() %>
+													<%= inst.gethEmail() %>
 													
 													<br><br>
 													
 													Contact Person: 
-													<%= inst.getContact_person() %>	
+													<%= inst.getContactPerson() %>	
 													<br>
 													Contact Number:
-													<%= inst.getContact_number()%>
+													<%= inst.getContactNumber()%>
 													<br>
-													<%= inst.getContact_email()%><br>
+													<%= inst.getContactEmail()%><br>
 													</p>
                                                 </div>
                                                 <div class="col-md-4">
@@ -362,7 +362,7 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
                                                 <div class="col-md-8"style="margin-left:20px;">
                                                   Tel. Nos.: (632)<%= inst.getFax()%><br>
 													
-													E-mail: <%= inst.getEmail()%><br>
+													E-mail: <%= inst.gethEmail()%><br>
 													Website: <%= inst.getWebsite()%>
                                                 </div>
                                           

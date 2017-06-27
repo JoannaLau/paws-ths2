@@ -22,7 +22,7 @@ public SchoolSystem getSchoolSystem(int ssID){
 	SchoolSystem temp = new SchoolSystem();
 	try{
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT systemID, name, date_joined FROM `school-systems` WHERE systemID = "+ ssID +"");
+		PreparedStatement ps = conn.prepareStatement("SELECT systemID, name, dateJoined FROM `school-systems` WHERE systemID = "+ ssID +"");
 		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()){
@@ -43,7 +43,7 @@ public ArrayList<SchoolSystem> getSchoolSystems(){
 	SchoolSystem temp = new SchoolSystem();
 	try{
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT systemID, name, date_joined FROM `school-systems`  ORDER BY `name`");
+		PreparedStatement ps = conn.prepareStatement("SELECT systemID, name, dateJoined FROM `school-systems`  ORDER BY `name`");
 		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()){
@@ -110,7 +110,7 @@ public JSONArray getSystems(){
 public void addSchoolSystem(String name, String date_joined){
 	try{
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO `school-systems` (name, date_joined) VALUES (?,?)");
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO `school-systems` (name, dateJoined) VALUES (?,?)");
 		ps.setString(1, name);
 		ps.setString(2, date_joined);
 		System.out.println(name + " " + date_joined +"!!!!!!!!!!!!!!");	
@@ -124,7 +124,7 @@ public void addSchoolSystem(String name, String date_joined){
 public void editSchoolSystem(int systemID, String name, String date_joined){
 	try{
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("UPDATE `school-systems` SET name=?, date_joined=? WHERE systemID=?");
+		PreparedStatement ps = conn.prepareStatement("UPDATE `school-systems` SET name=?, dateJoined=? WHERE systemID=?");
 		ps.setString(1, name);
 		ps.setString(2, date_joined);
 		ps.setInt(3,systemID);

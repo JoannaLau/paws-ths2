@@ -1,6 +1,5 @@
 package Models;
 
-import java.util.ArrayList;
 
 public class Accreditation {
 	private String institution;
@@ -11,7 +10,7 @@ public class Accreditation {
 	public Accreditation(){
 		
 	}
-	public Accreditation(String institution, String type, String from, String to, String position, String program,
+	public Accreditation(String institution, String type, String from, String to, String position, String programs,
 			String areas) {
 		super();
 		this.institution = institution;
