@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Utilities.InstitutionUtil;
+import Utilities.TertiaryUtil;
 import Utilities.SchoolSystemUtil;
 
 /**
@@ -33,7 +33,7 @@ public class DeleteInstitution extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		int institutionID = Integer.parseInt(request.getParameter("institutionID"));
-		InstitutionUtil instUtil = new InstitutionUtil();
+		TertiaryUtil instUtil = new TertiaryUtil();
 		instUtil.deleteInstitution(institutionID);
 		RequestDispatcher rd = request.getRequestDispatcher("Institutions");
 		rd.forward(request, response);

@@ -122,12 +122,12 @@ public class AccreditorUtil {
 			ps.setString(4, acc.getHonorifics());
 			ps.setString(5, acc.getEmail());
 			ps.setInt(6, acc.getTotalSurveys());
-			ps.setString(7, acc.getDate_trained());
+			ps.setString(7, acc.getDateTrained());
 			ps.setString(8, acc.getContact());
 			ps.setString(9, acc.getAddress());
 			ps.setString(10, acc.getCity());
 			ps.setString(11, acc.getCountry());
-			ps.setString(12, acc.getVenue_trained());
+			ps.setString(12, acc.getVenueTrained());
 			ps.setInt(13, acc.getPrimaryAreaID());
 			ps.setInt(14, acc.getSecondaryAreaID());
 			ps.setInt(15, acc.getTertiaryAreaID());
@@ -305,7 +305,7 @@ public class AccreditorUtil {
 		String name = null;
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM institutions WHERE institutionID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM tertiary WHERE institutionID = ?");
 			ps.setInt(1, institutionID);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()){
@@ -390,12 +390,12 @@ public class AccreditorUtil {
 			ps.setString(4, acc.getHonorifics());
 			ps.setString(5, acc.getEmail());
 			ps.setInt(6, acc.getTotalSurveys());
-			ps.setString(7, formatDate(acc.getDate_trained()));
+			ps.setString(7, formatDate(acc.getDateTrained()));
 			ps.setString(8, acc.getContact());
 			ps.setString(9, acc.getAddress());
 			ps.setString(10, acc.getCity());
 			ps.setString(11, acc.getCountry());
-			ps.setString(12, acc.getVenue_trained());
+			ps.setString(12, acc.getVenueTrained());
 			ps.setInt(13, acc.getPrimaryAreaID());
 			ps.setInt(14, acc.getSecondaryAreaID());
 			ps.setInt(15, acc.getTertiaryAreaID());
@@ -560,7 +560,7 @@ public class AccreditorUtil {
 		boolean nice = false;
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM work INNER JOIN institutions ON work.institutionID = institutions.institutionID WHERE accreditorID = ? and systemID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM work INNER JOIN tertiary ON work.institutionID = tertiary.institutionID WHERE accreditorID = ? and systemID = ?");
 			ps.setInt(1, accreditorID);
 			ps.setInt(2, systemID);
 			ResultSet rs = ps.executeQuery();

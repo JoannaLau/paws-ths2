@@ -1,94 +1,38 @@
 package Models;
 
 public class SchoolProgram {
-	public SchoolProgram(int sPID, String institution, String level, String date_added, String next_survey_sched,
-			String pending_reports, String next_survey_type, String degree_name) {
-		super();
-		SPID = sPID;
-		this.institution = institution;
-		this.level = level;
-		this.date_added = date_added;
-		this.next_survey_sched = formatDate(next_survey_sched);
-		this.pending_reports = pending_reports;
-		this.next_survey_type = next_survey_type;
-		this.date_addedWord = formatDate(date_added);
-		this.degree_name = degree_name;
-		
-	}
-	
-	public SchoolProgram(){
-		
-	}
 	
 	private int SPID;
 	private String institution;
 	private String level;
-	private String date_added;
-	private String next_survey_sched;
-	private String pending_reports;
-	private String next_survey_type;
-	private String degree_name;
-	private String date_addedWord;
+	private String dateAdded;
+	private String nextSurveySched;
+	private String pendingReports;
+	private String nextSurveyType;
+	private String degreeName;
+	private String dateAddedWord;
 	private String surveyDate;
 	private String lapseDate;
 	private String currentDecision;
 	private String decisionBy;
 	
-	public String getDate_addedWord() {
-		return date_addedWord;
-	}
-
-	public void setDate_addedWord(String date_addedWord) {
-		this.date_addedWord = date_addedWord;
-	}
-
-	public int getSPID() {
-		return SPID;
-	}
-	public void setSPID(int sPID) {
-		SPID = sPID;
-	}
-	public String getInstitution() {
-		return institution;
-	}
-	public void setInstitution(String institution) {
+	public SchoolProgram(int sPID, String institution, String level, String date_added, String next_survey_sched,
+			String pending_reports, String next_survey_type, String degree_name) {
+		super();
+		this.SPID = sPID;
 		this.institution = institution;
-	}
-	public String getLevel() {
-		return level;
-	}
-	public void setLevel(String level) {
 		this.level = level;
+		this.dateAdded = date_added;
+		this.nextSurveySched = formatDate(next_survey_sched);
+		this.pendingReports = pending_reports;
+		this.nextSurveyType = next_survey_type;
+		this.dateAddedWord = formatDate(date_added);
+		this.degreeName = degree_name;
+		
 	}
-	public String getDate_added() {
-		return date_added;
-	}
-	public void setDate_added(String date_added) {
-		this.date_added = date_added;
-	}
-	public String getNext_survey_sched() {
-		return next_survey_sched;
-	}
-	public void setNext_survey_sched(String next_survey_sched) {
-		this.next_survey_sched = next_survey_sched;
-	}
-	public String getPending_reports() {
-		return pending_reports;
-	}
-	public void setPending_reports(String pending_reports) {
-		this.pending_reports = pending_reports;
-	}
-	public String getNext_survey_type() {
-		return next_survey_type;
-	}
-	public void setNext_survey_type(String next_survey_type) {
-		this.next_survey_type = next_survey_type;
-	}
-	public String getDegree_name() {
-		return degree_name;
-	}
-	public void setDegree_name(String degree_name) {
-		this.degree_name = degree_name;
+	
+	public SchoolProgram(){
+		
 	}
 	
 	private static String formatDate(String date){
@@ -134,5 +78,110 @@ public class SchoolProgram {
 		}
 		return format;
 	}
+
+	public int getSPID() {
+		return SPID;
+	}
+
+	public void setSPID(int sPID) {
+		SPID = sPID;
+	}
+
+	public String getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(String institution) {
+		this.institution = institution;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public String getDateAdded() {
+		return dateAdded;
+	}
+
+	public void setDateAdded(String dateAdded) {
+		this.dateAdded = dateAdded;
+	}
+
+	public String getNextSurveySched() {
+		return nextSurveySched;
+	}
+
+	public void setNextSurveySched(String nextSurveySched) {
+		this.nextSurveySched = nextSurveySched;
+	}
+
+	public String getPendingReports() {
+		return pendingReports;
+	}
+
+	public void setPendingReports(String pendingReports) {
+		this.pendingReports = pendingReports;
+	}
+
+	public String getNextSurveyType() {
+		return nextSurveyType;
+	}
+
+	public void setNextSurveyType(String nextSurveyType) {
+		this.nextSurveyType = nextSurveyType;
+	}
+
+	public String getDegreeName() {
+		return degreeName;
+	}
+
+	public void setDegreeName(String degreeName) {
+		this.degreeName = degreeName;
+	}
+
+	public String getDateAddedWord() {
+		return dateAddedWord;
+	}
+
+	public void setDateAddedWord(String dateAddedWord) {
+		this.dateAddedWord = dateAddedWord;
+	}
+
+	public String getSurveyDate() {
+		return surveyDate;
+	}
+
+	public void setSurveyDate(String surveyDate) {
+		this.surveyDate = surveyDate;
+	}
+
+	public String getLapseDate() {
+		return lapseDate;
+	}
+
+	public void setLapseDate(String lapseDate) {
+		this.lapseDate = lapseDate;
+	}
+
+	public String getCurrentDecision() {
+		return currentDecision;
+	}
+
+	public void setCurrentDecision(String currentDecision) {
+		this.currentDecision = currentDecision;
+	}
+
+	public String getDecisionBy() {
+		return decisionBy;
+	}
+
+	public void setDecisionBy(String decisionBy) {
+		this.decisionBy = decisionBy;
+	}
+	
 	
 }

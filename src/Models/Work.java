@@ -4,8 +4,8 @@ public class Work {
 	
 	private String institution;
 	private int accreditorID;
-	private String date_entered;
-	private String date_finished;
+	private String dateEntered;
+	private String dateFinished;
 	private String position;
 	private int institutionID;
 	
@@ -14,8 +14,8 @@ public class Work {
 		super();
 		this.institution = institution;
 		this.accreditorID = accreditorID;
-		this.date_entered = date_entered;
-		this.date_finished = date_finished;
+		this.dateEntered = date_entered;
+		this.dateFinished = date_finished;
 		this.position = position;
 		this.institutionID = institutionID;
 	}
@@ -38,17 +38,17 @@ public class Work {
 	public void setAccreditorID(int accreditorID) {
 		this.accreditorID = accreditorID;
 	}
-	public String getDate_entered() {
-		return date_entered;
+	public String getDateEntered() {
+		return dateEntered;
 	}
-	public void setDate_entered(String date_entered) {
-		this.date_entered = date_entered;
+	public void setDateEntered(String date_entered) {
+		this.dateEntered = date_entered;
 	}
-	public String getDate_finished() {
-		return date_finished;
+	public String getDateFinished() {
+		return dateFinished;
 	}
-	public void setDate_finished(String date_finished) {
-		this.date_finished = date_finished;
+	public void setDateFinished(String date_finished) {
+		this.dateFinished = date_finished;
 	}
 
 	public String getInstitution() {
