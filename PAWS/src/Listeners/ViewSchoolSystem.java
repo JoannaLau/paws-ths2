@@ -1,0 +1,92 @@
+package Listeners;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import Models.Institution;
+import Models.SchoolSystem;
+import Utilities.TertiaryUtil;
+import Utilities.BasicEdUtil;
+import Utilities.CECSTEUtil;
+import Utilities.GradeSchoolUtil;
+import Utilities.GraduateSchoolUtil;
+import Utilities.HighSchoolUtil;
+import Utilities.MedicalSchoolUtil;
+import Utilities.SchoolSystemUtil;
+
+/**
+ * Servlet implementation class ViewSchoolSystem
+ */
+@WebServlet("/ViewSchoolSystem")
+public class ViewSchoolSystem extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ViewSchoolSystem() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int systemID = Integer.parseInt(request.getParameter("schoolsystemID"));
+		System.out.println("View Institution: " + systemID);
+		SchoolSystemUtil ssUtil = new SchoolSystemUtil();
+		SchoolSystem ss = ssUtil.getSchoolSystem(systemID);
+		TertiaryUtil tUtil = new TertiaryUtil();
+		ArrayList<Institution> tertiary = tUtil.getSchoolSystemInstitutions(systemID);
+		
+		BasicEdUtil beUtil = new BasicEdUtil();
+		ArrayList<Institution> basiced = beUtil.getSchoolSystemInstitutions(systemID);
+		
+		GradeSchoolUtil gsUtil = new GradeSchoolUtil();
+		ArrayList<Institution> gs = gsUtil.getSchoolSystemInstitutions(systemID);
+		
+		HighSchoolUtil hsUtil = new HighSchoolUtil();
+		ArrayList<Institution> hs = hsUtil.getSchoolSystemInstitutions(systemID);
+		
+		GraduateSchoolUtil gradUtil = new GraduateSchoolUtil();
+		ArrayList<Institution> grad = gradUtil.getSchoolSystemInstitutions(systemID);
+		
+		MedicalSchoolUtil msUtil = new MedicalSchoolUtil();
+		ArrayList<Institution> ms = msUtil.getSchoolSystemInstitutions(systemID);
+		
+		CECSTEUtil cUtil = new CECSTEUtil();
+		ArrayList<Institution> c = cUtil.getSchoolSystemInstitutions(systemID);
+		
+		
+		basiced.addAll(gs);
+		basiced.addAll(hs);
+		basiced.addAll(tertiary);
+		basiced.addAll(grad);
+		basiced.addAll(ms);
+		basiced.addAll(c);
+		
+		request.setAttribute("schoolsystem", ss);
+		request.setAttribute("institutions", tertiary);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("schoolSystemProfile.jsp");
+		rd.forward(request, response);	
+	
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
