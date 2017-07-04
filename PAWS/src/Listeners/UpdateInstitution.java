@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Utilities.TertiaryUtil;
+import Utilities.InstitutionsUtil;
 
 /**
  * Servlet implementation class UpdateInstitution
@@ -72,7 +72,7 @@ String ssID = request.getParameter("ssID");
 		
 		
 				
-		TertiaryUtil instUtil = new TertiaryUtil();
+		InstitutionsUtil instUtil = new InstitutionsUtil();
 		instUtil.editInstitution(institutionID, ssID, institutionName, institutionAcronym,  address, city, country, website, contactNumber, fax, institutionHead, position, headEmail, contactPerson, contactPosition, contactEmail, membershipDate);
 
 		RequestDispatcher rd = request.getRequestDispatcher("Institutions");

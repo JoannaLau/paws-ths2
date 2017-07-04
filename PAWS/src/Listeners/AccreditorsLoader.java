@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 
 import Utilities.AccreditorUtil;
-import Utilities.TertiaryUtil;
+import Utilities.InstitutionsUtil;
 
 /**
  * Servlet implementation class AccreditorsLoader

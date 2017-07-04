@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Models.Institution;
 import Models.Program;
-import Utilities.TertiaryUtil;
+import Utilities.InstitutionsUtil;
 import Utilities.ProgramUtil;
 
 /**
@@ -34,7 +34,7 @@ public class EditInstitution extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int institutionID = Integer.parseInt(request.getParameter("institutionID"));
-		TertiaryUtil instUtil = new TertiaryUtil();
+		InstitutionsUtil instUtil = new InstitutionsUtil();
 		Institution inst = instUtil.getInstitution(institutionID);
 		inst.setInstitutionID(institutionID);
 		request.setAttribute("institution", inst);

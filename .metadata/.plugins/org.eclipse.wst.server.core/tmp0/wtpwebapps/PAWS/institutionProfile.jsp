@@ -397,11 +397,11 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
                                                     <tbody>
 													<c:forEach items="${programs}" var="pp" >
                                                         <tr>
-                                                            <td><c:out value="${pp.getDegree_name()}"/> </td>
-                                                            <td><c:out value="${pp.getDate_addedWord()}"/></td>                                                 
-                                                            <td><c:out value="${pp.getNext_survey_sched()}"/></td>
+                                                            <td><c:out value="${pp.getDegreeName()}"/> </td>
+                                                            <td><c:out value="${pp.getDateAddedWord()}"/></td>                                                 
+                                                            <td><c:out value="${pp.getNextSurveySched()}"/></td>
                                                               <td><c:out value="${pp.getLevel()}"/></td>
-                                                              <td><a href="ViewInstitutionProgramProfile?programName=<c:out value="${pp.getDegree_name()}"/>&SPID=<c:out value="${pp.getSPID()}"/>">View</a></td>
+                                                              <td><a href="ViewInstitutionProgramProfile?programName=<c:out value="${pp.getDegreeName()}"/>&SPID=<c:out value="${pp.getSPID()}"/>">View</a></td>
                                                             
                                                         </tr>
 														

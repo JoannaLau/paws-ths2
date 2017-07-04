@@ -1,6 +1,8 @@
 package Listeners;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
-import Utilities.TertiaryUtil;
+import Models.Institution;
+import Utilities.InstitutionsUtil;
 import Utilities.SchoolSystemUtil;
 
 /**
@@ -34,9 +38,14 @@ public class InstitutionsLoader extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setContentType("application/json");
 		JSONArray jArray = new JSONArray();
-		TertiaryUtil insUtil = new TertiaryUtil();
+
+		InstitutionsUtil insUtil = new InstitutionsUtil();
+	
+		
 		int systemID = Integer.parseInt(request.getParameter("systemID"));
-		jArray = insUtil.getTertiaryJSON(systemID);
+		
+		jArray = insUtil.getInstitutionsJSON(systemID);
+		
 		response.getWriter().write(jArray.toString());	
 	}
 
@@ -47,5 +56,4 @@ public class InstitutionsLoader extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

@@ -12,13 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Models.Institution;
 import Models.SchoolSystem;
-import Utilities.TertiaryUtil;
-import Utilities.BasicEdUtil;
-import Utilities.CECSTEUtil;
-import Utilities.GradeSchoolUtil;
-import Utilities.GraduateSchoolUtil;
-import Utilities.HighSchoolUtil;
-import Utilities.MedicalSchoolUtil;
+import Utilities.InstitutionsUtil;
 import Utilities.SchoolSystemUtil;
 
 /**
@@ -44,37 +38,12 @@ public class ViewSchoolSystem extends HttpServlet {
 		System.out.println("View Institution: " + systemID);
 		SchoolSystemUtil ssUtil = new SchoolSystemUtil();
 		SchoolSystem ss = ssUtil.getSchoolSystem(systemID);
-		TertiaryUtil tUtil = new TertiaryUtil();
-		ArrayList<Institution> tertiary = tUtil.getSchoolSystemInstitutions(systemID);
+		InstitutionsUtil tUtil = new InstitutionsUtil();
+		ArrayList<Institution> institutions = tUtil.getSchoolSystemInstitutions(systemID);
 		
-		BasicEdUtil beUtil = new BasicEdUtil();
-		ArrayList<Institution> basiced = beUtil.getSchoolSystemInstitutions(systemID);
-		
-		GradeSchoolUtil gsUtil = new GradeSchoolUtil();
-		ArrayList<Institution> gs = gsUtil.getSchoolSystemInstitutions(systemID);
-		
-		HighSchoolUtil hsUtil = new HighSchoolUtil();
-		ArrayList<Institution> hs = hsUtil.getSchoolSystemInstitutions(systemID);
-		
-		GraduateSchoolUtil gradUtil = new GraduateSchoolUtil();
-		ArrayList<Institution> grad = gradUtil.getSchoolSystemInstitutions(systemID);
-		
-		MedicalSchoolUtil msUtil = new MedicalSchoolUtil();
-		ArrayList<Institution> ms = msUtil.getSchoolSystemInstitutions(systemID);
-		
-		CECSTEUtil cUtil = new CECSTEUtil();
-		ArrayList<Institution> c = cUtil.getSchoolSystemInstitutions(systemID);
-		
-		
-		basiced.addAll(gs);
-		basiced.addAll(hs);
-		basiced.addAll(tertiary);
-		basiced.addAll(grad);
-		basiced.addAll(ms);
-		basiced.addAll(c);
 		
 		request.setAttribute("schoolsystem", ss);
-		request.setAttribute("institutions", tertiary);
+		request.setAttribute("institutions", institutions);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("schoolSystemProfile.jsp");
 		rd.forward(request, response);	

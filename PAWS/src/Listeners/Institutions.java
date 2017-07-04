@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Models.Institution;
-import Utilities.TertiaryUtil;
+import Utilities.InstitutionsUtil;
 
 /**
  * Servlet implementation class Institutions
@@ -33,7 +33,7 @@ public class Institutions extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<Institution> inst = new ArrayList<Institution>();
-		TertiaryUtil instUtil = new TertiaryUtil();
+		InstitutionsUtil instUtil = new InstitutionsUtil();
 		inst = instUtil.getInstitutions();
 		request.setAttribute("institutions", inst);
 		RequestDispatcher rd = request.getRequestDispatcher("institutions.jsp");

@@ -67,21 +67,8 @@ public int getInstitutionCount(int ID){
 	int count=0;
 	try{
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("select (select count(*) from `basiceducation` WHERE `basiceducation`.systemID = ?)"
-				+ "+ (select count(*) from gradeschool WHERE gradeschool.systemID = ?)"
-				+ "+ (select count(*) from highschool WHERE highschool.systemID = ?)"
-				+ "+ (select count(*) from tertiary WHERE tertiary.systemID = ?)"
-				+ "+ (select count(*) from graduateschool WHERE graduateschool.systemID = ?)"
-				+ "+ (select count(*) from medicalschool WHERE medicalschool.systemID = ?)"
-				+ "+ (select count(*) from cecste WHERE cecste.systemID = ?)"
-				+ " as counts");
+		PreparedStatement ps = conn.prepareStatement("SELECT count(*) FROM institutions WHERE systemID = ?");
 		ps.setInt(1,ID);
-		ps.setInt(2,ID);
-		ps.setInt(3,ID);
-		ps.setInt(4,ID);
-		ps.setInt(5,ID);
-		ps.setInt(6,ID);
-		ps.setInt(7,ID);
 		ResultSet rs = ps.executeQuery();
 		rs.next();
 		return rs.getInt(1);

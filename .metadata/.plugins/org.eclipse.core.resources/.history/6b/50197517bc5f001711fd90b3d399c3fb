@@ -1,0 +1,83 @@
+package Listeners;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONArray;
+
+import Models.Institution;
+import Utilities.TertiaryUtil;
+import Utilities.BasicEdUtil;
+import Utilities.CECSTEUtil;
+import Utilities.GradeSchoolUtil;
+import Utilities.GraduateSchoolUtil;
+import Utilities.HighSchoolUtil;
+import Utilities.MedicalSchoolUtil;
+import Utilities.SchoolSystemUtil;
+
+/**
+ * Servlet implementation class InstitutionsLoader
+ */
+@WebServlet("/InstitutionsLoader")
+public class InstitutionsLoader extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public InstitutionsLoader() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.setContentType("application/json");
+		JSONArray jArray = new JSONArray();
+
+		TertiaryUtil tUtil = new TertiaryUtil();
+		
+		BasicEdUtil beUtil = new BasicEdUtil();
+		
+		GradeSchoolUtil gsUtil = new GradeSchoolUtil();
+		
+		HighSchoolUtil hsUtil = new HighSchoolUtil();
+		
+		GraduateSchoolUtil gradUtil = new GraduateSchoolUtil();
+		
+		MedicalSchoolUtil msUtil = new MedicalSchoolUtil();
+		
+		CECSTEUtil cUtil = new CECSTEUtil();
+		
+		int systemID = Integer.parseInt(request.getParameter("systemID"));
+		
+		jArray = beUtil.getBasicEdJSON(systemID);
+		jArray.put(gsUtil.getGradeSchoolJSON(systemID));
+		jArray.put(hsUtil.getHighSchoolJSON(systemID));
+		jArray.put(tUtil.getTertiaryJSON(systemID));
+		jArray.put(gradUtil.getGraduateSchoolJSON(systemID));
+		jArray.put(msUtil.getMedicalSchoolJSON(systemID));
+		jArray.put(cUtil.getCECSTEJSON(systemID));
+		
+		
+		response.getWriter().write(jArray.toString());	
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

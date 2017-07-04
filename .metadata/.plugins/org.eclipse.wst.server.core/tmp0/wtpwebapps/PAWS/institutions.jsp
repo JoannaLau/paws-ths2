@@ -346,9 +346,9 @@ $(document).ready(function() {
                                                      <c:forEach items="${institutions}" var="inst" >
 														<tr>
 															<td> <c:out value="${inst.getName()}"/> </td>
-															<td> <c:out value="${inst.getSchoolsystemName()}"/> </td>
+															<td> <c:out value="${inst.getSchoolSystemName()}"/> </td>
 															<td> <c:out value="${inst.getInstitutionAcronym()}"/> </td>
-															<td> <c:out value="${inst.getDate_added()}"/> </td>
+															<td> <c:out value="${inst.getDateAdded()}"/> </td>
 															<td> <c:out value="${inst.getCity()}"/> </td>
 															
 															<td>

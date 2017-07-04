@@ -1,0 +1,27 @@
+
+Hul 03, 2017 14:20:27.32 NEW SESSION
+Hul 03, 2017 14:20:27.32 [5216:4796:0703/142027.311:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -118
+Hul 03, 2017 14:21:17.05 [5216:4796:0703/142117.057:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -118
+Hul 03, 2017 14:22:26.45 [5216:4796:0703/142226.451:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -118
+Hul 03, 2017 14:22:49.17 [5216:560:0703/142249.169:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 03, 2017 14:23:39.68 [5216:560:0703/142339.683:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 03, 2017 14:24:43.78 [5216:4796:0703/142443.787:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -118
+Hul 03, 2017 14:24:45.80 [5216:560:0703/142445.799:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 03, 2017 14:26:55.57 [5216:560:0703/142655.572:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 03, 2017 14:28:45.72 [5216:4796:0703/142845.718:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -118
+Hul 03, 2017 14:30:32.78 [5216:560:0703/143032.778:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 03, 2017 14:36:59.16 [5216:4796:0703/143659.163:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -118
+Hul 03, 2017 14:38:36.66 [5216:560:0703/143836.663:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 03, 2017 14:46:03.26 [5216:560:0703/144603.265:ERROR:CONSOLE(0)] "Error in event handler for (unknown): TypeError: Cannot read property 'isMSE' of null
+Hul 03, 2017 14:46:03.26     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:27:5796
+Hul 03, 2017 14:46:03.26     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:14:12517", source: https://www.google.com.ph/_/chrome/newtab?espv=2&ie=UTF-8 (0)
+Hul 03, 2017 14:46:03.32 [5216:560:0703/144603.325:ERROR:CONSOLE(27)] "Uncaught (in promise) TypeError: Cannot read property 'isAviraPage' of null", source: chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js (27)
+Hul 03, 2017 14:46:59.19 [5216:4796:0703/144659.190:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -111
+Hul 03, 2017 15:49:14.71 [5216:560:0703/154914.718:ERROR:CONSOLE(0)] "Error in event handler for (unknown): TypeError: Cannot read property 'isMSE' of null
+Hul 03, 2017 15:49:14.71     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:27:5796
+Hul 03, 2017 15:49:14.71     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:14:12517", source: https://www.google.com.ph/_/chrome/newtab?espv=2&ie=UTF-8 (0)
+Hul 03, 2017 15:49:14.78 [5216:560:0703/154914.782:ERROR:CONSOLE(27)] "Uncaught (in promise) TypeError: Cannot read property 'isAviraPage' of null", source: chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js (27)
+Hul 03, 2017 15:55:13.72 [5216:560:0703/155513.727:ERROR:CONSOLE(0)] "Error in event handler for (unknown): TypeError: Cannot read property 'isMSE' of null
+Hul 03, 2017 15:55:13.72     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:27:5796
+Hul 03, 2017 15:55:13.73     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:14:12517", source: https://www.google.com.ph/_/chrome/newtab?espv=2&ie=UTF-8 (0)
+Hul 03, 2017 15:55:13.79 [5216:560:0703/155513.795:ERROR:CONSOLE(27)] "Uncaught (in promise) TypeError: Cannot read property 'isAviraPage' of null", source: chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js (27)

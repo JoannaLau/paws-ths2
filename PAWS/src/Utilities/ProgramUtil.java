@@ -25,7 +25,7 @@ public class ProgramUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT SPID, degreeName, nextSurveyType FROM `school-program` WHERE institutionID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT SPID, degreeName, nextSurveyType FROM `school-program` WHERE institutionID = ? AND (levelID = 4 OR levelID = 5 OR  levelID = 6 OR levelID = 7)");
 			ps.setInt(1, institutionID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){

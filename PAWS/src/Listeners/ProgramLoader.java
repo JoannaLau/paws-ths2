@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 
-import Utilities.TertiaryUtil;
+import Utilities.InstitutionsUtil;
 import Utilities.ProgramUtil;
 
 /**
@@ -36,6 +36,7 @@ public class ProgramLoader extends HttpServlet {
 		JSONArray jArray = new JSONArray();
 		ProgramUtil progUtil = new ProgramUtil();
 		int institutionID = Integer.parseInt(request.getParameter("institutionID"));
+		System.out.println("HEREEEE" + institutionID);
 		jArray = progUtil.getProgramsJSON(institutionID);
 		response.getWriter().write(jArray.toString());	
 	}
