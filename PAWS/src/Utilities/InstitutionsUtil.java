@@ -84,7 +84,7 @@ public class InstitutionsUtil {
 			
 				System.out.println(rs.getString(3));
 				temp = new Institution(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), rs.getString(17), rs.getString(18));
-				temp.setSchoolsystemName(getSchoolSystemName(rs.getInt(2)));
+				temp.setSchoolSystemName(getSchoolSystemName(rs.getInt(2)));
 				
 				institutions.add(temp);
 			}
@@ -94,6 +94,37 @@ public class InstitutionsUtil {
 		}
 		
 	    return institutions;
+	}
+	
+	public JSONArray getInstitutionsForLevelJSON(int educLevelID){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT name, systemID, acronym, dateAdded, city, institutionID FROM `institutions` WHERE educLevelID = ? ORDER BY `name`");
+			ps.setInt(1, educLevelID);
+		
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("institutionName", rs.getString(1));
+				job.put("system", getSchoolSystemName(rs.getInt(2)));
+				job.put("acronym", rs.getString(3));
+				job.put("dateAdded", formatDate_yearFirst(rs.getString(4)));
+				job.put("city", rs.getString(5));
+				job.put("institutionID", rs.getInt(6));
+				
+
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitutionsForLevelJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
 	}
 	
 	public String getInstitutionName(int institutionID){
@@ -321,4 +352,43 @@ public class InstitutionsUtil {
 		return format;
 	}
 	
+	private static String formatDate_yearFirst(String date){
+		String format = new String();
+		String month = "";
+		String day;
+		String year;
+		String[] parts = date.split("-");
+		if(parts[1].equals("01")){
+			month = "January";
+		}else if(parts[1].equals("02")){
+			month = "February";
+		}else if(parts[1].equals("03")){
+			month = "March";
+		}else if(parts[1].equals("04")){
+			month = "April";
+		}else if(parts[1].equals("05")){
+			month = "May";
+		}else if(parts[1].equals("06")){
+			month = "June";
+		}else if(parts[1].equals("07")){
+			month = "July";
+		}else if(parts[1].equals("08")){
+			month = "August";
+		}else if(parts[1].equals("09")){
+			month = "September";
+		}else if(parts[1].equals("10")){
+			month = "October";
+		}else if(parts[1].equals("11")){
+			month = "November";
+		}else if(parts[1].equals("12")){
+			month = "December";
+		}
+		year = parts[0];
+
+//		parts = parts[1].split(",");
+		day = parts[2];
+		
+		format = year + " " + month + " "+ day;
+		return format;
+	}
 }

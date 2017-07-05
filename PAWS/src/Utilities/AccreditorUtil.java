@@ -305,7 +305,7 @@ public class AccreditorUtil {
 		String name = null;
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM tertiary WHERE institutionID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM institutions WHERE institutionID = ?");
 			ps.setInt(1, institutionID);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()){

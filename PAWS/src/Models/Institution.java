@@ -151,7 +151,7 @@ public class Institution {
 		return schoolSystemName;
 	}
 
-	public void setSchoolsystemName(String schoolsystemName) {
+	public void setSchoolSystemName(String schoolsystemName) {
 		this.schoolSystemName = schoolsystemName;
 	}
 

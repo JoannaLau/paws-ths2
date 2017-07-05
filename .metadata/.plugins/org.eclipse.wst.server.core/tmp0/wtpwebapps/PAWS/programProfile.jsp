@@ -124,62 +124,7 @@
                         </ul>
                     </div>
                 </header>
-                <aside class="sidebar">
-				<img id="bg" src="assets/bg.jpg">
-                    <div class="sidebar-container">
-                        <div class="sidebar-header">
-                            <div class="brand">
-                                <div class="logo"style="width:100%"> <img src="assets/logoicon.png" style="width:90%;height:170%; top:-5%;left:-5%; opacity:1"> </div>
-                        </div>
-                        <nav class="menu">
-                            <ul class="nav metismenu" id="sidebar-menu">
-                                <li>
-                                    <a href="index.html"> <i class="fa fa-home"></i> Dashboard </a>
-                                </li>
-								<li>
-                                    <a href="survey.jsp"> <i class="fa fa-table"></i> Survey Schedule </a>
-								
-                                </li>
-								<li>
-                                    <a href="addSurvey.jsp"> <i class="fa fa-pencil-square-o"></i> Add New Survey </a>
-								</li>
-								<li class="active open">
-                                <a href="#demo" data-toggle="collapse"> <i class="fa fa-file-text-o"></i> Database <i class="fa arrow"></i> </a>
-                                    
-                                    <ul id="demo" class="collapse">
-                                        <li > <a href="Accreditors">
-    								Accreditors
-    							</a> </li>
-                                        <li> <a href="Institutions">
-    								Institutions
-    							</a> </li>
-								 <li class = "active" > <a href="SchoolSystems">
-    							                School Systems
-    							</a> </li>
-								 <li> <a href="Programs">
-    								Disciplines </a></li>
-								 
-                                 
-                                    </ul>
-                                </li>
-                                <li><a href="#demo3" data-toggle="collapse"> <i class="fa fa-bar-chart"></i> Reports <i class="fa arrow"></i> </a><ul id="demo3" class="collapse"><li> <a href="reportGA.html">GA Awardees</a> </li><li> <a href="reportHistory.html">History</a> </li></ul></li>
-								<li>
-								  
-								 
-								 </li>
-                                
-                               
-                            </ul>
-                        </nav>
-                    </div>
-					
-					
- 
-                    <footer class="sidebar-footer">
-            
-			
-					
-                </aside>
+                <jsp:include page="sidebar.jsp" />
 				<article class="content grid-page">
                     <div class="title-block">
                         <h3 class="title" style="float:left;">

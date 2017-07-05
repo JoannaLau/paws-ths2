@@ -241,65 +241,89 @@ $(document).ready(function() {
 		box-shadow: 0px 9px 24px 0px rgba(0,0,0,0.75);	}
 		
 </style>
+<script>
+			$(document).ready(function() {
+				var educLevels = document.getElementById('educLevelSelect');
+
+				
+				//EVENT LISTENER FOR CHOOSING A SYSTEM, CHANGING THE INSTITUTIONS AND SHOWING WHAT'S UNDER THAT SYSTEM
+				$('#educLevelSelect').on("change", function(event){
+					var educLevelID = $('#educLevelSelect').find(":selected").val();	
+					console.log(educLevelID);
+						$('#tableInstitutions').empty();
+				
+					$.getJSON("InstitutionsEducLevelLoader?educLevelID=" + educLevelID, function(data){
+						
+						if(data.length == 0)
+							{
+							}
+						else
+							{
+							
+							$.each(data, function (key, value){
+							
+								console.log("dito");
+								var tr = document.createElement("tr");
+								tr.setAttribute("id", "trID");
+								
+								var institutionID = value.institutionID;
+								var name = value.institutionName;
+								var systemName = value.system;
+								var acronym = value.acronym;
+								var dateAdded = value.dateAdded;
+								var city = value.city;
+								
+								var td1 = document.createElement("td");
+								var td2 = document.createElement("td");
+								var td3 = document.createElement("td");
+								var td4 = document.createElement("td");
+								var td5 = document.createElement("td");
+								var td6 = document.createElement("td");
+								
+								
+								td1.appendChild(document.createTextNode(name));
+								td2.appendChild(document.createTextNode(systemName));
+								td3.appendChild(document.createTextNode(acronym));
+								td4.appendChild(document.createTextNode(dateAdded));
+								td5.appendChild(document.createTextNode(city));
+								
+								
+								tr.appendChild(td1);
+								tr.appendChild(td2);
+								tr.appendChild(td3);
+								tr.appendChild(td4);
+								tr.appendChild(td5);
+								
+								var a1 = document.createElement("a");
+								var a2 = document.createElement("a");
+								var a3 = document.createElement("a");
+								
+								a1.setAttribute("href", "ViewInstitution?institutionID" + institutionID);
+								a2.setAttribute("href", "EditInstitution?institutionID" + institutionID);
+								a3.setAttribute("href", "DeleteInstitution?institutionID" + institutionID);
+								
+								td6.appendChild(a1);
+								td6.appendChild(a2);
+								td6.appendChild(a3);
+					        	
+								tr.appendChild(td6);
+							
+								var table = document.getElementById("tableInstitutions");
+								table.appendChild(tr);
+							
+							});	
+						}
+					});
+				});
+			});
+			</script>
     </head>
 
     <body>
         <div class="main-wrapper">
             <div class="app" id="app">
                
-                <aside class="sidebar">
-				<img id="bg" src="assets/bg.jpg">
-                    <div class="sidebar-container">
-                        <div class="sidebar-header">
-                            <div class="brand">
-                                yyy
-                        </div>
-                        <nav class="menu">
-                            <ul class="nav metismenu" id="sidebar-menu">
-                                <li>
-                                    <a href="index.html"> <i class="fa fa-home"></i> Dashboard </a>
-                                </li>
-								<li>
-                                    <a href="survey.jsp"> <i class="fa fa-table"></i> Survey Schedule </a>
-								
-                                </li>
-								<li>
-                                    <a href="addSurvey.jsp"> <i class="fa fa-pencil-square-o"></i> Add New Survey </a>
-								</li>
-								<li class="active open">
-                                <a href="#demo" data-toggle="collapse"> <i class="fa fa-file-text-o"></i> Database <i class="fa arrow"></i> </a>
-                                    
-                                    <ul id="demo" class="collapse">
-                                  
-                                        <li> <a href="Accreditors">
-    								Accreditors
-    							</a> </li>
-                                        <li  class = "active" > <a href="Institutions">
-    								Institutions
-    							</a> </li>
-								 <li> <a href="SchoolSystems">
-    							                School Systems
-    							</a> </li>
-								 <li> <a href="Programs">
-    								Disciplines </a></li>
-								 
-                                 
-                                    </ul>
-                                </li>
-                                <li><a href="#demo3" data-toggle="collapse"> <i class="fa fa-bar-chart"></i> Reports <i class="fa arrow"></i> </a><ul id="demo3" class="collapse"><li> <a href="reportGA.html">GA Awardees</a> </li><li> <a href="reportHistory.html">History</a> </li></ul></li>
-								<li>
-								   
-								 </li>
-                                
-                               
-                            </ul>
-                        </nav>
-                    </div>
-                    <footer class="sidebar-footer">
-            
-			
-					
-                </aside>
+                <jsp:include page="sidebar.jsp" />
 				
                 <div class="container">
 	<video poster="assets/banner.jpg" id="bgvid"  playsinline autoplay muted loop>
@@ -320,14 +344,23 @@ $(document).ready(function() {
                 </header>
                 <article class="content dashboard-page"  >
                     <section class="section" style="position: relative; top:-135px; left:-25px; width:105%;" >
-                      
-					
-					
-						
-					
-                                            <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
+                       <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
 										
-                                                 <table id="smarttable" class="table table-striped table-bordered table-hover">
+											<br>
+											<label for="educLevels">Education Level: </label>
+											<select id="educLevelSelect" name="smarttable_length" aria-controls="smarttable" class="form-control input-sm" style="width:50%">
+												<option value="0">ALL</option>
+												<option value="1">Elementary Education</option>
+												<option value="2">Secondary Education</option>
+												<option value="3">Integrated Basic Education</option>
+												<option value="4">Tertiary Education</option>
+												<option value="5">Graduate Education</option>
+												<option value="6">Medical Education</option>
+												<option value="7">CECSTE</option>
+												
+											</select>
+											<br>
+											     <table id="smarttable" class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                       <tr>
                                                             <th>Institution Name</th>
@@ -339,11 +372,9 @@ $(document).ready(function() {
                                                              <th>Controls</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody id = "tableInstitutions">
 													
-													
-													
-                                                     <c:forEach items="${institutions}" var="inst" >
+													 <c:forEach items="${institutions}" var="inst" >
 														<tr>
 															<td> <c:out value="${inst.getName()}"/> </td>
 															<td> <c:out value="${inst.getSchoolSystemName()}"/> </td>
