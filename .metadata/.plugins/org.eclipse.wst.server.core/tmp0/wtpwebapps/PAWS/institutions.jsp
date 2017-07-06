@@ -265,7 +265,6 @@ $(document).ready(function() {
 								
 								$.each(data, function (key, value){
 								
-									console.log("dito");
 									var tr = document.createElement("tr");
 									tr.setAttribute("id", "trID");
 									
@@ -301,9 +300,13 @@ $(document).ready(function() {
 									var a2 = document.createElement("a");
 									var a3 = document.createElement("a");
 									
-									a1.setAttribute("href", "ViewInstitution?institutionID" + institutionID);
-									a2.setAttribute("href", "EditInstitution?institutionID" + institutionID);
-									a3.setAttribute("href", "DeleteInstitution?institutionID" + institutionID);
+									a1.setAttribute("href", "ViewInstitution?institutionID=" + institutionID);
+									a2.setAttribute("href", "EditInstitution?institutionID=" + institutionID);
+									a3.setAttribute("href", "DeleteInstitution?institutionID=" + institutionID);
+									
+									a1.innerHTML = "View";
+									a2.innerHTML = "Edit";
+									a3.innerHTML = "Delete";
 									
 									td6.appendChild(a1);
 									td6.appendChild(a2);
@@ -321,8 +324,7 @@ $(document).ready(function() {
 					
 					else
 					{
-						console.log(educLevelID);
-							$('#tableInstitutions').empty();
+						$('#tableInstitutions').empty();
 					
 						$.getJSON("InstitutionsEducLevelLoader?educLevelID=" + educLevelID, function(data){
 							
@@ -334,7 +336,6 @@ $(document).ready(function() {
 								
 								$.each(data, function (key, value){
 								
-									console.log("dito");
 									var tr = document.createElement("tr");
 									tr.setAttribute("id", "trID");
 									
@@ -366,13 +367,18 @@ $(document).ready(function() {
 									tr.appendChild(td4);
 									tr.appendChild(td5);
 									
+
 									var a1 = document.createElement("a");
 									var a2 = document.createElement("a");
 									var a3 = document.createElement("a");
 									
-									a1.setAttribute("href", "ViewInstitution?institutionID" + institutionID);
-									a2.setAttribute("href", "EditInstitution?institutionID" + institutionID);
-									a3.setAttribute("href", "DeleteInstitution?institutionID" + institutionID);
+									a1.setAttribute("href", "ViewInstitution?institutionID=" + institutionID);
+									a2.setAttribute("href", "EditInstitution?institutionID=" + institutionID);
+									a3.setAttribute("href", "DeleteInstitution?institutionID=" + institutionID);
+									
+									a1.innerHTML = "View ";
+									a2.innerHTML = "Edit ";
+									a3.innerHTML = "Delete";
 									
 									td6.appendChild(a1);
 									td6.appendChild(a2);

@@ -265,6 +265,7 @@ $(document).ready(function() {
 								
 								$.each(data, function (key, value){
 								
+									console.log("dito");
 									var tr = document.createElement("tr");
 									tr.setAttribute("id", "trID");
 									
@@ -324,7 +325,8 @@ $(document).ready(function() {
 					
 					else
 					{
-						$('#tableInstitutions').empty();
+						console.log(educLevelID);
+							$('#tableInstitutions').empty();
 					
 						$.getJSON("InstitutionsEducLevelLoader?educLevelID=" + educLevelID, function(data){
 							
@@ -336,6 +338,7 @@ $(document).ready(function() {
 								
 								$.each(data, function (key, value){
 								
+									console.log("dito");
 									var tr = document.createElement("tr");
 									tr.setAttribute("id", "trID");
 									
