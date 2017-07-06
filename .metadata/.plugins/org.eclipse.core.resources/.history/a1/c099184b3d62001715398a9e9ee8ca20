@@ -45,7 +45,7 @@ public class InstitutionsUtil {
 		return jArray;
 	}
 	
-	public JSONArray getAllInstitutionsJSON(){
+	public JSONArray getAllInstitutionsJSON(int systemID){
 		JSONArray jArray = new JSONArray();
 		JSONObject job = new JSONObject();
 		

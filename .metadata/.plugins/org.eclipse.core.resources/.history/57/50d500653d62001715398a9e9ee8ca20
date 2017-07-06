@@ -253,8 +253,6 @@ $(document).ready(function() {
 
 					if(educLevelID == 0)
 					{
-						$('#tableInstitutions').empty();
-						
 						$.getJSON("AllInstitutionsLoader", function(data){
 							
 							if(data.length == 0)

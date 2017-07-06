@@ -45,36 +45,6 @@ public class InstitutionsUtil {
 		return jArray;
 	}
 	
-	public JSONArray getAllInstitutionsJSON(){
-		JSONArray jArray = new JSONArray();
-		JSONObject job = new JSONObject();
-		
-		try{
-			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT name, systemID, acronym, dateAdded, city, institutionID FROM `institutions` ORDER BY `name`");
-			
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
-				job = new JSONObject();
-				job.put("institutionName", rs.getString(1));
-				job.put("system", getSchoolSystemName(rs.getInt(2)));
-				job.put("acronym", rs.getString(3));
-				job.put("dateAdded", formatDate_yearFirst(rs.getString(4)));
-				job.put("city", rs.getString(5));
-				job.put("institutionID", rs.getInt(6));
-				
-
-				jArray.put(job);
-				
-			}
-		} catch (Exception e){
-			System.out.println("Error in InstitutionsUtil:getAllInstitutionsJSON()");
-			e.printStackTrace();
-		}
-		
-		return jArray;
-	}
-	
 	private String getSchoolSystemName(int ID){
 		String name="";
 		
