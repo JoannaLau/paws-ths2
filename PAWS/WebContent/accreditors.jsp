@@ -263,6 +263,34 @@ $.fn.dataTable.ext.errMode = 'none';
 		box-shadow: 0px 9px 24px 0px rgba(0,0,0,0.75);	}
 		
 </style>
+ 
+ <script type="text/javascript">
+ 
+ j$ = jQuery.noConflict();
+	j$(document).ready( function () {
+		var contactTable = j$('[id$="smarttable"]').DataTable({
+			order: [[0, 'asc']],
+			
+			initComplete: function() {
+				var api = this.api();
+				var select = j$('[id$=disciplineSelect]');
+				api.column(1).data().unique().sort().each( function ( d, j ) {
+					select.append( '<option value="'+d+'">'+d+'</option>' )
+				} );   
+			}
+		});
+	
+		j$('[id$=disciplineSelect]').change(function() {
+			var val = j$.fn.dataTable.util.escapeRegex(
+				j$(this).val()
+			);
+			contactTable.column(1)
+				.search( val == 'All' ? '' : '^'+val+'$', true, false )
+				.draw();
+		});
+	});
+ 
+ </script>
     </head>
 
     <body>
@@ -297,7 +325,9 @@ $.fn.dataTable.ext.errMode = 'none';
 						
 					
                                             <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
-										
+											<label for="discipline">Discipline/Program of Study</label>
+											<select id="disciplineSelect"><option value="All">All</option></select>
+ 
                                                 <table id="smarttable" class="table table-striped table-bordered table-hover" style="width:100%">
 												   
                                                     <thead>

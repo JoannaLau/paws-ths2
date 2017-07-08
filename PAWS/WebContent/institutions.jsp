@@ -245,7 +245,7 @@ $(document).ready(function() {
 	j$ = jQuery.noConflict();
 	j$(document).ready( function () {
 		var contactTable = j$('[id$="smarttable"]').DataTable({
-			order: [[2, 'asc']],
+			order: [[1, 'asc']],
 			
 			initComplete: function() {
 				var api = this.api();

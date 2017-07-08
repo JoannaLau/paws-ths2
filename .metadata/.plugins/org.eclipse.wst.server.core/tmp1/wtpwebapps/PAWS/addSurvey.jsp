@@ -65,6 +65,7 @@
 				
 				//EVENT LISTENER FOR CHOOSING AN INSTITUTION, CHANGING THE PROGRAMS AND SHOWING WHAT'S UNDER THAT INSTITUTION
 				$('#institutionForm').chosen().change(function(){
+					
 					$('#programForm').empty();
 					
 					var institutionID = $('#institutionForm').find(":selected").val();
@@ -75,6 +76,26 @@
 						    }
 						    else 
 					    	{
+						    	
+								
+								var divProgramForm = document.getElementById("divProgramForm");
+			
+								var label1 = document.createElement("label");
+								label1.setAttribute("for", "sel1");
+								label1.setAttribute("id", "label1");
+								label1.innerText = "Program: ";
+								
+								var selectProgramForm = document.createElement("select");
+								selectProgramForm.setAttribute("id", "programForm");
+								selectProgramForm.setAttribute("class", "form-control underlined");
+								selectProgramForm.setAttribute("data-placeholder", "Choose a Program...");
+								
+								divProgramForm.appendChild(label1);
+								divProgramForm.appendChild(selectProgramForm);
+								
+								var programForm = document.getElementById("programForm");
+													
+								
  								$.each(data, function (key, value){
 							    var option = document.createElement("option");
 								option.text = value.degreeName;

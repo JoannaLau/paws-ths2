@@ -166,9 +166,9 @@
 													
                                                      <c:forEach items="${program.getSps()}" var="sp">
 															<tr>
-																<td><c:out value="${sp.getDegree_name()}"/></td>
+																<td><c:out value="${sp.getDegreeName()}"/></td>
 																<td><c:out value="${sp.getInstitution()}"/></td>
-																<td><c:out value="${sp.getNext_survey_sched()}"/></td>
+																<td><c:out value="${sp.getNextSurveySched()}"/></td>
 															</tr>
 													</c:forEach>
 														

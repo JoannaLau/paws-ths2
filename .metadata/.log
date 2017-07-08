@@ -904,3 +904,12 @@ JavaScript Model Exception: JavaScript Model Status [___anonymous() [in chosen.j
 
 !ENTRY org.eclipse.jface.text 2 0 2017-07-08 19:07:10.387
 !MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+
+!ENTRY org.eclipse.jface.text 2 0 2017-07-09 00:27:04.767
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2017-07-09 00:27:04.773
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+
+!ENTRY org.eclipse.debug.ui 4 120 2017-07-09 01:55:11.280
+!MESSAGE No tab group defined for launch configuration type org.eclipse.wst.server.ui.launchConfigurationType
