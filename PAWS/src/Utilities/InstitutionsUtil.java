@@ -51,7 +51,7 @@ public class InstitutionsUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT name, systemID, acronym, dateAdded, city, institutionID FROM `institutions` ORDER BY `name`");
+			PreparedStatement ps = conn.prepareStatement("SELECT name, systemID, acronym, dateAdded, city, institutionID, educLevelID FROM `institutions` ORDER BY `name`");
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
@@ -62,6 +62,7 @@ public class InstitutionsUtil {
 				job.put("dateAdded", formatDate_yearFirst(rs.getString(4)));
 				job.put("city", rs.getString(5));
 				job.put("institutionID", rs.getInt(6));
+				job.put("educLevel", getEducLevelName(rs.getInt(7)));
 				
 
 				jArray.put(job);
@@ -74,6 +75,29 @@ public class InstitutionsUtil {
 		
 		return jArray;
 	}
+	
+	private String getEducLevelName(int educLevelID)
+	{
+		String name="";
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT `levelName` FROM `educationlevel` where `levelID`=?");
+			ps.setInt(1, educLevelID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){				
+			
+				name = rs.getString(1);
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getEducLevelName()");
+			e.printStackTrace();
+		}
+		
+		return name;
+	}
+	
+	
 	
 	private String getSchoolSystemName(int ID){
 		String name="";
@@ -113,7 +137,7 @@ public class InstitutionsUtil {
 				
 			
 				System.out.println(rs.getString(3));
-				temp = new Institution(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), rs.getString(17), rs.getString(18));
+				temp = new Institution(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), rs.getString(17), rs.getString(18), getEducLevelName(rs.getInt(19)));
 				temp.setSchoolSystemName(getSchoolSystemName(rs.getInt(2)));
 				
 				institutions.add(temp);
@@ -132,7 +156,7 @@ public class InstitutionsUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT name, systemID, acronym, dateAdded, city, institutionID FROM `institutions` WHERE educLevelID = ? ORDER BY `name`");
+			PreparedStatement ps = conn.prepareStatement("SELECT name, systemID, acronym, dateAdded, city, institutionID, educLevelID FROM `institutions` WHERE educLevelID = ? ORDER BY `name`");
 			ps.setInt(1, educLevelID);
 		
 			ResultSet rs = ps.executeQuery();
@@ -144,6 +168,7 @@ public class InstitutionsUtil {
 				job.put("dateAdded", formatDate_yearFirst(rs.getString(4)));
 				job.put("city", rs.getString(5));
 				job.put("institutionID", rs.getInt(6));
+				job.put("educLevel", getEducLevelName(rs.getInt(7)));
 				
 
 				jArray.put(job);
@@ -202,7 +227,7 @@ public class InstitutionsUtil {
 				//secondaryAreaID, discipline
 			
 				System.out.println(rs.getString(3));
-				temp = new Institution(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), rs.getString(17), rs.getString(18));
+				temp =  new Institution(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), rs.getString(17), rs.getString(18), getEducLevelName(rs.getInt(19)));;
 				institutions.add(temp);
 			}
 		} catch (Exception e){
@@ -221,7 +246,7 @@ public class InstitutionsUtil {
 			ps.setInt(1,  instID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				temp = new Institution(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), rs.getString(17), rs.getString(18));
+				temp =  new Institution(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), rs.getString(17), rs.getString(18), getEducLevelName(rs.getInt(19)));;
 			}
 		} catch (Exception e){
 			System.out.println("Error in InstitutionsUtil:getInstitution()");

@@ -24,8 +24,19 @@ public class Institution {
 	private String contactEmail;
 	private String dateAddedWord;
 
-
+	private String educLevel;
 	
+	
+	
+	
+
+	public String getEducLevel() {
+		return educLevel;
+	}
+
+	public void setEducLevel(String educLevel) {
+		this.educLevel = educLevel;
+	}
 
 	public int getInstitutionID() {
 		return institutionID;
@@ -199,7 +210,7 @@ public class Institution {
 	
 	public Institution(int institutionID, int schoolsystemID, String name, String head, String position, String email,
 			String address, String status, String date_added, String city, String fax,
-			String contact_person, String contact_position, String contact_number, String website, String country, String contact_email, String institutionAcronym) {
+			String contact_person, String contact_position, String contact_number, String website, String country, String contact_email, String institutionAcronym, String educLevel) {
 		super();
 		this.institutionID = institutionID;
 		this.schoolSystemID = schoolsystemID;
@@ -220,6 +231,7 @@ public class Institution {
 		this.contactEmail = contact_email;
 		this.website = website;
 		this.contactPosition =contact_position;
+		this.educLevel = educLevel;
 		System.out.println(date_added+"CITY!!!!!!!!!!"+ institutionAcronym);
 	}
 
