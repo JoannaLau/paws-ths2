@@ -11,7 +11,7 @@
 		<nav class="menu">
 			<ul class="nav metismenu" id="sidebar-menu">
 				<li id="dashboard">
-					<a id = "adashboard" href="/" onclick="javascript:setActiveDash()"> <i class="fa fa-home"></i> Dashboard </a>
+					<a id = "adashboard" href="index.html" onclick="javascript:setActiveDash()"> <i class="fa fa-home"></i> Dashboard </a>
 				<li id="survey">
 					<a id="asurvey" href="survey.jsp" onclick="javascript:setActiveSched()"> <i class="fa fa-table"></i> Survey Schedule </a>
 				</li>

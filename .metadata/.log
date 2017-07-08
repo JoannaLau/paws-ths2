@@ -913,3 +913,9 @@ JavaScript Model Exception: JavaScript Model Status [___anonymous() [in chosen.j
 
 !ENTRY org.eclipse.debug.ui 4 120 2017-07-09 01:55:11.280
 !MESSAGE No tab group defined for launch configuration type org.eclipse.wst.server.ui.launchConfigurationType
+
+!ENTRY org.eclipse.jst.server.tomcat.core 4 0 2017-07-09 03:57:23.834
+!MESSAGE Several ports (8005, 8080) required by Tomcat v8.5 Server at localhost are already in use. The server may already be running in another process, or a system process may be using the port. To start this server you will need to stop the other process or change the port number(s).
+
+!ENTRY org.eclipse.jst.server.tomcat.core 4 0 2017-07-09 03:57:23.896
+!MESSAGE Several ports (8005, 8080) required by Tomcat v8.5 Server at localhost are already in use. The server may already be running in another process, or a system process may be using the port. To start this server you will need to stop the other process or change the port number(s).

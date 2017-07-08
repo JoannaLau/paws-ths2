@@ -123,6 +123,7 @@ public class InstitutionsUtil {
 	public ArrayList<Institution> getInstitutions(){
 		ArrayList<Institution> institutions = new ArrayList<Institution>();
 		Institution temp = new Institution();
+		FTPDemo demo = new FTPDemo();
 		try{
 			Connection conn = db.getConnection();
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM institutions ORDER BY `name`");
