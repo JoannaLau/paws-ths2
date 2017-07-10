@@ -52,6 +52,13 @@
 						<p style="width:15px; height:17px;text-align:center; border-radius:10px; font-family: Verdana; font-size:10px;float:right; background-color:red; color:white;">10</p>
 					</a>
 				</li>
+                
+                	<li>
+					<a href="documentGeneration.html">
+						<i class="fa fa-file-text-o"></i> Document Generation
+					</a>
+				</li>
+                
 			</ul>
 		</nav>
 	</div>
