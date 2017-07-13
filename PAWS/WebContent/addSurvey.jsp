@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!doctype html>
 <html class="no-js" lang="en">
-	<head>
+<head>
 		<script src='js/jquery.min.js'></script>
 		<script src='js/jquery-ui.min.js'></script>
 		<link rel="stylesheet" href="css/bootstrap.css">

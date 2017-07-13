@@ -51,6 +51,17 @@ public class Accreditor {
 		
 	}
 	
+	public Accreditor(int accreditorID, String honorifics, String firstName, String lastName, String middleName) {
+		super();
+		this.accreditorID = accreditorID;
+		this.honorifics = honorifics;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.middleName = middleName;
+		
+		
+	}
+	
 	public String getTertiaryArea() {
 		return tertiaryArea;
 	}
