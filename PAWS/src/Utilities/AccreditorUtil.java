@@ -38,6 +38,9 @@ public class AccreditorUtil {
 		
 		return title;
 	}
+	
+	
+	
 	public ArrayList<Accreditation> getAccreditations(int accreditorID){
 		ArrayList<Accreditation> past = new ArrayList<Accreditation>();
 		Accreditation temp = new Accreditation();
@@ -193,8 +196,34 @@ public class AccreditorUtil {
 	    return accreditors;
 	}
 	
+	public JSONArray getAccreditorForInvitationJSON(int accID){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT head, hPosition, name, city FROM institutions WHERE institutionID = (SELECT institutionID FROM work WHERE accreditorID = ? AND dateFinished IS NULL)");
+			ps.setInt(1,  accID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("head", rs.getString(1));
+				job.put("hPosition", rs.getString(2));
+				job.put("institutionName", rs.getString(3));
+				job.put("city", rs.getString(4));
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getAccreditorForInvitationJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
+	
 
-	public JSONArray getAccreditorsNameIDJSON(){
+	public JSONArray getInvitationAccreditorsJSON(){
 		JSONArray jArray = new JSONArray();
 		JSONObject job = new JSONObject();
 		
@@ -216,7 +245,6 @@ public class AccreditorUtil {
 		
 		return jArray;
 	}
-	
 	
 	public ArrayList<Accreditor> getAccreditors(){
 		ArrayList<Accreditor> accreditors = new ArrayList<Accreditor>();

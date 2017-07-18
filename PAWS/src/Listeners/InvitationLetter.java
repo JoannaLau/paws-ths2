@@ -37,17 +37,7 @@ public class InvitationLetter extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ArrayList<Accreditor> accreditors = new ArrayList<Accreditor>();
-		AccreditorUtil accUtil = new AccreditorUtil();
-		accreditors = accUtil.getAccreditorsNameID();
-		System.out.print("ito size " + accreditors.size());
-		request.setAttribute("accreditors", accreditors);
-		
-		ArrayList<Institution> inst = new ArrayList<Institution>();
-		InstitutionsUtil instUtil = new InstitutionsUtil();
-		inst = instUtil.getInstitutionsNameID();
-		request.setAttribute("institutions", inst);
-		
+
 		
 		RequestDispatcher rd = request.getRequestDispatcher("invitationLetter.jsp");
 		rd.forward(request, response);

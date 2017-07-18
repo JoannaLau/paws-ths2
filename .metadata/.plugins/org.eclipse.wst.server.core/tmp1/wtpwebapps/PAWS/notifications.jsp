@@ -243,13 +243,7 @@ function buildUnconfirmedSurveys(){
 	#smarttable tr:nth-child(even){
 		background-color:#e6f2da;}
 	
-	.container{
-		width: 125%;
-		overflow:hidden;
-		display:block;
-		height: 130px;
-		z-index:-1;
-		margin-left:-15px;}
+	
 		
 	#smarttable tr:hover {
 		background: rgba(255,255,255,1);
@@ -266,6 +260,14 @@ function buildUnconfirmedSurveys(){
 		box-shadow: inset 0px 1px 5px 0px rgba(0,0,0,0.49);
 		cursor: pointer;}
 
+	.container{
+		width: 125%;
+		overflow:hidden;
+		display:block;
+		height: 130px;
+		z-index:-1;
+		margin-left:-15px;}
+		
 	#bgvid{
 		position:relative;
 		top:-400px;

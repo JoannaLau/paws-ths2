@@ -20,7 +20,7 @@ public class InstitutionsUtil {
 		db = new DBUtil();
 	}
 	
-	
+
 	public JSONArray getInstitutionsJSON(int systemID){
 		JSONArray jArray = new JSONArray();
 		JSONObject job = new JSONObject();
@@ -44,6 +44,63 @@ public class InstitutionsUtil {
 		
 		return jArray;
 	}
+	
+	public JSONArray getInvitationInstitutionsJSON(){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT institutionID, name, city, educLevelID FROM institutions");
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("institutionID", rs.getInt(1));
+				job.put("institutionName", rs.getString(2));
+				job.put("city", rs.getString(3));
+				job.put("educLevel", getEducLevelName(rs.getInt(4)));
+				
+				
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInvitationInstitutionsJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
+	
+	
+	
+	public JSONArray getInstitutionForInvitationJSON(int instID){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			//PreparedStatement ps = conn.prepareStatement("SELECT name, head, hPosition, city FROM `institutions` WHERE institutionID = (SELECT institutionID FROM `work` WHERE accreditorID = ? AND dateFinished IS NULL)");
+			PreparedStatement ps = conn.prepareStatement("SELECT name, city FROM `institutions` WHERE institutionID = ?");
+			ps.setInt(1, instID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("name", rs.getString(1));
+				job.put("city", rs.getString(2));
+
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitutionForInvitationJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
+	
 	
 	public JSONArray getAllInstitutionsJSON(){
 		JSONArray jArray = new JSONArray();
@@ -151,13 +208,13 @@ public class InstitutionsUtil {
 	    return institutions;
 	}
 	
-	public ArrayList<Institution> getInstitutionsNameID(){
+	public ArrayList<Institution> getInstitutionsNameIDLevel(){
 		ArrayList<Institution> institutions = new ArrayList<Institution>();
 		Institution temp = new Institution();
 		FTPDemo demo = new FTPDemo();
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT institutionID, name, city FROM institutions ORDER BY `name`");
+			PreparedStatement ps = conn.prepareStatement("SELECT institutionID, name, city, educLevelID FROM institutions ORDER BY `name`");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				//constructor is (int accreditorID, String name, String institution, String discipline, String primaryArea, 
@@ -167,7 +224,7 @@ public class InstitutionsUtil {
 				//secondaryAreaID, discipline
 				
 			
-				temp = new Institution(rs.getInt(1), rs.getString(2), rs.getString(3));
+				temp = new Institution(rs.getInt(1), rs.getString(2), rs.getString(3), getEducLevelName(rs.getInt(4)));
 				
 				institutions.add(temp);
 			}

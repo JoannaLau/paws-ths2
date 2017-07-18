@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!doctype html>
 <html class="no-js" lang="en">
-	<head>
+<head>
 		<script src='js/jquery.min.js'></script>
 		<script src='js/jquery-ui.min.js'></script>
 		<link rel="stylesheet" href="css/bootstrap.css">
@@ -951,7 +951,7 @@
 								
 								</h3>
 								<div class="form-group" id="divProgramForm">
-									<label for="sel1" id="label1">
+									<label for="sel1" id="label1"></label>
 									Program:
 									<select id="programForm" class = "form-control underlined" data-placeholder="Choose a Program...">
 									</select>
