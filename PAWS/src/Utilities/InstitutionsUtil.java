@@ -151,6 +151,35 @@ public class InstitutionsUtil {
 	    return institutions;
 	}
 	
+	public ArrayList<Institution> getInstitutionsNameID(){
+		ArrayList<Institution> institutions = new ArrayList<Institution>();
+		Institution temp = new Institution();
+		FTPDemo demo = new FTPDemo();
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT institutionID, name, city FROM institutions ORDER BY `name`");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				//constructor is (int accreditorID, String name, String institution, String discipline, String primaryArea, 
+				// String secondaryArea, int totalSurveys, String city)
+				//db returns accreditorID, lastname, firstname, midlename, honorifics, email, num_surveys, 
+				//date_trained, contact, address, city, country, venue_trained, primaryAreaID, 
+				//secondaryAreaID, discipline
+				
+			
+				temp = new Institution(rs.getInt(1), rs.getString(2), rs.getString(3));
+				
+				institutions.add(temp);
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitutionsNameID()");
+			e.printStackTrace();
+		}
+		
+	    return institutions;
+	}
+	
+	
 	public JSONArray getInstitutionsForLevelJSON(int educLevelID){
 		JSONArray jArray = new JSONArray();
 		JSONObject job = new JSONObject();

@@ -53,10 +53,26 @@
 					</a>
 				</li>
                 
-                	<li>
-					<a href="documentGeneration.html">
-						<i class="fa fa-file-text-o"></i> Document Generation
-					</a>
+      			<li id="docuGeneration">
+					<a href="#demo4" data-toggle="collapse" onclick="javascript:setActiveDatabase()"> <i class="fa fa-file-text-o"></i> Document Generation <i class="fa arrow"></i> </a>
+					<ul id="demo4" class="collapse">
+						<li id="invitation"> <a href="InvitationLetter" onclick="javascript:setActiveAccreditors()">
+							Invitation
+							</a> 
+						</li>
+						<li id="thankYouBefore"> <a href="Institutions" onclick="javascript:setActiveInstitutions()">
+							Thank You (before visit)
+							</a> 
+						</li>
+						<li id="thankYouAfter"> <a href="SchoolSystems" onclick="javascript:setActiveSchoolSystem()">
+							Thank You (after visit)
+							</a> 
+						</li>
+						<li id="permission"> <a href="Programs" onclick="javascript:setActivePrograms()">
+							Permission
+							</a> 
+						</li>
+					</ul>
 				</li>
                 
 			</ul>

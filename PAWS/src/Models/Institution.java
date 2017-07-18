@@ -234,6 +234,14 @@ public class Institution {
 		this.educLevel = educLevel;
 		System.out.println(date_added+"CITY!!!!!!!!!!"+ institutionAcronym);
 	}
+	
+	public Institution(int institutionID, String name, String city)
+	{
+		super();
+		this.institutionID = institutionID;
+		this.name = name;
+		this.city = city;
+	}
 
 	private static String formatDate(String date){
 		String format = new String();

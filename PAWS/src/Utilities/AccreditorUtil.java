@@ -158,6 +158,66 @@ public class AccreditorUtil {
 			e.printStackTrace();
 		}
 	}
+	
+
+	public ArrayList<Accreditor> getAccreditorsNameID(){
+		ArrayList<Accreditor> accreditors = new ArrayList<Accreditor>();
+		Accreditor temp = new Accreditor();
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT accreditorID, lastname, firstname, middlename, honorifics FROM accreditors");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				
+				//int accreditorID, String honorifics, String firstName, String lastName, String middleName,
+				//String email, String contact, String institution, String discipline, String primaryArea, String secondaryArea,
+				//int totalSurveys, String city, String country, String venue_trained, String date_trained, String address
+				
+				//db returns accreditorID, lastname, firstname, midlename, honorifics, email, num_surveys, 
+				//date_trained, contact, address, city, country, venue_trained, primaryAreaID, 
+				//secondaryAreaID, discipline
+				
+				int accreditorID = rs.getInt(1);
+				String honorifics = rs.getString(5);
+				String firstName = rs.getString(3);
+				String lastName = rs.getString(2);
+				String middleName = rs.getString(4);
+				temp = new Accreditor(accreditorID, honorifics, firstName, lastName, middleName);
+				accreditors.add(temp);
+			}
+		} catch (Exception e){
+			System.out.println("Error in AccreditorUtil:getAccreditorsNameID()");
+			e.printStackTrace();
+		}
+		
+	    return accreditors;
+	}
+	
+
+	public JSONArray getAccreditorsNameIDJSON(){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT accreditorID, lastname, firstname, honorifics FROM accreditors");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("accID", rs.getInt(1));
+				job.put("accName", rs.getString(4) + " " + rs.getString(3) + " " + rs.getString(2));
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getAccreditorsNameIDJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
+	
+	
 	public ArrayList<Accreditor> getAccreditors(){
 		ArrayList<Accreditor> accreditors = new ArrayList<Accreditor>();
 		Accreditor temp = new Accreditor();
