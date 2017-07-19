@@ -235,12 +235,13 @@ public class Institution {
 		System.out.println(date_added+"CITY!!!!!!!!!!"+ institutionAcronym);
 	}
 	
-	public Institution(int institutionID, String name, String city)
+	public Institution(int institutionID, String name, String city, String educLevel)
 	{
 		super();
 		this.institutionID = institutionID;
 		this.name = name;
 		this.city = city;
+		this.educLevel = educLevel;
 	}
 
 	private static String formatDate(String date){

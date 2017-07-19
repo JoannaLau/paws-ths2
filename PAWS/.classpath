@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
-		<attributes>
-			<attribute name="owner.project.facets" value="java"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Keith/Desktop/THESIS/java-json.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Keith/Desktop/THESIS/javax.servlet.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Keith/Desktop/paws/PAWS/WebContent/WEB-INF/lib/jstl-1.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Keith/Desktop/paws/PAWS/WebContent/WEB-INF/lib/mysql-connector-java-5.1.39-bin.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Keith/Desktop/commons-net-3.6-bin/commons-net-3.6/commons-net-3.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Keith/Desktop/commons-net-3.6-bin/commons-net-3.6/commons-net-3.6-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Keith/Desktop/commons-net-3.6-bin/commons-net-3.6/commons-net-examples-3.6.jar"/>
-	<classpathentry kind="output" path="build/classes"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Joanna Lau/Desktop/java-json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Joanna Lau/Desktop/javax.servlet.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Joanna Lau/Desktop/jstl-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Joanna Lau/Desktop/mysql-connector-java-5.1.39-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Joanna Lau/Desktop/THESIS/paws/PAWS/WebContent/WEB-INF/lib/commons-net-3.6.jar"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -2,26 +2,30 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="addAccredito" key="selection"/>
+		<item value="-" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="addAccredito"/>
-			<item value="accreditors"/>
-			<item value="c:out"/>
-			<item value="addProgram"/>
-			<item value="ajax"/>
-			<item value="checkAffiliations"/>
-			<item value="checkAff"/>
-			<item value="search"/>
+			<item value="-"/>
+			<item value="getsys"/>
+			<item value="getSYstem"/>
+			<item value="accreditor"/>
+			<item value="getSystems"/>
+			<item value="systemForm"/>
+			<item value="chosen-select"/>
+			<item value="select"/>
 		</list>
 		<list key="replacehistory">
+			<item value=""/>
+			<item value="Type Of Letter"/>
+			<item value="TypeOfLetter"/>
+			<item value="TypeOfSurvey"/>
+			<item value="Type Of Survey"/>
 			<item value="institutionID"/>
 			<item value="institution"/>
 			<item value="Institutions"/>
-			<item value="institutions"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

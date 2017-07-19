@@ -60,8 +60,8 @@
 							Invitation
 							</a> 
 						</li>
-						<li id="thankYouBefore"> <a href="Institutions" onclick="javascript:setActiveInstitutions()">
-							Thank You (before visit)
+						<li id="confirmation"> <a href="ConfirmationLetter" onclick="javascript:setActiveInstitutions()">
+							Confirmation Letter
 							</a> 
 						</li>
 						<li id="thankYouAfter"> <a href="SchoolSystems" onclick="javascript:setActiveSchoolSystem()">
