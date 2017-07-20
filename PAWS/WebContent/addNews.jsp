@@ -206,7 +206,23 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
     
     
 
+<script type="text/javascript">
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
 
 </head>
 
@@ -248,7 +264,7 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
                   
     
  <div id="sample">
- <script type="text/javascript" src="js/nicEdit-latest.js"></script>
+ <script type="text/javascript" src="js/nicEdit.js"></script>
      
     <script type="text/javascript">
 //<![CDATA[
@@ -261,10 +277,11 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
   </script>
   
   
-  <form method="post" action="addNews">
+  <form method="post" action="AddNews">
   
-  <label>News Title: </label>&nbsp;&nbsp;<input id="newsTitle"><br><br>
-  <textarea cols="100" id="newsBody">
+  <label>News Title: </label>&nbsp;&nbsp;<input id="newsTitle" name="title"><br><br>
+  <label>News Content: </label><br>
+  <textarea rows="25" cols="200" id="newsBody" name="content">
 
 </textarea>
  <br>
@@ -273,7 +290,7 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
      
      <button onclick="printText();">Select File</button><br><br>
      
-     <button onclick="printText();" type="submit" value="submit">Save</button>
+     <button onclick="printText();" type="submit" value="Submit">Save News</button>
   
                         
 
