@@ -36,7 +36,6 @@ public class InstitutionsUtil {
 				job.put("institutionName", rs.getString(2) + " - " + rs.getString(3));
 				jArray.put(job);
 				
-			}
 		} catch (Exception e){
 			System.out.println("Error in InstitutionsUtil:getInstitutionsJSON()");
 			e.printStackTrace();
@@ -347,14 +346,14 @@ public class InstitutionsUtil {
 	
 	public void addInstitution(String ssName, String institutionName, String institutionAcronym, String address , String city , String country ,
 			String website , String contactNumber , String fax , String institutionHead , String position , String headEmail ,
-			String contactPerson , String contactPosition , String contactEmail , String membershipDate){
+			String contactPerson , String contactPosition , String contactEmail , String membershipDate, int educLevelID){
 		try{
 		
 			String dateBuild = formatDate(membershipDate);
 			
 			
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO institutions (systemID, name, head, hPosition, hEmail, address, status, dateAdded, city, fax, contactPerson, contactPosition, contactNumber, website, country, contactEmail, acronym) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO institutions (systemID, name, head, hPosition, hEmail, address, status, dateAdded, city, fax, contactPerson, contactPosition, contactNumber, website, country, contactEmail, acronym, educLevelID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			int ssID_int = Integer.parseInt(ssName);
 			ps.setInt(1, ssID_int);
 			ps.setString(2, institutionName);
@@ -373,6 +372,8 @@ public class InstitutionsUtil {
 			ps.setString(15, country);
 			ps.setString(16, contactEmail);
 			ps.setString(17, institutionAcronym);
+			ps.setInt(18, educLevelID);
+			
 			ps.executeUpdate();
 		} catch (Exception e){
 			System.out.println("Error in InstitutionsUtil:addInstitution()");

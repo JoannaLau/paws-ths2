@@ -69,10 +69,14 @@ String ssID = request.getParameter("ssID");
 		
 		String membershipDate = request.getParameter("membershipDate");
 		
+		int educLevel = Integer.parseInt(request.getParameter("levelSelect"));
+		
+		
+		
 		
 				
 		InstitutionsUtil instUtil = new InstitutionsUtil();
-		instUtil.addInstitution(ssID, institutionName, institutionAcronym,  address, city, country, website, contactNumber, fax, institutionHead, position, headEmail, contactPerson, contactPosition, contactEmail, membershipDate);
+		instUtil.addInstitution(ssID, institutionName, institutionAcronym,  address, city, country, website, contactNumber, fax, institutionHead, position, headEmail, contactPerson, contactPosition, contactEmail, membershipDate, educLevel);
 		System.out.println(ssID+"SSID");
 		RequestDispatcher rd = request.getRequestDispatcher("Institutions");
 		rd.forward(request, response);

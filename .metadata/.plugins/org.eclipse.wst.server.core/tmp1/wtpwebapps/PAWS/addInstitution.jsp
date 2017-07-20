@@ -328,6 +328,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 					
 											<div class="form-group" style="width:48%; padding-right"> <label class="control-label">Institution Name</label> <input type="text" class="form-control underlined" style="width:90%;"  placeholder="e.g. De La Salle University" name="institutionName"> </div>
 											<div class="form-group" style="width:48%; padding-right"> <label class="control-label">Institution Acronym</label> <input type="text" class="form-control underlined" style="width:90%;"  placeholder="e.g. DLSU-M" name="institutionAcronym"> </div>
+											<div class="form-group"  style="width:48%; padding-right">
+											 	<label class="control-label">Institution Level: </label>
+											 	<select name="levelSelect">
+													<option value="1">Elementary Education</option>
+													<option value="2">Secondary Education</option>
+													<option value="3">Integrated Basic Education</option>
+													<option value="4">Tertiary Education</option>
+													<option value="5">Graduate Education</option>
+													<option value="6">Medical Education</option>
+													<option value="7">CECSTE</option>
+													
+												</select>
+											
+											 </div>
 								<br><br><br>	
 											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Address</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. 2401 Taft Avenue, 1004 Manila, Philippines" name="address"> </div>
 											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Date of Membership</label> <input id="datepicker" type="text" class="form-control underlined" style="width:90%;" placeholder="" name="membershipDate"> </div>

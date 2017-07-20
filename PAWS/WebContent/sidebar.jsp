@@ -57,19 +57,19 @@
 					<a href="#demo4" data-toggle="collapse" onclick="javascript:setActiveDatabase()"> <i class="fa fa-file-text-o"></i> Document Generation <i class="fa arrow"></i> </a>
 					<ul id="demo4" class="collapse">
 						<li id="invitation"> <a href="InvitationLetter" onclick="javascript:setActiveAccreditors()">
-							Invitation
+							Invitation Letter
 							</a> 
 						</li>
 						<li id="confirmation"> <a href="ConfirmationLetter" onclick="javascript:setActiveInstitutions()">
 							Confirmation Letter
 							</a> 
 						</li>
-						<li id="thankYouAfter"> <a href="SchoolSystems" onclick="javascript:setActiveSchoolSystem()">
-							Thank You (after visit)
+						<li id="thankYouBefore"> <a href="ThankYouBeforeVisitLetter" onclick="javascript:setActiveSchoolSystem()">
+							Thank You (before) visit) Letter
 							</a> 
 						</li>
-						<li id="permission"> <a href="Programs" onclick="javascript:setActivePrograms()">
-							Permission
+						<li id="chairperson"> <a href="ChairpersonLetter" onclick="javascript:setActivePrograms()">
+							Chairperson Letter
 							</a> 
 						</li>
 					</ul>
