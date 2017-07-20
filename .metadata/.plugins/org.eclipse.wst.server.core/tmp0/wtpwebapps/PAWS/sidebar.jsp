@@ -55,8 +55,8 @@
 				
 				
 				  <li id="news">
-					<a href="#demo" data-toggle="collapse" > <i class="fa fa-file-text-o"></i> News <i class="fa arrow"></i> </a>
-					<ul id="demo" class="collapse">
+					<a href="#demo5" data-toggle="collapse" > <i class="fa fa-file-text-o"></i> News <i class="fa arrow"></i> </a>
+					<ul id="demo5" class="collapse">
 						<li id="addNews"> <a href="" >
 							Add News
 							</a> 
