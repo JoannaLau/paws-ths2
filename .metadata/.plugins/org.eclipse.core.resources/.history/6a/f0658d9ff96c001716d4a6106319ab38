@@ -1,0 +1,18 @@
+<%@page import="java.sql.*,java.util.*"%>
+<%
+String fname=request.getParameter("fname");
+String lname=request.getParameter("lname");
+String email=request.getParameter("email");
+
+        try{
+         Class.forName("com.mysql.jdbc.Driver");
+           Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/paws", "root", "toor");
+           Statement st=con.createStatement();
+           int i=st.executeUpdate("insert into news(firstname,lastname,email,pass,confirm_pass,dob,age,gender,address,country,state,city,telephone,mobile) values('"+fname+"','"+lname+"','"+email+"','"+pass+"','"+cpass+"','"+dob+"',"+age+",'"+gender+"','"+address+"','"+country+"','"+state+"','"+city+"',"+telephone+","+mobile+")");
+        out.println("Data is successfully inserted!");
+        }
+        catch(Exception e){
+        System.out.print(e);
+        e.printStackTrace();
+        }
+    %>

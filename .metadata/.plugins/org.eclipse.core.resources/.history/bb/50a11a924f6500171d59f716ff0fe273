@@ -1,0 +1,301 @@
+<!doctype html>
+<html class="no-js" lang="en">
+	
+    <head>
+    	<script src="js/jquery.min.js"></script>
+    	
+    	
+    	
+        <meta charset="utf-8">
+        <title> PAASCU - Accreditation Schedule Manager </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+        <link rel="stylesheet" href="css/vendor.css">
+        <!-- Theme initialization -->
+        <script>
+            var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
+            {};
+            var themeName = themeSettings.themeName || '';
+            if (themeName)
+            {
+                document.write('<link rel="stylesheet" id="theme-style" href="css/app-' + themeName + '.css">');
+            }
+            else
+            {
+                document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
+            }
+        </script>
+		
+<script src="calendar/fullcalendar.js"></script>
+    	<script src="calendar/fullcalendar.min.js"></script>
+
+<style>
+
+	.container{
+		width: 110%;
+		overflow:hidden;
+		display:block;
+		height: 200px;
+		z-index:-1;
+		margin-left:-15px;
+}
+	#bgvid{
+		position:relative;
+		top:-400px;
+		margin-top:0px;
+		width:110%
+	
+	}
+
+	body {
+		
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		font-size: 14px;
+	}
+
+	#calendar {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+	#bg{
+		height: 640px;
+		position:fixed;
+	}
+	
+	#main{
+		position:relative;
+		top:-290px;
+	
+	}
+	
+	#pnum_danger,#pnum_info,#pnum_warning,#pnum_primary{
+		font-size:75px; 
+		text-align:center;
+		 margin-left: -2px;
+		padding: 0;
+		
+		line-height:85px;
+	}
+	
+	#pnum_danger{
+	color:#5c5c5c;	
+	transition: all 0.5s ease;
+	}	
+		#pnum_danger:hover{
+		color:#ff2b2b;	
+		font-size:100px;
+		cursor:pointer;
+		}
+
+	#pnum_warning{
+	color:#5c5c5c;	
+	transition: all 0.5s ease;
+	}	#pnum_warning:hover{
+		font-size:100px;
+		cursor:pointer;
+		color:#fe8832;
+		}
+		
+	#pnum_info{
+	color:#5c5c5c;	
+	transition: all 0.5s ease;
+	}	#pnum_info:hover{
+		color:#5ecdf3;
+		font-size:100px;
+		cursor:pointer;
+		}
+	
+	#pnum_primary{
+	color:#5c5c5c;	
+	transition: all 0.5s ease;
+	}	#pnum_primary:hover{
+		color:#85CE36;
+		font-size:100px;
+		cursor:pointer;
+		}
+	
+	#psub{
+		font-size:17px; 
+		color:#bcbcbc;
+		text-align:center;
+		margin-top: 6px;
+		padding: 0;
+		line-height:20px;
+	}
+	
+	#bc {
+		color:white;
+	}
+	
+	#bc:hover { 
+		color:#85CE36;
+	}
+	
+	#welcome{
+		position:relative;
+		top:-110px;
+		color:white;
+		left:40px;
+		font-family:Existence-Light;
+		
+	}
+	.h1{
+		font-size:100%;
+	}
+	
+	@font-face {
+		font-family: Existence-Light;
+		src: url(fonts/Roboto-Thin.ttf);
+	}
+	
+	
+	
+	#notifcard{
+		-webkit-box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, 0.58);
+-moz-box-shadow:    0px 1px 5px 0px rgba(50, 50, 50, 0.58);
+box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
+		width:87%;
+		left:15px;
+	}
+	
+	#maincard{
+		width:100%;
+		padding:0px;
+		background-color: #ffffff;
+		top:-50px;
+		margin-bottom: 10px;
+		margin-top: 0px;
+		height:700px;
+		border-radius: 3px;
+	   
+		-webkit-box-shadow: 0px 9px 24px 0px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 9px 24px 0px rgba(0,0,0,0.75);
+		box-shadow: 0px 9px 24px 0px rgba(0,0,0,0.75);
+	}
+</style>
+    </head>
+
+    <body>
+	
+        <div class="main-wrapper" style="z-index:1;">
+            <div class="app" id="app">
+				   
+                <aside class="sidebar">
+			<img id ="bg" src="assets/bg.jpg">
+			<div class="sidebar-container">
+				<div class="sidebar-header">
+					<div class="brand">
+						<div class="logo"> <img src="assets/logo.png" style="width:42px;height:42px; opacity:1"> </div>
+						PAASCU 
+					</div>
+				</div>
+				<nav class="menu">
+					<ul class="nav metismenu" id="sidebar-menu">
+						<li>
+							<a href="index.html"> <i class="fa fa-home"></i> Dashboard </a>
+						<li>
+							<a href="survey.jsp"> <i class="fa fa-table"></i> Survey Schedule </a>
+						</li>
+						<li>
+							<a href="AddSurvey"> <i class="fa fa-pencil-square-o"></i> Add New Survey </a>
+						</li>
+						<li>
+							<a href="#demo" data-toggle="collapse"> <i class="fa fa-file-text-o"></i> Database <i class="fa arrow"></i> </a>
+							<ul id="demo" class="collapse">
+								<li> <a href="Accreditors">
+									Accreditors
+									</a> 
+								</li>
+								<li> <a href="Institutions">
+									Institutions
+									</a> 
+								</li>
+								<li> <a href="SchoolSystems">
+									School Systems
+									</a> 
+								</li>
+								<li> <a href="Programs">
+									Programs
+									</a> 
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#demo3" data-toggle="collapse"> <i class="fa fa-bar-chart"></i> Reports <i class="fa arrow"></i> </a>
+							<ul id="demo3" class="collapse">
+								<li> <a href="reportGA.html">GA Awardees</a> </li>
+								<li> <a href="reportHistory.html">History</a> </li>
+							</ul>
+						</li>
+						<li>
+							<a href="notifications.jsp">
+								<i class="fa fa-bell-o"></i> Notifications 
+								<p style="width:15px; height:17px;text-align:center; border-radius:10px; font-family: Verdana; font-size:10px;float:right; background-color:red; color:white;">10</p>
+							</a>
+						</li>
+						
+							<li>
+					<a href="documentGeneration.html">
+						<i class="fa fa-file-text-o"></i> Document Generation
+					</a>
+				</li>
+				
+					</ul>
+				</nav>
+			</div>
+			<footer class="sidebar-footer">
+		</aside>
+				
+				<div class="container">
+	<video poster="assets/banner.jpg" id="bgvid"  playsinline autoplay muted loop>
+  <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
+
+<source src="assets/vid.mp4" type="video/mp4">
+</video>
+</div>
+          
+			   <header class="header" style="top:150px; background-color:FFFFFF; height:57px; -webkit-box-shadow: 0px 2px 11px 2px rgba(50, 50, 50, 0.58);
+-moz-box-shadow:    0px 2px 11px 2px rgba(50, 50, 50, 0.58);
+box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
+                    <div class="header-block header-block-collapse hidden-lg-up"> <button class="collapse-btn" id="sidebar-collapse-btn">
+    			<i class="fa fa-bars"></i>
+    		</button> </div>
+                  
+					<div style="position:relative; left:43%" >
+                     <h2 ><small>Document Generation</small></h2>
+					 </div>
+                    
+                </header>
+                <article class="content dashboard-page" >
+                    <section class="section" style="position: relative; top:-130px;">
+                      
+					 <div class="title-block">
+                        <h6 class="title" style="float:left;"> <small>
+							Notification cards </small>
+						</h6>
+					 </div>
+					
+						
+					
+						
+                    </section>
+                </article>
+             
+             
+             
+        <!-- Reference block for JS -->
+        <div class="ref" id="ref">
+            <div class="color-primary"></div>
+            <div class="chart">
+                <div class="color-primary"></div>
+                <div class="color-secondary"></div>
+            </div>
+        </div>
+        <script src="js/vendor.js"></script>
+        <script src="js/app.js"></script>
+
+    </body>
+
+</html>

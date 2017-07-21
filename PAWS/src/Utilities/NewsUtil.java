@@ -15,6 +15,7 @@ import com.mysql.jdbc.Connection;
 
 import Models.News;
 import Models.Program;
+import Models.SchoolSystem;
 
 
 
@@ -29,48 +30,6 @@ public class NewsUtil {
 	}
 	
 	
-	
-	
-	
-	private String formatDate(String date){
-		String format = new String();
-		String month = "";
-		String day;
-		String year;
-		String[] parts = date.split(" ");
-		if(parts[1].equals("Jan")){
-			month = "01";
-		}else if(parts[1].equals("Feb")){
-			month = "02";
-		}else if(parts[1].equals("Mar")){
-			month = "03";
-		}else if(parts[1].equals("Apr")){
-			month = "04";
-		}else if(parts[1].equals("May")){
-			month = "05";
-		}else if(parts[1].equals("Jun")){
-			month = "06";
-		}else if(parts[1].equals("Jul")){
-			month = "07";
-		}else if(parts[1].equals("Aug")){
-			month = "08";
-		}else if(parts[1].equals("Sep")){
-			month = "09";
-		}else if(parts[1].equals("Oct")){
-			month = "10";
-		}else if(parts[1].equals("Nov")){
-			month = "11";
-		}else if(parts[1].equals("Dec")){
-			month = "12";
-		}
-		year = parts[4];
-
-		parts = parts[1].split(",");
-		day = parts[2];
-		
-		format = year + "-" + month + "-"+ day;
-		return format;
-	}
 	
 	
 	
@@ -112,6 +71,28 @@ public class NewsUtil {
 	    return temp;
 	}
 	
+	
+	
+
+public ArrayList<News> getAllNews(){
+	ArrayList<News> news = new ArrayList<News>();
+	News temp = new News();
+	try{
+		Connection conn = db.getConnection();
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `news` ORDER BY `newsID`");
+		ResultSet rs = ps.executeQuery();
+		
+		while(rs.next()){
+			temp = new News(rs.getString(2),rs.getString(3), rs.getString(3));
+			news.add(temp);
+		}
+	} catch (Exception e){
+		System.out.println("Error in NewsUtil:getAllNews()");
+		e.printStackTrace();
+	}
+	
+    return news;
+}
 	
 	
 	
