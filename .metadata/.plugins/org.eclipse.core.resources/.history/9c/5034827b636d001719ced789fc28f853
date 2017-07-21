@@ -91,31 +91,6 @@ public class NewsUtil {
 	
 	
 	
-	
-	
-	
-	
-	public News getNews(int newsID){
-		News temp = new News();
-		try{
-			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM programs WHERE programID=?");
-			ps.setInt(1, newsID);
-			ResultSet rs = ps.executeQuery();
-			rs.next();
-			temp = new News(rs.getString(2), rs.getString(3), rs.getString(4));
-		} catch (Exception e){
-			System.out.println("Error in NewsUtil:getNews()");
-			e.printStackTrace();
-		}
-		
-	    return temp;
-	}
-	
-	
-	
-	
-	
 
 	public JSONArray getAllNewsJSON(){
 		JSONArray jArray = new JSONArray();
@@ -123,7 +98,7 @@ public class NewsUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM `news` ORDER BY `newsID`");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM `news` ORDER BY `newsID` `DESC` ");
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){

@@ -6,4 +6,9 @@
 <fullyQualifiedTypeName name="Utilities.CECSTEUtil"/>
 <fullyQualifiedTypeName name="Utilities.InstitutionsUtil"/>
 <fullyQualifiedTypeName name="org.json.JSONArray"/>
+<fullyQualifiedTypeName name="java.sql.Date"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="Utilities.NewsUtil"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
 </qualifiedTypeNameHistroy>

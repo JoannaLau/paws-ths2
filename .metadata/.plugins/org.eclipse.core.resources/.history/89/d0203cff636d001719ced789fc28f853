@@ -104,8 +104,9 @@ public class NewsUtil {
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			temp = new News(rs.getString(2), rs.getString(3), rs.getString(4));
+			temp.setSps(getSps(programID));
 		} catch (Exception e){
-			System.out.println("Error in NewsUtil:getNews()");
+			System.out.println("Error in ProgramUtil:getProgram()");
 			e.printStackTrace();
 		}
 		
@@ -123,7 +124,7 @@ public class NewsUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM `news` ORDER BY `newsID`");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM `news` ORDER BY `newsID` DESC ");
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){

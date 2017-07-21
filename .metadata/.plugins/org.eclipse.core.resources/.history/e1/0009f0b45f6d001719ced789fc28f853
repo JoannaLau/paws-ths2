@@ -95,26 +95,6 @@ public class NewsUtil {
 	
 	
 	
-	public News getNews(int newsID){
-		News temp = new News();
-		try{
-			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM programs WHERE programID=?");
-			ps.setInt(1, newsID);
-			ResultSet rs = ps.executeQuery();
-			rs.next();
-			temp = new News(rs.getString(2), rs.getString(3), rs.getString(4));
-		} catch (Exception e){
-			System.out.println("Error in NewsUtil:getNews()");
-			e.printStackTrace();
-		}
-		
-	    return temp;
-	}
-	
-	
-	
-	
 	
 
 	public JSONArray getAllNewsJSON(){
@@ -123,15 +103,18 @@ public class NewsUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM `news` ORDER BY `newsID`");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM `news` ORDER BY `date`");
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				job = new JSONObject();
 				job.put("title", rs.getString(2));
-				job.put("content", rs.getString(3));
-				job.put("date", rs.getString(4));
-				
+				job.put("system", getSchoolSystemName(rs.getInt(2)));
+				job.put("acronym", rs.getString(3));
+				job.put("dateAdded", formatDate_yearFirst(rs.getString(4)));
+				job.put("city", rs.getString(5));
+				job.put("institutionID", rs.getInt(6));
+				job.put("educLevel", getEducLevelName(rs.getInt(7)));
 				
 
 				jArray.put(job);

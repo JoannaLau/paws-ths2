@@ -81,6 +81,12 @@ public class NewsUtil {
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO `pads`.`news`(title, content, date) VALUES (?, ?, ?)");
 			ps.setString(1, title);
 			ps.setString(2, content);
+			
+			
+			
+			
+			
+			
 			ps.setString(3, date);
 			ps.executeUpdate();			
 		} catch (Exception e){
@@ -90,75 +96,29 @@ public class NewsUtil {
 	}
 	
 	
-	
-	
-	
-	
-	
-	public News getNews(int newsID){
-		News temp = new News();
+	public ArrayList<News> getNews(){
+		ArrayList<News> programs = new ArrayList<News>();
+		News news = new News();
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM programs WHERE programID=?");
-			ps.setInt(1, newsID);
-			ResultSet rs = ps.executeQuery();
-			rs.next();
-			temp = new News(rs.getString(2), rs.getString(3), rs.getString(4));
-		} catch (Exception e){
-			System.out.println("Error in NewsUtil:getNews()");
-			e.printStackTrace();
-		}
-		
-	    return temp;
-	}
-	
-	
-	
-	
-	
-
-	public JSONArray getAllNewsJSON(){
-		JSONArray jArray = new JSONArray();
-		JSONObject job = new JSONObject();
-		
-		try{
-			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM `news` ORDER BY `newsID`");
-			
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM news");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				job = new JSONObject();
-				job.put("title", rs.getString(2));
-				job.put("content", rs.getString(3));
-				job.put("date", rs.getString(4));
-				
-				
-
-				jArray.put(job);
-				
+				//constructor is (int accreditorID, String name, String institution, String discipline, String primaryArea, 
+				// String secondaryArea, int totalSurveys, String city)
+				//db returns accreditorID, lastname, firstname, midlename, honorifics, 
+				//email, num_surveys, date_trained, contact, address, city, country, venue_trained
+				temp = new Program(rs.getInt(1), rs.getString(2), getCount(rs.getInt(1)));
+				System.out.println(rs.getString(2));
+				programs.add(temp);
 			}
 		} catch (Exception e){
-			System.out.println("Error in InstitutionsUtil:getAllInstitutionsJSON()");
+			System.out.println("Error in ProgramUtil:getPrograms()");
 			e.printStackTrace();
 		}
 		
-		return jArray;
+	    return programs;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
