@@ -62,7 +62,7 @@ public class NewsUtil {
 			ps.setInt(1, newsID);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
-			temp = new News(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4));
+			temp = new News(rs.getString(2), rs.getString(3), rs.getString(4));
 		} catch (Exception e){
 			System.out.println("Error in NewsUtil:getNews()");
 			e.printStackTrace();
@@ -83,7 +83,7 @@ public ArrayList<News> getAllNews(){
 		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()){
-			temp = new News(rs.getInt(1),rs.getString(2),rs.getString(3), rs.getString(3));
+			temp = new News(rs.getString(2),rs.getString(3), rs.getString(3));
 			news.add(temp);
 		}
 	} catch (Exception e){
@@ -109,7 +109,6 @@ public ArrayList<News> getAllNews(){
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				job = new JSONObject();
-				job.put("newsID", rs.getInt(1));
 				job.put("title", rs.getString(2));
 				job.put("content", rs.getString(3));
 				job.put("date", rs.getString(4));

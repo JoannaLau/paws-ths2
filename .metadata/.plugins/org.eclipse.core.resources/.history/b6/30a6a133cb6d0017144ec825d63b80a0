@@ -2,7 +2,7 @@ package Models;
 
 public class News {
 
-	private int newsID;
+	
 	private String title;
 	private String content;
 	private String date;
@@ -30,29 +30,15 @@ public class News {
 		this.date = date;
 	}
 
-	
-
-	public int getNewsID() {
-		return newsID;
-	}
-
-
-	public void setNewsID(int newsID) {
-		this.newsID = newsID;
-	}
-	
-	
-public News(int newsID, String title, String content, String date){
+	public News(String title, String content, String date){
 		
 		super();
-		this.newsID = newsID;
 		this.title = title;
 		this.content = content;
 		this.date = date;
 		
 		
 	}
-
 	
 	
 }

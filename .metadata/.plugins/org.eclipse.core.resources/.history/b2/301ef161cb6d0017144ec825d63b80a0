@@ -109,7 +109,6 @@ public ArrayList<News> getAllNews(){
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				job = new JSONObject();
-				job.put("newsID", rs.getInt(1));
 				job.put("title", rs.getString(2));
 				job.put("content", rs.getString(3));
 				job.put("date", rs.getString(4));
