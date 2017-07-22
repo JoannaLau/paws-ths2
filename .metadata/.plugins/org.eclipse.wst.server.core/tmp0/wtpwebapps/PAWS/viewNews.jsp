@@ -286,7 +286,7 @@ $(document).ready(function() {
 											     <table id="smarttable" class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                       <tr>
-                                                            <th>News ID</th>
+                                               
                                                             <th>News Title</th>
                                                             <th>Content</th>
                                                             <th>Date Added</th>
@@ -299,7 +299,7 @@ $(document).ready(function() {
 													
 													 <c:forEach items="${news}" var="nw" >
 														<tr>
-															<td> <c:out value="${nw.getNewsID()}"/> 
+															
 															<td> <c:out value="${nw.getTitle()}"/> </td>
 															<td style="max-width:100px;"> <c:out value="${nw.getContent()}"/> </td>
 															<td> <c:out value="${nw.getDate()}"/> </td>
@@ -307,8 +307,8 @@ $(document).ready(function() {
 															
 															<td>
 															
-																<a href="ViewInstitution?institutionID=<c:out value='${inst.getInstitutionID()}'/>">View</a>
-												         	 <a href="EditInstitution?institutionID=<c:out value='${inst.getInstitutionID()}'/>">Edit</a>
+																<a href="ViewSpecificNews?newsID=<c:out value='${nw.getNewsID()}'/>">View</a>
+												         	 <a href="EditNews?newsID=<c:out value='${nw.getNewsID()}'/>">Edit</a>
 												        	  <a href="DeleteNews?newsID=<c:out value='${nw.getNewsID()}'/>">Delete</a></td>
 												        	
 															

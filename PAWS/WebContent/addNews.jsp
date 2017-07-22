@@ -246,6 +246,9 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 
 <source src="assets/vid.mp4" type="video/mp4">
 </video>
+
+
+
 </div>
           
 		<br><br>

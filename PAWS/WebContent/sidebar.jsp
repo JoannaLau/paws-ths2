@@ -61,7 +61,7 @@
 							Add News
 							</a> 
 						</li>
-						<li id="viewNews"> <a href="viewNews.jsp" >
+						<li id="viewNews"> <a href="ViewNews" >
 							View News
 							</a> 
 						</li>

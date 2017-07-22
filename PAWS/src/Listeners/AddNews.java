@@ -2,6 +2,7 @@ package Listeners;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Models.News;
 import Utilities.NewsUtil;
 
 /**
@@ -46,8 +48,10 @@ public class AddNews extends HttpServlet {
 		
 		news.addNews(title, content, date);
 		
+		ArrayList<News> newslist = news.getAllNews();
 		
-		RequestDispatcher rd = request.getRequestDispatcher("addNews.jsp");
+		request.setAttribute("news", newslist);
+		RequestDispatcher rd = request.getRequestDispatcher("viewNews.jsp");
 		rd.forward(request, response);
 		
 		
