@@ -297,20 +297,22 @@ $(document).ready(function() {
                                                     </thead>
                                                     <tbody id = "tableInstitutions">
 													
-													 <c:forEach items="${institutions}" var="inst" >
+													 <c:forEach items="${news}" var="nw" >
 														<tr>
-															<td> <c:out value="${inst.getEducLevel()}"/> 
-															<td> <c:out value="${inst.getName()}"/> </td>
-															<td> <c:out value="${inst.getSchoolSystemName()}"/> </td>
-															<td> <c:out value="${inst.getInstitutionAcronym()}"/> </td>
-															<td> <c:out value="${inst.getDateAdded()}"/> </td>
-															<td> <c:out value="${inst.getCity()}"/> </td>
+															<td> <c:out value="${nw.getNewsID()}"/> 
+															<td> <c:out value="${nw.getTitle()}"/> </td>
+															<td style="max-width:100px;"> <c:out value="${nw.getContent()}"/> </td>
+															<td> <c:out value="${nw.getDate()}"/> </td>
+													
 															
 															<td>
-															<a href="ViewInstitution?institutionID=<c:out value='${inst.getInstitutionID()}'/>">View</a>
+															
+																<a href="ViewInstitution?institutionID=<c:out value='${inst.getInstitutionID()}'/>">View</a>
 												         	 <a href="EditInstitution?institutionID=<c:out value='${inst.getInstitutionID()}'/>">Edit</a>
-												        	  <a href="DeleteInstitution?institutionID=<c:out value='${inst.getInstitutionID()}'/>">Delete</a></td>
-												        	</td>
+												        	  <a href="DeleteNews?newsID=<c:out value='${nw.getNewsID()}'/>">Delete</a></td>
+												        	
+															
+																</td>
 														</tr>
 													</c:forEach>
 														

@@ -21,8 +21,6 @@
       <script type="text/javascript" src="js/jspdf.min.js"></script>
       <script type="text/javascript" src="js/html2canvas.min.js"></script>
    	  <link type="text/css" rel="stylesheet" href="css/stylestest.css"/>
-   	  <script type="text/javascript" src="js/headerfooter.js"></script>
-   	  
 		
 		
 		<!-- Theme initialization -->
@@ -40,68 +38,7 @@
 			}
 		</script>
 
-      <script type="text/javascript">
-
-          function genPDF() {
-
-            var doc = new jsPDF()
-            var suff = document.getElementById("suffix");
-            var strsuff = suff.options[suff.selectedIndex].value;
-
-            doc.setFontSize(12)
-            doc.text(20, 55, textDate) 
-
-            doc.setFontType("bold");
-            var recipient = $('#recipient').val()
-            recipient = strsuff + recipient;
-            doc.text(20, 70, recipient)
-
-            doc.setFontType("normal");
-            var recipientpos = $('#recipientpos').val()
-            doc.text(20, 75, recipientpos)
-            var school = $('#school').val()
-            doc.text(20, 80, school)
-            var city = $('#city').val()
-            city = city + " City"
-            doc.text(20, 85, city)
-
-            var program = $('#program').val()
-            var surveyschool = $('#surveyschool').val()
-            var schoolcity = $('#schoolcity').val()
-            schoolcity = schoolcity + " City"
-            var startdate = $('#fromdate').val()
-            var todate = $('#todate').val()
-
-            var signperson = $('#signperson').val()
-            var signposition = $('#signposition').val()
-
-            var chairperson = $('#chairperson').val()
-            var member1 = $('#member1').val()
-            var member2 = $('#member2').val()
-            var member3 = $('#member3').val()
-            var member4 = $('#member4').val()
-            var member5 = $('#member5').val()
-            var member6 = $('#member6').val()
-
-            doc.text(20, 95, "Dear " + recipient)
-
-            var paragraph="\nWe are pleased to confirm the Preliminary Survey Visit to the "+program+" program(s) of "+surveyschool+", "+schoolcity+" on "+startdate+" to "+todate+".\n\nFrom among the many educators experienced in survey activities, the following have been selected to carry out the evaluation of your institution:\n\n\t\tChairperson :\t"+chairperson+"\n\t\t     Members :\t"+member1+"\n\t\t\t\t              "+member2+"\n\t\t\t\t              "+member3+"\n\t\t\t\t              "+member4+"\n\t\t\t\t              "+member5+"\n\t\t\t\t              "+member6+"\n\nIn keeping with PAASCU policy, institutions may make representations concerning the composition of the team. However, since the selection already represents a careful balance of experience and expertise, should there be need for adjustment in the composition of the team, reasons for such may be presented in writing to the President by the institution. Failure to hear from you would be interpreted as your being in agreement with the composition of the team. \n\nWe look forward to visiting your institution.\n\n\nSincerely,\n\n\n"+signperson+"\n"+signposition+""
-            
-            lines = doc.splitTextToSize(paragraph, 175) 
-
-            doc.text(20, 100, lines)
-
-            doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50)
-            doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50)
-
-            var filename = recipient + " Confirmation Letter " + todayDateInput + ".pdf";
-
-            doc.save(filename);
-          }
-
-      </script>
-        
-    <!-- <script>
+    <script>
     
 	    $(document).ready(function() {
 	    	$('#institutionForm').chosen().change(function(){
@@ -538,7 +475,7 @@
             doc.save(filename);
         }
         
-    </script> -->
+    </script>
 
 
 
@@ -767,42 +704,67 @@
                         	<br>
                             <h3>Manual Input</h3>
 
-                                <label for="suffix">Suffix</label><br>
-							    <select name="dropdown" id="suffix">
-							        <option value="Mr. ">Mr.</option>
-							        <option value="Ms. ">Ms.</option>
-							        <option value="Fr. ">Fr.</option>
-							        <option value="Dr. ">Dr.</option>
-							        <option value="Dra. ">Dra.</option>
-							    </select>
-							
-							    <br>
-							    <input type="text" id="recipient" value="" placeholder="Recipient"><br>
-							    <input type="text" id="recipientpos" value="" placeholder="Recipient Position"><br>
-							    <input type="text" id="school" value="" placeholder="School"><br>
-							    <input type="text" id="city" value="" placeholder="City"> City<br>
-							
-							    <br>
-							    <input type="text" id="program" value="" placeholder="Program(s) (Ex. Bachelor of Arts in Animation)"><br>
-							    <input type="text" id="surveyschool" value="" placeholder="Survey School"><br>
-							    <input type="text" id="schoolcity" value="" placeholder="School City"> City<br><br>
-							    <label for="fromdate" id="fromdatelabel"></label><br>
-							    <input type="date" id="fromdate" min=todayDateInput><br><br>
-							    <label for="todate" id="todatelabel"></label><br>
-							    <input type="date" id="todate" min=todayDateInput><br><br>
-							
-							    <input type="text" id="chairperson" value="" placeholder="Chairperson"><br>
-							    <input type="text" id="member1" value="" placeholder="First Member"><br>
-							    <input type="text" id="member2" value="" placeholder="Second Member"><br>
-							    <input type="text" id="member3" value="" placeholder="Third Member"><br>
-							    <input type="text" id="member4" value="" placeholder="Fourth Member"><br>
-							    <input type="text" id="member5" value="" placeholder="Fifth Member"><br>
-							    <input type="text" id="member6" value="" placeholder="Sixth Member"><br><br>
-							
-							
-							    <input type="text" id="signperson" value="" placeholder="Signed by"><br>
-							    <input type="text" id="signposition" value="" placeholder="Position"><br><br>
+                                <label for="suffix">Suffix</label>
+                                <br>
+                                <select name="dropdown" id="suffix">
+                                    <option value="Mr. ">Mr.</option>
+                                    <option value="Ms. ">Ms.</option>
+                                    <option value="Fr. ">Fr.</option>
+                                    <option value="Dr. ">Dr.</option>
+                                    <option value="Dra. ">Dra.</option>
+                                </select>
 
+                                <br>
+                                <input type="text" id="recipient" value="" placeholder="Recipient">
+                                <br>
+                                <input type="text" id="recipientpos" value="" placeholder="Recipient Position">
+                                <br>
+                                <input type="text" id="school" value="" placeholder="School">
+                                <br>
+                                <input type="text" id="city" value="" placeholder="City">
+                                <br>
+
+                                <input type="text" id="invited" value="" placeholder="Invited Faculty">
+                                <br>
+                                <br>
+
+                                <label for="department-dropdown">Select Department</label>
+                                <br>
+                                <select name="department-dropdown" id="department-dropdown">
+                                    <option value="Elementary">Elementary</option>
+                                    <option value="Secondary">Secondary</option>
+                                    <option value="Integrated Basic Education">Integrated Basic Education</option>
+                                    <option value="Tertiary">Tertiary</option>
+                                    <option value="Graduate">Graduate</option>
+                                    <option value="Medical">Medical</option>
+                                    <option value="CECSTE">CECSTE</option>
+                                </select>
+
+                                <br>
+                                <br>
+                                <input type="text" id="surveyschool" value="" placeholder="Survey School">
+                                <br>
+                                <input type="text" id="schoolcity" value="" placeholder="School City">
+                                <br>
+                                <br>
+                                <label for="fromdate" id="fromdatelabel">Enter start date of survey</label>
+                                <br>
+                                <input type="date" id="fromdate" min=todayDateInput>
+                                <br>
+                                <br>
+                                <label for="todate" id="todatelabel">Enter end date of survey</label>
+                                <br>
+                                <input type="date" id="todate" min=todayDateInput>
+                                <br>
+                                <br>
+
+                                <input type="text" id="signperson" value="" placeholder="Signed by">
+                                <br>
+                                <input type="text" id="signposition" value="" placeholder="Position">
+                                <br>
+                                <br>
+
+                                <br>
 
                                 <button class="btn btn-info btn-sm" onclick="genPDF()">Download PDF</button>
                                 <!-- <input type="button" id="button" value="Submit"/> -->

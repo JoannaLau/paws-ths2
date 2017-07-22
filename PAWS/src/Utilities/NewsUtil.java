@@ -50,7 +50,18 @@ public class NewsUtil {
 	
 	
 	
-	
+	public void deleteNews(int newsID){
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("DELETE from news WHERE newsID = ?");
+			ps.setInt(1, newsID);
+			ps.executeUpdate();
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:deleteInstitution()");
+			e.printStackTrace();
+		}		
+		
+	}
 	
 	
 	
@@ -83,7 +94,7 @@ public ArrayList<News> getAllNews(){
 		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()){
-			temp = new News(rs.getInt(1),rs.getString(2),rs.getString(3), rs.getString(3));
+			temp = new News(rs.getInt(1),rs.getString(2),rs.getString(3), rs.getString(4));
 			news.add(temp);
 		}
 	} catch (Exception e){

@@ -52,24 +52,42 @@
 						<p style="width:15px; height:17px;text-align:center; border-radius:10px; font-family: Verdana; font-size:10px;float:right; background-color:red; color:white;">10</p>
 					</a>
 				</li>
+				
+				
+				  <li id="news">
+					<a href="#demo5" data-toggle="collapse" > <i class="fa fa-file-text-o"></i> News <i class="fa arrow"></i> </a>
+					<ul id="demo5" class="collapse">
+						<li id="addNews"> <a href="addNews.jsp" >
+							Add News
+							</a> 
+						</li>
+						<li id="viewNews"> <a href="viewNews.jsp" >
+							View News
+							</a> 
+						</li>
+						
+					</ul>
+				</li>
+				
+				
                 
       			<li id="docuGeneration">
 					<a href="#demo4" data-toggle="collapse" onclick="javascript:setActiveDatabase()"> <i class="fa fa-file-text-o"></i> Document Generation <i class="fa arrow"></i> </a>
 					<ul id="demo4" class="collapse">
 						<li id="invitation"> <a href="InvitationLetter" onclick="javascript:setActiveAccreditors()">
-							Invitation Letter
+							Invitation
 							</a> 
 						</li>
 						<li id="confirmation"> <a href="ConfirmationLetter" onclick="javascript:setActiveInstitutions()">
 							Confirmation Letter
 							</a> 
 						</li>
-						<li id="thankYouBefore"> <a href="ThankYouBeforeVisitLetter" onclick="javascript:setActiveSchoolSystem()">
-							Thank You (before) visit) Letter
+						<li id="thankYouAfter"> <a href="SchoolSystems" onclick="javascript:setActiveSchoolSystem()">
+							Thank You (after visit)
 							</a> 
 						</li>
-						<li id="chairperson"> <a href="ChairpersonLetter" onclick="javascript:setActivePrograms()">
-							Chairperson Letter
+						<li id="permission"> <a href="Programs" onclick="javascript:setActivePrograms()">
+							Permission
 							</a> 
 						</li>
 					</ul>
