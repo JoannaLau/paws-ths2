@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;Utilities.AreaUti&apos; to &apos;AreaUtil&apos;&#x0D;&#x0A;- Original project: &apos;PAWS&apos;&#x0D;&#x0A;- Original element: &apos;Utilities.AreaUti&apos;&#x0D;&#x0A;- Renamed element: &apos;Utilities.AreaUtil&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;AreaUti&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;Utilities{AreaUti.java[AreaUti" matchStrategy="1" name="AreaUtil" qualified="false" references="true" similarDeclarations="false" stamp="1500981943135" textual="false" version="1.0"/>
+</session>

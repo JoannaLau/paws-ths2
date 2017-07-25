@@ -202,7 +202,7 @@ public class AccreditorUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT head, hPosition, name, city FROM institutions WHERE institutionID = (SELECT institutionID FROM work WHERE accreditorID = ? AND dateFinished IS NULL)");
+			PreparedStatement ps = conn.prepareStatement("SELECT head, hPosition, name, city FROM institutions WHERE institutionID = (SELECT institutionID FROM work WHERE accreditorID = ? AND dateFinished IS NULL LIMIT 1)");
 			ps.setInt(1,  accID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
@@ -664,5 +664,33 @@ public class AccreditorUtil {
 			e.printStackTrace();
 		}
 		return nice;
+	}
+	public JSONArray getAccreditorForThankYouJSON(int accID) {
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT i.name, i.city, w.position, w.placeOfPosition FROM institutions i, work w WHERE w.accreditorID = ? AND i.institutionID = (SELECT institutionID FROM work WHERE accreditorID = ? LIMIT 1) LIMIT 1");
+			ps.setInt(1, accID);
+			ps.setInt(2, accID);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("name", rs.getString(1));
+				job.put("city", rs.getString(2));
+				job.put("position", rs.getString(3));
+				job.put("placeOfPosition", rs.getString(4));
+				
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getAccreditorForThankYouJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
 	}
 }

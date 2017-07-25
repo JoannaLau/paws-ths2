@@ -25,3 +25,57 @@ Hul 03, 2017 15:55:13.72 [5216:560:0703/155513.727:ERROR:CONSOLE(0)] "Error in e
 Hul 03, 2017 15:55:13.72     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:27:5796
 Hul 03, 2017 15:55:13.73     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:14:12517", source: https://www.google.com.ph/_/chrome/newtab?espv=2&ie=UTF-8 (0)
 Hul 03, 2017 15:55:13.79 [5216:560:0703/155513.795:ERROR:CONSOLE(27)] "Uncaught (in promise) TypeError: Cannot read property 'isAviraPage' of null", source: chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js (27)
+
+Hul 22, 2017 15:43:37.83 NEW SESSION
+Hul 22, 2017 15:43:37.83 [6468:6600:0722/154337.835:ERROR:service_manager.cc(158)] Connection InterfaceProviderSpec prevented service: content_plugin from binding interface: memory_instrumentation::mojom::Coordinator exposed by: content_browser
+Hul 22, 2017 23:07:49.92 [6468:6472:0722/230749.924:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 22, 2017 23:08:12.95 [6468:6472:0722/230812.954:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 22, 2017 23:08:54.76 [6468:6472:0722/230854.769:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 22, 2017 23:10:32.68 [6468:6472:0722/231032.687:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 22, 2017 23:14:02.75 [6468:6472:0722/231402.756:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 23, 2017 02:57:55.43 [6468:6472:0723/025755.432:ERROR:CONSOLE(0)] "Error in event handler for (unknown): TypeError: Cannot read property 'isMSE' of null
+Hul 23, 2017 02:57:55.43     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:27:5796
+Hul 23, 2017 02:57:55.43     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:14:12517", source: https://www.google.com.ph/_/chrome/newtab?espv=2&ie=UTF-8 (0)
+Hul 23, 2017 02:57:55.47 [6468:6472:0723/025755.472:ERROR:CONSOLE(27)] "Uncaught (in promise) TypeError: Cannot read property 'isAviraPage' of null", source: chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js (27)
+Hul 23, 2017 08:15:29.04 [6468:6472:0723/081529.046:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 24, 2017 15:18:24.04 [6468:6472:0724/151824.046:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 24, 2017 15:19:08.48 [6468:6472:0724/151908.486:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 24, 2017 15:20:44.33 [6468:6472:0724/152044.330:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 24, 2017 17:03:59.19 [6468:6472:0724/170359.195:ERROR:CONSOLE(0)] "Error in event handler for (unknown): TypeError: Cannot read property 'isMSE' of null
+Hul 24, 2017 17:03:59.19     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:27:5796
+Hul 24, 2017 17:03:59.19     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:14:12517", source: https://www.google.com.ph/_/chrome/newtab?espv=2&ie=UTF-8 (0)
+Hul 24, 2017 17:03:59.25 [6468:6472:0724/170359.251:ERROR:CONSOLE(27)] "Uncaught (in promise) TypeError: Cannot read property 'isAviraPage' of null", source: chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js (27)
+Hul 24, 2017 17:09:09.84 [6468:6472:0724/170909.845:ERROR:CONSOLE(0)] "Error in event handler for (unknown): TypeError: Cannot read property 'isMSE' of null
+Hul 24, 2017 17:09:09.84     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:27:5796
+Hul 24, 2017 17:09:09.84     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:14:12517", source: https://www.google.com.ph/_/chrome/newtab?espv=2&ie=UTF-8 (0)
+Hul 24, 2017 17:09:09.91 [6468:6472:0724/170909.913:ERROR:CONSOLE(27)] "Uncaught (in promise) TypeError: Cannot read property 'isAviraPage' of null", source: chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js (27)
+Hul 24, 2017 17:10:52.15 [6468:6472:0724/171052.153:ERROR:CONSOLE(0)] "Error in event handler for (unknown): TypeError: Cannot read property 'isMSE' of null
+Hul 24, 2017 17:10:52.15     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:27:5796
+Hul 24, 2017 17:10:52.15     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:14:12517", source: https://www.google.com.ph/_/chrome/newtab?espv=2&ie=UTF-8 (0)
+Hul 24, 2017 17:10:52.18 [6468:6472:0724/171052.189:ERROR:CONSOLE(27)] "Uncaught (in promise) TypeError: Cannot read property 'isAviraPage' of null", source: chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js (27)
+Hul 25, 2017 24:17:11.98 [6468:6472:0725/001711.989:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 25, 2017 24:18:02.40 [6468:6472:0725/001802.402:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 25, 2017 24:18:31.63 [6468:6600:0725/001831.639:ERROR:ssl_client_socket_impl.cc(1054)] handshake failed; returned -1, SSL error code 1, net_error -100
+Hul 25, 2017 24:24:02.22 [6468:6600:0725/002402.217:ERROR:ssl_client_socket_impl.cc(1054)] handshake failed; returned -1, SSL error code 1, net_error -100
+Hul 25, 2017 24:32:38.85 [6468:6472:0725/003238.857:ERROR:CONSOLE(0)] "Error in event handler for (unknown): TypeError: Cannot read property 'isMSE' of null
+Hul 25, 2017 24:32:38.85     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:27:5796
+Hul 25, 2017 24:32:38.85     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:14:12517", source: https://www.google.com.ph/_/chrome/newtab?espv=2&ie=UTF-8 (0)
+Hul 25, 2017 24:32:38.93 [6468:6472:0725/003238.933:ERROR:CONSOLE(27)] "Uncaught (in promise) TypeError: Cannot read property 'isAviraPage' of null", source: chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js (27)
+Hul 25, 2017 13:09:46.99 [6468:6472:0725/130946.990:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 25, 2017 13:10:16.23 [6468:6472:0725/131016.230:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 25, 2017 13:12:31.85 [6468:6600:0725/131231.848:ERROR:ssl_client_socket_impl.cc(1054)] handshake failed; returned -1, SSL error code 1, net_error -100
+Hul 25, 2017 16:19:28.47 [6468:6472:0725/161928.477:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 25, 2017 20:52:19.41 [6468:6472:0725/205219.414:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 25, 2017 23:27:39.56 [6468:6472:0725/232739.561:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 25, 2017 23:28:03.85 [6468:6472:0725/232803.859:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+Hul 26, 2017 24:33:08.10 [6468:6472:0726/003308.107:ERROR:CONSOLE(0)] "Error in event handler for (unknown): TypeError: Cannot read property 'isMSE' of null
+Hul 26, 2017 24:33:08.11     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:27:5796
+Hul 26, 2017 24:33:08.11     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:14:12517", source: https://www.google.com.ph/_/chrome/newtab?espv=2&ie=UTF-8 (0)
+Hul 26, 2017 24:33:08.18 [6468:6472:0726/003308.183:ERROR:CONSOLE(27)] "Uncaught (in promise) TypeError: Cannot read property 'isAviraPage' of null", source: chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js (27)
+Hul 26, 2017 24:36:23.61 [6468:6472:0726/003623.610:ERROR:CONSOLE(0)] "Error in event handler for (unknown): TypeError: Cannot read property 'isMSE' of null
+Hul 26, 2017 24:36:23.61     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:27:5796
+Hul 26, 2017 24:36:23.61     at chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js:14:12517", source: https://www.google.com.ph/_/chrome/newtab?espv=2&ie=UTF-8 (0)
+Hul 26, 2017 24:36:23.68 [6468:6472:0726/003623.682:ERROR:CONSOLE(27)] "Uncaught (in promise) TypeError: Cannot read property 'isAviraPage' of null", source: chrome-extension://flliilndjeohchalpbbcdekjklbdgfkk/js/content/content.js (27)
+Hul 26, 2017 24:36:36.07 [6468:6600:0726/003636.072:ERROR:ssl_client_socket_impl.cc(1054)] handshake failed; returned -1, SSL error code 1, net_error -100
+Hul 26, 2017 24:36:36.11 [6468:6600:0726/003636.108:ERROR:ssl_client_socket_impl.cc(1054)] handshake failed; returned -1, SSL error code 1, net_error -100
+Hul 26, 2017 24:36:36.12 [6468:6600:0726/003636.116:ERROR:ssl_client_socket_impl.cc(1054)] handshake failed; returned -1, SSL error code 1, net_error -100

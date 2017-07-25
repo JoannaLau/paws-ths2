@@ -48,10 +48,18 @@
 				$('#divProgramForm').empty();
 
 				var institutionID = $('#institutionForm').find(":selected").val();
+				document.getElementById("deptprog1").value = "";
 				
 				$.getJSON("ProgramLoader?institutionID=" + institutionID, function(data){
 				    if ( data.length == 0 ) {
 				    	$('#divProgramForm').empty();
+				    	
+				    	$.getJSON("EducationLevelLoader?institutionID=" + institutionID, function(data){
+				    		$.each(data, function (key, value){
+				    			document.getElementById("deptprog1").value = value.educLevel + " Department";
+						    });								
+				    	});
+				    	
 				    }
 				    else 
 			    	{
@@ -59,7 +67,7 @@
 	
 						var label1 = document.createElement("label");
 						label1.setAttribute("for", "programForm");
-						label1.innerText = "Program: ";
+						label1.innerText = "Program to survey: ";
 						
 						var selectProgramForm = document.createElement("select");
 						selectProgramForm.setAttribute("id", "programForm");
@@ -70,7 +78,11 @@
 						divProgramForm.appendChild(selectProgramForm);
 						
 						var programForm = document.getElementById("programForm");
-											
+						
+						var option = document.createElement("option");
+						option.text = "";
+						option.value = 0;
+						programForm.add(option);
 						
 						$.each(data, function (key, value){
 						    var option = document.createElement("option");
@@ -89,153 +101,52 @@
 							var cityFromLoader = value.city;
 							
 							
-							var instFields = document.getElementById('surveyschool1');
+						
+							var newSurveySchool = document.getElementById("surveyschool1");
+							newSurveySchool.setAttribute("value", schoolFromLoader);
 							
+							var newSchoolCity = document.getElementById("schoolcity1");
+							newSchoolCity.setAttribute("value", cityFromLoader);
 							
-							if(instFields)
-							{
-								var newSurveySchool = document.getElementById("surveyschool1");
-								newSurveySchool.setAttribute("value", schoolFromLoader);
-								
-								var newSchoolCity = document.getElementById("schoolcity1");
-								newSchoolCity.setAttribute("value", cityFromLoader);
-							}
-							else
-							{
-								var textFields = document.getElementById("textFields");
-								
-								
-								var labelSurveySchool = document.createElement('label');
-								labelSurveySchool.setAttribute("for", "surveyschool1")
-								labelSurveySchool.innerHTML = "Survey School ";
-								var newSurveySchool = document.createElement("input");
-								newSurveySchool.setAttribute("id", "surveyschool1");
-								newSurveySchool.setAttribute("value", schoolFromLoader);
-								newSurveySchool.setAttribute("placeholder", "SurveySchool");
-								newSurveySchool.setAttribute("style", "width: 100%;");
-											
-								var labelSchoolCity = document.createElement('label');
-								labelSchoolCity.setAttribute("for", "schoolcity1")
-								labelSchoolCity.innerHTML = "School City ";
-								var newSchoolCity = document.createElement("input");
-								newSchoolCity.setAttribute("id", "schoolcity1");
-								newSchoolCity.setAttribute("value", cityFromLoader);
-								newSchoolCity.setAttribute("placeholder", "School City");
-								newSchoolCity.setAttribute("style", "width: 100%;");
-								
-				
-								textFields.appendChild(labelSurveySchool);
-								textFields.appendChild(newSurveySchool);
-								textFields.appendChild(labelSchoolCity);
-								textFields.appendChild(newSchoolCity);
-								
-								
-								
-								
-							} 
 				    	});
 						
 						
 						
 			    	
-			});
+				});
 				
 				
 			
 			});
 	    	
+			$(document.body).on('change', '#programForm', function(event) {
+			    
+				document.getElementById("deptprog1").value =  $('#programForm').find(":selected").text();
+				
+				
+			});
+	    	
 			$('#accreditorForm').chosen().change(function(){
 				
 				var accreditorID = $('#accreditorForm').find(":selected").val();
+				document.getElementById("invited1").value = $('#accreditorForm').find(":selected").text();
+				document.getElementById("invited-1").value = $('#accreditorForm').find(":selected").text();
 
 				$.getJSON("AccreditorForInvitationLoader?accreditorID=" + accreditorID, function(data){
 					$.each(data, function (key, value) {
 					
-						var accTextFields = document.getElementById('invited1');
 						var recepientFromJSON = value.head;
 						var recepientPosiFromJSON = value.hPosition;
 						var instNameFromJSON = value.institutionName;
 						var cityFromJSON = value.city;
 						
+						document.getElementById("recepient1").value = recepientFromJSON;
+						document.getElementById("recepientpos1").value = recepientPosiFromJSON;
+						document.getElementById("school1").value = instNameFromJSON;
+						document.getElementById("city1").value = cityFromJSON;
 						
-						if(accTextFields)
-						{
-							accTextFields.setAttribute("value", $("#accreditorForm option:selected").text());
-							document.getElementById("recepient1").setAttribute("value", recepientFromJSON);
-							document.getElementById("recepientpos1").setAttribute("value", recepientPosiFromJSON);
-							document.getElementById("school1").setAttribute("value", instNameFromJSON);
-							document.getElementById("city1").setAttibute("value", cityFromJSON);
-							
-						}
-					
-						else
-						{
-
-							var textFields = document.getElementById('textFields');
-							
-							
-							var labelFaculty = document.createElement('label');
-							labelFaculty.setAttribute("for", "invited1")
-							labelFaculty.innerHTML = "Invited Faculty (Accreditor)";
-							var newFaculty = document.createElement("input");
-							newFaculty.setAttribute("id", "invited1");
-							newFaculty.setAttribute("placeholder", "Invited Faculty");
-							newFaculty.setAttribute("style", "width: 100%;");
-							newFaculty.setAttribute("value", $("#accreditorForm option:selected").text());
-
-							var labelRecepient = document.createElement('label');
-							labelRecepient.setAttribute("for", "recepient1")
-							labelRecepient.innerHTML = "Recepient";
-							var newRecepient = document.createElement("input");
-							newRecepient.setAttribute("id", "recepient1");
-							newRecepient.setAttribute("placeholder", "Recepient");
-							newRecepient.setAttribute("style", "width: 100%;");
-							newRecepient.setAttribute("value", recepientFromJSON);
-							
-							var labelRecepientPosition = document.createElement('label');
-							labelRecepientPosition.setAttribute("for", "recepientpos1");
-							labelRecepientPosition.innerHTML = "Recepient Position";
-							var newRecepientPos = document.createElement("input");
-							newRecepientPos.setAttribute("id", "recepientpos1");
-							newRecepientPos.setAttribute("placeholder", "Recepient Position");
-							newRecepientPos.setAttribute("style", "width: 100%;");
-							newRecepientPos.setAttribute("value", recepientPosiFromJSON);
-							
-							var labelSchool = document.createElement('label');
-							labelSchool.setAttribute("for", "school1");
-							labelSchool.innerHTML = "School";
-							var newSchool = document.createElement("input");
-							newSchool.setAttribute("id", "school1");
-							newSchool.setAttribute("placeholder", "School");
-							newSchool.setAttribute("style", "width: 100%;");
-							newSchool.setAttribute("value", instNameFromJSON);
-							
-							var labelCity = document.createElement('label');
-							labelCity.setAttribute("for", "city1");
-							labelCity.innerHTML = "City";
-							var newCity = document.createElement("input");
-							newCity.setAttribute("id", "city1");
-							newCity.setAttribute("placeholder", "City");
-							newCity.setAttribute("style", "width: 100%;");
-							newCity.setAttribute("value", cityFromJSON);
-							
-							
-							
-							textFields.appendChild(labelFaculty);
-							textFields.appendChild(newFaculty);
-							textFields.appendChild(labelRecepient);
-							textFields.appendChild(newRecepient);
-							textFields.appendChild(labelRecepientPosition);
-							textFields.appendChild(newRecepientPos);
-							textFields.appendChild(labelSchool);
-							textFields.appendChild(newSchool);
-							textFields.appendChild(labelCity);
-							textFields.appendChild(newCity);
-							
-							
-							
-						}
-					
+						document.getElementById("recepient-1").value = recepientFromJSON;
+						
 					});
 					
 				});
@@ -307,33 +218,33 @@
 	
 
         function genPDF() {
-			var doc = new jsPDF()
+			var doc = new jsPDF();
             var suff = document.getElementById("suffix");
             var strsuff = suff.options[suff.selectedIndex].value;
             var deptdrop = document.getElementById("department-dropdown");
             var dept = deptdrop.options[deptdrop.selectedIndex].value;
 
-            doc.setFontSize(12)
-            doc.text(20, 70, textDate)
+            doc.setFontSize(12);
+            doc.text(20, 70, textDate);
 
             doc.setFontType("bold");
-            var recipient = $('#recipient').val()
+            var recipient = $('#recipient').val();
             recipient = strsuff + recipient;
-            doc.text(20, 85, recipient)
+            doc.text(20, 85, recipient);
 
             doc.setFontType("normal");
-            var recipientpos = $('#recipientpos').val()
-            doc.text(20, 90, recipientpos)
-            var school = $('#school').val()
-            doc.text(20, 95, school)
-            var city = $('#city').val()
-            city = city + " City"
-            doc.text(20, 100, city)
+            var recipientpos = $('#recipientpos').val();
+            doc.text(20, 90, recipientpos);
+            var school = $('#school').val();
+            doc.text(20, 95, school);
+            var city = $('#city').val();
+            city = city + " City";
+            doc.text(20, 100, city);
 
-            var invited = $('#invited').val()
-            var surveyschool = $('#surveyschool').val()
-            var schoolcity = $('#schoolcity').val()
-            schoolcity = schoolcity + " City"
+            var invited = $('#invited').val();
+            var surveyschool = $('#surveyschool').val();
+            var schoolcity = $('#schoolcity').val();
+            schoolcity = schoolcity + " City";
             
             var from = $("#fromdate").val().split("-");
 
@@ -343,19 +254,18 @@
 
             var todate = new Date(to[0], to[1]-1, to[2]).getFormatDate().toString();
             
-            var signperson = $('#signperson').val()
-            var signposition = $('#signposition').val()
+            var signperson = $('#signperson').val();
+            var signposition = $('#signposition').val();
 
-            doc.text(20, 110, "Dear " + recipient + " :")
+            doc.text(20, 110, "Dear " + recipient + ":");
 
             var paragraph = "We have invited " + invited + " to join the Resurvey Team that will visit the " + dept + " Department of " + surveyschool + ", " + schoolcity + " on " + startdate + " to " + todate + ".\n\nWe will appreciate your making " + invited + " available for the survey. We realize this will take them out of school for some time. However, school visitation can be a most rewarding experience. It is also an opportunity for professional and personal growth.\n\nThank you for sharing our concern for quality education in the country.\n\n\nSincerely yours,\n\n\n" + signperson + "\n" + signposition + "";
 
-            lines = doc.splitTextToSize(paragraph, 175)
+            lines = doc.splitTextToSize(paragraph, 175);
 
             var img = new Image();
             var dataURL;
 
-            img.src = "bimb.jpg";
 
             img.onload = function() {
                 var canvas = document.createElement('canvas');
@@ -366,15 +276,13 @@
                 var context = canvas.getContext('2d');
                 context.drawImage(img, 0, 0);
 
-                window.alert("nakapasok");
-
                 dataURL = canvas.toDataURL('image/jpeg');
             }
 
-            doc.text(20, 120, lines)
+            doc.text(20, 120, lines);
 
-            doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50)
-            doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50)
+            doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50);
+            doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50);
                 // doc.addImage(dataURL, 'JPEG', 20, 20, 75, 75)
 
             var filename = recipient + " Survey Invitation " + todayDateInput + ".pdf";
@@ -385,7 +293,7 @@
         
         function genPDFDB() {
         
-            var doc = new jsPDF()
+            var doc = new jsPDF();
 
 			var invited = $("#accreditorForm option:selected").text();
 			var chosenInstitution = $('#institutionForm').val();
@@ -393,26 +301,29 @@
 			
 			  
 
-            doc.setFontSize(12)
-            doc.text(20, 70, textDate)
+            doc.setFontSize(12);
+            doc.text(20, 70, textDate);
 
             doc.setFontType("bold");
-            var recipient = $('#recepient1').val()
-            doc.text(20, 85, recipient)
+            var recipient = $('#recepient1').val();
+            doc.text(20, 85, recipient);
 
             doc.setFontType("normal");
-            var recipientpos = $('#recepientpos1').val()
-            doc.text(20, 90, recipientpos)
-            var school = $('#school1').val()
-            doc.text(20, 95, school)
-            var city = $('#city1').val()
-            city = city + " City"
-            doc.text(20, 100, city)
+            var recipientpos = $('#recepientpos1').val();
+            doc.text(20, 90, recipientpos);
+            var school = $('#school1').val();
+            doc.text(20, 95, school);
+            var city = $('#city1').val();
+            city = city + " City";
+            doc.text(20, 100, city);
 
-            var invited = $('#invited1').val()
-            var surveyschool = $('#surveyschool1').val()
-            var schoolcity = $('#schoolcity1').val()
-            schoolcity = schoolcity + " City"
+            var invited = $('#invited1').val();
+            
+            var deptprog = $('#deptprog1').val();
+            
+            var surveyschool = $('#surveyschool1').val();
+            var schoolcity = $('#schoolcity1').val();
+            schoolcity = schoolcity + " City";
             
             var from = $("#fromdate1").val().split("-");
 
@@ -422,30 +333,18 @@
 
             var todate = new Date(to[0], to[1]-1, to[2]).getFormatDate().toString();
             
-            var signperson = $('#signperson1').val()
-            var signposition = $('#signposition1').val()
+            var signperson = $('#signperson1').val();
+            var signposition = $('#signposition1').val();
 
-            doc.text(20, 110, "Dear " + recipient + " :")
+            doc.text(20, 110, "Dear " + recipient + ":");
 
             
-            var paragraph = "We have invited " + invited + " to join the Resurvey Team that will visit the Department of " + surveyschool + ", " + schoolcity + " on " + startdate + " to " + todate + ".\n\nWe will appreciate your making " + invited + " available for the survey. We realize this will take them out of school for some time. However, school visitation can be a most rewarding experience. It is also an opportunity for professional and personal growth.\n\nThank you for sharing our concern for quality education in the country.\n\n\nSincerely yours,\n\n\n" + signperson + "\n" + signposition + "";
+            var paragraph = "We have invited " + invited + " to join the Resurvey Team that will visit the " + deptprog + " of " + surveyschool + ", " + schoolcity + " on " + startdate + " to " + todate + ".\n\nWe will appreciate your making " + invited + " available for the survey. We realize this will take them out of school for some time. However, school visitation can be a most rewarding experience. It is also an opportunity for professional and personal growth.\n\nThank you for sharing our concern for quality education in the country.\n\n\nSincerely yours,\n\n\n" + signperson + "\n" + signposition + "";
 
-          /*   var paragraph = "We have invited " + invited + " to join the Resurvey 
-            Team that will visit the " + dept + " Department of " + surveyschool + 
-            ", " + schoolcity + " on " + startdate + " to " + todate + ".\n\nWe will 
-            appreciate your making " + invited + " available for the survey.
-            We realize this will take them out of school for some time. However, 
-            school visitation can be a most rewarding experience. It is also an 
-            opportunity for professional and personal growth.\n\n Thank you for 
-            sharing our concern for quality education in the country.\n\n\nSincerely 
-            yours,\n\n\n" + signperson + "\n" + signposition + "" */
-
-            lines = doc.splitTextToSize(paragraph, 175)
+            lines = doc.splitTextToSize(paragraph, 175);
 
             var img = new Image();
             var dataURL;
-
-            img.src = "bimb.jpg";
 
             img.onload = function() {
                 var canvas = document.createElement('canvas');
@@ -461,11 +360,10 @@
                 dataURL = canvas.toDataURL('image/jpeg');
             }
 
-            doc.text(20, 120, lines)
+            doc.text(20, 120, lines);
 
-            doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50)
-            doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50)
-                // doc.addImage(dataURL, 'JPEG', 20, 20, 75, 75)
+            doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50);
+            doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50);
 
             var filename = recipient + " Survey Invitation " + todayDateInput + ".pdf";
 
@@ -654,12 +552,12 @@
 									    </c:forEach>
 									</select> --%>
 								<div class="form-group" id = "divAccreditorForm">
-									<label for="accreditorForm">Accreditors:</label>
+									<label for="accreditorForm">Accreditor for the survey: </label>
 									<select class="form-control underlined chosen-select" data-placeholder="Choose an Accreditor..." id="accreditorForm" style="background: transparent;">
 									</select>
 								</div>
 								<div class="form-group" id = "divInstitutionForm">
-									<label for="institutionForm">Institutions:</label>
+									<label for="institutionForm">Institution to survey: </label>
 									<select class="form-control underlined chosen-select" data-placeholder="Choose an Institution..." id="institutionForm" style="background: transparent;">
 									</select>
 								</div>
@@ -672,26 +570,57 @@
 									<br>
 									<h5>Edit Text Fields</h5>
 									<hr>
-																		
+									<input style="width: 30%;" placeholder="Recepient" id="recepient1">	
+									<br>						
+									<input style="width: 30%;" placeholder="Recepient Position" id="recepientpos1">							
+									<br>
+									<input style="width: 30%;" placeholder="Institution Name" id="school1">							
+									<br>
+									<input style="width: 30%;" placeholder="Institution City" id="city1">							
+									
+									<br><br>
+									<p style="display: inline-block;">Dear &nbsp;</p><input style="width: 20%;" placeholder="Recepient" id="recepient-1"><p style="display: inline-block;">: &nbsp;</p>	
+									<br>
+									<br>
+									<p style="display: inline-block;">We have invited &nbsp;</p>
+									
+									<input style="width: 20%;" placeholder="Accreditor" id="invited1">
+									
+									<p style="display: inline-block;"> to join the Resurvey Team that will visit the&nbsp;</p>
+									<input style="width: 20%;" placeholder="Department or Program" id="deptprog1">
+									<p style="display: inline-block;">&nbsp; of &nbsp;</p>
+									<input style="width: 40%;" placeholder="Institution Name" id="surveyschool1">
+									<p style="display: inline-block;">, &nbsp;</p>
+									<input style="width: 20%;" placeholder="Institution City" id="schoolcity1">
+									<p style="display: inline-block;">&nbsp; from &nbsp;</p>
+									<input type="date" id="fromdate1" min=todayDateInput>
+									<p style="display: inline-block;">&nbsp; to &nbsp;</p>
+									<input type="date" id="todate1" min=todayDateInput>
+									<p style="display: inline-block;">&nbsp; .</p>
+                                
+									<br>
+									<br>
+								
+									<p style="display: inline-block;">We will appreciate your making </p>
+									<input style="width: 30%;" placeholder="Accreditor" id="invited-1">
+									<p style="display: inline-block;">available for the survey. We realize this will take them out of school for some time. </p>
+									<p> However, school visitation can be a most rewarding experience. It is also an opportunity for professional and personal growth.</p>
+									
+									<p> Thank you for sharing our concern for quality education in the country.</p>
+									<br><br>
+									<p style="display: inline-block;">Sincerely Yours,</p>
+                                	<br>
+	                            	<input style="width: 20%;" placeholder="Signed By" id="signperson1">							
+									<br>
+									<input style="width: 20%;" placeholder="Position" id="signposition1">							
+									<br>
+									<br>
+									
+																
+									
 									
 								</div>
 								
-								 <label for="fromdate" id="fromdatelabel">Enter start date of survey  </label>
-                                <br>
-                                <input type="date" id="fromdate1" min=todayDateInput>
-                                <br>
-                                <br>
-                                <label for="todate" id="todatelabel">Enter start date of survey  </label>
-                                <br>
-                                <input type="date" id="todate1" min=todayDateInput>
-                                <br>
-                                <br>
-                                
-                            	<input type="text" id="signperson1" value="" placeholder="Signed by">
-                                <br>
-                                <input type="text" id="signposition1" value="" placeholder="Position">
-                                <br>
-                                
                              	<button class ="btn btn-info btn-sm" onclick="genPDFDB()">Download PDF</button>
                              
 							

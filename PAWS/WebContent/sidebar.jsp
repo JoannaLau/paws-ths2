@@ -65,11 +65,15 @@
 							</a> 
 						</li>
 						<li id="thankYouBefore"> <a href="ThankYouBeforeVisitLetter" onclick="javascript:setActiveSchoolSystem()">
-							Thank You (before) visit) Letter
+							Thank You (before visit) Letter
 							</a> 
 						</li>
 						<li id="chairperson"> <a href="ChairpersonLetter" onclick="javascript:setActivePrograms()">
 							Chairperson Letter
+							</a> 
+						</li>
+						<li id=reminder> <a href="ReminderLetter" onclick="javascript:setActivePrograms()">
+							Reminder Letter
 							</a> 
 						</li>
 					</ul>

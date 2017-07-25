@@ -24,7 +24,7 @@ public class InstitutionsUtil {
 	public JSONArray getInstitutionsJSON(int systemID){
 		JSONArray jArray = new JSONArray();
 		JSONObject job = new JSONObject();
-		
+		  
 		try{
 			Connection conn = db.getConnection();
 			PreparedStatement ps = conn.prepareStatement("SELECT institutionID, name, city FROM `institutions` WHERE systemID = ?  ORDER BY `name`");
@@ -35,7 +35,7 @@ public class InstitutionsUtil {
 				job.put("institutionID", rs.getInt(1));
 				job.put("institutionName", rs.getString(2) + " - " + rs.getString(3));
 				jArray.put(job);
-				
+			}
 		} catch (Exception e){
 			System.out.println("Error in InstitutionsUtil:getInstitutionsJSON()");
 			e.printStackTrace();
@@ -81,13 +81,18 @@ public class InstitutionsUtil {
 		try{
 			Connection conn = db.getConnection();
 			//PreparedStatement ps = conn.prepareStatement("SELECT name, head, hPosition, city FROM `institutions` WHERE institutionID = (SELECT institutionID FROM `work` WHERE accreditorID = ? AND dateFinished IS NULL)");
-			PreparedStatement ps = conn.prepareStatement("SELECT name, city FROM `institutions` WHERE institutionID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT head, hPosition, name, city, educLevelID FROM `institutions` WHERE institutionID = ?");
 			ps.setInt(1, instID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				job = new JSONObject();
-				job.put("name", rs.getString(1));
-				job.put("city", rs.getString(2));
+				job.put("head", rs.getString(1));
+				job.put("hPosition", rs.getString(2));
+				job.put("name", rs.getString(3));
+				job.put("city", rs.getString(4));
+				job.put("educLevel", getEducLevelName(rs.getInt(5)));
+				
+				
 
 				jArray.put(job);
 				
@@ -533,5 +538,32 @@ public class InstitutionsUtil {
 		
 		format = year + " " + month + " "+ day;
 		return format;
+	}
+
+
+	public JSONArray getEducLevelJSON(int instID) {
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT educLevelID FROM `institutions` WHERE institutionID = ?");
+			ps.setInt(1, instID);
+		
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("educLevel", getEducLevelName(rs.getInt(1)));
+				
+
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getEducLevelJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
 	}
 }
