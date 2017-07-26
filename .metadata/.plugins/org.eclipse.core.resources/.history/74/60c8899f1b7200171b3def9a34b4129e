@@ -92,8 +92,8 @@ $(document).ready(function() {
 		$.getJSON("InstitutionsLoader?systemID=" + systemID, function(data){
 			$.each(data, function (key, value){
 				var option = document.createElement("option");
-				option.text = value.institutionName;
-				option.value = value.institutionID;
+				option.text = value.tertiaryName;
+				option.value = value.tID;
 				institutionFormWork.add(option);
 				$('#institutionFormWork').trigger("chosen:updated");
 			});	
@@ -676,6 +676,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     				
     				
     				</section>
+					
 					<div id="navBut" style="position:absolute;top:670px;">
 					<hr style="position:absolute;">
 						
@@ -701,13 +702,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
         		  
         <!-- Reference block for JS -->
         <div class="ref" id="ref">
-        <div class="color-primary"></div>
+            <div class="color-primary"></div>
             <div class="chart">
                 <div class="color-primary"></div>
                 <div class="color-secondary"></div>
             </div>
         </div>
-       </div>
+       </div></div>
         <script src="js/app.js"></script>
 		
 		

@@ -471,7 +471,7 @@ public class AccreditorUtil {
 	public void addAccreditor(Accreditor acc, JSONObject affObject){
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO `accreditors` (`lastname`, `firstname`, `middlename`, `honorifics`, `email`, `numSurveys`, `dateTrained`, `contact`, `address`, `city`, `country`, `venueTrained`, `primaryAreaID`, `secondaryAreaID`, `tertiaryAreaID`,`discipline`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `pads`.`accreditors` (`lastname`, `firstname`, `middlename`, `honorifics`, `email`, `numSurveys`, `dateTrained`, `contact`, `address`, `city`, `country`, `venueTrained`, `primaryAreaID`, `secondaryAreaID`, `tertiaryAreaID`,`discipline`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			ps.setString(1, acc.getLastName());
 			ps.setString(2, acc.getFirstName());
 			ps.setString(3, acc.getMiddleName());
