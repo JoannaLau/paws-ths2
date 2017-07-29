@@ -44,7 +44,7 @@
 					<ul id="demo3" class="collapse">
 						<li> <a href="reportGA.html" onclick="javascript:setActiveGAawardees()">GA Awardees</a> </li>
 						<li> <a href="reportHistory.html" onclick="javascript:setActiveHistory()">History</a> </li>
-						<li> <a href="infographics.jsp" onclick="javascript:setActiveHistory()">Infographics</a> </li>
+						<li> <a href="MembershipInfographics">Membership</a> </li>
 					</ul>
 				</li>
 				<li>

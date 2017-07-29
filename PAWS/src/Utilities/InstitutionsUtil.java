@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import com.mysql.jdbc.Connection;
 
+import Models.Infographic;
 import Models.Institution;
 
 public class InstitutionsUtil {
@@ -268,6 +269,51 @@ public class InstitutionsUtil {
 		
 		return jArray;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public int getInstitutionCountByLevelAndYear(int educLevelID, int year, String status)
+	{
+		int count=0;
+	
+		
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(`institutionID`) FROM `institutions` WHERE YEAR(STR_TO_DATE(`dateAdded`, '%Y-%m-%d')) = ? AND `educLevelID` = ? AND `status` = ?");
+			ps.setInt(1, year);
+			ps.setInt(2, educLevelID);
+			ps.setString(3, status);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){				
+			
+				count = rs.getInt(1);
+	
+				
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getEducLevelName()");
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public String getInstitutionName(int institutionID){
 		String name = "";
