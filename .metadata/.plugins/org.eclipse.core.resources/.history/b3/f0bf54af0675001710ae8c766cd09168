@@ -168,24 +168,32 @@ function getSystems(){
 	});
 	
 }
-/* 
+
 function saveInstitution() {
 
 	var id = "<c:out value='${institution.getInstitutionID()}'/>";
 
+	console.log( "asda" );
+	console.log( $('#instForm').serializeArray() );
 	  $.ajax({
         url: 'UpdateInstitution?institutionID=' + id + '&' + $('#instForm').serialize(),
         type: 'POST',
         async: false,  
+        dataType: 'json',
+        data: {affObject: JSON.stringify(affObject)},
         success: function(result) {
+        	console.log("wOT");
 
-        	window.location.href = "Institutions";
         }
     });
     alert('Institution successfully edited! Redirecting you to the institutions page...');
+  //  document.location.href = "Accreditors";
+}
 
-} */
-
+var affObject = {
+		works: [],
+		edu: []
+};
 
 
 </script>
@@ -317,7 +325,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 				
          
                 <article class="content dashboard-page">
-				<form method="post" action="UpdateInstitution" class="form">
+				<form id="instForm">
 				
 				 <div class="title-block">
                         <h3 class="title" style="float:left;">
@@ -382,7 +390,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 <!-- 									Submit then add Programs  						 -->
 <!-- 									</button> -->
 									
-									<button type="submit" class="btn btn-info" alert('Successfully edited Institutions!');location.href = 'institutions.jsp';"  style="float:right; padding-right:15px;">
+									<button type="submit" class="btn btn-info" onclick="saveInstitution();" style="float:right; padding-right:15px;">
 									Submit Only
 									</button>
 								</div>

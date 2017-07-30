@@ -317,7 +317,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 				
          
                 <article class="content dashboard-page">
-				<form method="post" action="UpdateInstitution" class="form">
+				<form id="instForm">
 				
 				 <div class="title-block">
                         <h3 class="title" style="float:left;">
@@ -382,7 +382,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 <!-- 									Submit then add Programs  						 -->
 <!-- 									</button> -->
 									
-									<button type="submit" class="btn btn-info" alert('Successfully edited Institutions!');location.href = 'institutions.jsp';"  style="float:right; padding-right:15px;">
+									<button type="submit" class="btn btn-info" onclick="saveInstitution();" style="float:right; padding-right:15px;">
 									Submit Only
 									</button>
 								</div>
