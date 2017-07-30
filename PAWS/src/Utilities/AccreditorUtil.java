@@ -118,7 +118,7 @@ public class AccreditorUtil {
 			removeAffiliations(accreditorID);
 
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("UPDATE `pads`.`accreditors` SET `lastname` = ?, `firstname` = ?, `middlename` = ?, `honorifics` = ?, `email` = ?, `numSurveys` = ?, `dateTrained` = ?, `contact` = ?, `address` = ?, `city` = ?, `country` = ?, `venueTrained` = ?, `primaryAreaID` = ?, `secondaryAreaID` = ?, `thirdAreaID` = ?, `discipline` = ? WHERE accreditorID = ?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE `accreditors` SET `lastname` = ?, `firstname` = ?, `middlename` = ?, `honorifics` = ?, `email` = ?, `numSurveys` = ?, `dateTrained` = ?, `contact` = ?, `address` = ?, `city` = ?, `country` = ?, `venueTrained` = ?, `primaryAreaID` = ?, `secondaryAreaID` = ?, `tertiaryAreaID` = ?, `discipline` = ? WHERE accreditorID = ?");
 			ps.setString(1, acc.getLastName());
 			ps.setString(2, acc.getFirstName());
 			ps.setString(3, acc.getMiddleName());
@@ -222,6 +222,49 @@ public class AccreditorUtil {
 		return jArray;
 	}
 	
+	public JSONArray getDisciplinesJSON(){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT DISTINCT discipline FROM accreditors");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("discipline", rs.getString(1));
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in AccreditorUtil:getDisciplinesJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
+	
+	public JSONArray getHonorificsJSON(){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT DISTINCT honorifics FROM accreditors");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("honorifics", rs.getString(1));
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in AccreditorUtil:getHonorificsJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
 
 	public JSONArray getInvitationAccreditorsJSON(){
 		JSONArray jArray = new JSONArray();
@@ -271,9 +314,13 @@ public class AccreditorUtil {
 				String email = rs.getString(6);
 				String institution = getLatestAffiliation(accreditorID);
 				String discipline = rs.getString(17);
-				String primaryArea = getArea(rs.getInt(14));
-				String secondaryArea = getArea(rs.getInt(15));
-				String tertiaryArea = getArea(rs.getInt(16));
+				int primaryAreaID = rs.getInt(14);
+				int secondaryAreaID = rs.getInt(15);
+				int tertiaryAreaID = rs.getInt(16);
+				String primaryArea = getArea(primaryAreaID);
+				String secondaryArea = getArea(secondaryAreaID);
+				String tertiaryArea = getArea(tertiaryAreaID);
+				
 				int totalSurveys = rs.getInt(7);
 				String city = rs.getString(11);
 				String country = rs.getString(12);
@@ -281,7 +328,8 @@ public class AccreditorUtil {
 				String date_trained = rs.getString(8);
 				String address = rs.getString(10);
 				String contact = rs.getString(9);
-				temp = new Accreditor(accreditorID, honorifics, firstName, lastName, middleName, email, contact, institution, discipline, primaryArea, secondaryArea, tertiaryArea, totalSurveys, city, country, venue_trained, date_trained, address);
+				
+				temp = new Accreditor(accreditorID, honorifics, firstName, lastName, middleName, email, contact, institution, discipline, primaryAreaID, secondaryAreaID, tertiaryAreaID, primaryArea, secondaryArea, tertiaryArea, totalSurveys, city, country, venue_trained, date_trained, address);
 				accreditors.add(temp);
 			}
 		} catch (Exception e){
@@ -309,7 +357,7 @@ public class AccreditorUtil {
 		return name;
 	}
 	
-	private String getArea(int areaID){
+	public String getArea(int areaID){
 		String name = null;
 		try{
 			Connection conn = db.getConnection();
@@ -348,9 +396,13 @@ public class AccreditorUtil {
 				String email = rs.getString(6);
 				String institution = getLatestAffiliation(accreditorID);
 				String discipline = rs.getString(17);
+				int primaryAreaID = rs.getInt(14);
+				int secondaryAreaID = rs.getInt(15);
+				int tertiaryAreaID = rs.getInt(16);
 				String primaryArea = getArea(rs.getInt(14));
 				String secondaryArea = getArea(rs.getInt(15));
 				String tertiaryArea = getArea(rs.getInt(16));
+				
 				int totalSurveys = rs.getInt(7);
 				String city = rs.getString(11);
 				String country = rs.getString(12);
@@ -358,7 +410,7 @@ public class AccreditorUtil {
 				String date_trained = rs.getString(8);
 				String address = rs.getString(10);
 				String contact = rs.getString(9);
-				accreditor = new Accreditor(accreditorID, honorifics, firstName, lastName, middleName, email, contact, institution, discipline, primaryArea, secondaryArea, tertiaryArea, totalSurveys, city, country, venue_trained, date_trained, address);
+				accreditor = new Accreditor(accreditorID, honorifics, firstName, lastName, middleName, email, contact, institution, discipline, primaryAreaID, secondaryAreaID, tertiaryAreaID, primaryArea, secondaryArea, tertiaryArea, totalSurveys, city, country, venue_trained, date_trained, address);
 				accreditor.addDegrees(getDegrees(accreditorID));
 				accreditor.addWorks(getWorks(accreditorID));
 			}
@@ -688,6 +740,52 @@ public class AccreditorUtil {
 			}
 		} catch (Exception e){
 			System.out.println("Error in InstitutionsUtil:getAccreditorForThankYouJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
+	public JSONArray getCountriesJSON() {
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT DISTINCT country FROM accreditors");
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("country", rs.getString(1));
+				
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in AccreditorUtil:getCountriesJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
+	public JSONArray getCitiesJSON() {
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT DISTINCT city FROM accreditors");
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("city", rs.getString(1));
+				
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in AccreditorUtil:getCountriesJSON()");
 			e.printStackTrace();
 		}
 		

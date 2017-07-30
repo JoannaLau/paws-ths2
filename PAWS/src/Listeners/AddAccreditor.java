@@ -42,10 +42,11 @@ public class AddAccreditor extends HttpServlet {
 		String email = request.getParameter("email");
 
 		String discipline = request.getParameter("discipline");
-		String primaryArea = request.getParameter("primaryArea");
-		String secondaryArea = request.getParameter("secondaryArea");
-		String tertiaryArea = request.getParameter("tertiaryArea");
+		int primaryAreaID = Integer.parseInt(request.getParameter("primaryArea"));
+		int secondaryAreaID = Integer.parseInt(request.getParameter("secondaryArea"));
+		int tertiaryAreaID = Integer.parseInt(request.getParameter("tertiaryArea"));
 
+		
 		int totalSurveys = 0;
 		String city = request.getParameter("city");
 		String country = request.getParameter("country");
@@ -60,9 +61,8 @@ public class AddAccreditor extends HttpServlet {
 		
 		
 		String institution = "";
-		
-		Accreditor acc = new Accreditor(0, honorifics, firstName, lastName, middleName, email, contact, institution, discipline, primaryArea, secondaryArea, tertiaryArea, totalSurveys, city, country, venue_trained, date_trained, address);
 		AccreditorUtil accUtil = new AccreditorUtil();
+		Accreditor acc = new Accreditor(0, honorifics, firstName, lastName, middleName, email, contact, institution, discipline, primaryAreaID, secondaryAreaID, tertiaryAreaID, accUtil.getArea(primaryAreaID), accUtil.getArea(secondaryAreaID), accUtil.getArea(tertiaryAreaID), totalSurveys, city, country, venue_trained, date_trained, address);
 		
 		accUtil.addAccreditor(acc, jObj);
 			

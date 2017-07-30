@@ -794,6 +794,10 @@
 			var systemID = $('#systemForm').find(":selected").val();	
 			var institutionID = $('#institutionForm').find(":selected").val();
 			
+			
+			if(document.getElementById("programForm"))
+				var program = $('#programForm').find(":selected").val();
+			
 			var paascu1Name = $('#paascu1Name').val();
 			var paascu1Position = $('#paascu1Position').val();
 			var paascu1Contact = $('#paascu1Contact').val();
@@ -951,10 +955,7 @@
 								
 								</h3>
 								<div class="form-group" id="divProgramForm">
-									<label for="sel1" id="label1"></label>
-									Program:
-									<select id="programForm" class = "form-control underlined" data-placeholder="Choose a Program...">
-									</select>
+									
 								</div>
 								<div class="form-group">
 									<label id="suggestedSurveyType"></label>

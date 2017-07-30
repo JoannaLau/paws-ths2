@@ -243,8 +243,8 @@
 																	<td>Work</td>
 																	<td><c:out value="${works.getInstitution()}"/></td>
 																	<td><c:out value="${works.getPosition()}"/></td>
-																	<td><c:out value="${works.getDate_entered()}"/></td>
-																	<td><c:out value="${works.getDate_finished()}"/></td>
+																	<td><c:out value="${works.getDateEntered()}"/></td>
+																	<td><c:out value="${works.getDateFinished()}"/></td>
 																</tr>
 																</c:forEach>
 																
@@ -252,7 +252,7 @@
 																<tr>
 																	<td>Education</td>
 																	<td><c:out value="${degs.getInstitution()}"/></td>
-																	<td><c:out value="${degs.getDegree_name()}"/></td>
+																	<td><c:out value="${degs.getDegreeName()}"/></td>
 																	<td>No Data</td>
 																	<td>No Data</td>
 																</tr>

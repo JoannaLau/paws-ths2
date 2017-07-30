@@ -6,22 +6,26 @@
 <html class="no-js" lang="en">
 
     <head>
-	  <!-- IMPORTS -->
-     <script src='js/jquery.min.js'></script>
-    <script src='js/jquery-ui.min.js'></script>
+	<!-- IMPORTS -->
+    <script src='js/jquery.min.js'></script>
+<!--     <script src='js/jquery-ui.min.js'></script> -->
     <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="chosen/chosen.css">
-  <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js"></script>
-    
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title> PAASCU - Accreditation Schedule Manager </title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <!-- Place favicon.ico in the root directory -->
-        <link rel="stylesheet" href="css/vendor.css">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="css/vendor.css">
+<!--     <link href='fullcalendar.css' rel='stylesheet' /> -->
+<!--     <link href='calendar/fullcalendar.print.css' rel='stylesheet' media='print' /> -->
+<!-- 	<script src='calendar/lib/moment.min.js'></script> -->
+	<link rel="stylesheet" href="chosen/chosen.css">
+ 	<script src="chosen/chosen.jquery.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
+	
+	
+<!--  	<link title="timeline-styles" rel="stylesheet" href="css/timeline.css"> -->
+ 	<script src="js/bootstrap-datepicker.min.js"></script>
+ 	<link rel="stylesheet" href="css/bootstrap-datepicker.css">
+<!-- 	<link title="timeline-styles" rel="stylesheet" href="css/datepicker.css"> -->
+	<!-- END IMPORTS -->
         <!-- Theme initialization -->
         <script>
             var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
@@ -37,7 +41,6 @@
             }
             </script>
 
-
 <script >	
 
 $(document).ready(function() {
@@ -51,7 +54,10 @@ $(document).ready(function() {
 		document.getElementById('ssID').value= $('#systemForm').find(":selected").val();
 	
 	});
-	
+	$('#datepicker').datepicker({
+ 		format: "MM dd, yyyy",
+ 		autoclose:true,
+ 	});
 	$('#external-events .fc-event').each(function() {
 
 		// store data so the calendar knows to render an event upon drop
@@ -141,16 +147,20 @@ $(document).ready(function() {
 function getSystems(){
 	//GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
 	var obj = document.getElementById('systemForm');
-	
+  		
 	$.getJSON("SystemsLoader", function(data){
 		var option = document.createElement("option");
 		option.text = "";
 		option.value = 0;
 		obj.add(option);
 		$.each(data, function (key, value){
+		<c:set var="inst" value="${institution}"/>
+			var systemID = "<c:out value="${inst.getSchoolSystemID()}"/>";
 			var option = document.createElement("option");
 			option.text = value.systemName;
 			option.value = value.systemID;
+			if(systemID == value.systemID)
+	            option.setAttribute("selected", true);
 			obj.add(option);
 			
 		});	
@@ -159,6 +169,31 @@ function getSystems(){
 	
 }
 
+function saveInstitution() {
+
+	var id = "<c:out value='${institution.getInstitutionID()}'/>";
+
+	console.log( "asda" );
+	console.log( $('#instForm').serializeArray() );
+	  $.ajax({
+        url: 'UpdateInstitution?institutionID=' + id + '&' + $('#instForm').serialize(),
+        type: 'POST',
+        async: false,  
+        dataType: 'json',
+        data: {affObject: JSON.stringify(affObject)},
+        success: function(result) {
+        	console.log("wOT");
+
+        }
+    });
+    alert('Institution successfully edited! Redirecting you to the institutions page...');
+  //  document.location.href = "Accreditors";
+}
+
+var affObject = {
+		works: [],
+		edu: []
+};
 
 
 </script>
@@ -290,7 +325,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 				
          
                 <article class="content dashboard-page">
-				<form method="post" action="UpdateInstitution" class="form">
+				<form id="instForm">
 				
 				 <div class="title-block">
                         <h3 class="title" style="float:left;">
@@ -302,9 +337,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 				 <div class="tab-content">     
 				 	<div id="menu1" class="tab-pane fade in active">          
 					
-					<%@page import="Models.Institution" %>
-					<% Institution inst = (Institution)request.getAttribute("institution"); %>
-										
+					<c:set var="inst" scope="session" value="${institution}"/>
+      			
 						<div class="col-md-12">
 									<div class="card card-block sameheight-item">
 										<div class="title-block">
@@ -316,33 +350,37 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
   						<select class="form-control underlined chosen-select" data-placeholder="Choose a System..." id="systemForm" style="background: transparent;" name="ssName">
 							 				
   						</select>
-  						<input type="hidden" value="<%=inst.getInstitutionID() %>" name="institutionID">
-  						<input type="hidden" id="ssID" name="ssID">
+  						<input type="hidden" value="${inst.getInstitutionID()}" name="institutionID">
+  					</div>
+					
+					
+							<div class="form-group" style="width:48%; padding-right"> 
+								<label class="control-label">Institution Name</label> 
+								<input type="text" class="form-control underlined" style="width:90%;"  placeholder="e.g. De La Salle University" name="institutionName" value="${inst.getName()}"> 
+							</div>
+							<div class="form-group" style="width:48%; padding-right"> <label class="control-label">Institution Acronym</label> <input type="text" class="form-control underlined" style="width:90%;"  placeholder="e.g. DLSU-M" name="institutionAcronym" value="${inst.getInstitutionAcronym()}"> </div>
+							<br><br><br>	
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Address</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. 2401 Taft Avenue, 1004 Manila, Philippines" name="address" value="${inst.getAddress()}"> </div>
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">City of Institution </label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Manila" name="city" value="${inst.getCity()}"> </div>
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Date of Membership</label> <input id="datepicker" type="text" class="form-control underlined" style="width:90%;" placeholder="" name="membershipDate" value="${inst.getDateAddedWord()}"> </div>
+											
+							<br><br><br>	
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Country of Institution </label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Philippines" name="country" value="${inst.getCountry()}"> </div>
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Website</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. http://www.dlsu.edu.ph/" name="website" value="${inst.getWebsite()}"> </div>
+							<br><br><br>
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Contact No. <i>(separate using semi-colon)</i></label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. (632) 523-4152 ; 247-6921" name="contactNumber" value="${inst.getContactNumber()}"> </div>
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Fax No.</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. 432-8586 " name="fax" value="${inst.getFax()}"> </div>
+							<br><br><br>			
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Head</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Mr. Jose T. Pardo" name="institutionHead" value="${inst.getHead()}"> </div>
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Position of the Head</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Chairman" name="position"value="${inst.getContactPosition()}"> </div>
+							<br><br><br>	
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Email of the Head</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. chairperson@email.com" name="headEmail" value="${inst.getContactEmail()}"> </div>
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Contact Person</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Firstname Lastname" name="contactPerson" value="${inst.getContactPerson()}"> </div>
+							<br><br><br>			
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Position of the Contact Person</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Chairman" name="contactPosition" value="${inst.getContactPosition()}"> </div>
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Email of Contact Person</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. person@email.com" name="contactEmail" value="${inst.getContactEmail()}"> </div>
 					</div>
-					
-					
-											<div class="form-group" style="width:48%; padding-right"> <label class="control-label">Institution Name</label> <input type="text" class="form-control underlined" style="width:90%;"  placeholder="e.g. De La Salle University" name="institutionName" value="<%=inst.getName() %>"> </div>
-											<div class="form-group" style="width:48%; padding-right"> <label class="control-label">Institution Acronym</label> <input type="text" class="form-control underlined" style="width:90%;"  placeholder="e.g. DLSU-M" name="institutionAcronym" value="<%=inst.getInstitutionAcronym() %>"> </div>
-								<br><br><br>	
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Address</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. 2401 Taft Avenue, 1004 Manila, Philippines" name="address" value="<%=inst.getAddress() %>"> </div>
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">City of Institution </label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Manila" name="city" value="<%=inst.getCity() %>"> </div>
-								<br><br><br>
-											 <div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Country of Institution </label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Philippines" name="country" value="<%=inst.getCountry() %>"> </div>
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Website</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. http://www.dlsu.edu.ph/" name="website" value="<%=inst.getWebsite() %>"> </div>
-								<br><br><br>
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Contact No. <i>(separate using semi-colon)</i></label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. (632) 523-4152 ; 247-6921" name="contactNumber" value="<%=inst.getContactNumber() %>"> </div>
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Fax No.</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. 432-8586 " name="fax" value="<%=inst.getFax() %>"> </div>
-								<br><br><br>			
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Head</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Mr. Jose T. Pardo" name="institutionHead" value="<%=inst.getHead() %>"> </div>
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Position of the Head</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Chairman" name="position"value="<%=inst.getContactPosition() %>"> </div>
-								<br><br><br>	
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Email of the Head</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. chairperson@email.com" name="headEmail" value="<%=inst.getContactEmail() %>"> </div>
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Contact Person</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Firstname Lastname" name="contactPerson" value="<%=inst.getContactPerson() %>"> </div>
-								<br><br><br>			
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Position of the Contact Person</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Chairman" name="contactPosition" value="<%=inst.getContactPosition() %>"> </div>
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Email of Contact Person</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. person@email.com" name="contactEmail" value="<%=inst.getContactEmail() %>"> </div>
-									</div>
-								</div>
+				</div>
 
 							
 						<div class="col-md-12">
@@ -352,7 +390,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 <!-- 									Submit then add Programs  						 -->
 <!-- 									</button> -->
 									
-									<button type="submit" class="btn btn-info" onclick="alert('Successfully added Institutions!');location.href = 'institutions.jsp';"  style="float:right; padding-right:15px;">
+									<button type="submit" class="btn btn-info" onclick="saveInstitution();" style="float:right; padding-right:15px;">
 									Submit Only
 									</button>
 								</div>

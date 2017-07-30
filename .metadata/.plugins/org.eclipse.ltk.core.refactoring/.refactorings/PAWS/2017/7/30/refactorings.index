@@ -1,1 +1,6 @@
 1500981943135	Rename type 'AreaUti'
+1501182193107	Delete element
+1501229046007	Rename type 'DisciplinesLoader'
+1501229113375	Rename type 'DisciplinesHonorificsLoader'
+1501259490688	Rename type 'Countries'
+1501318050446	Move 'editProgram.jsp' to 'WebContent'

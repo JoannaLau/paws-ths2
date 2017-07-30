@@ -13,9 +13,13 @@ public class Accreditor {
 	private String contact;
 	private String institution;
 	private String discipline;
+	private int primaryAreaID;
+	private int secondaryAreaID;
+	private int tertiaryAreaID;
 	private String primaryArea;
 	private String secondaryArea;
 	private String tertiaryArea;
+
 	private int totalSurveys;
 	private String city;
 	private String country;
@@ -25,9 +29,14 @@ public class Accreditor {
 	private ArrayList<Degree> degrees;
 	private ArrayList<Work> works;
 	
+	
+	
+	
+	
 	public Accreditor(int accreditorID, String honorifics, String firstName, String lastName, String middleName,
-			String email, String contact, String institution, String discipline, String primaryArea, String secondaryArea, String tertiaryArea,
-			int totalSurveys, String city, String country, String venue_trained, String date_trained, String address) {
+			String email, String contact, String institution, String discipline, int primaryAreaID, int secondaryAreaID,
+			int tertiaryAreaID, String primaryArea, String secondaryArea, String tertiaryArea, int totalSurveys,
+			String city, String country, String venueTrained, String dateTrained, String address) {
 		super();
 		this.accreditorID = accreditorID;
 		this.honorifics = honorifics;
@@ -35,22 +44,84 @@ public class Accreditor {
 		this.lastName = lastName;
 		this.middleName = middleName;
 		this.email = email;
+		this.contact = contact;
 		this.institution = institution;
 		this.discipline = discipline;
+		this.primaryAreaID = primaryAreaID;
+		this.secondaryAreaID = secondaryAreaID;
+		this.tertiaryAreaID = tertiaryAreaID;
 		this.primaryArea = primaryArea;
 		this.secondaryArea = secondaryArea;
 		this.tertiaryArea = tertiaryArea;
 		this.totalSurveys = totalSurveys;
 		this.city = city;
 		this.country = country;
-		this.venueTrained = venue_trained;
-		this.dateTrained = date_trained;
+		this.venueTrained = venueTrained;
+		this.dateTrained = dateTrained;
 		this.address = address;
-		this.contact = contact;
-		
-		
 	}
-	
+
+
+	public int getPrimaryAreaID() {
+		return primaryAreaID;
+	}
+
+
+	public void setPrimaryAreaID(int primaryAreaID) {
+		this.primaryAreaID = primaryAreaID;
+	}
+
+
+	public int getSecondaryAreaID() {
+		return secondaryAreaID;
+	}
+
+
+	public void setSecondaryAreaID(int secondaryAreaID) {
+		this.secondaryAreaID = secondaryAreaID;
+	}
+
+
+	public int getTertiaryAreaID() {
+		return tertiaryAreaID;
+	}
+
+
+	public void setTertiaryAreaID(int tertiaryAreaID) {
+		this.tertiaryAreaID = tertiaryAreaID;
+	}
+
+
+	public String getPrimaryArea() {
+		return primaryArea;
+	}
+
+
+	public void setPrimaryArea(String primaryArea) {
+		this.primaryArea = primaryArea;
+	}
+
+
+	public String getSecondaryArea() {
+		return secondaryArea;
+	}
+
+
+	public void setSecondaryArea(String secondaryArea) {
+		this.secondaryArea = secondaryArea;
+	}
+
+
+	public String getTertiaryArea() {
+		return tertiaryArea;
+	}
+
+
+	public void setTertiaryArea(String tertiaryArea) {
+		this.tertiaryArea = tertiaryArea;
+	}
+
+
 	public Accreditor(int accreditorID, String honorifics, String firstName, String lastName, String middleName) {
 		super();
 		this.accreditorID = accreditorID;
@@ -62,18 +133,12 @@ public class Accreditor {
 		
 	}
 	
-	public String getTertiaryArea() {
-		return tertiaryArea;
-	}
-
-	public void setTertiaryArea(String tertiaryArea) {
-		this.tertiaryArea = tertiaryArea;
-	}
-
+	
 	public Accreditor(){
 		
 	}
 	
+
 	public void addDegrees(ArrayList<Degree> degrees){
 		this.degrees = degrees;
 	}
@@ -143,66 +208,7 @@ public class Accreditor {
 	public void setDiscipline(String discipline) {
 		this.discipline = discipline;
 	}
-	public String getPrimaryArea() {
-		return primaryArea;
-	}
-	public void setPrimaryArea(String primaryArea) {
-		this.primaryArea = primaryArea;
-	}
-	
-	public int getPrimaryAreaID(){
-		int id =0;
-		System.out.println("AREA: " + primaryArea);
-		if(primaryArea.equals("Faculty")) id = 1;
-		else if(primaryArea.equals("Instruction")) id = 2;
-		else if(primaryArea.equals("Laboratories")) id = 3;
-		else if(primaryArea.equals("Libraries")) id = 4;
-		else if(primaryArea.equals("Community")) id = 5;
-		else if(primaryArea.equals("Physical Facilities")) id = 6;
-		else if(primaryArea.equals("Student Services")) id = 7;
-		else if(primaryArea.equals("Administration")) id = 8;
-		else if(primaryArea.equals("Research")) id = 9;
-		else if(primaryArea.equals("Clinical Training")) id = 10;
-		else if(primaryArea.equals("Other Resources")) id = 11;
-		return id;
-	}
-	public int getSecondaryAreaID(){
-		int id =0;
-		if(secondaryArea.equals("Faculty")) id = 1;
-		else if(secondaryArea.equals("Instruction")) id = 2;
-		else if(secondaryArea.equals("Laboratories")) id = 3;
-		else if(secondaryArea.equals("Libraries")) id = 4;
-		else if(secondaryArea.equals("Community")) id = 5;
-		else if(secondaryArea.equals("Physical Facilities")) id = 6;
-		else if(secondaryArea.equals("Student Services")) id = 7;
-		else if(secondaryArea.equals("Administration")) id = 8;
-		else if(secondaryArea.equals("Research")) id = 9;
-		else if(secondaryArea.equals("Clinical Training")) id = 10;
-		else if(secondaryArea.equals("Other Resources")) id = 11;
-		return id;
-	}
-	
-	public int getTertiaryAreaID(){
-		int id =0;
-		if(tertiaryArea.equals("Faculty")) id = 1;
-		else if(tertiaryArea.equals("Instruction")) id = 2;
-		else if(tertiaryArea.equals("Laboratories")) id = 3;
-		else if(tertiaryArea.equals("Libraries")) id = 4;
-		else if(tertiaryArea.equals("Community")) id = 5;
-		else if(tertiaryArea.equals("Physical Facilities")) id = 6;
-		else if(tertiaryArea.equals("Student Services")) id = 7;
-		else if(tertiaryArea.equals("Administration")) id = 8;
-		else if(tertiaryArea.equals("Research")) id = 9;
-		else if(tertiaryArea.equals("Clinical Training")) id = 10;
-		else if(tertiaryArea.equals("Other Resources")) id = 11;
-		return id;
-	}
-	public String getSecondaryArea() {
-		return secondaryArea;
-	}
-	public void setSecondaryArea(String secondaryArea) {
-		this.secondaryArea = secondaryArea;
-	}
+
 	public int getTotalSurveys() {
 		return totalSurveys;
 	}

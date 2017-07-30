@@ -4,67 +4,86 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <html class="no-js" lang="en">
 
-    <head>
+<head>
 	<!-- IMPORTS -->
     <script src='js/jquery.min.js'></script>
-    <script src='js/jquery-ui.min.js'></script>
+    <!--     <script src='js/jquery-ui.min.js'></script> -->
     <link rel="stylesheet" href="css/bootstrap.css">
     <script src="js/bootstrap.min.js"></script>
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="css/vendor.css">
-    <link href='fullcalendar.css' rel='stylesheet' />
-    <link href='calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-	<script src='calendar/lib/moment.min.js'></script>
-	<link rel="stylesheet" href="chosen/chosen.css">
- 	<script src="chosen/chosen.jquery.js" type="text/javascript"></script>
-	<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
-	
-	
- 	<link title="timeline-styles" rel="stylesheet" href="css/timeline.css">
- 	<script src="js/bootstrap-datepicker.js"></script>
-	<link title="timeline-styles" rel="stylesheet" href="css/datepicker.css">
-	<!-- END IMPORTS -->
-	
+    <!--     <link href='fullcalendar.css' rel='stylesheet' /> -->
+    <!--     <link href='calendar/fullcalendar.print.css' rel='stylesheet' media='print' /> -->
+    <!-- 	<script src='calendar/lib/moment.min.js'></script> -->
+    <link rel="stylesheet" href="chosen/chosen.css">
+    <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
+    <!--  	<link title="timeline-styles" rel="stylesheet" href="css/timeline.css"> -->
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <!-- 	<link title="timeline-styles" rel="stylesheet" href="css/datepicker.css"> -->
+    <!-- END IMPORTS -->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title> PAASCU - Accreditation Schedule Manager </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+    <!-- Theme initialization -->
+    <script>
+        var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) : {};
+        var themeName = themeSettings.themeName || '';
+        if (themeName) {
+            document.write('<link rel="stylesheet" id="theme-style" href="css/app-' + themeName + '.css">');
+        } else {
+            document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
+        }
+    </script>
+    <!--         <link href='fullcalendar.css' rel='stylesheet' /> -->
+    <!-- <link href='calendar/fullcalendar.print.css' rel='stylesheet' media='print' /> -->
+    <!-- <script src='calendar/lib/moment.min.js'></script> -->
+    <!-- <script src='calendar/fullcalendar.min.js'></script> -->
     
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title> PAASCU - Accreditation Schedule Manager </title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <!-- Place favicon.ico in the root directory -->
-        
-        <!-- Theme initialization -->
-        <script>
-            var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
-            {};
-            var themeName = themeSettings.themeName || '';
-            if (themeName)
-            {
-                document.write('<link rel="stylesheet" id="theme-style" href="css/app-' + themeName + '.css">');
-            }
-            else
-            {
-                document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
-            }
-        </script><link href='fullcalendar.css' rel='stylesheet' />
-        
-<link href='calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-<script src='calendar/lib/moment.min.js'></script>
-<script src='calendar/fullcalendar.min.js'></script>
 
 
 
 <script>	
 $(document).ready(function() {
+	var format = "MM dd, yyyy";
+    $('#datepicker2').datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+    });
+    $('#datepicker3').datepicker({
+   	 format: "yyyy-mm-dd",
+        autoclose: true,
+    });
+
+    $('#datepicker1').datepicker({
+   	 format: "yyyy-mm-dd",
+        autoclose: true,
+    });
 	
-	$('#datepicker2').datepicker({
-		format: 'yyyy-mm-dd'
+	$('#external-events .fc-event').each(function() {
+
+		// store data so the calendar knows to render an event upon drop
+		$(this).data('event', {
+			title: $.trim($(this).text()), // use the element's text as the event title
+			stick: true // maintain when user navigates (see docs on the renderEvent method)
+		});
+
+		// make the event draggable using jQuery UI
+		$(this).draggable({
+			zIndex: 999,
+			revert: true,      // will cause the event to go back to its
+			revertDuration: 0  //  original position after the drag
+		});
+
 	});
-	$('#datepicker3').datepicker({
-		format: 'yyyy-mm-dd'
-	});
+
 	
+     
 	var systemFormEdu = document.getElementById('systemFormEdu');
 	var systemFormWork = document.getElementById('systemFormWork');
 
@@ -121,12 +140,17 @@ $(document).ready(function() {
 	$(".chosen-select").trigger("chosen:updated");
 	
 	getSystems();
-	
+ 	getDisciplines();
+	getAreas();
+	getHonorifics();
+	getCountries();
+	getCities();
+		
 	<c:forEach items="${accreditor.getWorks()}" var="work">
 		var inst = "<c:out value="${work.getInstitution()}"/>";
 		var pos = "<c:out value="${work.getPosition()}"/>";
-		var from = "<c:out value="${work.getDate_entered()}"/>";
-		var to = "<c:out value="${work.getDate_finished()}"/>";
+		var from = "<c:out value="${work.getDateEntered()}"/>";
+		var to = "<c:out value="${work.getDateFinished()}"/>";
 		var institutionID = "<c:out value="${work.getAccreditorID()}"/>";
 		if(to == ""){
 			var add = "<li class='list-group-item'>"+inst+"<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>From " + from + " to present</li></ul></li>";
@@ -148,7 +172,7 @@ $(document).ready(function() {
 	</c:forEach>
 	
 	<c:forEach items="${accreditor.getDegrees()}" var="deg">
-		var course = "<c:out value="${deg.getDegree_name()}"/>";
+		var course = "<c:out value="${deg.getDegreeName()}"/>";
 		var univ = "<c:out value="${deg.getInstitution()}"/>";
 		var add = "<li class='list-group-item'>"+univ+"<ul class='list-group'><li class='list-group-item'>Course: " + course + "</li></ul></li>";
 		
@@ -161,6 +185,8 @@ $(document).ready(function() {
 		var lal = document.getElementById("affiliations");
 		lal.scrollTop = lal.scrollHeight;
 	</c:forEach>
+
+		
 });
 function getSystems(){
 	//GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
@@ -206,12 +232,131 @@ function getSystems(){
 
 	});
 }
+
+function getAreas() {
+    //GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
+	var primary = document.getElementById("primaryArea");
+    var secondary = document.getElementById("secondaryArea");
+    var tertiary = document.getElementById("tertiaryArea");
+   
+    console.log(primary);
+    <c:set var="acc" value="${accreditor}"/>
+		var primaryID = "<c:out value="${acc.getPrimaryAreaID()}"/>";
+		var secondaryID = "<c:out value="${acc.getSecondaryAreaID()}"/>";
+		var tertiaryID = "<c:out value="${acc.getTertiaryAreaID()}"/>";
+		
+	$.getJSON("AreasLoader", function(data) {
+       
+        $.each(data, function(key, value) {
+        	
+        	
+            var option1 = document.createElement("option");
+            option1.text = value.name;
+            option1.value = value.areaID;
+            
+            if(primaryID == value.areaID)
+            option1.setAttribute("selected", true);
+            
+            var option2 = document.createElement("option");
+            option2.text = value.name;
+            option2.value = value.areaID;
+            if(secondaryID == value.areaID)
+                option2.setAttribute("selected", true);
+            
+            var option3 = document.createElement("option");
+            option3.text = value.name;
+            option3.value = value.areaID;
+
+            if(tertiaryID == value.areaID)
+                option3.setAttribute("selected", true);
+           
+            
+            primary.appendChild(option1);
+            secondary.appendChild(option2);
+            tertiary.appendChild(option3);
+
+        });
+
+    });
+}
+
+function getHonorifics() {
+    //GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
+		var honorifics = document.getElementById("honorificsSuggestions");
+  
+    $.getJSON("HonorificsLoader", function(data) {
+       
+        $.each(data, function(key, value) {
+            var option1 = document.createElement("option");
+            option1.text = value.honorifics;
+           	 
+            honorifics.appendChild(option1);
+
+        });
+
+    });
+}
+
+function getCountries() {
+    //GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
+		var country = document.getElementById("countrySuggestions");
+  
+    $.getJSON("CountriesLoader", function(data) {
+       
+        $.each(data, function(key, value) {
+            var option1 = document.createElement("option");
+            option1.text = value.country;
+           	 
+            country.appendChild(option1);
+
+        });
+
+    });
+}
+
+function getCities() {
+    //GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
+		var city = document.getElementById("citySuggestions");
+  
+    $.getJSON("CitiesLoader", function(data) {
+       
+        $.each(data, function(key, value) {
+            var option1 = document.createElement("option");
+            option1.text = value.city;
+           	 
+            city.appendChild(option1);
+
+        });
+
+    });
+}
+
+function getDisciplines() {
+    //GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
+
+	var disciplineSelect = document.getElementById("disciplineSuggestions");
+
+    $.getJSON("DisciplinesLoader", function(data) {
+       
+        $.each(data, function(key, value) {
+            var option1 = document.createElement("option");
+            option1.text = value.discipline;
+
+            disciplineSelect.appendChild(option1);
+            
+         
+        });
+
+    });
+}
+
 function addProp(){
 	$("#progBar").html("<div class='progress-bar progress-bar-success' role='progressbar' style='width:50%' id='progDetails'>1. Details</div><div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' style='width:50%' id='progProponents'>2. Affiliations </div>");
 	$(".chosen-select").trigger("chosen:updated");
 	 $(".chosen-container").each(function() {
 	       $(this).attr('style', 'width: 100%');
 	   });     
+	 
 }
 
 function addDet(){
@@ -296,6 +441,9 @@ function addEducation(){
 
 function togglePresent(){
 	$('#datepicker3').prop('disabled', function(i, v) { return !v; });
+
+		
+		
 }
 </script>
 <style>
@@ -430,19 +578,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 			
 				   	
       				<div class="form-group row">
+      				<c:set var="acc" scope="session" value="${accreditor}"/>
+      				
       				<div class="col-xs-2">
       					<label>Title:</label>
-    					<select class="form-control underlined" name="honorifics">
-    						<option>Mr.</option>
-    						<option>Ms.</option>
-        					<option>Mrs.</option>
-        					<option>Dr.</option>
-        					<option>Pastor</option>
-        					<option>Father</option>
-        					<option>Rev.</option>
-  						</select>
+    					<input type="text" class="form-control underlined" id="surveyName" name="honorifics" value="${acc.getHonorifics()}" list="honorificsSuggestions">
+                        <datalist id="honorificsSuggestions">
+                        </datalist>
+    
       				</div>
-      				<c:set var="acc" scope="session" value="${accreditor}"/>
       				<div class="col-xs-5">
 						<label>First Name:</label>
     					<input type="text" class="form-control underlined" id="surveyName" name="firstName" value="${acc.getFirstName()}">
@@ -464,7 +608,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     				</div>
     				<div class="col-xs-5">
     					<label>Contact Number:</label>
-    					<input type="text" class="form-control underlined" id="surveyName" name="contact" value="${acc.getContact()}">
+    					<input type="number" class="form-control underlined" id="surveyName" name="contact" value="${acc.getContact()}">
     				</div>
     				</div>
     				<div class="form-group row">
@@ -474,19 +618,25 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 					</div>
 					<div class="col-xs-5">
 						<label>City:</label>
-  						<input type="text" class="form-control underlined" id="surveyName" name="city" value="${acc.getCity()}">
-					</div>
+ 						<input type="text" class="form-control underlined" id="surveyName" name="city" value="${acc.getCity()}" list="citySuggestions">
+                        <datalist id="citySuggestions">
+	                    </datalist></div>
   					</div>
 					
 					<div class="form-group row">
 					
 					<div class="col-xs-7">
 						<label><b>Country:</b></label>
-  						<input type="text" class="form-control underlined" id="surveyName" name="country" value="${acc.getCountry()}">
-					</div>
+  						<input type="text" class="form-control underlined" id="surveyName" name="country" value="${acc.getCountry()}" list="countrySuggestions">
+                        <datalist id="countrySuggestions">
+	                    </datalist>
+                    </div>
     				<div class="col-xs-5">
 						<label><b>Discipline/Specialization:</b></label>
-  						<input type="text" class="form-control underlined" id="surveyName" name="discipline" value="${acc.getDiscipline()}">
+ 						<input type="text" class="form-control underlined" id="surveyName" name="discipline" value="${acc.getDiscipline()}" list="disciplineSuggestions">
+                        <datalist id="disciplineSuggestions">
+	                    </datalist>
+                                                
 					</div>
 					
     				
@@ -496,50 +646,31 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 					
 					<div class="col-xs-7">
 						<label><b>Venue Trained:</b></label>
-  						<input type="text" class="form-control underlined" id="surveyName" name="venue_trained" value="${acc.getVenue_trained()}">
+  						<input type="text" class="form-control underlined" id="surveyName" name="venue_trained" value="${acc.getVenueTrained()}">
 					</div>
     				<div class="col-xs-5">
-						<label><b>Date Trained:</b></label>
-  						<input type="text" class="form-control underlined" id="surveyName" name="date_trained" value="${acc.getDate_trained()}">
-					</div>
-					
-    				
+                       <label><b>Date Trained:</b>
+                       </label>
+                       <div class="input-daterange input-group">
+                           <input type="text" class="form-control underlined" id="datepicker1" name="date_trained" value="${acc.getDateTrained()}"/>
+                       </div>
+                   </div>
 					
   					</div>
 					
 					<div class="form-group row">
 						<div class="col-xs-12">
 							<label>Primary Survey Area:</label>
-    					<select class="form-control underlined" name="primaryArea">
-    						<option>Faculty</option>
-    						<option>Instruction</option>
-        					<option>Laboratories</option>
-        					<option>Libraries</option>
-        					<option>Community</option>
-        					<option>Physical Facilities</option>
-        					<option>Student Services</option>
-							<option>Administration</option>
-							<option>Research</option>
-							<option>Clinical Training</option>
-							<option>Other Resources</option>
+    					<select class="form-control underlined" name="primaryArea" id="primaryArea">
+    						
   						</select>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-xs-12">
 							<label>Secondary Survey Area:</label>
-    					<select class="form-control underlined" name="secondaryArea">
-    						<option>Faculty</option>
-    						<option>Instruction</option>
-        					<option>Laboratories</option>
-        					<option>Libraries</option>
-        					<option>Community</option>
-        					<option>Physical Facilities</option>
-        					<option>Student Services</option>
-							<option>Administration</option>
-							<option>Research</option>
-							<option>Clinical Training</option>
-							<option>Other Resources</option>
+    					<select class="form-control underlined" name="secondaryArea" id="secondaryArea">
+    						
   						</select>
 						</div>
 					</div>
@@ -547,18 +678,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 					<div class="form-group row">
 						<div class="col-xs-12">
 							<label>Tertiary Survey Area:</label>
-    					<select class="form-control underlined" name="tertiaryArea">
-    						<option>Faculty</option>
-    						<option>Instruction</option>
-        					<option>Laboratories</option>
-        					<option>Libraries</option>
-        					<option>Community</option>
-        					<option>Physical Facilities</option>
-        					<option>Student Services</option>
-							<option>Administration</option>
-							<option>Research</option>
-							<option>Clinical Training</option>
-							<option>Other Resources</option>
+    					<select class="form-control underlined" name="tertiaryArea" id="tertiaryArea">
+    						
   						</select>
 						</div>
 					</div>
@@ -657,13 +778,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     				
     				</section>
 					
-					<div id="navBut" style="position:absolute;top:670px;">
-					<hr style="position:absolute;">
-						
-						<button type="button" class="btn btn-success" onclick="saveAccreditor();"style="position:relative;top:35px; right:0px;">
-  						Submit
-  						</button>
-  					</div>
+					<div id="navBut" style="position:absolute;top:570px;">
+                        <hr style="position:absolute;">
+                         <button type="button" class="btn btn-info" data-toggle="tab" href="#menu1">Back</button>
+                         <br>
+                         <button type="button" class="btn btn-success" onclick="saveAccreditor();" style="position:relative;top:35px; right:0px;">Submit</button>
+                     </div>
     				
   					</div>
 					

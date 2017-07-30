@@ -31,14 +31,7 @@ public class UpdateInstitution extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-String ssID = request.getParameter("ssID");
+		String ssID = request.getParameter("ssName");
 		int institutionID = Integer.parseInt((String)request.getParameter("institutionID"));
 		String institutionName = request.getParameter("institutionName");
 		
@@ -70,13 +63,20 @@ String ssID = request.getParameter("ssID");
 		
 		String membershipDate  = request.getParameter("membershipDate");
 		
-		
+		System.out.println("WTF????");
 				
 		InstitutionsUtil instUtil = new InstitutionsUtil();
 		instUtil.editInstitution(institutionID, ssID, institutionName, institutionAcronym,  address, city, country, website, contactNumber, fax, institutionHead, position, headEmail, contactPerson, contactPosition, contactEmail, membershipDate);
 
 		RequestDispatcher rd = request.getRequestDispatcher("Institutions");
 		rd.forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
 	}
 
 }

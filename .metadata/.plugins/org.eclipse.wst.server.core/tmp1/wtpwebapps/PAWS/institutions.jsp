@@ -486,7 +486,6 @@ $(document).ready(function() {
                                                             <th>Institution Name</th>
                                                             <th>System</th>
                                                             <th>Acronym</th>
-                                                            <th>Date of Membership</th>
                                                             <th>City</th>
                                                             
                                                              <th>Controls</th>
@@ -500,7 +499,6 @@ $(document).ready(function() {
 															<td> <c:out value="${inst.getName()}"/> </td>
 															<td> <c:out value="${inst.getSchoolSystemName()}"/> </td>
 															<td> <c:out value="${inst.getInstitutionAcronym()}"/> </td>
-															<td> <c:out value="${inst.getDateAdded()}"/> </td>
 															<td> <c:out value="${inst.getCity()}"/> </td>
 															
 															<td>
