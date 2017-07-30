@@ -27,7 +27,7 @@ public SchoolSystem getSchoolSystem(int ssID){
 		
 		while(rs.next()){
 			temp = new SchoolSystem(rs.getInt(1),rs.getString(2), rs.getString(3));
-					
+
 		}
 	} catch (Exception e){
 		System.out.println("Error in ProgramUtil:getSchoolSystems()");

@@ -159,7 +159,7 @@ public class ProgramUtil {
 		String temp = new String();
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM tertiary WHERE tID=?");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM institutions WHERE institutionID=?");
 			ps.setInt(1, institutionID);
 			ResultSet rs = ps.executeQuery();
 			rs.next();

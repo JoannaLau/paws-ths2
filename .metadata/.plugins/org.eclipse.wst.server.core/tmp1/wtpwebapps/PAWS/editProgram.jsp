@@ -284,7 +284,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 										<c:set var="prog" scope="session" value="${program}"/>
 												
 										<div style="width:48%; padding-right"> <label class="control-label">Program Name</label> 
-										<input type="text" class="form-control underlined" style="width:90%;" value="${program.getName()}" placeholder="e.g. De La Salle" name="ssName"> </div>
+										<input type="text" class="form-control underlined" style="width:90%;" value="${program.getName()}" placeholder="e.g. De La Salle" name="programName"> </div>
+										<input type="hidden" value="${program.getProgramID()}" name="programID"> </div>
 																	
 										<br><br>
 															

@@ -4,40 +4,27 @@
     
 <!doctype html>
 <html class="no-js" lang="en">
-
-    <head>
-	 <!-- IMPORTS -->
+ <head>
+	<!-- IMPORTS -->
     <script src='js/jquery.min.js'></script>
-    <script src='js/jquery-ui.min.js'></script>
+<!--     <script src='js/jquery-ui.min.js'></script> -->
     <link rel="stylesheet" href="css/bootstrap.css">
     <script src="js/bootstrap.min.js"></script>
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="css/vendor.css">
-    <link href='fullcalendar.css' rel='stylesheet' />
-    <link href='calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-	<script src='calendar/lib/moment.min.js'></script>
-	<script src='calendar/fullcalendar.min.js'></script>
+<!--     <link href='fullcalendar.css' rel='stylesheet' /> -->
+<!--     <link href='calendar/fullcalendar.print.css' rel='stylesheet' media='print' /> -->
+<!-- 	<script src='calendar/lib/moment.min.js'></script> -->
+	<link rel="stylesheet" href="chosen/chosen.css">
+ 	<script src="chosen/chosen.jquery.js" type="text/javascript"></script>
 	<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
-	<script src="js/dataTables.bootstrap.js"></script>
-	<script src="js/jquery.dataTables.min.js"></script>
 	
- 	<link title="timeline-styles" rel="stylesheet" href="css/timeline.css">
-		<script src="js/bootstrap-datepicker.js"></script>
-	<link title="timeline-styles" rel="stylesheet" href="css/datepicker.css">
+	
+<!--  	<link title="timeline-styles" rel="stylesheet" href="css/timeline.css"> -->
+ 	<script src="js/bootstrap-datepicker.min.js"></script>
+ 	<link rel="stylesheet" href="css/bootstrap-datepicker.css">
+<!-- 	<link title="timeline-styles" rel="stylesheet" href="css/datepicker.css"> -->
 	<!-- END IMPORTS -->
-	
-    <script src='js/jquery.min.js'></script>
-    <script src='js/jquery-ui.min.js'></script>
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <script src="js/bootstrap.min.js"></script>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title> PAASCU - Accreditation Schedule Manager </title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <!-- Place favicon.ico in the root directory -->
-        <link rel="stylesheet" href="css/vendor.css">
         <!-- Theme initialization -->
         <script>
             var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
@@ -51,19 +38,18 @@
             {
                 document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
             }
-        </script><link href='fullcalendar.css' rel='stylesheet' />
-        
-<link href='calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-<script src='calendar/lib/moment.min.js'></script>
-<script src='calendar/fullcalendar.min.js'></script>
-
-
+            </script>
 
 <script>
 
 	$(document).ready(function() {
 		$('#activeopen').collapse("show");
-		$('#datepicker').datepicker();
+		 $('#datepicker').datepicker({
+		        format: "yyyy-mm-dd",
+		        autoclose: true,
+		    });
+		 		
+		
 		/* initialize the external events
 		-----------------------------------------------------------------*/
 
@@ -161,33 +147,6 @@ function addAlert(asd){
 	$('#section').append('<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Success!</strong> Successfully added survey called: '+asd +'.</div> <br>');
 }
 
-function addSurvey(){
-	var surveyName = document.getElementById("surveyName").value;
-	var school = document.getElementById("school").value;
-	var School System = document.getElementById("School System").value;
-	
-	$('#external-events').append('<div class="fc-event ui-draggable ui-draggable-handle" data-event="{\"title\":\"' + surveyName + '\"}">' + surveyName + '</div> <br>');
-	$('#external-events .fc-event').each(function() {
-
-		// store data so the calendar knows to render an event upon drop
-		$(this).data('event', {
-			title: $.trim($(this).text()), // use the element's text as the event title
-			stick: true // maintain when user navigates (see docs on the renderEvent method)
-		});
-
-		// make the event draggable using jQuery UI
-		$(this).draggable({
-			zIndex: 999,
-			revert: true,      // will cause the event to go back to its
-			revertDuration: 0  //  original position after the drag
-		});
-
-	});
-	$('#surveyName').value = "";
-	$('#school').value = "" ;
-	$('#School System').value = "";
-	addAlert(surveyName);
-}
 
 function addProp(){
 	$("#progBar").html("<div class='progress-bar progress-bar-success' role='progressbar' style='width:33%' id='progDetails'>1. Details</div><div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' style='width:33%' id='progProponents'>2. Proponents </div>");
@@ -340,7 +299,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 										<br><br>
 										
 											<div style="width:48%; padding-right"> <label class="control-label">Membership Date</label> 
-											<input type="text" class="form-control underlined" style="width:90%;" value="<%=ss.getDateJoined()%>" placeholder="e.g. 2017-01-01" name="joinDate"> </div>
+											<input type="text" id="datepicker" class="form-control underlined" style="width:90%;" value="<%=ss.getDateJoined()%>" placeholder="e.g. 2017-01-01" name="joinDate"> </div>
 											
 										
 									</div>

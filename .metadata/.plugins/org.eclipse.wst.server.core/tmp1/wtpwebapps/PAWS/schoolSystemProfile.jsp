@@ -254,7 +254,9 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
 													<h2>
 													<c:out value="${schoolsystem.getName()}"/>
 													</h2>
-												
+													<h6> Date of Membership:
+													<c:out value="${schoolsystem.getDateJoined()}"/>
+													</h6>
 													<hr>
 												</div>
 												
