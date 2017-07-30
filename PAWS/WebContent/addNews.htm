@@ -1,7 +1,14 @@
-<!doctype html>
-<html class="no-js" lang="en">
-	
-    <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+
+
+<head>
+
+    
+    
     	<script src="js/jquery.min.js"></script>
     	
     	
@@ -30,7 +37,22 @@
 		
 <script src="calendar/fullcalendar.js"></script>
     	<script src="calendar/fullcalendar.min.js"></script>
-
+    	
+    	
+  
+      <script type="text/javascript" src="js/jspdf.min.js"></script>
+      <script src="js/jquery-2.1.3.min.js"></script>
+      <script type="text/javascript" src="js/html2canvas.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/stylestest.css"/>
+    
+    
+    
+    
+    
+    
+    
+    
+    
 <style>
 
 	.container{
@@ -175,11 +197,27 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 		box-shadow: 0px 9px 24px 0px rgba(0,0,0,0.75);
 	}
 </style>
+    
+    
+     
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script src="js/bootstrap.min.js"></script>
+    
+    
+    
     </head>
-
-    <body>
-	
-        <div class="main-wrapper" style="z-index:1;">
+    
+    
+    
+<body>
+    
+    
+    
+    
+    
+    
+    
+     <div class="main-wrapper" style="z-index:1;">
             <div class="app" id="app">
 				   
                 <aside class="sidebar">
@@ -227,7 +265,6 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 							<ul id="demo3" class="collapse">
 								<li> <a href="reportGA.html">GA Awardees</a> </li>
 								<li> <a href="reportHistory.html">History</a> </li>
-								<li> <a href="Infographics.jsp">Infographics</a> </li>
 							</ul>
 						</li>
 						<li>
@@ -236,6 +273,25 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 								<p style="width:15px; height:17px;text-align:center; border-radius:10px; font-family: Verdana; font-size:10px;float:right; background-color:red; color:white;">10</p>
 							</a>
 						</li>
+                        
+                        
+                        
+                          <li id="news">
+					<a href="#demo4" data-toggle="collapse" > <i class="fa fa-file-text-o"></i> News <i class="fa arrow"></i> </a>
+					<ul id="demo4" class="collapse">
+						<li id="addNews"> <a href="" >
+							Add News
+							</a> 
+						</li>
+						<li id="viewNews"> <a href="" >
+							View News
+							</a> 
+						</li>
+						
+					</ul>
+				</li>
+                        
+                        
 						
 							<li>
 					<a href="documentGeneration.html">
@@ -246,7 +302,7 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 					</ul>
 				</nav>
 			</div>
-			<footer class="sidebar-footer">
+			<footer class="sidebar-footer"></footer>
 		</aside>
 				
 				<div class="container">
@@ -256,133 +312,72 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 <source src="assets/vid.mp4" type="video/mp4">
 </video>
 </div>
-            <div id="welcome">
-			<h1>Welcome back!</h1>
-			</div>
-			   <header class="header" style="top:150px; background-color:FFFFFF; height:57px; -webkit-box-shadow: 0px 2px 11px 2px rgba(50, 50, 50, 0.58);
--moz-box-shadow:    0px 2px 11px 2px rgba(50, 50, 50, 0.58);
-box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
-                    <div class="header-block header-block-collapse hidden-lg-up"> <button class="collapse-btn" id="sidebar-collapse-btn">
-    			<i class="fa fa-bars"></i>
-    		</button> </div>
-                  
-					<div style="position:relative; left:43%" >
-                     <h2 ><small>Dashboard</small></h2>
-					 </div>
-                    <div class="header-block header-block-nav">
-                        <ul class="nav-profile">
-                            <li class="notifications new">
-                                <a href="" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <sup>
-    			      <span class="counter">1</span>
-    			    </sup> </a>
-                                <div class="dropdown-menu notifications-dropdown-menu">
-                                    <ul class="notifications-container">
-                                        <li>
-                                            <a href="" class="notification-item">
-                                                <div class="img-col">
-                                                    <div class="img" style="background-image: url('assets/faces/marcos,nelson.jpg')"></div>
-                                                </div>
-                                                <div class="body-col">
-                                                    <p> <span class="accent">Marcos, Nelson Phd</span> Achievement: <span class="accent">Completed 100th survey</span>. </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                       
-                                    </ul>
-                                    <footer>
-                                        <ul>
-                                            <li> <a href="">
-    			            View All
-    			          </a> </li>
-                                        </ul>
-                                    </footer>
-                                </div>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                </header>
+          
+		<br><br>
                 <article class="content dashboard-page" >
                     <section class="section" style="position: relative; top:-130px;">
                       
 					 <div class="title-block">
                         <h6 class="title" style="float:left;"> <small>
-							Notification cards </small>
+							Add News</small>
 						</h6>
 					 </div>
 					
-						
-						<!--Start Card format-->
-							<div class="col-xl-3">
-                                <div class="card card-primary" id="notifcard">
-                                    <div class="card-header">
-                                        <div class="header-block">
-                                            <p class="title"> Week events </p>
-                                        </div>
-                                    </div>
-                                    <div class="card-block">
-                                     
-										<p id="pnum_primary">4</p>
-										<p id="psub"> Upcoming </p>
-									
-									  </div>
-                                    <div class="card-footer"> <a href="survey.html">View Calendar</a> </div>
-                                </div>
-                            </div>
-							
-							<div class="col-xl-3">
-                                <div class="card card-info" id="notifcard">
-                                    <div class="card-header">
-                                        <div class="header-block">
-                                            <p class="title"> Month events </p>
-                                        </div>
-                                    </div>
-                                    <div class="card-block">
-										<p id="pnum_info">23</p>
-										<p id="psub"> Total </p>
-									</div>
-                                    <div class="card-footer"> <a href="survey.html">View Calendar</a> </div>
-                                </div>
-                            </div>
-							
-							<div class="col-xl-3">
-                                <div class="card card-warning" id="notifcard">
-                                    <div class="card-header">
-                                        <div class="header-block">
-                                            <p class="title"> Notifications </p>
-                                        </div>
-                                    </div>
-                                    <div class="card-block">
-										<p id="pnum_warning">10</p>
-										<p id="psub"> Unread </p>
-                                    </div>
-                                    <div class="card-footer"> <a href="survey.html">View Notifications</a> </div>
-                                </div>
-                            </div>
-							
-							<div class="col-xl-3">
-                                <div class="card card-danger" id="notifcard">
-                                    <div class="card-header">
-                                        <div class="header-block">
-                                            <p class="title"> Unconfirmed </p>
-                                        </div>
-                                    </div>
-                                    <div class="card-block">
-										<p id="pnum_danger">6</p>
-										<p id="psub"> Past Surveys </p>
-                                    </div>
-                                    <div class="card-footer"> <a href="survey.html">View Unconfimed</a> </div>
-                                </div>
-                            </div>
-						
-						<!--End Card format-->
+			
+
+                        
+                  
+    
+ <div id="sample">
+ <script type="text/javascript" src="js/nicEdit-latest.js"></script>
+     
+    <script type="text/javascript">
+//<![CDATA[
+  bkLib.onDomLoaded(function() {
+    
+       new nicEditor({buttonList : ['bold','italic','underline','strikeThrough','link']}).panelInstance('area4');
+
+  });
+  //]]>
+  </script>
+ <label>News Title: </label>&nbsp;&nbsp;<input><br><br>
+  <textarea cols="100" id="area4">
+
+</textarea>
+ <br>
+<label>News Image (Optional): </label>   &nbsp;&nbsp;  
+    
+     
+     <button onclick="printText();">Select File</button><br><br>
+     
+     <button onclick="printText();">Save</button>
+     
+     
+</div>      
+                        
+
+                        
+    <!-- <input type="button" id="button" value="Submit"/> -->
+
+</section></article></div></div>
+
+					
 						
                     </section>
                 </article>
-             
-             
-             
-        <!-- Reference block for JS -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</body>
+
+
+  <!-- Reference block for JS -->
         <div class="ref" id="ref">
             <div class="color-primary"></div>
             <div class="chart">
@@ -393,6 +388,26 @@ box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
         <script src="js/vendor.js"></script>
         <script src="js/app.js"></script>
 
-    </body>
+
+
+    <script>
+    
+    function printText(){
+        
+     var nicE = new nicEditors.findEditor('area4');
+     var x = nicE.getContent();
+        
+        alert(x);
+    }
+    
+    </script>
+
 
 </html>
+
+
+
+
+
+
+

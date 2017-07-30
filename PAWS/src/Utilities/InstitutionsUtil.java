@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import com.mysql.jdbc.Connection;
 
+import Models.Infographic;
 import Models.Institution;
 
 public class InstitutionsUtil {
@@ -274,7 +275,7 @@ public class InstitutionsUtil {
 		
 		return jArray;
 	}
-	
+
 	public String getInstitutionName(int institutionID){
 		String name = "";
 		Institution temp = new Institution();

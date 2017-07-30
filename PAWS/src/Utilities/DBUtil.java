@@ -9,10 +9,9 @@ import com.mysql.jdbc.Statement;
 public class DBUtil {
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/paws";
 	private static final String USER = "root";
-	private static final String PASS = "";
+	private static final String PASS = "toor";
 	private Connection conn = null;
 	private Statement stmt = null;
-	
 	public DBUtil(){
 		try{
 			System.out.println("Trying..");
