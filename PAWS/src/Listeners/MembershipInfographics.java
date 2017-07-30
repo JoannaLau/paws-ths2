@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Models.Infographic;
+import Models.ProgramInfographic;
+import Utilities.InfographicsUtil;
 import Utilities.InstitutionsUtil;
 
 /**
@@ -35,7 +37,7 @@ public class MembershipInfographics extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		InstitutionsUtil ins = new InstitutionsUtil();
+		InfographicsUtil ins = new InfographicsUtil();
 	
 
 		int endYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -55,6 +57,22 @@ public class MembershipInfographics extends HttpServlet {
 		}
 		
 		
+		
+		ArrayList<ProgramInfographic> proInfList = new ArrayList<ProgramInfographic>();
+	
+		n=0;
+	
+		for(n=startYear; n<=endYear; n++){
+			
+			
+			ProgramInfographic p = new ProgramInfographic(n, ins.getInstitutionPragramCount(4, n, "active"), ins.getInstitutionPragramCount(5, n, "active"));
+			
+			proInfList.add(p);
+			
+		}
+		
+		
+		request.setAttribute("programsCountList", proInfList);
 		request.setAttribute("membersCountList", infList);
 		RequestDispatcher rd = request.getRequestDispatcher("membershipInfographics.jsp");
 		rd.forward(request, response);	

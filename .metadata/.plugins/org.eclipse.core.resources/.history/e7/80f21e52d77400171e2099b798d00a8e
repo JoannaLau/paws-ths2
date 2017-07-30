@@ -1,0 +1,28 @@
+package Models;
+
+public class ProgramInfographic {
+
+	private int tertiary;
+	private int graduate;
+	public int getTertiary() {
+		return tertiary;
+	}
+	public void setTertiary(int tertiary) {
+		this.tertiary = tertiary;
+	}
+	public int getGraduate() {
+		return graduate;
+	}
+	public void setGraduate(int graduate) {
+		this.graduate = graduate;
+	}
+	
+	
+	
+	public ProgramInfographic(){
+		
+	}
+	
+	
+	
+}

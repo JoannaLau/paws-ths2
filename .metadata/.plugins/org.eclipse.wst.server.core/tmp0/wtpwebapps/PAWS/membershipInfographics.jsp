@@ -58,44 +58,7 @@
         
     <script type="text/javascript" src="js/loader.js"></script>
 
-<!--     <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-
-		var Year = new Array();
-		var Tertiary = new Array();
-		var GradSchool = new Array();
-
-		var Combined = new Array();
-		Combined[0] = ['Year', 'Tertiary', 'Grad School'];
-		Year = ['2009', '2010', '2011', '2012', '2013', '2014'];
-		Tertiary = [88, 78, 92, 109, 123, 125];
-		GradSchool = [25, 23, 18, 25, 12, 11];
-
-		for (var i = 0; i < Year.length; i++){
-		  Combined[i + 1] = [ Year[i], Tertiary[i], GradSchool[i] ];
-		}
-
-
-        var data = google.visualization.arrayToDataTable(Combined);
-
-        var options = {
-          title: 'Candidate Schools',
-          curveType: 'function',
-          legend: { position: 'bottom' }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-        chart.draw(data, options);
-      }
-    </script> -->
-
-
- 
-        
         
         
         
@@ -260,17 +223,10 @@
 
 
 
-<script>
-	j$ = jQuery.noConflict();
-	j$(document).ready( function () {
-		var contactTable = j$('[id$="smarttable"]').DataTable({
-			order: [[1, 'asc']],
 			
-		});
 
-	});
+			
 
-			</script>
     </head>
 
     <body>
@@ -297,7 +253,7 @@
                     <section class="section" style="position: relative; top:-135px; left:-25px; width:105%;" >
                        <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
 										
-										
+										<h2>Number of Member Schools in the Last 5 Years</h2>
 											     <table id="smarttable" class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                       <tr>
@@ -335,13 +291,43 @@
                                                     </tbody>
                                                 </table>
         
-        
-        
-        
-        
+       
         <br>
         
         
+        	
+										<h2>Member School Programs</h2>
+											     <table id="smarttable" class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                      <tr>
+                                                            <th>Year</th>
+                                                            <th>Tertiary</th>
+                                                            <th>Graduate</th>
+                                                    
+                                                            
+                                                        
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id = "tableInstitutions">
+													
+													 <c:forEach items="${programsCountList}" var="count2" >
+														<tr>
+															<td> <c:out value="${count2.getYear()}"/> 
+															<td> <c:out value="${count2.getTertiary()}"/> </td>
+															<td> <c:out value="${count2.getGraduate()}"/> </td>
+														
+															
+															
+														</tr>
+													</c:forEach>
+														
+                                                    </tbody>
+                                                </table>
+ 
+        
+        <br>
+        
+
         <center>             
                            
                            
@@ -349,7 +335,7 @@
 
     <div id="chart_div" style="width: 900px; height: 500px;"></div>
 
-                           
+                  <div id="chart_div2" style="width: 900px; height: 500px"></div>
                            
                            
                            
@@ -409,13 +395,13 @@
 		 
 		 
 		 YearBar.push("${count.getYear()}");
-		 GradeSchoolBar.push("${count.getGradeSchool()}");
-		 HighSchoolBar.push("${count.getHighSchool()}");
-		 BasicBar.push("${count.getBasicEd()}");
-		 TertiaryBar.push("${count.getTertiary()}");
-		 GradSchoolBar.push("${count.getGraduate()}");
-		 MedBar.push("${count.getMedical()}");
-		 CECSTE.push("${count.getCecste()}");
+		 GradeSchoolBar.push(parseInt("${count.getGradeSchool()}"));
+		 HighSchoolBar.push(parseInt("${count.getHighSchool()}"));
+		 BasicBar.push(parseInt("${count.getBasicEd()}"));
+		 TertiaryBar.push(parseInt("${count.getTertiary()}"));
+		 GradSchoolBar.push(parseInt("${count.getGraduate()}"));
+		 MedBar.push(parseInt("${count.getMedical()}"));
+		 CECSTE.push(parseInt("${count.getCecste()}"));
 		 
 	
 		 
@@ -467,12 +453,152 @@
     
     
     
+
+    
+       <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+		var Year = new Array();
+		
+		var Tertiary = new Array();
+		var GradSchool = new Array();
+	
+		
+	
+		
+		 <c:forEach items="${programsCountList}" var="count2" >	 
+		 
+		 Year.push("${count2.getYear()}");
+		 Tertiary.push(parseInt("${count2.getTertiary()}"));
+		 GradSchool.push(parseInt("${count2.getGraduate()}"));
+		 </c:forEach>
+		
+
+		var Combined = new Array();
+		Combined[0] = ['Year', 'Tertiary', 'Graduate School'];
+		
+		
+		
+
+		for (var j = 0; j < Year.length; j++){
+		  Combined[j + 1] = [ YearBar[j], Tertiary[j], GradSchool[j]];
+		}
+
+
+		for (var x = 0; x < Year.length; x++){
+		  console.log(Combined[x]);
+		}
+
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(Combined);
+
+        var options = {
+          chart: {
+            title: 'Number of Member School Programs in the Past 5 Years',
+            subtitle: '',
+          },
+          bars: 'vertical', // Required for Material Bar Charts.
+          hAxis: {format: 'decimal'},
+          height: 400,
+          colors: ['#1b9e77', '#d95f02', '#7570b3']
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('chart_div2'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+
+       
+
+      }
+    </script>
+        
+    
+    
+    <!-- 
+    
+    
+    
+    
+     <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+		var Year = new Array();
+		var Tertiary = new Array();
+		var GradSchool = new Array();
+		
+		
+		
+		
+
+		
+		 <c:forEach items="${programsCountList}" var="count2" >	 
+		 
+		 Year.push(parseInt("${count2.getYear()}"));
+		 Tertiary.push(parseInt("${count2.getTertiary()}"));
+		 GradSchool.push(parseInt("${count2.getGraduate()}"));
+		 
+		 </c:forEach>
+		
+		
+		
+
+		var Combined = new Array();
+		
+		
+		Combined[0] = ['Year', 'Tertiary', 'Grad School'];
+		
+
+		for (var i = 0; i < Year.length; i++){
+		  Combined[i + 1] = [ Year[i], Tertiary[i], GradSchool[i] ];
+		}
+
+
+        var data = google.visualization.arrayToDataTable(Combined);
+
+        var options = {
+          title: 'Candidate Schools',
+          curveType: 'function',
+          xAxis: {format: 'decimal'},
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+
+
+ 
+        </script>
+     -->
     
     
     
     
     
     
+    
+    
+    
+    
+    
+<script>
+	j$ = jQuery.noConflict();
+	j$(document).ready( function () {
+		var contactTable = j$('[id$="smarttable"]').DataTable({
+			order: [[0, 'asc']],
+			
+		});
+
+	});
+
+			</script>
+			
     
     
     
