@@ -288,8 +288,9 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 
 													
   
-  <form method="post" action="EditNews">
+  <form method="post" action="UpdateNews">
     <c:set var="news" scope="session" value="${News}"/>
+    <input type="hidden" name="newsID" value="${news.getNewsID()}">
   <label>News Title: </label>&nbsp;&nbsp;<input id="newsTitle" name="title" value="<c:out value="${news.getTitle()}"/>"><br><br>
   <label>News Content: </label><br>
   <textarea rows="25" cols="200" id="newsBody" name="content">

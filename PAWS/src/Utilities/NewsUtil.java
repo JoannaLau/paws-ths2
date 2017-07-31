@@ -83,20 +83,18 @@ public class NewsUtil {
 	}
 	
 	
-	public void updateNews(int newsID, String title, String content, String date){
+	public void updateNews(int newsID, String title, String content){
 
 		try{
 
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("UPDATE news SET newsID=?, title=?, content=?, date=? WHERE newsID=?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE news SET title=?, content=? WHERE newsID=?");
 		
-			ps.setInt(1, newsID);
-			ps.setString(2, title);
-			ps.setString(3, content);
-			ps.setString(4, date);
-			ps.setInt(5, newsID);
+			ps.setString(1, title);
+			ps.setString(2, content);
+			ps.setInt(3, newsID);
 		
-		    ps.executeQuery();
+		    ps.executeUpdate();
 			
 			
 		} catch (Exception e){
