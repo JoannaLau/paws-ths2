@@ -22,11 +22,11 @@ import Models.SchoolSystem;
 public class NewsUtil {
 
 	
-	private DBUtil db;
+	private DBUtilWeb db;
 
 	
 	public NewsUtil(){
-		db = new DBUtil();
+		db = new DBUtilWeb();
 	}
 	
 	
@@ -41,7 +41,8 @@ public class NewsUtil {
 			ps.setString(1, title);
 			ps.setString(2, content);
 			ps.setString(3, date);
-			ps.executeUpdate();			
+			ps.executeUpdate();		
+			db.cutPort();
 		} catch (Exception e){
 			System.out.println("Error in NewsUtil:addNews()");
 			e.printStackTrace();	
@@ -56,6 +57,7 @@ public class NewsUtil {
 			PreparedStatement ps = conn.prepareStatement("DELETE from news WHERE newsID = ?");
 			ps.setInt(1, newsID);
 			ps.executeUpdate();
+			db.cutPort();
 		} catch (Exception e){
 			System.out.println("Error in InstitutionsUtil:deleteInstitution()");
 			e.printStackTrace();
@@ -74,6 +76,7 @@ public class NewsUtil {
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			temp = new News(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4));
+			db.cutPort();
 		} catch (Exception e){
 			System.out.println("Error in NewsUtil:getNews()");
 			e.printStackTrace();
@@ -95,8 +98,7 @@ public class NewsUtil {
 			ps.setInt(3, newsID);
 		
 		    ps.executeUpdate();
-			
-			
+			db.cutPort();
 		} catch (Exception e){
 			System.out.println("Error in NewsUtil:getNews()");
 			e.printStackTrace();
@@ -120,6 +122,7 @@ public ArrayList<News> getAllNews(){
 			temp = new News(rs.getInt(1),rs.getString(2),rs.getString(3), rs.getString(4));
 			news.add(temp);
 		}
+		db.cutPort();
 	} catch (Exception e){
 		System.out.println("Error in NewsUtil:getAllNews()");
 		e.printStackTrace();
@@ -153,6 +156,7 @@ public ArrayList<News> getAllNews(){
 				jArray.put(job);
 				
 			}
+			db.cutPort();
 		} catch (Exception e){
 			System.out.println("Error in InstitutionsUtil:getAllInstitutionsJSON()");
 			e.printStackTrace();
