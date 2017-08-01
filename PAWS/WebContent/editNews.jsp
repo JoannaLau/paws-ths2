@@ -12,10 +12,6 @@
 
 
 
-    
-    	<script src="js/jquery.min.js"></script>
-    	
-    	
     	
         <meta charset="utf-8">
         <meta name="description" content="">
@@ -38,10 +34,6 @@
             }
         </script>
 		
-<script src="calendar/fullcalendar.js"></script>
-    	<script src="calendar/fullcalendar.min.js"></script>
-    	
-    	
   
       <script type="text/javascript" src="js/jspdf.min.js"></script>
       <script src="js/jquery-2.1.3.min.js"></script>
@@ -66,6 +58,10 @@
 		z-index:-1;
 		margin-left:-15px;
 }
+	#hidden{
+	display: none;
+	}
+
 	#bgvid{
 		position:relative;
 		top:-400px;
@@ -276,38 +272,44 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 //<![CDATA[
   bkLib.onDomLoaded(function() {
     
-       new nicEditor({buttonList : ['bold','italic','underline','strikeThrough','link']}).panelInstance('newsBody');
-
+      var myNicEditor = new nicEditor({buttonList : ['bold','italic','underline','strikeThrough','link']});
+       myNicEditor.setPanel('myNicPanel');
+       myNicEditor.addInstance('newsBody');
+       myNicEditor.fidEditor('newsBody').setContent("asdasddad")
   });
   //]]>
   </script>
   
   
+  						
   
-  
-
-													
-  
-  <form method="post" action="UpdateNews">
+  <form method="post" action="UpdateNews" id="form1">
     <c:set var="news" scope="session" value="${News}"/>
     <input type="hidden" name="newsID" value="${news.getNewsID()}">
   <label>News Title: </label>&nbsp;&nbsp;<input id="newsTitle" name="title" value="<c:out value="${news.getTitle()}"/>"><br><br>
   <label>News Content: </label><br>
-  <textarea rows="25" cols="200" id="newsBody" name="content">
-<c:out value="${news.getContent()}"/>
-</textarea>
+  
+   <div id="myNicPanel" style="width: 525px;"></div>
+ 
+  <br/>
+ 
+  <div id ="newsBody" style=" border-style: solid; border-width: 1px;">
+
+<c:out value="${news.getContent()}" escapeXml="false"/>
+
+
+</div>
+
+<textarea id="hidden" name="content" rows="1" cols="1"></textarea>
  <br>
 <label>News Image (Optional): </label>   &nbsp;&nbsp;  
     
      
     <input type="file"><br><br>
      
-     <button onclick="printText();" type="submit" value="Submit">Update News</button>
+     <button onclick="submitForm();">Update News</button>
   
-                        
 
-                        
-    <!-- <input type="button" id="button" value="Submit"/> -->
   
   
   </form>
@@ -322,6 +324,25 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 
 </body>
 
+
+<script>
+function submitForm(){
+	
+	var divContent = $('#newsBody').html();
+  
+	document.getElementById("hidden").value = divContent;
+	
+	 var form = document.getElementById("form1");
+	 
+	 
+	 
+	 form.submit();
+}
+
+
+</script>
+
+
  <!-- Reference block for JS -->
         <div class="ref" id="ref">
             <div class="color-primary"></div>
@@ -335,17 +356,6 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 
 
 
-    <script>
-    
-    function printText(){
-        
-     var nicE = new nicEditors.findEditor('newsBody');
-     var x = nicE.getContent();
-        
-        alert(x);
-    }
-    
-    </script>
 
 
 
