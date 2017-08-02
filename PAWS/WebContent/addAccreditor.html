@@ -43,7 +43,17 @@
     <!-- <script src='calendar/fullcalendar.min.js'></script> -->
     <script>
         $(document).ready(function() {
-
+        	var institutionForm = document.getElementById('institutionFormWork');
+			
+        	$.getJSON("InstitutionsLoader", function(data){
+				$.each(data, function (key, value){
+					var option = document.createElement("option");
+					option.text = value.institutionName;
+					option.value = value.institutionID;
+					institutionForm.add(option);
+					$('#institutionFormWork').trigger("chosen:updated");
+				});	
+			});
          	getDisciplines();
         	getAreas();
         	getHonorifics();
@@ -51,18 +61,20 @@
         	getCities();
         	
 			var format = "MM dd, yyyy";
+			
+			
+			
 		     $('#datepicker2').datepicker({
-		         format: "yyyy-mm-dd",
-		         autoclose: true,
+		    	 format: "MM dd, yyyy",
+			 	 autoclose:true,
 		     });
 		     $('#datepicker3').datepicker({
-		    	 format: "yyyy-mm-dd",
-		         autoclose: true,
+		    	 format: "MM dd, yyyy",
+			 	 autoclose:true,
 		     });
-
 		     $('#datepicker1').datepicker({
-		    	 format: "yyyy-mm-dd",
-		         autoclose: true,
+		    	 format: "MM dd, yyyy",
+			 	 autoclose:true,
 		     });
 		     
 		     
@@ -300,21 +312,24 @@
         function addAffiliation() {
             var inst = $('#institutionFormWork').find(":selected").text();
             var pos = $('#pastPosition').val();
+            var placepos = $('#pastPlacePosition').val();
+            
             var from = $('#datepicker2').val();
             var to = $('#datepicker3').val();
             var institutionID = $('#institutionFormWork').find(":selected").val();
 
             if (to == "") {
-                var add = "<li class='list-group-item'>" + inst + "<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>From " + from + " to present</li></ul></li>";
+                var add = "<li class='list-group-item'>" + inst + "<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>Place of Position: " + placepos + "</li><li class='list-group-item'>From " + from + " to present</li></ul></li>";
 
             } else {
-                var add = "<li class='list-group-item'>" + inst + "<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>From " + from + " to " + to + "</li></ul></li>";
+                var add = "<li class='list-group-item'>" + inst + "<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>Place of Position: " + placepos + "</li><li class='list-group-item'>From " + from + " to " + to + "</li></ul></li>";
 
             }
 
             var obj = {};
             obj.institutionID = institutionID;
             obj.pos = pos;
+            obj.placepos = placepos;
             obj.from = from;
             obj.to = to;
             affObject.works.push(obj);
@@ -323,6 +338,7 @@
             lal.scrollTop = lal.scrollHeight;
 
             $('#pastPosition').val("");
+            $('#pastPlacePosition').val("");
             $('#datepicker2').val("");
             $('#datepicker3').val("");
 
@@ -657,6 +673,9 @@
                                                             </select>
                                                             <label>Position:</label>
                                                             <input type="text" class="form-control" id="pastPosition">
+                                                            <label>Place of position:</label>
+                                                            <input type="text" class="form-control" id="pastPlacePosition">
+                                                            
                                                             <label>From:</label>
                                                             <div class="input-daterange input-group">
                                                                 <input type="text" class="form-control" id="datepicker2" />

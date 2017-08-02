@@ -11,9 +11,9 @@
 		<nav class="menu">
 			<ul class="nav metismenu" id="sidebar-menu">
 				<li id="dashboard">
-					<a id = "adashboard" href="index.html"> <i class="fa fa-home"></i> Dashboard </a>
+					<a id = "adashboard" href="/Paws"> <i class="fa fa-home"></i> Dashboard </a>
 				<li id="survey">
-					<a id="asurvey" href="survey.jsp" > <i class="fa fa-table"></i> Survey Schedule </a>
+					<a id="asurvey" href="Survey" > <i class="fa fa-table"></i> Survey Schedule </a>
 				</li>
 				<li id="addSurvey">
 					<a href="AddSurvey" > <i class="fa fa-pencil-square-o"></i> Add New Survey </a>

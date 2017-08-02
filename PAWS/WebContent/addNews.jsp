@@ -271,10 +271,9 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
      
     <script type="text/javascript">
 //<![CDATA[
-  bkLib.onDomLoaded(function() {
+   bkLib.onDomLoaded(function() {
     
-       new nicEditor({buttonList : ['bold','italic','underline','strikeThrough','link']}).panelInstance('newsBody');
-
+       new nicEditor({buttonList : ['fontSize','bold','italic','underline','strikeThrough','link']}).panelInstance('newsBody');
   });
   //]]>
   </script>

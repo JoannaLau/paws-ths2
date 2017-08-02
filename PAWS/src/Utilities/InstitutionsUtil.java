@@ -138,6 +138,36 @@ public class InstitutionsUtil {
 		return jArray;
 	}
 	
+	public JSONArray getAllInstitutionsNoSystemJSON(){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT name, acronym, dateAdded, city, institutionID, educLevelID FROM `institutions` WHERE systemID = 0 ORDER BY `name`");
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("institutionName", rs.getString(1));
+				job.put("acronym", rs.getString(2));
+				job.put("dateAdded", formatDate_yearFirst(rs.getString(3)));
+				job.put("city", rs.getString(4));
+				job.put("institutionID", rs.getInt(5));
+				job.put("educLevel", getEducLevelName(rs.getInt(6)));
+				
+
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getAllInstitutionsJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
+	
 	private String getEducLevelName(int educLevelID)
 	{
 		String name="";

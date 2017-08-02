@@ -7,16 +7,18 @@ public class Work {
 	private String dateEntered;
 	private String dateFinished;
 	private String position;
+	private String placeOfPosition;
 	private int institutionID;
 	
 	
-	public Work(String institution, int accreditorID, String date_entered, String date_finished, String position, int institutionID) {
+	public Work(String institution, int accreditorID, String date_entered, String date_finished, String position, int institutionID, String placeOfPosition) {
 		super();
 		this.institution = institution;
 		this.accreditorID = accreditorID;
 		this.dateEntered = date_entered;
 		this.dateFinished = date_finished;
 		this.position = position;
+		this.placeOfPosition = placeOfPosition;
 		this.institutionID = institutionID;
 	}
 	
@@ -67,5 +69,14 @@ public class Work {
 		this.position = position;
 	}
 	
+	public String getPlaceOfPosition() {
+		return placeOfPosition;
+	}
+
+	public void setPlaceOfPosition(String position) {
+		this.placeOfPosition = position;
+	}
+	
+		
 	
 }

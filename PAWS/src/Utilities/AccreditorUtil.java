@@ -206,8 +206,23 @@ public class AccreditorUtil {
 			ps.setInt(1,  accID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
+				
+				
+				String head = rs.getString(1);
+				String partsHead[] = head.split(" ");
+				head = "";
+				for(int i = 0; i<partsHead.length; i++)
+				{
+					if(head == "")
+					{
+						head = partsHead[i].substring(0, 1).toUpperCase() + partsHead[i].substring(1).toLowerCase(); 
+					}
+					else	
+						head = head + " " + partsHead[i].substring(0, 1).toUpperCase() + partsHead[i].substring(1).toLowerCase(); 
+				}
+
 				job = new JSONObject();
-				job.put("head", rs.getString(1));
+				job.put("head", head);
 				job.put("hPosition", rs.getString(2));
 				job.put("institutionName", rs.getString(3));
 				job.put("city", rs.getString(4));
@@ -275,9 +290,47 @@ public class AccreditorUtil {
 			PreparedStatement ps = conn.prepareStatement("SELECT accreditorID, lastname, firstname, honorifics FROM accreditors");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
+				
+				String cleanLastName = rs.getString(2);
+				String cleanFirstName = rs.getString(3);
+				String cleanHonorifics = rs.getString(4);
+				String[] partsLastName = cleanLastName.split(" ");
+				String[] partsFirstName = cleanFirstName.split(" ");
+				String[] partsHonorifics = cleanHonorifics.split(" ");
+				cleanLastName = "";
+				cleanFirstName = "";
+				cleanHonorifics = "";
+				
+				for(int i = 0; i<partsLastName.length; i++)
+				{
+					partsLastName[i] = 	partsLastName[i].substring(0, 1).toUpperCase() + partsLastName[i].substring(1).toLowerCase();
+					if(cleanLastName == "")
+						cleanLastName = partsLastName[i];
+					else
+						cleanLastName = cleanLastName + " " + partsLastName[i];
+				}
+				
+				for(int i = 0; i<partsFirstName.length; i++)
+				{
+					partsFirstName[i] = partsFirstName[i].substring(0, 1).toUpperCase() + partsFirstName[i].substring(1).toLowerCase();
+					
+					if(cleanFirstName == "")
+						cleanFirstName = partsFirstName[i];
+					else
+						cleanFirstName = cleanFirstName + " " + partsFirstName[i];
+						
+				}
+				
+				for(int i = 0; i<partsHonorifics.length; i++)
+				{
+					partsHonorifics[i] = partsHonorifics[i].substring(0, 1).toUpperCase() + partsHonorifics[i].substring(1).toLowerCase();
+					cleanHonorifics = cleanHonorifics + partsHonorifics[i];
+				}
+				
+				
 				job = new JSONObject();
 				job.put("accID", rs.getInt(1));
-				job.put("accName", rs.getString(4) + " " + rs.getString(3) + " " + rs.getString(2));
+				job.put("accName", cleanHonorifics + " " + cleanFirstName + " " + cleanLastName);
 				jArray.put(job);
 				
 			}
@@ -469,7 +522,7 @@ public class AccreditorUtil {
 			ps.setInt(1, accreditorID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				temp = new Work(getInstitution(rs.getInt(2)), accreditorID, rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(2));
+				temp = new Work(getInstitution(rs.getInt(2)), accreditorID, rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(2), rs.getString(7));
 				works.add(temp);
 			}
 			
@@ -580,9 +633,10 @@ public class AccreditorUtil {
 			temp = works.getJSONObject(i);
 			int institutionID = temp.getInt("institutionID");
 			String position = temp.getString("pos");
+			String positionPlace = temp.getString("placepos");
 			String from = formatDate(temp.getString("from"));
 			String to = formatDate(temp.getString("to"));
-			addWork(accreditorID, institutionID, position, from, to);
+			addWork(accreditorID, institutionID, position, positionPlace, from, to);
 		}
 		
 		for(int j = 0; j < edu.length(); j++){
@@ -593,25 +647,29 @@ public class AccreditorUtil {
 		}
 	}
 	
-	public void addWork(int accreditorID, int institutionID, String position, String from, String to){
+	public void addWork(int accreditorID, int institutionID, String position, String placePos, String from, String to){
 		try{
 			Connection conn = db.getConnection();
 			if(to.equals("")){
-				PreparedStatement ps = conn.prepareStatement("INSERT INTO `work` (institutionID, accreditorID, `dateEntered`, `position`) VALUES (?, ?, ?, ?)");
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO `work` (institutionID, accreditorID, `dateEntered`, `position`, `placeOfPosition`) VALUES (?, ?, ?, ?, ?)");
 				
 				ps.setInt(1, institutionID);
 				ps.setInt(2, accreditorID);
 				ps.setString(3, from);
 				ps.setString(4, position);
+				ps.setString(5, placePos);
+				
 				ps.executeUpdate();	
 			}else{
-				PreparedStatement ps = conn.prepareStatement("INSERT INTO `work` (institutionID, accreditorID, `dateEntered`, `dateFinished`, `position`) VALUES (?, ?, ?, ?, ?)");
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO `work` (institutionID, accreditorID, `dateEntered`, `dateFinished`, `position`, `placeOfPosition`) VALUES (?, ?, ?, ?, ?, ?)");
 				
 				ps.setInt(1, institutionID);
 				ps.setInt(2, accreditorID);
 				ps.setString(3, from);
 				ps.setString(4, to);
 				ps.setString(5, position);
+				ps.setString(6, placePos);
+				
 				ps.executeUpdate();	
 			}
 					
@@ -700,7 +758,7 @@ public class AccreditorUtil {
 		boolean nice = false;
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM work INNER JOIN tertiary ON work.institutionID = tertiary.institutionID WHERE accreditorID = ? and systemID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM work INNER JOIN tertiary ON work.institutionID = institution.institutionID WHERE accreditorID = ? and systemID = ?");
 			ps.setInt(1, accreditorID);
 			ps.setInt(2, systemID);
 			ResultSet rs = ps.executeQuery();

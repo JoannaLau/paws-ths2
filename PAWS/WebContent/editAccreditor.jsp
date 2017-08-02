@@ -50,6 +50,18 @@
 
 <script>	
 $(document).ready(function() {
+	var institutionForm = document.getElementById('institutionFormWork');
+	
+	$.getJSON("InstitutionsLoader", function(data){
+		$.each(data, function (key, value){
+			var option = document.createElement("option");
+			option.text = value.institutionName;
+			option.value = value.institutionID;
+			institutionForm.add(option);
+			$('#institutionFormWork').trigger("chosen:updated");
+		});	
+	});
+
 	var format = "MM dd, yyyy";
     $('#datepicker2').datepicker({
         format: "yyyy-mm-dd",
@@ -149,20 +161,22 @@ $(document).ready(function() {
 	<c:forEach items="${accreditor.getWorks()}" var="work">
 		var inst = "<c:out value="${work.getInstitution()}"/>";
 		var pos = "<c:out value="${work.getPosition()}"/>";
+		var placepos = "<c:out value="${work.getPlaceOfPosition()}"/>";
 		var from = "<c:out value="${work.getDateEntered()}"/>";
 		var to = "<c:out value="${work.getDateFinished()}"/>";
 		var institutionID = "<c:out value="${work.getAccreditorID()}"/>";
 		if(to == ""){
-			var add = "<li class='list-group-item'>"+inst+"<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>From " + from + " to present</li></ul></li>";
+			var add = "<li class='list-group-item'>"+inst+"<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>Place of Position: " + placepos + "</li><li class='list-group-item'>From " + from + " to present</li></ul></li>";
 
 		}else{
-			var add = "<li class='list-group-item'>"+inst+"<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>From " + from + " to " + to + "</li></ul></li>";
+			var add = "<li class='list-group-item'>"+inst+"<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>Place of Position: " + placepos + "</li><li class='list-group-item'>From " + from + " to " + to + "</li></ul></li>";
 
 		}
 
 		var obj = {};
 		obj.institutionID = institutionID;
 		obj.pos = pos;
+		obj.placepos = placepos;
 		obj.from = from;
 		obj.to = to;
 		affObject.works.push(obj);
@@ -395,20 +409,22 @@ var affObject = {
 function addAffiliation(){
 	var inst = $('#institutionFormWork').find(":selected").text();
 	var pos = $('#pastPosition').val();
+	var placepos = $('#pastPlacePosition').val();
 	var from = $('#datepicker2').val();
 	var to = $('#datepicker3').val();
 	var institutionID = $('#institutionFormWork').find(":selected").val();	
 	if (to == ""){
-		var add = "<li class='list-group-item'>"+inst+"<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>From " + from + " to present</li></ul></li>";
+		var add = "<li class='list-group-item'>"+inst+"<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>Place of Position " + placepos + "</li><li class='list-group-item'>From " + from + " to present</li></ul></li>";
 
 	}else{
-		var add = "<li class='list-group-item'>"+inst+"<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>From " + from + " to " + to + "</li></ul></li>";
+		var add = "<li class='list-group-item'>"+inst+"<ul class='list-group'><li class='list-group-item'>Position: " + pos + "</li><li class='list-group-item'>Place of Position " + placepos + "</li><li class='list-group-item'>From " + from + " to " + to + "</li></ul></li>";
 
 	}
 
 	var obj = {};
 	obj.institutionID = institutionID;
 	obj.pos = pos;
+	obj.placepos = placepos;
 	obj.from = from;
 	obj.to = to;
 	affObject.works.push(obj);
@@ -417,6 +433,8 @@ function addAffiliation(){
 	lal.scrollTop = lal.scrollHeight;
 	
 	$('#pastPosition').val("");
+	$('#pastPlacePosition').val("");
+	
 	$('#datepicker2').val("");
 	$('#datepicker3').val("");
 
@@ -727,6 +745,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 							
     							<label>Position:</label>
     							<input type="text" class="form-control" id="pastPosition">
+    							<label>Place of Position:</label>
+    							<input type="text" class="form-control" id="pastPlacePosition">
+    							
     							<label>From:</label>
     							<div class="input-daterange input-group">
     							<input type="text" class="form-control" id="datepicker2" />

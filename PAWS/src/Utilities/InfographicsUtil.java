@@ -90,13 +90,11 @@ public class InfographicsUtil {
 	{
 		int count=0;
 	
-		
-		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(`surveyID`) FROM `surveys` WHERE YEAR(STR_TO_DATE(`startDate`, '%Y-%m-%d')) = ? AND `levelID` = ?");
-			ps.setInt(1, year);
-			ps.setInt(2, educLevelID); 
+			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(`surveyID`) FROM surveys WHERE surveys.institutionID IN (SELECT institutionID from INSTITUTIONS WHERE educLevelID = ?) AND YEAR(STR_TO_DATE(`startDate`, '%Y-%m-%d')) = ?");
+			ps.setInt(1, educLevelID);
+			ps.setInt(2, year); 
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){				
 			

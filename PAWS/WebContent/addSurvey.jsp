@@ -44,6 +44,16 @@
 				var systemForm = document.getElementById('systemForm');
 				var institutionForm = document.getElementById('institutionForm');
 				
+				$.getJSON("InstitutionsLoader", function(data){
+					$.each(data, function (key, value){
+						var option = document.createElement("option");
+						option.text = value.institutionName;
+						option.value = value.institutionID;
+						institutionForm.add(option);
+						$('#institutionForm').trigger("chosen:updated");
+					});	
+				});
+				
 				//EVENT LISTENER FOR CHOOSING A SYSTEM, CHANGING THE INSTITUTIONS AND SHOWING WHAT'S UNDER THAT SYSTEM
 				$('#systemForm').chosen().change(function(){
 					var temp = document.createElement("option");
