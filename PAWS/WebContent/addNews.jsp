@@ -291,18 +291,16 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 <label>News Image (Optional): </label>   &nbsp;&nbsp;  
     
      
-     <button onclick="printText();">Select File</button><br><br>
+     <input type="file" name="image" id="fileUpload"></input><br><br>
      
-     <button onclick="printText();" type="submit" value="Submit">Save News</button>
+     <button type="submit" value="Submit">Save News</button>
   
-                        
+  
+  
 
-                        
-    <!-- <input type="button" id="button" value="Submit"/> -->
-  
   
   </form>
-      
+   
      
 </div>    
 </section></article></div></div>

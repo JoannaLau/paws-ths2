@@ -1,5 +1,6 @@
 package Listeners;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Models.News;
 import Utilities.NewsUtil;
+import Utilities.SFTPDemo;
 
 /**
  * Servlet implementation class UpdateNews
@@ -37,9 +39,21 @@ public class UpdateNews extends HttpServlet {
 		
 		String content = request.getParameter("content");
 		String title = request.getParameter("title");
-		
+		String image = request.getParameter("image");
 		NewsUtil newsUtil = new NewsUtil();
-		newsUtil.updateNews(newsID, title, content);
+		
+
+		if(image=="") {
+		SFTPDemo sftp = new SFTPDemo(image);
+		
+		File f= new File(image); 
+		
+		String file = f.getName();
+		
+
+		}
+		
+		newsUtil.updateNewsNoImage(newsID, title, content);
 		
 		ArrayList<News> news = newsUtil.getAllNews();
 		request.setAttribute("news", news);

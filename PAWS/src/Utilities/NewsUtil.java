@@ -33,14 +33,15 @@ public class NewsUtil {
 	
 	
 	
-	public void addNews(String title, String content, String date){
+	public void addNews(String title, String content, String date, String image){
 		try{
 			Connection conn = db.getConnection();
 
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO `news`(title, content, date) VALUES (?, ?, ?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `news`(title, content, date, image) VALUES (?, ?, ?, ?)");
 			ps.setString(1, title);
 			ps.setString(2, content);
 			ps.setString(3, date);
+			ps.setString(4, image);
 			ps.executeUpdate();			
 		} catch (Exception e){
 			System.out.println("Error in NewsUtil:addNews()");
@@ -83,7 +84,30 @@ public class NewsUtil {
 	}
 	
 	
-	public void updateNews(int newsID, String title, String content){
+	public void updateNews(int newsID, String title, String content, String image){
+
+		try{
+
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("UPDATE news SET title=?, content=?, image=? WHERE newsID=?");
+		
+			ps.setString(1, title);
+			ps.setString(2, content);
+			ps.setString(3, image);
+			ps.setInt(4, newsID);
+		
+		    ps.executeUpdate();
+			
+			
+		} catch (Exception e){
+			System.out.println("Error in NewsUtil:getNews()");
+			e.printStackTrace();
+		}
+		
+	
+	}
+	
+	public void updateNewsNoImage(int newsID, String title, String content){
 
 		try{
 
@@ -104,7 +128,6 @@ public class NewsUtil {
 		
 	
 	}
-	
 	
 	
 

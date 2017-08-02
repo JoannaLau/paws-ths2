@@ -1,5 +1,6 @@
 package Listeners;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Models.News;
+
 import Utilities.NewsUtil;
+import Utilities.SFTPDemo;
 
 /**
  * Servlet implementation class AddNews
@@ -39,6 +42,7 @@ public class AddNews extends HttpServlet {
 
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
+		String image = request.getParameter("image");
 
 	     Date dNow = new Date( );
 		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
@@ -46,7 +50,16 @@ public class AddNews extends HttpServlet {
 		NewsUtil news = new NewsUtil();
 		
 		
-		news.addNews(title, content, date);
+		
+		SFTPDemo sftp = new SFTPDemo(image);
+		
+		File f= new File(image); 
+		
+		String file = f.getName();
+		
+
+		
+		news.addNews(title, content, date, file);
 		
 		ArrayList<News> newslist = news.getAllNews();
 		

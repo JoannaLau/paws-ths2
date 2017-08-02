@@ -305,7 +305,7 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 <label>News Image (Optional): </label>   &nbsp;&nbsp;  
     
      
-    <input type="file"><br><br>
+    <input type="file" name="image"><br><br>
      
      <button onclick="submitForm();">Update News</button>
   

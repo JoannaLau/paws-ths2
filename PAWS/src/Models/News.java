@@ -1,12 +1,14 @@
 package Models;
 
+import java.io.File;
+
 public class News {
 
 	private int newsID;
 	private String title;
 	private String content;
 	private String date;
-	
+	private String image;
 	
 	public News(){}
 	
@@ -41,6 +43,18 @@ public class News {
 		this.newsID = newsID;
 	}
 	
+
+
+public String getImage() {
+	return image;
+}
+
+public void setImage(String image) {
+	this.image = image;
+}
+
+	
+	
 	
 public News(int newsID, String title, String content, String date){
 		
@@ -53,6 +67,5 @@ public News(int newsID, String title, String content, String date){
 		
 	}
 
-	
 	
 }

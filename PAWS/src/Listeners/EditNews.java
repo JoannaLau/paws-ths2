@@ -34,9 +34,8 @@ public class EditNews extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int newsID = Integer.parseInt((String)request.getParameter("newsID"));
-		
 		NewsUtil newsUtil = new NewsUtil();
-		News news = newsUtil.getNews(newsID);
+		News news = newsUtil.getNews(newsID);		
 		
 		request.setAttribute("News", news);
 		RequestDispatcher rd = request.getRequestDispatcher("editNews.jsp");
