@@ -14,9 +14,9 @@ public class DBUtilWeb{
         Connection conn = null;
         Session session= null;
         
-        String host = "139.59.108.59";
+        String host = "128.199.211.133";
         String servUser = "root";
-        String servPwd = "paws123123";
+        String servPwd = "pAws123321pawS";
         int port = 22;
         
         String rhost = "localhost";
@@ -26,7 +26,7 @@ public class DBUtilWeb{
         String driverName = "com.mysql.jdbc.Driver";
         String db2Url = "jdbc:mysql://localhost:" + lport + "/paws-web";
         String dbUsr = "root";
-        String dbPwd = "paws123123";
+        String dbPwd = "";
          
         public DBUtilWeb()
         {
