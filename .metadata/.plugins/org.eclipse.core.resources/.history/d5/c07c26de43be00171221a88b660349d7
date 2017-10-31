@@ -57,11 +57,11 @@ public class ContactUsUtil
 			while(rs.next()){
 				
 				job = new JSONObject();
-				job.put("name", StringEscapeUtils.escapeHtml4(rs.getString(2)));
-				job.put("email", StringEscapeUtils.escapeHtml4(rs.getString(3)));
-				job.put("message", StringEscapeUtils.escapeHtml4(rs.getString(4)));
-				job.put("dateTime", StringEscapeUtils.escapeHtml4(rs.getString(5)));
-				job.put("ipAddress", StringEscapeUtils.escapeHtml4(rs.getString(6)));
+				job.put("name", rs.getString(2));
+				job.put("email", rs.getString(3));
+				job.put("message", rs.getString(4));
+				job.put("dateTime", rs.getString(5));
+				job.put("ipAddress", rs.getString(6));
 				
 
 				jArray.put(job);
