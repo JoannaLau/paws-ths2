@@ -43,39 +43,38 @@ public class ContactUsUtil
 		
 	    return contactUs;
 	}
-		
-		
-		
-		
+	
 
-		public JSONArray getAllNewsJSON(){
-			JSONArray jArray = new JSONArray();
-			JSONObject job = new JSONObject();
-			
-			try{
-				Connection conn = db.getConnection();
-				PreparedStatement ps = conn.prepareStatement("SELECT * FROM `news` ORDER BY `newsID`");
+
+	public JSONArray getAllResponsesJSON(){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM `contactus` ORDER BY `contactID`");
+					
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
 				
-				ResultSet rs = ps.executeQuery();
-				while(rs.next()){
-					job = new JSONObject();
-					job.put("newsID", rs.getInt(1));
-					job.put("title", rs.getString(2));
-					job.put("content", rs.getString(3));
-					job.put("date", rs.getString(4));
-					
-					
+				job = new JSONObject();
+				job.put("name", rs.getString(2));
+				job.put("email", rs.getString(3));
+				job.put("message", rs.getString(4));
+				job.put("dateTime", rs.getString(5));
+				job.put("ipAddress", rs.getString(6));
+				
 
-					jArray.put(job);
-					
-				}
-				db.cutPort();
-			} catch (Exception e){
-				System.out.println("Error in InstitutionsUtil:getAllInstitutionsJSON()");
-				e.printStackTrace();
+				jArray.put(job);
+				
 			}
-			
-			return jArray;
+			db.cutPort();
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getAllInstitutionsJSON()");
+			e.printStackTrace();
 		}
+		
+		return jArray;
+	}
 			
 }

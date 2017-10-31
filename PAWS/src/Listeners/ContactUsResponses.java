@@ -35,9 +35,6 @@ public class ContactUsResponses extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ContactUsUtil cuUtil = new ContactUsUtil();
-		ArrayList<ContactUs> contactUs = cuUtil.getAllContactUs();
-		request.setAttribute("contactUs", contactUs);
 		RequestDispatcher rd = request.getRequestDispatcher("contactUs.jsp");
 		rd.forward(request, response);	
 	

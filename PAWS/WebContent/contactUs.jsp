@@ -8,21 +8,34 @@
 
         <head>
             <!-- IMPORTS -->
-            <script src='js/jquery.min.js'></script>
 
-            <script src='js/jquery-ui.min.js'></script>
-            <link rel="stylesheet" href="css/bootstrap.css">
-            <script src="js/bootstrap.min.js"></script>
-            <link rel="apple-touch-icon" href="apple-touch-icon.png">
-            <link rel="stylesheet" href="css/vendor.css">
 
-            <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-            <link rel="stylesheet" type="text/css" href=" css/dataTables.bootstrap.min.css">
-            <script src="js/jquery.dataTables.min.js"></script>
-            <script src="js/dataTables.bootstrap.min.js"></script>
-
-            <link title="timeline-styles" rel="stylesheet" href="css/timeline.css">
-
+		<link rel="stylesheet" href="chosen/chosen.css">
+	    <link rel="stylesheet" href="css/bootstrap.css">
+	    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+	    <link rel="stylesheet" href="css/vendor.css">
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href=" css/dataTables.bootstrap.min.css">
+		<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />	
+		<link href="css/dataTables.jqueryui.min.css" rel="stylesheet" type="text/css" media="all" />	
+		<link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" media="all" />	
+		<link href="css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" media="all" />	
+		
+		<script src='js/jquery.min.js'></script>
+		<script src="chosen/chosen.jquery.js" type="text/javascript"></script>
+		
+	    <script src='js/jquery-ui.min.js'></script>
+	    <script src="js/bootstrap.min.js"></script>
+		<script src="js/jquery.dataTables.min.js"></script>
+		<script src="js/dataTables.bootstrap.min.js"></script>
+		<script src="js/dataTables.buttons.min.js"></script>
+		<script src="js/dataTables.jqueryui.min.js"></script>
+		<script src="js/buttons.print.min.js"></script>
+		<script src="js/jszip.min.js"></script>
+		<script src="js/pdfmake.min.js"></script>
+		<script src="js/buttons.html5.min.js"></script>
+		<script src="js/vfs_fonts.js"></script>
+       
             <!-- END IMPORTS -->
 
 
@@ -34,6 +47,18 @@
             <link rel="apple-touch-icon" href="apple-touch-icon.png">
             <!-- Place favicon.ico in the root directory -->
             <link rel="stylesheet" href="css/vendor.css">
+            
+            
+            <style>
+           	 	td.details-control {
+				    background: url('../resources/details_open.png') no-repeat center center;
+				    cursor: pointer;
+				}
+				tr.shown td.details-control {
+				    background: url('../resources/details_close.png') no-repeat center center;
+				}
+            
+            </style>
             <!-- Theme initialization -->
             <script>
                 var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) : {};
@@ -47,34 +72,98 @@
 
 
             <script>
-                $(document).ready(function() {
+	            function format ( d ) {
+	                // `d` is the original data object for the row
+	                return '<table cellpadding="5" cellspacing="0" border="1" style="margin: auto; padding-left:100px;">'+
+	                    '<tr>'+
+	                        '<td class="td-expand">Name:</td>'+
+	                        '<td class="td-expand">'+d.name+'</td>'+
+	                    '</tr>'+
+	                    '<tr>'+
+	                        '<td>Email:</td>'+
+	                        '<td class="td-expand">'+d.email+'</td>'+
+	                    '</tr>'+
+	                    '<tr>'+
+	                        '<td>Message:</td>'+
+	                        '<td class="td-expand">'+d.message+'</td>'+
+	                    '</tr>'+
+	                '</table>';
+	            }
+            
+	            $(document).ready(function() {
+	            	
+	            	$.getJSON("ContactUsLoader", function(data){
 
-
-
-                    $('#smarttable').DataTable({
-                        initComplete: function() {
-                            this.api().columns().every(function() {
-                                var column = this;
-                                var select = $('<select><option value=""></option></select>')
-                                    .appendTo($(column.footer()).empty())
-                                    .on('change', function() {
-                                        var val = $.fn.dataTable.util.escapeRegex(
-                                            $(this).val()
-                                        );
-
-                                        column
-                                            .search(val ? '^' + val + '$' : '', true, false)
-                                            .draw();
-                                    });
-
-                                column.data().unique().sort().each(function(d, j) {
-                                    select.append('<option value="' + d + '">' + d + '</option>')
-                                });
-                            });
-                        }
-                    });
-
-                });
+		                var table = $('#smarttable').DataTable( {
+	                	    "data": data,
+                	   		autoWidth: false,
+		                    "columns": [
+		                        {
+		                            "className":      'details-control fa fa-search-plus',
+		                            "orderable":      false,
+		                            "data":           null,
+		                            "defaultContent": '',
+		                            "width" : '3px'
+		                        },
+		                        
+		                        { 
+		                        	"data": "name",
+		                        	"className": 'td-limit'
+		                        },
+		                        { 
+		                        	"data": "email",
+		                        	"className": 'td-limit'
+		                        },
+		                        { 
+		                        	"data": "dateTime",
+		                        	"className": 'td-limit'
+		                        },
+		                        { 
+		                        	"data": "message",
+		                        	"className": 'td-limit'
+		                        },
+		                        { 
+		                        	"data": "ipAddress",
+		                        	"className": 'td-limit'
+		                        }
+		                    ],
+		                    "order": [[1, 'asc']]
+		                } );
+		                // Add event listener for opening and closing details
+		                $('#smarttable tbody').on('click', 'td.details-control', function () {
+		                	var tr = $(this).closest('tr');
+		                	var td = $(this).closest('td.details-control');
+		                	
+		                	var row = table.row( tr );
+		                    
+		                    if ( row.child.isShown() ) {
+		                        // This row is already open - close it
+		                        row.child.hide();
+		                        tr.removeClass('shown');
+		                        td.removeClass("fa-search-minus");
+		                        td.addClass("fa-search-plus");
+		                        
+		                    	    
+		                    }
+		                    else {
+		                        // Open this row
+		                        row.child( format(row.data()) ).show();
+		                        tr.addClass('shown');
+		                        td.removeClass("fa-search-plus");
+		                        td.addClass("fa-search-minus");
+		                    }
+		                } );
+	          	           	
+		                document.getElementById("message").setAttribute("style", "max-width: 100px;");
+          			});
+	            	
+	            	
+	            	
+	            } );
+	            
+	           
+                
+               
             </script>
 
             <style>
@@ -88,9 +177,6 @@
                 #smarttable th,
                 #smarttable td {
                     text-align: left;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
                 }
                 #smarttable th {
                     color: #3c4731;
@@ -239,20 +325,24 @@
                     -moz-box-shadow: 0px 9px 24px 0px rgba(0, 0, 0, 0.75);
                     box-shadow: 0px 9px 24px 0px rgba(0, 0, 0, 0.75);
                 }
+               
+				.td-limit {
+				    max-width: 70px;
+				    text-overflow: ellipsis;
+				    white-space: nowrap;
+				    overflow: hidden;
+				}
+				
+				
+				.td-expand {
+				    max-width: 50em; 
+				    text-overflow: initial !important;
+				    border: 1px solid #000000;
+				    word-wrap: break-word !important;
+				}
             </style>
 
-            <script>
-                j$ = jQuery.noConflict();
-                j$(document).ready(function() {
-                    var contactTable = j$('[id$="smarttable"]').DataTable({
-                        order: [
-                            [1, 'asc']
-                        ],
-
-                    });
-
-                });
-            </script>
+            
         </head>
 
         <body>
@@ -288,37 +378,16 @@
                                 <table id="smarttable" class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
-
+											<th></th>
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Date and Time</th>
-                                            <th>Message</th>
+                                            <th id="message">Message</th>
                                             <th>IP Address</th>
 
                                         </tr>
                                     </thead>
-                                    <tbody id="tableInstitutions">
-
-                                        <c:forEach items="${contactUs}" var="cu">
-                                            <tr>
-
-                                                <td>
-                                                    <c:out value="${cu.getName()}" /> </td>
-                                                <td style="max-width:100px;">
-                                                    <c:out value="${cu.getEmail()}" /> </td>
-                                                <td>
-                                                    <c:out value="${cu.getDateTime()}" /> </td>
-                                                <td style="max-width:100px;">
-                                                    <c:out value="${cu.getMessage()}" /> </td>
-                                                <td>
-                                                    <c:out value="${cu.getIpAddress()}" /> </td>
-
-
-
-                                            </tr>
-                                        </c:forEach>
-
-                                    </tbody>
+                                    
                                 </table>
                             </div>
                         </section>
@@ -337,8 +406,7 @@
                     <div class="color-secondary"></div>
                 </div>
             </div>
-
-            <script src="js/app.js"></script>
+			<script src="js/app.js"></script>
 
 
         </body>
