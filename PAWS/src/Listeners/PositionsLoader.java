@@ -1,8 +1,6 @@
 package Listeners;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,23 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
-import Models.Institution;
-import Utilities.InstitutionsUtil;
-import Utilities.SchoolSystemUtil;
+import Utilities.BoardMembersUtil;
+import Utilities.CommissionMembersUtil;
 
 /**
- * Servlet implementation class InstitutionsLoader
+ * Servlet implementation class PositionsLoader
  */
-@WebServlet("/InstitutionsLoader")
-public class InstitutionsLoader extends HttpServlet {
+@WebServlet("/PositionsLoader")
+public class PositionsLoader extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InstitutionsLoader() {
+    public PositionsLoader() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,20 +33,11 @@ public class InstitutionsLoader extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.setContentType("application/json");
+		BoardMembersUtil bmUtil = new BoardMembersUtil();
+		
 		JSONArray jArray = new JSONArray();
-
-		InstitutionsUtil insUtil = new InstitutionsUtil();
-	
-		if(request.getParameter("systemID")!=null)
-		{
-			int systemID = Integer.parseInt(request.getParameter("systemID"));
-			jArray = insUtil.getInstitutionsJSON(systemID);
-		}
-		
-		else
-			jArray = insUtil.getAllInstitutionsNoSystemJSON();
-		
-		response.getWriter().write(jArray.toString());	
+		jArray = bmUtil.getPositionsAllMembersJSON();
+		response.getWriter().write(jArray.toString());
 	}
 
 	/**
@@ -60,4 +47,5 @@ public class InstitutionsLoader extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+
 }

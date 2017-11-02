@@ -1,32 +1,23 @@
 package Listeners;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import Models.Institution;
-import Utilities.InstitutionsUtil;
-import Utilities.SchoolSystemUtil;
-
 /**
- * Servlet implementation class InstitutionsLoader
+ * Servlet implementation class CommissionMembersLoader
  */
-@WebServlet("/InstitutionsLoader")
-public class InstitutionsLoader extends HttpServlet {
+@WebServlet("/CommissionMembersLoader")
+public class CommissionMembersLoader extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InstitutionsLoader() {
+    public CommissionMembersLoader() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,21 +27,7 @@ public class InstitutionsLoader extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setContentType("application/json");
-		JSONArray jArray = new JSONArray();
-
-		InstitutionsUtil insUtil = new InstitutionsUtil();
-	
-		if(request.getParameter("systemID")!=null)
-		{
-			int systemID = Integer.parseInt(request.getParameter("systemID"));
-			jArray = insUtil.getInstitutionsJSON(systemID);
-		}
-		
-		else
-			jArray = insUtil.getAllInstitutionsNoSystemJSON();
-		
-		response.getWriter().write(jArray.toString());	
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -60,4 +37,5 @@ public class InstitutionsLoader extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+
 }

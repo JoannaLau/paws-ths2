@@ -3,30 +3,30 @@ package Listeners;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import Models.Institution;
-import Utilities.InstitutionsUtil;
-import Utilities.SchoolSystemUtil;
+import Models.Accreditation;
+import Models.Accreditor;
+import Models.BoardMember;
+import Utilities.AccreditorUtil;
+import Utilities.BoardMembersUtil;
 
 /**
- * Servlet implementation class InstitutionsLoader
+ * Servlet implementation class ViewBoardMembers
  */
-@WebServlet("/InstitutionsLoader")
-public class InstitutionsLoader extends HttpServlet {
+@WebServlet("/ViewBoardMembers")
+public class ViewBoardMembers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InstitutionsLoader() {
+    public ViewBoardMembers() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,21 +36,12 @@ public class InstitutionsLoader extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setContentType("application/json");
-		JSONArray jArray = new JSONArray();
-
-		InstitutionsUtil insUtil = new InstitutionsUtil();
-	
-		if(request.getParameter("systemID")!=null)
-		{
-			int systemID = Integer.parseInt(request.getParameter("systemID"));
-			jArray = insUtil.getInstitutionsJSON(systemID);
-		}
-		
-		else
-			jArray = insUtil.getAllInstitutionsNoSystemJSON();
-		
-		response.getWriter().write(jArray.toString());	
+		int bmID = Integer.parseInt(request.getParameter("bmID"));
+		BoardMembersUtil bmUtil = new BoardMembersUtil();
+		BoardMember bm = bmUtil.getBoardMember(bmID);
+		request.setAttribute("boardMember", bm);
+		RequestDispatcher rd = request.getRequestDispatcher("boardMembersProfile.jsp");
+		rd.forward(request, response);
 	}
 
 	/**
@@ -60,4 +51,5 @@ public class InstitutionsLoader extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+
 }
