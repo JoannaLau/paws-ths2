@@ -1,6 +1,6 @@
 package Models;
 
-public class CommissionMembers 
+public class CommissionMember 
 {
 	private int cmID;
 	private String firstName;
@@ -12,15 +12,32 @@ public class CommissionMembers
 	private String city;
 	private int year;
 	private int commissionPositionID;
+	private String commissionPosition;
 	private int educLevelID;
+	private String educLevel;
 	
-	public CommissionMembers()
+	public CommissionMember()
 	{
 		
 	}
 	
-	public CommissionMembers(int cmID, String firstName, String lastName, String middleName, String honorifics,
-			String position, String institution, String city, int year, int commissionPositionID, int educLevelID) {
+	public CommissionMember(int cmID, String firstName, String lastName, int commissionPositionID, 
+			int year, String commissionPosition, int educLevelID, String educLevel) {
+		this.cmID = cmID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.year = year;
+		this.commissionPositionID = commissionPositionID;
+		this.setCommissionPosition(commissionPosition);
+		this.educLevelID = educLevelID;
+		this.setEducLevel(educLevel);
+	}
+	
+	
+	
+	public CommissionMember(int cmID, String firstName, String lastName, String middleName, String honorifics,
+			String position, String institution, String city, int year, int commissionPositionID,
+			String commissionPosition, int educLevelID, String educLevel) {
 		this.cmID = cmID;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -31,7 +48,9 @@ public class CommissionMembers
 		this.city = city;
 		this.year = year;
 		this.commissionPositionID = commissionPositionID;
+		this.commissionPosition = commissionPosition;
 		this.educLevelID = educLevelID;
+		this.educLevel = educLevel;
 	}
 
 	public int getCmID() {
@@ -120,6 +139,27 @@ public class CommissionMembers
 
 	public void setEducLevelID(int educLevelID) {
 		this.educLevelID = educLevelID;
+	}
+	
+	public String getFullName()
+	{
+		return this.lastName + ", " + this.firstName + " "; 
+	}
+
+	public String getCommissionPosition() {
+		return commissionPosition;
+	}
+
+	public void setCommissionPosition(String commissionPosition) {
+		this.commissionPosition = commissionPosition;
+	}
+
+	public String getEducLevel() {
+		return educLevel;
+	}
+
+	public void setEducLevel(String educLevel) {
+		this.educLevel = educLevel;
 	}
 	
 	

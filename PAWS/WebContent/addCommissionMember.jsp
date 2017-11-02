@@ -1,9 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<!doctype html>
 <html class="no-js" lang="en">
-
 
 <head>
     <!-- IMPORTS -->
@@ -51,8 +47,7 @@
         	getCities();
         	getInstitutions();
         	getPositions();
-            $("#boardPositions").val("${requestScope.bpID}").attr('selected', 'selected');
-            
+        	
         	
 			var format = "MM dd, yyyy";
 			
@@ -152,7 +147,6 @@
       
 
         function saveBoardMember() {
-        	
         	var honorifics = $('#honorifics').val();
         	var firstName = $('#firstName').val();
         	var lastName = $('#lastName').val();
@@ -162,7 +156,8 @@
         	var city = $('#city').val();
         	var institution = $('#institution').val();
         	
-        	var boardPositionID = $('#boardPositionID').find(":selected").val();	
+        	var commissionPositionID = $('#commissionPositions').find(":selected").val();	
+        	var educLevelID = $('#educLevel').find(":selected").val();	
         	
         	
         	if(honorifics == ""){
@@ -173,10 +168,12 @@
         		alert("Please fill out middle initial!");
         	}else if(lastName == ""){
             		alert("Please fill out last name!");
-        	}else if(boardPositionID == ""){
-        		alert("Please fill out board position!");
+        	}else if(commissionPositionID == ""){
+        		alert("Please choose a board position!");
+        	}else if(educLevelID == ""){
+        		alert("Please choose a level!");
         	}else if(year == ""){
-        		alert("Please choose a year!");
+        		alert("Please input year!");
         	}else if(position == ""){
         		alert("Please input position!")
         	}else if(institution == ""){
@@ -184,24 +181,27 @@
         	}else if(city == ""){
         		alert("Please input city!")
         	}else{
-	        	
-	        	console.log( $('#bmForm').serializeArray() );
+	        	console.log( $('#cmForm').serializeArray() );
 	        	  $.ajax({
-	                url: 'SaveBoardMember?bmID=${bmID}&' + $('#bmForm').serialize(),
+	                url: 'AddCommissionMember?' + $('#cmForm').serialize(),
 	                type: 'POST',
 	                async: false,
 	                dataType: 'json',
 	                success: function(result) {
-	                	console.log($('#bmForm').serialize());
+	                	console.log($('#cmForm').serialize());
 	
 	                }
 	            });
-	            alert('Board Member successfully edited! Redirecting you to the board members page...');
-	            document.location.href = "ViewBoardMembers?bmID=${bmID}";
+	            alert('Commission member successfully added! Redirecting you to the commission members page...');
+	          	document.location.href = "CommissionMembers";
 	        }
         }
 
-       
+        function togglePresent() {
+            $('#datepicker3').prop('disabled', function(i, v) {
+                return !v;
+            });
+        }
     </script>
     <style>
         body {
@@ -298,16 +298,14 @@
        	<jsp:include page="sidebar.jsp" />
        	
         <div class="sidebar-overlay" id="sidebar-overlay"></div>
-        <form id="bmForm">
+        <form id="cmForm">
             <article class="content dashboard-page">
-                <c:set var="bm" scope="session" value="${boardMember}"/>
-      			
                 <div class="title-block">
                     <h3 class="title" style="float:left;">
-      					<a href="ViewBoardMembers?bmID=${bm.getBmID()}"> ${bm.getFullName()}'s Profile </a> > Edit Board Member
+      					<a href="CommissionMembers"> List of Commission Members </a> > Add New Commission Member
      				</h3>
                 </div>
-                	
+                
                 <div class="row sameheight-container" id="formID">
                      <div class="col-md-12">
                          <div class="card sameheight-item">
@@ -316,37 +314,51 @@
 									<div class="form-group row">
 	                                     <div class="col-xs-2">
 	                                         <label>Honorifics:</label>
-	                                          <input type="text" class="form-control underlined" id="honorifics" value="${bm.getHonorifics()}" name="honorifics" list="honorificsSuggestions">
+	                                          <input type="text" class="form-control underlined" id="honorifics" name="honorifics" list="honorificsSuggestions">
 	                                         <datalist id="honorificsSuggestions">
 	                                         </datalist>
 	                                     </div>
 	                                     <div class="col-xs-4">
 	                                         <label>First Name:</label>
-	                                         <input type="text" class="form-control underlined" id="firstName" value="${bm.getFirstName()}" name="firstName">
+	                                         <input type="text" class="form-control underlined" id="firstName" name="firstName">
 	                                     </div>
 	                                     <div class="col-xs-2">
 	                                         <label>Middle Initial:</label>
-	                                         <input type="text" class="form-control underlined" id="middleName" value="${bm.getMiddleName()}" name="middleName">
+	                                         <input type="text" class="form-control underlined" id="middleName" name="middleName">
 	                                     </div>
 	                                     <div class="col-xs-4">
 	                                         <label>Last Name:</label>
-	                                         <input type="text" class="form-control underlined" id="lastName" value="${bm.getLastName()}" name="lastName">
+	                                         <input type="text" class="form-control underlined" id="lastName" name="lastName">
 	                                     </div>
                                		</div>
-                                 	<div class="form-group row">
+                               		
+                               	 	<div class="form-group row">
                                      	<div class="col-xs-4">
-	                                     	<label>Board Position:</label>
+	                                     	<label>Education Level:</label>
 	                                     	<br>
-											<select id="boardPositions" name="boardPositionID">
-                                     			<option value="1">President</option>
-                                     			<option value="2">Vice President</option>
-                                     			<option value="3">Corporate Secretary / Treasurer</option>
-                                     			
+											<select id="educLevel" name="educLevelID">
+                                     			<option value="1">Elementary Education</option>
+                                     			<option value="2">Secondary Education</option>
+                                     			<option value="3">Integrated Basic Education</option>
+                                     			<option value="4">Tertiary Education</option>
+												<option value="5">Graduate Education</option>
+												<option value="6">Medical Education</option>
+												<option value="7">CECSTE</option>
+                                     		</select>
+                                     	</div>
+                                     	<div class="col-xs-4">
+	                                     	<label>Commission Position:</label>
+	                                     	<br>
+											<select id="commissionPositions" name="commissionPositionID">
+												<option value="1">Chair</option>
+                                     			<option value="2">Co-Chair</option>
+                                     			<option value="3">Vice Chair</option>
+                                     			<option value="4">Member</option>
                                      		</select>
                                      	</div>
 	                                    <div class="col-xs-4">
 	                                     	<label>Year:</label>
-											<input type="text" pattern="\d*" maxlength="4" value="${bm.getYear()}" class="form-control underlined" onkeypress="return isNumberKey(event)" id="year" name="year">
+											<input type="text" pattern="\d*" maxlength="4" class="form-control underlined" onkeypress="return isNumberKey(event)" id="year" name="year">
 	                                     </div>
                                 	 </div>
 								</section>
@@ -355,7 +367,8 @@
                      </div>
 							
                    </div>
-                
+                   <br>
+	                <h6>&nbsp;WORK</h6>
                          <div class="row sameheight-container">
                             <div class="col-md-12">
                                 <div class="card sameheight-item">
@@ -364,19 +377,19 @@
 											<div class="form-group row">
 	                                       		<div class="col-xs-4">
 	                                            	<label>Position:</label>
-							 						<input type="text" class="form-control underlined" id="position" value="${bm.getPosition()}" name="position" list="positionSuggestions">
+							 						<input type="text" class="form-control underlined" id="position" name="position" list="positionSuggestions">
 							                        <datalist id="positionSuggestions">
 								                    </datalist>
 												</div>
 												<div class="col-xs-4">
 	                                            	<label>Institution:</label>
-							 						<input type="text" class="form-control underlined" id="institution" value="${bm.getInstitution()}" name="institution" list="instSuggestions">
+							 						<input type="text" class="form-control underlined" id="institution" name="institution" list="instSuggestions">
 							                        <datalist id="instSuggestions">
 								                    </datalist>
 												</div>
 	                                            <div class="col-xs-4">
 													<label>City:</label>
-							 						<input type="text" class="form-control underlined" id="city" value="${bm.getCity()}" name="city" list="citySuggestions">
+							 						<input type="text" class="form-control underlined" id="city" name="city" list="citySuggestions">
 							                        <datalist id="citySuggestions">
 								                    </datalist>
 							                    </div>

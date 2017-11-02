@@ -147,19 +147,52 @@
       
 
         function saveBoardMember() {
-        	console.log( $('#bmForm').serializeArray() );
-        	  $.ajax({
-                url: 'AddBoardMember?' + $('#bmForm').serialize(),
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                success: function(result) {
-                	console.log($('#bmForm').serialize());
-
-                }
-            });
-            alert('Accreditor successfully added! Redirecting you to the accreditors page...');
-          	document.location.href = "BoardMembers";
+        	
+        	var honorifics = $('#honorifics').val();
+        	var firstName = $('#firstName').val();
+        	var lastName = $('#lastName').val();
+        	var middleName = $('#middleName').val();
+        	var position = $('#position').val();
+        	var year = $('#year').val();
+        	var city = $('#city').val();
+        	var institution = $('#institution').val();
+        	
+        	var boardPositionID = $('#boardPositionID').find(":selected").val();	
+        	
+        	
+        	if(honorifics == ""){
+        		alert("Please fill out honorifics name!");
+        	}else if(firstName == ""){
+        		alert("Please fill out first name!");
+        	}else if(middleName == ""){
+        		alert("Please fill out middle initial!");
+        	}else if(lastName == ""){
+            		alert("Please fill out last name!");
+        	}else if(boardPositionID == ""){
+        		alert("Please fill out board position!");
+        	}else if(year == ""){
+        		alert("Please choose a year!");
+        	}else if(position == ""){
+        		alert("Please input position!")
+        	}else if(institution == ""){
+        		alert("Please input institution!")
+        	}else if(city == ""){
+        		alert("Please input city!")
+        	}else{
+            	console.log( $('#bmForm').serializeArray() );
+	        	  $.ajax({
+	                url: 'AddBoardMember?' + $('#bmForm').serialize(),
+	                type: 'POST',
+	                async: false,
+	                dataType: 'json',
+	                success: function(result) {
+	                	console.log($('#bmForm').serialize());
+	
+	                }
+	            });
+	            alert('Accreditor successfully added! Redirecting you to the accreditors page...');
+	          	document.location.href = "BoardMembers";
+        	}
         }
 
         function togglePresent() {
@@ -279,21 +312,21 @@
 									<div class="form-group row">
 	                                     <div class="col-xs-2">
 	                                         <label>Honorifics:</label>
-	                                          <input type="text" class="form-control underlined" id="surveyName" name="honorifics" list="honorificsSuggestions">
+	                                          <input type="text" class="form-control underlined" id="honorifics" name="honorifics" list="honorificsSuggestions">
 	                                         <datalist id="honorificsSuggestions">
 	                                         </datalist>
 	                                     </div>
 	                                     <div class="col-xs-4">
 	                                         <label>First Name:</label>
-	                                         <input type="text" class="form-control underlined" id="surveyName" name="firstName">
+	                                         <input type="text" class="form-control underlined" id="firstName" name="firstName">
 	                                     </div>
 	                                     <div class="col-xs-2">
 	                                         <label>Middle Initial:</label>
-	                                         <input type="text" class="form-control underlined" id="surveyName" name="middleName">
+	                                         <input type="text" class="form-control underlined" id="middleName" name="middleName">
 	                                     </div>
 	                                     <div class="col-xs-4">
 	                                         <label>Last Name:</label>
-	                                         <input type="text" class="form-control underlined" id="surveyName" name="lastName">
+	                                         <input type="text" class="form-control underlined" id="lastName" name="lastName">
 	                                     </div>
                                		</div>
                                  	<div class="form-group row">
@@ -309,7 +342,7 @@
                                      	</div>
 	                                    <div class="col-xs-4">
 	                                     	<label>Year:</label>
-											<input type="text" pattern="\d*" maxlength="4" class="form-control underlined" onkeypress="return isNumberKey(event)" id="surveyName" name="year">
+											<input type="text" pattern="\d*" maxlength="4" class="form-control underlined" onkeypress="return isNumberKey(event)" id="year" name="year">
 	                                     </div>
                                 	 </div>
 								</section>
@@ -318,7 +351,7 @@
                      </div>
 							
                    </div>
-                
+                 <h6>&nbsp;WORK</h6>
                          <div class="row sameheight-container">
                             <div class="col-md-12">
                                 <div class="card sameheight-item">
@@ -327,19 +360,19 @@
 											<div class="form-group row">
 	                                       		<div class="col-xs-4">
 	                                            	<label>Position:</label>
-							 						<input type="text" class="form-control underlined" id="surveyName" name="position" list="positionSuggestions">
+							 						<input type="text" class="form-control underlined" id="position" name="position" list="positionSuggestions">
 							                        <datalist id="positionSuggestions">
 								                    </datalist>
 												</div>
 												<div class="col-xs-4">
 	                                            	<label>Institution:</label>
-							 						<input type="text" class="form-control underlined" id="surveyName" name="institution" list="instSuggestions">
+							 						<input type="text" class="form-control underlined" id="institution" name="institution" list="instSuggestions">
 							                        <datalist id="instSuggestions">
 								                    </datalist>
 												</div>
 	                                            <div class="col-xs-4">
 													<label>City:</label>
-							 						<input type="text" class="form-control underlined" id="surveyName" name="city" list="citySuggestions">
+							 						<input type="text" class="form-control underlined" id="city" name="city" list="citySuggestions">
 							                        <datalist id="citySuggestions">
 								                    </datalist>
 							                    </div>
