@@ -253,7 +253,22 @@
                     <section class="section" style="position: relative; top:-135px; left:-25px; width:105%;" >
                        <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
 										
-										<h2>Number of Member Schools in the Last 5 Years</h2>
+										<h2>Number of Member Schools</h2>
+										
+						
+  <form method="post" action="MembershipInfographics">				
+					  
+						<label>Start Year: </label> <select id="yearStartSelect" name ="yearStartSelect">
+						
+						</select>	
+					
+					
+						<label> End Year: </label> <select id="yearEndSelect" name = "yearEndSelect">
+						
+						</select> 
+							  &nbsp &nbsp <button type="submit" value="Submit">Filter</button>				     
+								</form>			     
+											     <br>
 											     <table id="smarttable" class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                       <tr>
@@ -297,6 +312,8 @@
         
         	
 										<h2>Member School Programs</h2>
+											   
+											     <br>
 											     <table id="smarttable" class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                       <tr>
@@ -366,6 +383,48 @@
     
     
     
+    
+    
+    
+    <script>
+    $(document).ready ( function(){
+    	var max = new Date().getFullYear();
+        var min = max - 30;
+        select = document.getElementById('yearStartSelect');
+
+    for (var i = min; i<=max; i++){
+    	console.log(i);
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.innerHTML = i;
+        select.appendChild(opt);
+    }
+
+    select.value = new Date().getFullYear();
+    	
+    });
+    </script>
+    
+    
+    
+        <script>
+    $(document).ready ( function(){
+    	var max = new Date().getFullYear();
+        var min = max - 30;
+        select = document.getElementById('yearEndSelect');
+
+    for (var i = min; i<=max; i++){
+    	console.log(i);
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.innerHTML = i;
+        select.appendChild(opt);
+    }
+
+    select.value = new Date().getFullYear();
+    	
+    });
+    </script>
     
     
     
@@ -515,73 +574,7 @@
     </script>
         
     
-    
-    <!-- 
-    
-    
-    
-    
-     <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-
-		var Year = new Array();
-		var Tertiary = new Array();
-		var GradSchool = new Array();
-		
-		
-		
-		
-
-		
-		 <c:forEach items="${programsCountList}" var="count2" >	 
-		 
-		 Year.push(parseInt("${count2.getYear()}"));
-		 Tertiary.push(parseInt("${count2.getTertiary()}"));
-		 GradSchool.push(parseInt("${count2.getGraduate()}"));
-		 
-		 </c:forEach>
-		
-		
-		
-
-		var Combined = new Array();
-		
-		
-		Combined[0] = ['Year', 'Tertiary', 'Grad School'];
-		
-
-		for (var i = 0; i < Year.length; i++){
-		  Combined[i + 1] = [ Year[i], Tertiary[i], GradSchool[i] ];
-		}
-
-
-        var data = google.visualization.arrayToDataTable(Combined);
-
-        var options = {
-          title: 'Candidate Schools',
-          curveType: 'function',
-          xAxis: {format: 'decimal'},
-          legend: { position: 'bottom' }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-        chart.draw(data, options);
-      }
-
-
- 
-        </script>
-     -->
-    
-    
-    
-    
-    
-    
+   
     
     
     
@@ -604,10 +597,7 @@
     
     
     
-    
-    
-    
-    
+     
     
     
     

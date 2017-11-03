@@ -1,29 +1,26 @@
 package Listeners;
 
-import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Utilities.AccreditorUtil;
-import Utilities.InstitutionsUtil;
 import Utilities.SurveyUtil;
 
 /**
- * Servlet implementation class ConfirmAttendance
+ * Servlet implementation class ScheduleSurveyNew
  */
-@WebServlet("/ConfirmAttendance")
-public class ConfirmAttendance extends HttpServlet {
+@WebServlet("/ScheduleSurveyNew")
+public class ScheduleSurveyNew extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ConfirmAttendance() {
+    public ScheduleSurveyNew() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,19 +29,16 @@ public class ConfirmAttendance extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int accID = Integer.parseInt(request.getParameter("accID"));
-		int areaID = Integer.parseInt(request.getParameter("areaID"));
-		int PSID = Integer.parseInt(request.getParameter("PSID"));
-		int add = Integer.parseInt(request.getParameter("add"));
-		SurveyUtil sUtil = new SurveyUtil();
-		sUtil.confirmAttendance(PSID, areaID, accID);
+		// TODO Auto-generated method stub
+		String start = request.getParameter("start");
+		String end = request.getParameter("end");
+		int surveyID = Integer.parseInt(request.getParameter("surveyID"));
 		
-		AccreditorUtil aUtil = new AccreditorUtil();
-		aUtil.updateTotalSurveys(accID, add);
-
-		RequestDispatcher rd = request.getRequestDispatcher("Institutions");
-		rd.forward(request, response);
-}
+		SurveyUtil surUtil = new SurveyUtil();
+		String text = surUtil.scheduleSurveyNew(surveyID, start, end);
+		response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+	    response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
+	    response.getWriter().write(text); 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

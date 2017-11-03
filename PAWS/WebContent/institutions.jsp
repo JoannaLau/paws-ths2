@@ -9,24 +9,33 @@
 
     <head>
      	 <!-- IMPORTS -->
-    <script src='js/jquery.min.js'></script>
-	
-    <script src='js/jquery-ui.min.js'></script>
+	<link rel="stylesheet" href="chosen/chosen.css">
     <link rel="stylesheet" href="css/bootstrap.css">
-    <script src="js/bootstrap.min.js"></script>
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="css/vendor.css">
-   
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href=" css/dataTables.bootstrap.min.css">
+	<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />	
+	<link href="css/dataTables.jqueryui.min.css" rel="stylesheet" type="text/css" media="all" />	
+	<link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" media="all" />	
+	<link href="css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" media="all" />	
+	
+	<script src='js/jquery.min.js'></script>
+	<script src="chosen/chosen.jquery.js" type="text/javascript"></script>
+	
+    <script src='js/jquery-ui.min.js'></script>
+    <script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.dataTables.min.js"></script>
 	<script src="js/dataTables.bootstrap.min.js"></script>
-	
- 	<link title="timeline-styles" rel="stylesheet" href="css/timeline.css">
+	<script src="js/dataTables.buttons.min.js"></script>
+	<script src="js/dataTables.jqueryui.min.js"></script>
+	<script src="js/buttons.print.min.js"></script>
+	<script src="js/jszip.min.js"></script>
+	<script src="js/pdfmake.min.js"></script>
+	<script src="js/buttons.html5.min.js"></script>
+	<script src="js/vfs_fonts.js"></script>
 	
 	<!-- END IMPORTS -->
-    	
-    	
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title> PAASCU - Accreditation Schedule Manager </title>
@@ -49,38 +58,79 @@
                 document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
             }
         </script>
-		
-	
-<script>
-$(document).ready(function() {
-
- 
-
-    $('#smarttable').DataTable( {
-        initComplete: function () {
-            this.api().columns().every( function () {
-                var column = this;
-                var select = $('<select><option value=""></option></select>')
-                    .appendTo( $(column.footer()).empty() )
-                    .on( 'change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex(
-                            $(this).val()
-                        );
- 
-                        column
-                            .search( val ? '^'+val+'$' : '', true, false )
-                            .draw();
-                    } );
- 
-                column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' )
-                } );
-            } );
-        }
-    } );
-		
-} );
-</script>
+					
+				
+			<script>
+			$(document).ready(function() {
+			
+				
+			    j$ = jQuery.noConflict();
+				j$(document).ready( function () {
+					var contactTable = j$('[id$="smarttable"]').DataTable({
+						order: [[1, 'asc']],
+						
+				    	buttons: [
+				                  {
+				                	  extend: 'pdfHtml5',
+				                	  title: "List of Institutions",
+				                	  download: 'open',
+				                	  exportOptions: {
+				                          columns: [ 0, 1, 2, 3 , 4]
+				                      }
+				                  },
+				                  {
+				                	  extend: 'excelHtml5',
+				                	  title: "List of Accreditors",
+				                	  exportOptions: {
+				                          columns: [ 0, 1, 2, 3, 4 ]
+				                      }
+				                  }
+				                  
+				        ],
+				        dom: 'Blfrtip',
+				        initComplete: function () {
+				            this.api().columns().every( function () {
+				                var column = this;
+				                var select = $('<select><option value=""></option></select>')
+				                    .appendTo( $(column.footer()).empty() )
+				                    .on( 'change', function () {
+				                        var val = $.fn.dataTable.util.escapeRegex(
+				                            $(this).val()
+				                        );
+				 
+				                        column
+				                            .search( val ? '^'+val+'$' : '', true, false )
+				                            .draw();
+				                    } );
+				 
+				                column.data().unique().sort().each( function ( d, j ) {
+				                    select.append( '<option value="'+d+'">'+d+'</option>' )
+				                } );
+				            } );
+				        },
+				        initComplete: function() {
+							var api = this.api();
+							var select = j$('[id$=educLevelsSelect]');
+							api.column(0).data().unique().sort().each( function ( d, j ) {
+								select.append( '<option value="'+d+'">'+d+'</option>' )
+							} );   
+						}
+					});
+				
+					j$('[id$=educLevelsSelect]').change(function() {
+						var val = j$.fn.dataTable.util.escapeRegex(
+							j$(this).val()
+						);
+						contactTable.column(0)
+							.search( val == 'All' ? '' : '^'+val+'$', true, false )
+							.draw();
+					});
+					
+					j$.fn.dataTable.ext.errMode = 'none';
+				});
+				
+			});
+			</script>
 
 <style>
 
@@ -242,29 +292,7 @@ $(document).ready(function() {
 </style>
 
 <script>
-	j$ = jQuery.noConflict();
-	j$(document).ready( function () {
-		var contactTable = j$('[id$="smarttable"]').DataTable({
-			order: [[1, 'asc']],
-			
-			initComplete: function() {
-				var api = this.api();
-				var select = j$('[id$=educLevelsSelect]');
-				api.column(0).data().unique().sort().each( function ( d, j ) {
-					select.append( '<option value="'+d+'">'+d+'</option>' )
-				} );   
-			}
-		});
 	
-		j$('[id$=educLevelsSelect]').change(function() {
-			var val = j$.fn.dataTable.util.escapeRegex(
-				j$(this).val()
-			);
-			contactTable.column(0)
-				.search( val == 'All' ? '' : '^'+val+'$', true, false )
-				.draw();
-		});
-	});
 
 		/* 	$(document).ready(function() {
 				

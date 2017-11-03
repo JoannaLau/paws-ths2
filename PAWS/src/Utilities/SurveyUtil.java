@@ -5,8 +5,10 @@ import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,7 +21,56 @@ public class SurveyUtil {
 	public SurveyUtil(){
 		db = new DBUtil();
 	}
+	
 	public String scheduleSurvey(int surveyID, String start, String end){
+		String temp = new String();
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("UPDATE `surveys` SET `startDate` = ? , `endDate` = ? WHERE surveyID=?");
+			ps.setString(1, start);
+			String dt = end;  // Start date
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();
+			c.setTime(sdf.parse(dt));
+			c.add(Calendar.DATE, -1);  // number of days to add
+			dt = sdf.format(c.getTime());  
+			ps.setString(2, dt);
+			ps.setInt(3, surveyID);
+			ps.executeUpdate();
+			temp = "Successfully scheduled survey!";
+		} catch (Exception e){
+			System.out.println("Error in SurveyUtil:scheduleSurvey()");
+			temp = "Error in scheduling survey!";
+			e.printStackTrace();
+		}
+		return temp;
+	}
+	
+	public void updateAccreditor(int accreditorID, int PSID, int areaID, int changeID){
+		try{
+			Connection conn = db.getConnection();
+			if(accreditorID == 0){
+				PreparedStatement ps = conn.prepareStatement("UPDATE `program-area` SET `accreditorID` = ? WHERE PSID = ? AND areaID = ?");
+				ps.setInt(1, changeID);
+				ps.setInt(2, PSID);
+				ps.setInt(3, areaID);
+				ps.executeUpdate();
+			}else{
+				PreparedStatement ps = conn.prepareStatement("UPDATE `program-area` SET `accreditorID` = ? WHERE accreditorID = ? AND PSID = ? AND areaID = ?");
+				ps.setInt(1, changeID);
+				ps.setInt(2, accreditorID);
+				ps.setInt(3, PSID);
+				ps.setInt(4, areaID);			
+				ps.executeUpdate();
+			}
+			
+		} catch (Exception e){
+			System.out.println("Error in SurveyUtil:deleteProgramArea()");
+			e.printStackTrace();
+		}
+	}
+	
+	public String scheduleSurveyNew(int surveyID, String start, String end){
 		String temp = new String();
 		try{
 			Connection conn = db.getConnection();
@@ -35,6 +86,134 @@ public class SurveyUtil {
 			e.printStackTrace();
 		}
 		return temp;
+	}
+	
+	public String resizeSurvey(int surveyID, String end){
+		String temp = new String();
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("UPDATE `surveys` SET `endDate` = ? WHERE surveyID=?");
+			String dt = end;  // Start date
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();
+			c.setTime(sdf.parse(dt));
+			c.add(Calendar.DATE, -1);  // number of days to add
+			dt = sdf.format(c.getTime());  
+			ps.setString(1, dt);
+			ps.setInt(2, surveyID);
+			ps.executeUpdate();
+			temp = "Successfully resized survey!";
+		} catch (Exception e){
+			System.out.println("Error in SurveyUtil:resizeSurvey()");
+			temp = "Error in resizing survey!";
+			e.printStackTrace();
+		}
+		return temp;
+	}
+		
+	public void addSurveyArea(String PSID,String areaID){
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `program-area`(PSID,areaID,accreditorID,position,attendanceConfirmation) Values(?,?,null,'Accreditor','Unconfirmed')");
+			ps.setInt(1, Integer.parseInt(PSID));
+			ps.setInt(2, Integer.parseInt(areaID));
+			ps.executeUpdate();
+			
+		} catch (Exception e){
+			System.out.println("Error in SurveyUtil:getTitle()");
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteSurvey(int surveyID){
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("DELETE from surveys WHERE surveyID = ?");
+			ps.setInt(1, surveyID);
+			ps.executeUpdate();
+			
+			ps = conn.prepareStatement("SELECT * from `program-survey` WHERE surveyID = ?");
+			ps.setInt(1, surveyID);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()){
+				ps = conn.prepareStatement("DELETE from `program-area` WHERE PSID = ?");
+				ps.setInt(1, rs.getInt(1));
+				ps.executeUpdate();
+			}
+			
+			ps = conn.prepareStatement("DELETE from `program-survey` WHERE surveyID = ?");
+			ps.setInt(1, surveyID);
+			ps.executeUpdate();
+			
+		} catch (Exception e){
+			System.out.println("Error in SurveyUtil:deleteSurvey()");
+			e.printStackTrace();
+		}
+	}
+	
+	public int addNewProgram(int surveyID, int SPID){
+		int temp = 0;
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `program-survey` (surveyID, SPID, `surveyType`) VALUES (?, ?, ?)");
+			ps.setInt(1, surveyID);
+			ps.setInt(2, SPID);
+			ps.setString(3, "Preliminary");
+			ps.executeUpdate();
+			
+			ps = conn.prepareStatement("SELECT LAST_INSERT_ID()");
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			int PSID = rs.getInt(1);
+			
+			temp = PSID;
+			
+			
+		} catch (Exception e){
+			System.out.println("Error in SurveyUtil:addNewProgram()");
+			e.printStackTrace();
+		}
+		return temp;
+	}
+	
+	public void updateSurveyType(int PSID, String type){
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("UPDATE `program-survey` SET `surveyType` = ?  WHERE PSID=?");
+			ps.setString(1, type);
+			ps.setInt(2,PSID);
+	
+			ps.executeUpdate();
+			
+		} catch (Exception e){
+			System.out.println("Error in SurveyUtil:updateSurveyType()");
+			
+			e.printStackTrace();
+		}
+	
+	}
+	
+	public void deleteProgramArea(int accreditorID, int PSID, int areaID){
+		try{
+			Connection conn = db.getConnection();
+			if(accreditorID == 0){
+				PreparedStatement ps = conn.prepareStatement("DELETE from `program-area` WHERE PSID = ? and areaID = ?");
+				ps.setInt(1, PSID);
+				ps.setInt(2, areaID);
+				ps.executeUpdate();
+			}else{
+				PreparedStatement ps = conn.prepareStatement("DELETE from `program-area` WHERE PSID = ? and accreditorID = ? and areaID = ?");
+				ps.setInt(1, PSID);
+				ps.setInt(2, accreditorID);
+				ps.setInt(3, areaID);			
+				ps.executeUpdate();
+			}
+			
+		} catch (Exception e){
+			System.out.println("Error in SurveyUtil:deleteProgramArea()");
+			e.printStackTrace();
+		}
 	}
 	
 	public String deletePSID(int PSID){
@@ -311,13 +490,24 @@ public class SurveyUtil {
 				JSONArray programSurvey = new JSONArray();
 				job.put("id", rs.getInt(1));
 				job.put("title", getTitle(rs.getInt(6)));
+				job.put("institutionID", rs.getInt(6));
 				job.put("institutionName", getInstitution(rs.getInt(6)));
 				job.put("institutionCity", getInstitutionCity(rs.getInt(6)));
 				job.put("start", rs.getString(2));
 				job.put("endDate", rs.getString(3));
+				
+				String dt = rs.getString(3);  // Start date
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Calendar c = Calendar.getInstance();
+				c.setTime(sdf.parse(dt));
+				c.add(Calendar.DATE, 1);  // number of days to add
+				dt = sdf.format(c.getTime());  // dt is now the new date
+				System.out.println("START DATE: " + rs.getString(2)+ " END DATE: " + dt);
+				job.put("end", dt);
 				job.put("dateRequested", rs.getString(5));
 				job.put("dateApproved", rs.getString(4));
 				job.put("paascu1Name", rs.getString(7));
+				job.put("allDay", true);
 				job.put("paascu1Position", rs.getString(8));
 				job.put("paascu2Name", rs.getString(10));
 				job.put("paascu2Position", rs.getString(11));
@@ -326,7 +516,6 @@ public class SurveyUtil {
 				job.put("chairpersonInstitution", chairperson.get(1));
 				job.put("chairpersonPosition", chairperson.get(2));
 				job.put("chairpersonCity", chairperson.get(3));
-				System.out.println("Chairperson: " + rs.getInt(13) + " "+ chairperson.get(0) + " " + chairperson.get(1) + " " + chairperson.get(2) + " " + chairperson.get(3));
 				programSurvey = getPS(rs.getInt(1));
 				
 				job.put("programs", programSurvey);
@@ -335,7 +524,13 @@ public class SurveyUtil {
 				String tempDecBy = "None";
 				
 				int i = ((JSONArray) job.get("programs")).length();
-				for(int j = 0; j<i;j++){
+				
+				if(i==0){
+					job.put("completeness", "incomplete");
+					job.put("status", "unconfirmed");
+				}
+				else{
+					for(int j = 0; j<i;j++){
 					String com = ((JSONObject) ((JSONArray) job.get("programs")).get(j)).get("completeness").toString();	
 					String decBy;
 					if ( ((JSONObject) ((JSONArray) job.get("programs")).get(j)).has("decisionBy")){
@@ -376,6 +571,7 @@ public class SurveyUtil {
 				if(!job.has("status")){
 					job.put("status", "confirmed");
 				}
+				}
 				
 				
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -387,13 +583,12 @@ public class SurveyUtil {
 					
 					if(job.get("status").equals("confirmed") ){
 						job.put("backgroundColor", "rgb(12, 48, 107)");
-						System.out.println("BENJBENJ: " + tempDecBy);
 						if(tempDecBy.equals("Team")){
 							job.put("borderColor", "rgb(149, 209, 229)");
 						}else if(tempDecBy.equals("Board")){
 							job.put("borderColor", "rgb(234, 232, 114)");
 						}else if(tempDecBy.equals("Commission")){
-							job.put("borderColor", "rgb(12, 48, 107)");
+							job.put("borderColor", "rgetgb(12, 48, 107)");
 						}
 						
 					}else if(job.get("status").equals("unconfirmed")){
@@ -419,6 +614,60 @@ public class SurveyUtil {
 		
 		return jArray;
 	}
+	
+	public JSONArray getDashboardSurveyDetails(String day1, String day2, String day3, String day4, String day5, String day6, String today){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM surveys WHERE `startDate` = ? OR `startDate` = ? OR `startDate` = ? OR `startDate` = ? OR `startDate` = ? OR `startDate` = ?");
+			ps.setString(1, day1);
+			ps.setString(2, day2);
+			ps.setString(3, day3);
+			ps.setString(4, day4);
+			ps.setString(5, day5);
+			ps.setString(6, day6);
+			job = new JSONObject();
+			ResultSet rs = ps.executeQuery();
+			if(rs.first()){
+				
+				job.put("count", rs.getInt(1));
+			}
+			
+			ps = conn.prepareStatement("SELECT COUNT(*) FROM surveys WHERE `startDate` LIKE ?");
+			ps.setString(1, today.substring(0, 6) + "%");
+			rs = ps.executeQuery();
+			if(rs.first()){
+				job.put("countMonth", rs.getInt(1));
+			}
+			
+			ps = conn.prepareStatement("SELECT COUNT(*) FROM notifications WHERE `status` = 'unread'");
+			rs = ps.executeQuery();
+			if(rs.first()){
+				job.put("countUnread", rs.getInt(1));
+			}
+			
+			
+			ps = conn.prepareStatement("SELECT COUNT(*) FROM notifications WHERE `status` = 'unread' AND `type` = 'UnconfirmedSurveys'");
+			rs = ps.executeQuery();
+			if(rs.first()){
+				job.put("countUnconfirmed", rs.getInt(1));
+				System.out.print(rs.getInt(1));
+			}
+			
+			jArray.put(job);
+				
+			
+			
+		} catch (Exception e){
+			System.out.println("Error in SurveyUtil:getSurveys()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
+	
 	private String getInstitutionCity(int institutionID){
 		String name = null;
 		try{

@@ -38,10 +38,29 @@ public class MembershipInfographics extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		InfographicsUtil ins = new InfographicsUtil();
+		
 	
 
-		int endYear = Calendar.getInstance().get(Calendar.YEAR);
-		int startYear = endYear-5;
+		int endYear = 0;
+		int startYear = 0;
+
+		
+		
+
+		
+		System.out.println(request.getParameter("yearStartSelect"));
+		
+		
+		if(request.getParameter("yearStartSelect")!=null) {
+		startYear = Integer.parseInt(request.getParameter("yearStartSelect"));
+		endYear=  Integer.parseInt(request.getParameter("yearEndSelect"));
+		}
+		
+		else {
+			endYear = Calendar.getInstance().get(Calendar.YEAR);
+			startYear = endYear-5;
+		}
+	
 		ArrayList<Infographic> infList = new ArrayList<Infographic>();
 	
 		
@@ -65,7 +84,7 @@ public class MembershipInfographics extends HttpServlet {
 		for(n=startYear; n<=endYear; n++){
 			
 			
-			ProgramInfographic p = new ProgramInfographic(n, ins.getInstitutionPragramCount(4, n, "active"), ins.getInstitutionPragramCount(5, n, "active"));
+			ProgramInfographic p = new ProgramInfographic(n, ins.getInstitutionPragramCount(4, n, "Active"), ins.getInstitutionPragramCount(5, n, "Active"));
 			
 			proInfList.add(p);
 			

@@ -40,8 +40,27 @@ public class SurveyVisitInfographics extends HttpServlet {
 		InfographicsUtil ins = new InfographicsUtil();
 		
 
-		int endYear = Calendar.getInstance().get(Calendar.YEAR);
-		int startYear = endYear-5;
+
+		int endYear = 0;
+		int startYear = 0;
+
+		
+		
+
+		
+		System.out.println(request.getParameter("yearStartSelect"));
+		
+		
+		if(request.getParameter("yearStartSelect")!=null) {
+		startYear = Integer.parseInt(request.getParameter("yearStartSelect"));
+		endYear=  Integer.parseInt(request.getParameter("yearEndSelect"));
+		}
+		
+		else {
+			endYear = Calendar.getInstance().get(Calendar.YEAR);
+			startYear = endYear-5;
+		}
+	
 		ArrayList<Infographic> infList = new ArrayList<Infographic>();
 	
 		

@@ -86,51 +86,7 @@
         <div class="main-wrapper">
             <div class="app" id="app">
                 <header class="header">
-                    <div class="header-block header-block-collapse hidden-lg-up"> <button class="collapse-btn" id="sidebar-collapse-btn">
-    			<i class="fa fa-bars"></i>
-    		</button> </div>
-                  
-				    <div class="header-block header-block-search hidden-sm-down">
-                        <form role="search">
-                            <div class="input-container"> <i class="fa fa-search"></i> <input type="search" placeholder="Search">
-                                <div class="underline"></div>
-                            </div>
-                        </form>
-                    </div>
-					
-                     
-                    <div class="header-block header-block-nav">
-                        <ul class="nav-profile">
-                            <li class="notifications new">
-                                <a href="" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <sup>
-    			      <span class="counter">1</span>
-    			    </sup> </a>
-                                <div class="dropdown-menu notifications-dropdown-menu">
-                                    <ul class="notifications-container">
-                                        <li>
-                                            <a href="" class="notification-item">
-                                                <div class="img-col">
-                                                    <div class="img" style="background-image: url('assets/faces/marcos,nelson.jpg')"></div>
-                                                </div>
-                                                <div class="body-col">
-                                                    <p> <span class="accent">Marcos, Nelson Phd</span> Achievement: <span class="accent">Completed 100th survey</span>. </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                       
-                                    </ul>
-                                    <footer>
-                                        <ul>
-                                            <li> <a href="">
-    			            View All
-    			          </a> </li>
-                                        </ul>
-                                    </footer>
-                                </div>
-                            </li>
-                            
-                        </ul>
-                    </div>
+                    
                 </header>
                <jsp:include page="sidebar.jsp" />
 				<article class="content grid-page">
@@ -260,6 +216,7 @@
 															</tbody>
 														</table>
 										 </section>
+										 <a href="DeleteAccreditor?accreditorID=<c:out value='${acc.getAccreditorID()}'/>">Set this accreditor to INACTIVE</a>
 									</div>	 
 								</div>		 
 							</div>			 

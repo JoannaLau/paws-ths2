@@ -509,68 +509,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
         <div class="main-wrapper">
       				
         			
-      			</div>
-      			
-    		
-
-  	
-			
-            <div class="app" id="app">
+		</div>
+                <div class="app" id="app">
                 <header class="header">
-                    <div class="header-block header-block-collapse hidden-lg-up"> <button class="collapse-btn" id="sidebar-collapse-btn">
-    			<i class="fa fa-bars"></i>
-    		</button> </div>
-                    <div class="header-block header-block-search hidden-sm-down">
-                        <form role="search">
-                            <div class="input-container"> <i class="fa fa-search"></i> <input type="search" placeholder="Search">
-                                <div class="underline"></div>
-                            </div>
-                        </form>
-                    </div>
-					 <div style="margin-left:-150px;">
-					 	
-					 		<div class="progress" style="width:500px; height:20px;" id="progBar">
-  								<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width:50%" id="progDetails">
-    								1. Details
-  								</div>
-  								
-							</div>
-  							
-						
-					 </div>
-                    
-                    <div class="header-block header-block-nav">
-                        <ul class="nav-profile">
-                            <li class="notifications new">
-                                <a href="" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <sup>
-    			      <span class="counter">1</span>
-    			    </sup> </a>
-                                <div class="dropdown-menu notifications-dropdown-menu">
-                                    <ul class="notifications-container">
-                                        <li>
-                                            <a href="" class="notification-item">
-                                                <div class="img-col">
-                                                    <div class="img" style="background-image: url('assets/faces/marcos,nelson.jpg')"></div>
-                                                </div>
-                                                <div class="body-col">
-                                                    <p> <span class="accent">Marcos, Nelson Phd</span> Achievement: <span class="accent">Completed 100th survey</span>. </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                       
-                                    </ul>
-                                    <footer>
-                                        <ul>
-                                            <li> <a href="">
-    			            View All
-    			          </a> </li>
-                                        </ul>
-                                    </footer>
-                                </div>
-                            </li>
-                            
-                        </ul>
-                    </div>
+                   
                 </header>
                 <jsp:include page="sidebar.jsp" />
 				

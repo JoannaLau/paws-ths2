@@ -1,29 +1,25 @@
-package Listeners;
+	package Listeners;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Utilities.AccreditorUtil;
-import Utilities.InstitutionsUtil;
-import Utilities.SurveyUtil;
+import Utilities.NotificationUtil;
 
 /**
- * Servlet implementation class ConfirmAttendance
+ * Servlet implementation class MarkNotification
  */
-@WebServlet("/ConfirmAttendance")
-public class ConfirmAttendance extends HttpServlet {
+@WebServlet("/MarkNotification")
+public class MarkNotification extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ConfirmAttendance() {
+    public MarkNotification() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,19 +28,11 @@ public class ConfirmAttendance extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int accID = Integer.parseInt(request.getParameter("accID"));
-		int areaID = Integer.parseInt(request.getParameter("areaID"));
-		int PSID = Integer.parseInt(request.getParameter("PSID"));
-		int add = Integer.parseInt(request.getParameter("add"));
-		SurveyUtil sUtil = new SurveyUtil();
-		sUtil.confirmAttendance(PSID, areaID, accID);
-		
-		AccreditorUtil aUtil = new AccreditorUtil();
-		aUtil.updateTotalSurveys(accID, add);
-
-		RequestDispatcher rd = request.getRequestDispatcher("Institutions");
-		rd.forward(request, response);
-}
+		// TODO Auto-generated method stub
+		NotificationUtil notUtil = new NotificationUtil();
+		int notificationID = Integer.parseInt(request.getParameter("notificationID"));
+		notUtil.setNotificationRead(notificationID);
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

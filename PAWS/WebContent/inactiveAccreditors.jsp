@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-
-<!doctype html>
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <html class="no-js" lang="en">
-
+	
     <head>
-      	 <!-- IMPORTS -->
+    	 <!-- IMPORTS -->
 	<link rel="stylesheet" href="chosen/chosen.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -22,7 +20,7 @@
 	<script src='js/jquery.min.js'></script>
 	<script src="chosen/chosen.jquery.js" type="text/javascript"></script>
 	
-    <script src='js/jquery-ui.min.js'></script>
+	<script src='js/jquery-ui.min.js'></script>
     <script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.dataTables.min.js"></script>
 	<script src="js/dataTables.bootstrap.min.js"></script>
@@ -63,54 +61,72 @@
 	
 <script>
 $(document).ready(function() {
+	 j$ = jQuery.noConflict();
+		j$(document).ready( function () {
+			var contactTable = j$('[id$="smarttable"]').DataTable({
+				order: [[0, 'asc']],
+				buttons: [
+		            {
+		          	  extend: 'pdfHtml5',
+		          	  title: "List of Inactive Accreditors",
+		          	  download: 'open',
+		          	  exportOptions: {
+		                    columns: [ 0, 1, 2, 3 ]
+		                }
+		            },
+		            {
+		          	  extend: 'excelHtml5',
+		          	  title: "List of Inactive Accreditors",
+		          	  exportOptions: {
+		                    columns: [ 0, 1, 2, 3 ]
+		                }
+		            }
+		            
+		 		],
+		    	dom: 'Blfrtip',
+		    	
+		        initComplete: function () {
+		            this.api().columns().every( function () {
+		                var column = this;
+		                var select = $('<select><option value=""></option></select>')
+		                    .appendTo( $(column.footer()).empty() )
+		                    .on( 'change', function () {
+		                        var val = $.fn.dataTable.util.escapeRegex(
+		                            $(this).val()
+		                        );
+		 
+		                        column
+		                            .search( val ? '^'+val+'$' : '', true, false )
+		                            .draw();
+		                    } );
+		 
+		                column.data().unique().sort().each( function ( d, j ) {
+		                    select.append( '<option value="'+d+'">'+d+'</option>' )
+		                } );
+		            } );
+		        },
+				initComplete: function() {
+					var api = this.api();
+					var select = j$('[id$=disciplineSelect]');
+					api.column(1).data().unique().sort().each( function ( d, j ) {
+						select.append( '<option value="'+d+'">'+d+'</option>' )
+					} );   
+				}
+			});
+		
+			j$('[id$=disciplineSelect]').change(function() {
+				var val = j$.fn.dataTable.util.escapeRegex(
+					j$(this).val()
+				);
+				contactTable.column(1)
+					.search( val == 'All' ? '' : '^'+val+'$', true, false )
+					.draw();
+			});
+			
 
- 
-
-    $('#smarttable').DataTable( {
-    	dom: 'Blfrtip',
-    	buttons: [
-                  {
-                	  extend: 'pdfHtml5',
-                	  title: "List of Disciplines",
-                	  download: 'open',
-                	  exportOptions: {
-                          columns: [ 0, 1]
-                      }
-                  },
-                  {
-                	  extend: 'excelHtml5',
-                	  title: "List of Disciplines",
-                	  exportOptions: {
-                          columns: [ 0, 1]
-                      }
-                  }
-                  
-        ],
-        initComplete: function () {
-            this.api().columns().every( function () {
-                var column = this;
-                var select = $('<select><option value=""></option></select>')
-                    .appendTo( $(column.footer()).empty() )
-                    .on( 'change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex(
-                            $(this).val()
-                        );
- 
-                        column
-                            .search( val ? '^'+val+'$' : '', true, false )
-                            .draw();
-                    } );
- 
-                column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' )
-                } );
-            } );
-        }
-    } );
-		$("#smarttable").colResizable({
-			liveDrag:true
+			j$.fn.dataTable.ext.errMode = 'none';
 		});
-} );
+});
 </script>
 
 <style>
@@ -119,8 +135,10 @@ $(document).ready(function() {
 		-webkit-box-shadow: 0px 4px 13px -4px rgba(0,0,0,0.5);
 		-moz-box-shadow: 0px 4px 13px -4px rgba(0,0,0,0.5);
 		box-shadow: 0px 4px 13px -4px rgba(0,0,0,0.5);
-		padding:10px;
+		padding:15px;
 		background-color: #f8f8f8;
+		
+
 	}
 
 	
@@ -131,7 +149,7 @@ $(document).ready(function() {
 		white-space: nowrap;	}
 		
 	#smarttable th{
-	
+		background-color:#85CE36; !important
 		color:#3c4731;
 		font-size:110%;		}
 
@@ -287,55 +305,77 @@ $(document).ready(function() {
     </head>
 
     <body>
-        <div class="main-wrapper">
+	
+        <div class="main-wrapper" style="z-index:1;">
             <div class="app" id="app">
-                
-                <jsp:include page="sidebar.jsp" />
+				   
+              	<jsp:include page="sidebar.jsp" />
+				  
 				<div class="container">
-		<video poster="assets/banner.jpg" id="bgvid"  playsinline autoplay muted loop>
-			  <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
+	<video poster="assets/banner.jpg" id="bgvid"  playsinline autoplay muted loop>
+  <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
 
-			<source src="assets/vid.mp4" type="video/mp4">
-			</video>
+<source src="assets/vid.mp4" type="video/mp4">
+</video>
+</div>
+            <div id="welcome">
+			<h1>List of Inactive Accreditors</h1>
+			
+						<button type="button"  style="float:right; position:relative;left:-50px; top:-52px; color:#3c4731;" class="btn btn-oval btn-secondary" onclick="location.href='addAccreditor.html';"><em class="fa fa-plus"></em><b> Add Accreditor</b></button>
+                   
 			</div>
-						<div id="welcome">
-						<h1>List of Disciplines</h1>
-						
-									<button type="button"  style="float:right; position:relative;left:-50px; top:-52px; color:#3c4731;" class="btn btn-oval btn-secondary" onclick="location.href='addProgram.jsp';"><em class="fa fa-plus"></em><b> Add Discipline</b></button>
-							   
-						</div>
 			   <header class="header" id="customheader">
 			   
 					
                 </header>
-                 <article class="content dashboard-page"  >
+                <article class="content dashboard-page"  >
                     <section class="section" style="position: relative; top:-135px; left:-25px; width:105%;" >
-                        <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
-							<table id="smarttable" class="table table-striped table-bordered table-hover">
-                               <thead>
-                                 <tr>
-                                       <th>Discipline/Program of Study</th>
-                                       <th>Number of Institutions with this program</th>
-                                       <th>Controls</th>
-                                   </tr>
-                               </thead>
-                               <tbody>
-									<c:forEach items="${programs}" var="program" >
-									<tr>
-										<td> <c:out value="${program.getName()}"/> </td>
-										<td> <c:out value="${program.getCount()}"/> </td>
-										<td>
-										<a href="ViewProgram?programID=<c:out value='${program.getProgramID()}'/>">View</a>
-										<a href="EditProgram?programID=<c:out value='${program.getProgramID()}'/>">Edit</a>
-										</td>
-									</tr>
-									</c:forEach>
-									
-                               </tbody>
-                           </table>
-                       </div>
-                   </section>
+                      
+					
+					
+						
+					
+                                            <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
+											<label for="discipline">Discipline/Program of Study</label>
+											<select id="disciplineSelect"><option value="All">All</option></select>
+ 
+                                                <table id="smarttable" class="table table-striped table-bordered table-hover" style="width:100%">
+												   
+                                                    <thead>
+                                                      <tr>
+                                                            <th>Full Name</th>
+                                                            <th>Discipline/Program of Study</th>
+															<th>Total Surveys</th>
+                                                            <th>City</th>
+                                                            <th>Controls</th>
+                                                        </tr>
+                                                    </thead>
+													
+                                                    <tbody>
+														<c:forEach items="${accreditors}" var="acc">
+												        <tr>
+												          <td><c:out value="${acc.getFullName()}"/></td>
+												          <td><c:out value="${acc.getDiscipline()}"/></td>
+												          <td><c:out value="${acc.getTotalSurveys()}"/></td>
+												          <td><c:out value="${acc.getCity()}"/></td>
+												          <td>
+												          <a href="ViewAccreditor?accreditorID=<c:out value='${acc.getAccreditorID()}'/>">View</a>
+												          <a href="EditAccreditor?accreditorID=<c:out value='${acc.getAccreditorID()}'/>">Edit</a>
+												        </tr>
+												        </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                                <br><hr><a href="Accreditors">Show the list of ACTIVE accreditors</a>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						
+                    </section>
                 </article>
+             
              
              
         <!-- Reference block for JS -->
@@ -346,10 +386,9 @@ $(document).ready(function() {
                 <div class="color-secondary"></div>
             </div>
         </div>
-          
+
         <script src="js/app.js"></script>
-		
-		
+
     </body>
 
 </html>

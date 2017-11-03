@@ -80,8 +80,50 @@ public class InfographicsUtil {
 		return count;
 	}
 	
+	public int getFirstYearInstitutionAdded() {
+		int year=0;
+
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT MIN(YEAR(STR_TO_DATE(`dateAdded`, '%Y-%m-%d'))) FROM institutions;");
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){					
+			year = rs.getInt(1);	
+			}
+		} catch (Exception e){
+			System.out.println("Error in InfographicsUtil:getyear");
+			e.printStackTrace();
+		}
+		
+	
+	return year;
+	
+	}
 	
 	
+	public int getLastYearInstitutionAdded() {
+int year=0;
+
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT MAX(YEAR(STR_TO_DATE(`dateAdded`, '%Y-%m-%d'))) FROM institutions;");
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){					
+			year = rs.getInt(1);	
+			}
+		} catch (Exception e){
+			System.out.println("Error in InfographicsUtil:getyear");
+			e.printStackTrace();
+		}
+		
+	
+	return year;
+	
+	}
 	
 	
 	

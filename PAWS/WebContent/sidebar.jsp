@@ -13,6 +13,12 @@
 				<li id="dashboard">
 					<a id = "adashboard" href="/Paws"> <i class="fa fa-home"></i> Dashboard </a>
 				</li>
+				<li>
+					<a href="Notifications">
+						<i class="fa fa-bell-o"></i> Notifications 
+					</a>
+				</li>
+				
 				<li id="survey">
 					<a id="asurvey" href="Survey" > <i class="fa fa-table"></i> Survey Schedule </a>
 				</li>
@@ -40,7 +46,7 @@
 						</li>
 					</ul>
 				</li>
-				<li id="reports">
+				<li id="reports1">
 					<a href="#demo3" data-toggle="collapse" > <i class="fa fa-bar-chart"></i> Reports <i class="fa arrow"></i> </a>
 					<ul id="demo3" class="collapse">
 						<li> <a href="MembershipInfographics">Membership</a> </li>
@@ -48,43 +54,7 @@
 					</ul>
 				</li>
 				
-				<li>
-					<a href="#board" data-toggle="collapse" > <i class="fa fa fa-users"></i> Web Members <i class="fa arrow"></i> </a>
-					<ul id="board" class="collapse">
-						<li> <a href="BoardMembers">Board Members</a> </li>
-						<li> <a href="CommissionMembers">Commission Members</a> </li>
-					</ul>
-				</li>
-				
-				<li>
-					<a href="notifications.jsp">
-						<i class="fa fa-bell-o"></i> Notifications 
-						<p style="width:15px; height:17px;text-align:center; border-radius:10px; font-family: Verdana; font-size:10px;float:right; background-color:red; color:white;">10</p>
-					</a>
-				</li>
-				
-				
-				  <li id="news">
-					<a href="#demo5" data-toggle="collapse" > <i class="fa fa-file-text-o"></i> News <i class="fa arrow"></i> </a>
-					<ul id="demo5" class="collapse">
-						<li id="addNews"> <a href="addNews.jsp" >
-							Add News
-							</a> 
-						</li>
-						<li id="viewNews"> <a href="ViewNews" >
-							View News
-							</a> 
-						</li>
-						
-					</ul>
-				</li>
-				
-				<li id="contactus">
-					<a id = "contact" href="ContactUsResponses"> <i class="fa fa-comment"></i> Contact Us Responses </a>
-				</li>
-				
-                
-      			<li id="docuGeneration">
+				<li id="docuGeneration">
 					<a href="#demo4" data-toggle="collapse" onclick="javascript:setActiveDatabase()"> <i class="fa fa-file-text-o"></i> Document Generation <i class="fa arrow"></i> </a>
 					<ul id="demo4" class="collapse">
 						<li id="invitation"> <a href="InvitationLetter" onclick="javascript:setActiveAccreditors()">
@@ -109,6 +79,37 @@
 						</li>
 					</ul>
 				</li>
+				
+				<li>
+					<a href="#board" data-toggle="collapse" > <i class="fa fa fa-users"></i> Web Members <i class="fa arrow"></i> </a>
+					<ul id="board" class="collapse">
+						<li> <a href="BoardMembers">Board Members</a> </li>
+						<li> <a href="CommissionMembers">Commission Members</a> </li>
+					</ul>
+				</li>
+				
+				
+				  <li id="news">
+					<a href="#demo5" data-toggle="collapse" > <i class="fa fa-file-text-o"></i> News <i class="fa arrow"></i> </a>
+					<ul id="demo5" class="collapse">
+						<li id="addNews"> <a href="addNews.jsp" >
+							Add News
+							</a> 
+						</li>
+						<li id="viewNews"> <a href="ViewNews" >
+							View News
+							</a> 
+						</li>
+						
+					</ul>
+				</li>
+				
+				<li id="contactus">
+					<a id = "contact" href="ContactUsResponses"> <i class="fa fa-comment"></i> Contact Us Responses </a>
+				</li>
+				
+                
+      			
                 
 			</ul>
 		</nav>

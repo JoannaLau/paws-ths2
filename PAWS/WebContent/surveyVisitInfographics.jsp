@@ -253,8 +253,26 @@
                     <section class="section" style="position: relative; top:-135px; left:-25px; width:105%;" >
                        <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
 										
-										<h2>Survey Visits in the Last 5 Years</h2>
+										<h2>Survey Visits</h2>
+										
+																
+  <form method="post" action="SurveyVisitInfographics">				
+					  
+						<label>Start Year: </label> <select id="yearStartSelect" name ="yearStartSelect">
+						
+						</select>	
+					
+					
+						<label> End Year: </label> <select id="yearEndSelect" name = "yearEndSelect">
+						
+						</select> 
+							  &nbsp &nbsp <button type="submit" value="Submit">Filter</button>				     
+								</form>	
+										
 											     <table id="smarttable" class="table table-striped table-bordered table-hover">
+                                        
+                                        
+                                        
                                                     <thead>
                                                       <tr>
                                                             <th>Year</th>
@@ -447,69 +465,6 @@
     
     
     
-
-    <!-- 
-       <script type="text/javascript">
-      google.charts.load('current', {'packages':['bar']});
-      google.charts.setOnLoadCallback(drawChart);
-
-		var Year = new Array();
-		
-		var Tertiary = new Array();
-		var GradSchool = new Array();
-	
-		
-	
-		
-		 <c:forEach items="${programsCountList}" var="count2" >	 
-		 
-		 Year.push("${count2.getYear()}");
-		 Tertiary.push(parseInt("${count2.getTertiary()}"));
-		 GradSchool.push(parseInt("${count2.getGraduate()}"));
-		 </c:forEach>
-		
-
-		var Combined = new Array();
-		Combined[0] = ['Year', 'Tertiary', 'Graduate School'];
-		
-		
-		
-
-		for (var j = 0; j < Year.length; j++){
-		  Combined[j + 1] = [ YearBar[j], Tertiary[j], GradSchool[j]];
-		}
-
-
-		for (var x = 0; x < Year.length; x++){
-		  console.log(Combined[x]);
-		}
-
-
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable(Combined);
-
-        var options = {
-          chart: {
-            title: 'Number of Member School Programs in the Past 5 Years',
-            subtitle: '',
-          },
-          bars: 'vertical', // Required for Material Bar Charts.
-          hAxis: {format: 'decimal'},
-          height: 400,
-          colors: ['#1b9e77', '#d95f02', '#7570b3']
-        };
-
-        var chart = new google.charts.Bar(document.getElementById('chart_div2'));
-
-        chart.draw(data, google.charts.Bar.convertOptions(options));
-
-       
-
-      }
-    </script> -->
-
-    
-    
     
     
 <script>
@@ -524,6 +479,51 @@
 
 			</script>
 			
+    
+    
+     <script>
+    
+     jQuery(document).ready ( function(){
+
+
+    	var max = new Date().getFullYear();
+        var min = max - 30;
+        select = document.getElementById('yearStartSelect');
+
+    for (var i = min; i<=max; i++){
+    	console.log(i);
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.innerHTML = i;
+        select.appendChild(opt);
+    }
+
+    select.value = new Date().getFullYear();
+    	
+    });
+    </script>
+    
+        <script>
+    
+        jQuery(document).ready ( function(){
+
+
+    	var max = new Date().getFullYear();
+        var min = max - 30;
+        select = document.getElementById('yearEndSelect');
+
+    for (var i = min; i<=max; i++){
+    	console.log(i);
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.innerHTML = i;
+        select.appendChild(opt);
+    }
+
+    select.value = new Date().getFullYear();
+    	
+    });
+    </script>
     
     
     

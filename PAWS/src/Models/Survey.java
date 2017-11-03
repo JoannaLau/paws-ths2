@@ -2,30 +2,13 @@ package Models;
 
 public class Survey {
 	private int surveyID;
+	
 	private String startDate;
 	private String endDate;	
 	private String dateApproved;
 	private String dateRequested;
-	private int institution;
-	
-	public Survey()
-	{
-		
-	}
-	
-	
-	public Survey(int surveyID, String startDate, String endDate, String dateApproved, String dateRequested,
-			int institution) {
-		super();
-		this.surveyID = surveyID;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.dateApproved = dateApproved;
-		this.dateRequested = dateRequested;
-		this.institution = institution;
-	}
-
-
+	private int institutionID;
+	private String institutionName;
 	public int getSurveyID() {
 		return surveyID;
 	}
@@ -56,11 +39,17 @@ public class Survey {
 	public void setDateRequested(String dateRequested) {
 		this.dateRequested = dateRequested;
 	}
-	public int getInstitution() {
-		return institution;
+	public int getInstitutionID() {
+		return institutionID;
 	}
-	public void setInstitution(int institution) {
-		this.institution = institution;
+	public void setInstitutionID(int institutionID) {
+		this.institutionID = institutionID;
+	}
+	public String getInstitutionName() {
+		return institutionName;
+	}
+	public void setInstitutionName(String institutionName) {
+		this.institutionName = institutionName;
 	}
 	
 	

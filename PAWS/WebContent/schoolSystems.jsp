@@ -6,24 +6,32 @@
 <html class="no-js" lang="en">
 
     <head>
-      	 <!-- IMPORTS -->
-    <script src='js/jquery.min.js'></script>
-	
-    <script src='js/jquery-ui.min.js'></script>
+      	 	 <!-- IMPORTS -->
+	<link rel="stylesheet" href="chosen/chosen.css">
     <link rel="stylesheet" href="css/bootstrap.css">
-    <script src="js/bootstrap.min.js"></script>
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="css/vendor.css">
-    <link href='fullcalendar.css' rel='stylesheet' />
-    <link href='calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-	<script src='calendar/lib/moment.min.js'></script>
-	<script src='calendar/fullcalendar.min.js'></script>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href=" css/dataTables.bootstrap.min.css">
+	<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />	
+	<link href="css/dataTables.jqueryui.min.css" rel="stylesheet" type="text/css" media="all" />	
+	<link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" media="all" />	
+	<link href="css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" media="all" />	
+	
+	<script src='js/jquery.min.js'></script>
+	<script src="chosen/chosen.jquery.js" type="text/javascript"></script>
+	
+    <script src='js/jquery-ui.min.js'></script>
+    <script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.dataTables.min.js"></script>
 	<script src="js/dataTables.bootstrap.min.js"></script>
-	
- 	<link title="timeline-styles" rel="stylesheet" href="css/timeline.css">
+	<script src="js/dataTables.buttons.min.js"></script>
+	<script src="js/dataTables.jqueryui.min.js"></script>
+	<script src="js/buttons.print.min.js"></script>
+	<script src="js/jszip.min.js"></script>
+	<script src="js/pdfmake.min.js"></script>
+	<script src="js/buttons.html5.min.js"></script>
+	<script src="js/vfs_fonts.js"></script>
 	
 	<!-- END IMPORTS -->
     	
@@ -50,7 +58,6 @@
                 document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
             }
         </script>
-		
 	
 <script>
 $(document).ready(function() {
@@ -58,7 +65,25 @@ $(document).ready(function() {
  
 
     $('#smarttable').DataTable( {
-	
+    	dom: 'Blfrtip',
+    	buttons: [
+                  {
+                	  extend: 'pdfHtml5',
+                	  title: "List of School Systems",
+                	  download: 'open',
+                	  exportOptions: {
+                          columns: [ 0, 1]
+                      }
+                  },
+                  {
+                	  extend: 'excelHtml5',
+                	  title: "List of School Systems",
+                	  exportOptions: {
+                          columns: [ 0, 1]
+                      }
+                  }
+                  
+        ],
         initComplete: function () {
             this.api().columns().every( function () {
                 var column = this;

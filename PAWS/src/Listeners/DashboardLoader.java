@@ -1,29 +1,27 @@
 package Listeners;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Utilities.AccreditorUtil;
-import Utilities.InstitutionsUtil;
+import org.json.JSONArray;
+
 import Utilities.SurveyUtil;
 
 /**
- * Servlet implementation class ConfirmAttendance
+ * Servlet implementation class DashboardLoader
  */
-@WebServlet("/ConfirmAttendance")
-public class ConfirmAttendance extends HttpServlet {
+@WebServlet("/DashboardLoader")
+public class DashboardLoader extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ConfirmAttendance() {
+    public DashboardLoader() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,19 +30,23 @@ public class ConfirmAttendance extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int accID = Integer.parseInt(request.getParameter("accID"));
-		int areaID = Integer.parseInt(request.getParameter("areaID"));
-		int PSID = Integer.parseInt(request.getParameter("PSID"));
-		int add = Integer.parseInt(request.getParameter("add"));
-		SurveyUtil sUtil = new SurveyUtil();
-		sUtil.confirmAttendance(PSID, areaID, accID);
-		
-		AccreditorUtil aUtil = new AccreditorUtil();
-		aUtil.updateTotalSurveys(accID, add);
+		// TODO Auto-generated method stub
 
-		RequestDispatcher rd = request.getRequestDispatcher("Institutions");
-		rd.forward(request, response);
-}
+		String day1 = request.getParameter("day1");
+		String day2 = request.getParameter("day2");
+		String day3 = request.getParameter("day3");
+		String day4 = request.getParameter("day4");
+		String day5 = request.getParameter("day5");
+		String day6 = request.getParameter("day6");
+		String today = request.getParameter("today");
+		
+		SurveyUtil sUtil = new SurveyUtil();
+		response.setContentType("application/json");
+		JSONArray jArray = new JSONArray();
+		jArray = sUtil.getDashboardSurveyDetails(day1, day2, day3, day4, day5, day6, today);
+		response.getWriter().write(jArray.toString());
+		
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

@@ -16,9 +16,9 @@
     <script src="chosen/chosen.jquery.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
 
-
     <!--  	<link title="timeline-styles" rel="stylesheet" href="css/timeline.css"> -->
     <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="js/date.js"></script>
     <link rel="stylesheet" href="css/bootstrap-datepicker.css">
     <!-- 	<link title="timeline-styles" rel="stylesheet" href="css/datepicker.css"> -->
     <!-- END IMPORTS -->
@@ -32,6 +32,31 @@
             document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
         }
     </script>
+    
+    <script>
+    	$(document).ready(function() {
+    		
+			$.getJSON("DashboardLoader?day1="+Date.monday().toString('yyyy-MM-dd')+"&day2="+Date.tuesday().toString('yyyy-MM-dd')+"&day3="+Date.wednesday().toString('yyyy-MM-dd')+"&day4="+Date.thursday().toString('yyyy-MM-dd')+"&day5="+Date.friday().toString('yyyy-MM-dd')+"&day6="+Date.saturday().toString('yyyy-MM-dd')+"&today="+Date.today().toString('yyyy-MM-dd'), function(data){
+				
+				
+				$.each(data, function (key, value){
+					$("#pnum_primary").text(value.count);
+					$("#pnum_info").text(value.countMonth);
+					$("#pnum_warning").text(value.countUnread);
+					$("#pnum_danger").text(value.countUnconfirmed);
+					
+					
+				});
+				       
+    			
+    		});
+    		
+    		
+    		
+    	});
+    
+    </script>
+    
     <style>
         .container {
             width: 110%;
@@ -190,47 +215,10 @@ box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
                 <div style="position:relative; left:43%">
                     <h2><small>Dashboard</small></h2>
                 </div>
-                <div class="header-block header-block-nav">
-                    <ul class="nav-profile">
-                        <li class="notifications new">
-                            <a href="" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <sup>
-    			      <span class="counter">1</span>
-    			    </sup> </a>
-                            <div class="dropdown-menu notifications-dropdown-menu">
-                                <ul class="notifications-container">
-                                    <li>
-                                        <a href="" class="notification-item">
-                                            <div class="img-col">
-                                                <div class="img" style="background-image: url('assets/faces/marcos,nelson.jpg')"></div>
-                                            </div>
-                                            <div class="body-col">
-                                                <p> <span class="accent">Marcos, Nelson Phd</span> Achievement: <span class="accent">Completed 100th survey</span>. </p>
-                                            </div>
-                                        </a>
-                                    </li>
-
-                                </ul>
-                                <footer>
-                                    <ul>
-                                        <li> <a href="">
-    			            View All
-    			          </a> </li>
-                                    </ul>
-                                </footer>
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
+               
             </header>
             <article class="content dashboard-page">
                 <section class="section" style="position: relative; top:-130px;">
-
-                    <div class="title-block">
-                        <h6 class="title" style="float:left;"> <small>
-							Notification cards </small>
-						</h6>
-                    </div>
 
 
                     <!--Start Card format-->
@@ -243,11 +231,11 @@ box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
                             </div>
                             <div class="card-block">
 
-                                <p id="pnum_primary">4</p>
+                                <p id="pnum_primary"></p>
                                 <p id="psub"> Upcoming </p>
 
                             </div>
-                            <div class="card-footer"> <a href="survey.html">View Calendar</a> </div>
+                            <div class="card-footer"> <a href="Survey">View Calendar</a> </div>
                         </div>
                     </div>
 
@@ -259,10 +247,10 @@ box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
                                 </div>
                             </div>
                             <div class="card-block">
-                                <p id="pnum_info">23</p>
+                                <p id="pnum_info"></p>
                                 <p id="psub"> Total </p>
                             </div>
-                            <div class="card-footer"> <a href="survey.html">View Calendar</a> </div>
+                            <div class="card-footer"> <a href="Survey">View Calendar</a> </div>
                         </div>
                     </div>
 
@@ -274,10 +262,10 @@ box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
                                 </div>
                             </div>
                             <div class="card-block">
-                                <p id="pnum_warning">10</p>
+                                <p id="pnum_warning"></p>
                                 <p id="psub"> Unread </p>
                             </div>
-                            <div class="card-footer"> <a href="survey.html">View Notifications</a> </div>
+                            <div class="card-footer"> <a href="Notifications">View Notifications</a> </div>
                         </div>
                     </div>
 
@@ -289,10 +277,10 @@ box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
                                 </div>
                             </div>
                             <div class="card-block">
-                                <p id="pnum_danger">6</p>
-                                <p id="psub"> Past Surveys </p>
+                                <p id="pnum_danger"></p>
+                                <p id="psub"> Surveys </p>
                             </div>
-                            <div class="card-footer"> <a href="survey.html">View Unconfimed</a> </div>
+                            <div class="card-footer"> <a href="Notifications?view=unconfirmedSurveys">View Unconfimed</a> </div>
                         </div>
                     </div>
 

@@ -37,20 +37,35 @@ public class Notifications extends HttpServlet {
 		ArrayList<Notification> all = new ArrayList<Notification>();
 		ArrayList<Notification> awards = new ArrayList<Notification>();
 		ArrayList<Notification> expirations = new ArrayList<Notification>();
+		ArrayList<Notification> expirations2 = new ArrayList<Notification>();
 		ArrayList<Notification> unconfirmedSurveys = new ArrayList<Notification>();
+		ArrayList<Notification> readNotifications = new ArrayList<Notification>();
+		
 		NotificationUtil notifUtil = new NotificationUtil();
-		all = notifUtil.getAllNotifications();
-		awards = notifUtil.getAwardNotifications();
-		expirations = notifUtil.getExpirationNotifications();
-		unconfirmedSurveys = notifUtil.getUnconfirmedNotifications();
+		notifUtil.checkExpiredAccreditations();
+		notifUtil.checkUnconfirmedSurveys();
+		all = notifUtil.getNotifications("all");
+		awards = notifUtil.getNotifications("Awards");
+		expirations = notifUtil.getNotifications("Expirations");
+		expirations2 = notifUtil.getNotifications("UnconfirmedSurveys");
+		readNotifications = notifUtil.getNotifications("read");
+	
+		
+		//all:Notifications to be placed at HOME tab
+		//awards: NOtifs to be placed at AWARDS tab 
+		//etc
 		request.setAttribute("all", all);
 		request.setAttribute("awards", awards);
 		request.setAttribute("expirations", expirations);
-		request.setAttribute("unconfirmedSurveys", unconfirmedSurveys);
+		request.setAttribute("unconfirmedSurveys", expirations2);
+		request.setAttribute("read", readNotifications);
+		
+		if(request.getParameter("view")!=null)
+			request.setAttribute("view", request.getParameter("view"));
+		
 		RequestDispatcher rd = request.getRequestDispatcher("notifications.jsp");
 		rd.forward(request, response);
 }
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
