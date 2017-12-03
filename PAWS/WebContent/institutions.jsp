@@ -117,14 +117,14 @@
 						}
 					});
 				
-					j$('[id$=educLevelsSelect]').change(function() {
+					/* j$('[id$=educLevelsSelect]').change(function() {
 						var val = j$.fn.dataTable.util.escapeRegex(
 							j$(this).val()
 						);
 						contactTable.column(0)
 							.search( val == 'All' ? '' : '^'+val+'$', true, false )
 							.draw();
-					});
+					}); */
 					
 					j$.fn.dataTable.ext.errMode = 'none';
 				});
@@ -490,9 +490,9 @@
                     <section class="section" style="position: relative; top:-135px; left:-25px; width:105%;" >
                        <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
 										
-											<br>
+											<!--<br>
 											<label for="educLevels">Education Level: </label>
-										<!-- 	<select id="educLevelSelect" name="smarttable_length" aria-controls="smarttable" class="form-control input-sm" style="width:50%">
+											 	<select id="educLevelSelect" name="smarttable_length" aria-controls="smarttable" class="form-control input-sm" style="width:50%">
 												<option value="0">ALL</option>
 												<option value="1">Elementary Education</option>
 												<option value="2">Secondary Education</option>
@@ -504,13 +504,11 @@
 												
 											</select> -->
 											
-											<select id="educLevelsSelect"><option value="All">All</option></select>
- 
+											
 											<br>
 											     <table id="smarttable" class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                       <tr>
-                                                            <th>Education Level</th>
                                                             <th>Institution Name</th>
                                                             <th>System</th>
                                                             <th>Acronym</th>
@@ -523,7 +521,6 @@
 													
 													 <c:forEach items="${institutions}" var="inst" >
 														<tr>
-															<td> <c:out value="${inst.getEducLevel()}"/> 
 															<td> <c:out value="${inst.getName()}"/> </td>
 															<td> <c:out value="${inst.getSchoolSystemName()}"/> </td>
 															<td> <c:out value="${inst.getInstitutionAcronym()}"/> </td>

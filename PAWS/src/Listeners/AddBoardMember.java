@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import Models.Accreditor;
 import Models.BoardMember;
 import Utilities.AccreditorUtil;
+import Utilities.BoardMembersLocalUtil;
 import Utilities.BoardMembersUtil;
 
 /**
@@ -58,9 +59,14 @@ public class AddBoardMember extends HttpServlet {
 		bm.setInstitution(institution);
 		
 		BoardMembersUtil bmUtil = new BoardMembersUtil();
-	
-		int id = bmUtil.addBoardMember(bm);
+		BoardMembersLocalUtil bmlUtil = new BoardMembersLocalUtil();
 		
+		if(bmUtil.getDB()!=null)
+			bmUtil.addBoardMember(bm);
+		else
+			bmlUtil.addBoardMemberChanges(bm);
+			
+		bmlUtil.addBoardMember(bm);
 		
 	}
 

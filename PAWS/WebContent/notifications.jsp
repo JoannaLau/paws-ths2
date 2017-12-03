@@ -38,17 +38,15 @@
     	
     		
 <script>
-
 $(document).ready(function() {
+	
 	
 // 	Call check for unconfirmned surveys
 	
 	
-	buildHome();
-	buildAwards();
-	buildExpirations();
-	buildUnconfirmedSurveys();
-	buildRead();
+	
+	buildHome(1);
+	
 	
 	
 	if("${view}" == "unconfirmedSurveys")
@@ -61,10 +59,33 @@ $(document).ready(function() {
 
 
 
-function buildHome(){
+function buildHome(currPage){
+
+	document.getElementById('deleteRead').style.visibility = 'hidden';
+	$('#pagination').empty();
+	
+	$('#home-pills').empty();
+	var allSize = ${all.size()};
+	var pages = allSize / 10;
+	
+	if(allSize%10 > 0)
+		pages++;
+	
+	for (i = 1; i <= pages; i++) { 
+		var addPage = "<li class='nav-item'> <a href='' onclick='buildHome("+ i + ")' class='nav-link active' data-target='#home-pills' aria-controls='home-pills' data-toggle='tab' role=tab'>" + i + "</a> </li>";
+		$('#pagination').append(addPage);
+	}
+	
+	
+	var max = currPage * 10;
+	var min = (currPage * 10) - 10;
+	
 	var add = "";	
 	add += "<ul class='item-list striped' id='g' >";	
-	<c:forEach items="${all}" var="all">
+	<c:forEach items="${all}" var="all" varStatus="loop">
+	
+	if(${loop.index} < max && ${loop.index} >= min)
+	{
 		add += "<li class='item'  >";
 		add += "<div class='item-row' id='awardNotif'> ";
 	    add += "<div class='item-col fixed item-col-check'> <label class='item-check' id='select-all-items'><span></span></label> </div>";
@@ -87,20 +108,43 @@ function buildHome(){
 	         	add += "<div class='col-md-1' > <i class='fa fa-times' id='deleteNotif' onclick='deleteNotif(${all.getNotificationID()}, this)'></i> </div></div>";
 	        add += "</div>";
 	    add += "</li>";    
+	}
 	</c:forEach>   
-	    
-    add += "</ul>";
-        
+	add += "</ul>";
+	
     
     $('#home-pills').append(add);
          
          
 }
 
-function buildRead(){
+function buildRead(currPage){
+	
+	document.getElementById('deleteRead').style.visibility = 'visible';
+	$('#pagination').empty();
+	
+	$('#readNotifications-pills').empty();
+	var allSize = ${read.size()};
+	var pages = allSize / 10;
+	
+	if(allSize%10 > 0)
+		pages++;
+	
+	for (i = 1; i <= pages; i++) { 
+		var addPage = "<li class='nav-item'> <a href='' onclick='buildRead("+ i + ")' class='nav-link active' data-target='#home-pills' aria-controls='home-pills' data-toggle='tab' role=tab'>" + i + "</a> </li>";
+		$('#pagination').append(addPage);
+	}
+	
+	
+	var max = currPage * 10;
+	var min = (currPage * 10) - 10;
+
 	var add = "";	
 	add += "<ul class='item-list striped' id='g' >";	
-	<c:forEach items="${read}" var="read">
+	<c:forEach items="${read}" var="read" varStatus="loop">
+	if(${loop.index} < max && ${loop.index} >= min)
+	{
+	
 		add += "<li class='item'  >";
 		add += "<div class='item-row' id='awardNotif'> ";
 	    add += "<div class='item-col fixed item-col-check'> <label class='item-check' id='select-all-items'><span></span></label> </div>";
@@ -120,7 +164,8 @@ function buildRead(){
 	    		add += "<div class='item-col item-col-date'>";           
 	         	add += "    <div class='no-overflow'> <c:out value='${read.getDateCreated()}'/> </div>";
 	        add += "</div>";
-	    add += "</li>";    
+	    add += "</li>";   
+	}
 	</c:forEach>   
 	    
     add += "</ul>";
@@ -129,23 +174,49 @@ function buildRead(){
     $('#readNotifications-pills').append(add);
 }
 
-function buildAwards(){
+function buildAwards(currPage){
+	
+	
+
+	document.getElementById('deleteRead').style.visibility = 'hidden';
+	$('#pagination').empty();
+	
+	$('#award-pills').empty();
+	var allSize = ${awards.size()};
+	var pages = allSize / 10;
+	
+	if(allSize%10 > 0)
+		pages++;
+	
+	for (i = 1; i <= pages; i++) { 
+		var addPage = "<li class='nav-item'> <a href='' onclick='buildAwards("+ i + ")' class='nav-link active' data-target='#award-pills' aria-controls='award-pills' data-toggle='tab' role=tab'>" + i + "</a> </li>";
+		$('#pagination').append(addPage);
+	}
+	
+	
+	var max = currPage * 10;
+	var min = (currPage * 10) - 10;
+
 	var add = "";
 	
 	add += "<ul class='item-list striped' id='g' >";
 	
-	<c:forEach items="${awards}" var="awards">
+	<c:forEach items="${awards}" var="awards" varStatus="loop">
+	if(${loop.index} < max && ${loop.index} >= min)
+	{
+	
 		add += "<li class='item'  >";
 		add += "<div class='item-row' id='awardNotif'> ";
 	    add += "<div class='item-col fixed item-col-check'> <label class='item-check' id='select-all-items'><span></span></label> </div>";
 	    	add += " <div class='item-col fixed item-col-img md'><i class='fa fa-trophy fa-2x'></i></div>";
 	    		add += "<div class='item-col fixed pull-left item-col-title'>";
-	    		add += " <div>   <c:out value='${awards.getContent()}'/> <div>Award</div></div></div>";
+	    		add += " <div>   <b><c:out value='${awards.getContent()}'/></b> <div>Award</div></div></div>";
 	    		add += "<div class='item-col item-col-date'>";           
 	         	add += "    <div class='no-overflow'> <c:out value='${all.getDateCreated()}'/> </div>";
 	         	add += "<div class='col-md-1' > <i class='fa fa-times' id='deleteNotif' onclick='deleteNotif(${awards.getNotificationID()}, this)'></i> </div></div>";
 	        add += "</div>";
-	    add += "</li>";    
+	    add += "</li>";  
+	}
 	</c:forEach>   
 	    
     add += "</ul>";
@@ -171,22 +242,50 @@ function deleteRead(){
 	}
 }
 
-function buildExpirations(){
+function buildExpirations(currPage){
+	
+	document.getElementById('deleteRead').style.visibility = 'hidden';
+
+	
+	$('#pagination').empty();
+	
+	$('#expiration-pills').empty();
+	var allSize = ${expirations.size()};
+	var pages = allSize / 10;
+	
+	if(allSize%10 > 0)
+		pages++;
+	
+	for (i = 1; i <= pages; i++) { 
+		var addPage = "<li class='nav-item'> <a href='' onclick='buildExpirations("+ i + ")' class='nav-link active' data-target='#award-pills' aria-controls='award-pills' data-toggle='tab' role=tab'>" + i + "</a> </li>";
+		$('#pagination').append(addPage);
+	}
+	
+	
+	var max = currPage * 10;
+	var min = (currPage * 10) - 10;
+
+	
+	
 	var add = "";
 	add += "<ul class='item-list striped' id='g' >";
 	
-	<c:forEach items="${expirations}" var="expirations">
+	<c:forEach items="${expirations}" var="expirations" varStatus="loop">
+	if(${loop.index} < max && ${loop.index} >= min)
+	{
+	
 		add += "<li class='item'  >";
 		add += "<div class='item-row' id='awardNotif'> ";
 	    add += "<div class='item-col fixed item-col-check'> <label class='item-check' id='select-expirations.-items'><span></span></label> </div>";
 	    	add += " <div class='item-col fixed item-col-img md'><i class='fa fa-exclamation fa-2x'></i></div>";
 	    		add += "<div class='item-col fixed pull-left item-col-title'>";
-	    		add += " <div>   <c:out value='${expirations.getContent()}'/> <div>Expirations</div></div></div>";
+	    		add += " <div>   <b><c:out value='${expirations.getContent()}'/></b> <div>Expirations</div></div></div>";
 	    		add += "<div class='item-col item-col-date'>";           
 	         	add += "    <div class='no-overflow'> <c:out value='${expirations.getDateCreated()}'/> </div>";
 	         	add += "<div class='col-md-1' > <i class='fa fa-times' id='deleteNotif' onclick='deleteNotif( ${expirations.getNotificationID()}, this )'></i> </div></div>";
 	        add += "</div>";
 	    add += "</li>";    
+	}
 	</c:forEach>   
 	    
     add += "</ul>";
@@ -197,23 +296,51 @@ function buildExpirations(){
          
 }
 
-function buildUnconfirmedSurveys(){
+function buildUnconfirmedSurveys(currPage){
+	
+
+	document.getElementById('deleteRead').style.visibility = 'hidden';
+
+	
+	$('#pagination').empty();
+	
+	$('#unconfirmedSurvey-pills').empty();
+	var allSize = ${unconfirmedSurveys.size()};
+	var pages = allSize / 10;
+	
+	if(allSize%10 > 0)
+		pages++;
+	
+	for (i = 1; i <= pages; i++) { 
+		var addPage = "<li class='nav-item'> <a href='' onclick='buildUnconfirmedSurveys("+ i + ")' class='nav-link active' data-target='#award-pills' aria-controls='award-pills' data-toggle='tab' role=tab'>" + i + "</a> </li>";
+		$('#pagination').append(addPage);
+	}
+	
+	
+	var max = currPage * 10;
+	var min = (currPage * 10) - 10;
+
+	
 	var add = "";
 	
 	add += "<ul class='item-list striped' id='g' >";
 	
-	<c:forEach items="${unconfirmedSurveys}" var="unconfirmedSurveys">
+	<c:forEach items="${unconfirmedSurveys}" var="unconfirmedSurveys" varStatus="loop">
+	if(${loop.index} < max && ${loop.index} >= min)
+	{
+	
 		add += "<li class='item'  >";
 		add += "<div class='item-row' id='awardNotif'> ";
 	    add += "<div class='item-col fixed item-col-check'> <label class='item-check' id='select-'><span></span></label> </div>";
 	    	add += " <div class='item-col fixed item-col-img md'> <i class='fa fa-warning fa-2x'></i></div>";
 	    		add += "<div class='item-col fixed pull-left item-col-title'>";
-	    		add += " <div>   <c:out value='${unconfirmedSurveys.getContent()}'/> <div>Unconfirmed Survey</div></div></div>";
+	    		add += " <div>   <b><c:out value='${unconfirmedSurveys.getContent()}'/></b> <div>Unconfirmed Survey</div></div></div>";
 	    		add += "<div class='item-col item-col-date'>";           
 	         	add += "    <div class='no-overflow'> <c:out value='${unconfirmedSurveys.getDateCreated()}'/> </div>";
 	         	add += "<div class='col-md-1' > <i class='fa fa-times' id='deleteNotif' onclick='deleteNotif(${unconfirmedSurveys.getNotificationID()}, this)'></i> </div></div>";
 	        add += "</div>";
 	    add += "</li>";    
+	}
 	</c:forEach>   
 	    
     add += "</ul>";
@@ -495,14 +622,14 @@ function deleteNotif(notificationID, btn){
 				 
             <jsp:include page="sidebar.jsp" />
 				 
-				<div class="container">
-	<video poster="assets/banner.jpg" id="bgvid"  playsinline autoplay muted loop>
-  <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
-
-<source src="assets/vid.mp4" type="video/mp4">
-</video>
-</video>
-</div>
+			<!-- <div class="container">
+					<video poster="assets/banner.jpg" id="bgvid"  playsinline autoplay muted loop>
+				  WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button 
+				
+				<source src="assets/vid.mp4" type="video/mp4">
+				</video>
+				</video>
+			</div>
             <div id="welcome">
 			<h1>Welcome back!</h1>
 			</div>
@@ -513,7 +640,9 @@ box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
     			<i class="fa fa-bars"></i>
     		</button> </div>
                   
-                </header>
+                </header> -->
+                
+                <br>
                 
                 <article class="content dashboard-page" >
                    
@@ -526,15 +655,28 @@ box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
                                         <div class="card-title-block">
                                             <h3 class="title">Notifications</h3> 
                                         </div>
+                                        
+                                       
                                     <!-- Nav tabs -->
                                         <ul class="nav nav-pills" style="width: 100%;">
-                                            <li class="nav-item"> <a href="" onclick="document.getElementById('deleteRead').style.visibility = 'hidden';" id = "homeBtn" class="nav-link active" data-target="#home-pills" aria-controls="home-pills" data-toggle="tab" role="tab">All</a> </li>
-                                            <li class="nav-item"> <a href="" onclick="document.getElementById('deleteRead').style.visibility = 'hidden';" class="nav-link" data-target="#award-pills" aria-controls="awards-pills" data-toggle="tab" role="tab">Awards</a> </li>
-                                            <li class="nav-item"> <a href="" onclick="document.getElementById('deleteRead').style.visibility = 'hidden';" class="nav-link" data-target="#expiration-pills" aria-controls="expiration-pills" data-toggle="tab" role="tab">Accreditation Expirations</a> </li>
-                                            <li class="nav-item"> <a href="" onclick="document.getElementById('deleteRead').style.visibility = 'hidden';" id = "unconfirmedBtn" class="nav-link" data-target="#unconfirmedSurvey-pills" aria-controls="unconfirmedSurvey-pills" data-toggle="tab" role="tab">Unconfirmed Surveys</a> </li>
-                                        	<li class="nav-item"> <a href="" onclick="document.getElementById('deleteRead').style.visibility = 'visible';" class="nav-link" data-target="#readNotifications-pills" aria-controls="readNotifications-pills" data-toggle="tab" role="tab">Show Read Notifications</a> </li>
+                                        
+                                            <li class="nav-item"> <a href="" onclick="buildHome(1);" id = "homeBtn" class="nav-link active" data-target="#home-pills" aria-controls="home-pills" data-toggle="tab" role="tab">All</a> </li>
+                                            <li class="nav-item"> <a href="" onclick="buildAwards(1);" class="nav-link" data-target="#award-pills" aria-controls="awards-pills" data-toggle="tab" role="tab">Awards</a> </li>
+                                            <li class="nav-item"> <a href="" onclick="buildExpirations(1);" class="nav-link" data-target="#expiration-pills" aria-controls="expiration-pills" data-toggle="tab" role="tab">Accreditation Expirations</a> </li>
+                                            <li class="nav-item"> <a href="" onclick="buildUnconfirmedSurveys(1);" id = "unconfirmedBtn" class="nav-link" data-target="#unconfirmedSurvey-pills" aria-controls="unconfirmedSurvey-pills" data-toggle="tab" role="tab">Unconfirmed Surveys</a> </li>
+                                        	<li class="nav-item"> <a href="" onclick="buildRead(1);" class="nav-link" data-target="#readNotifications-pills" aria-controls="readNotifications-pills" data-toggle="tab" role="tab">Show Read Notifications</a> </li>
                                         	<button class="btn btn-danger btn-sm" id="deleteRead" onclick="deleteRead();" style="float:right; visibility:hidden;">Delete Read Notifications</button>
                                         </ul>
+                                        
+                                        <!-- pages -->
+                                         <ul class="nav nav-pills" style="width: 100%; padding:1em;" id="pagination">
+	                                     <!--    <li class="nav-item"> <a href="" id = "backPaginate" class="nav-link active" data-target="#home-pills"  aria-controls="home-pills" data-toggle="tab" role="tab"><</a> </li>
+	                                          	
+	                                        <li class="nav-item"> <a href="" id = "nextPaginate" class="nav-link active" data-target="#award-pills" aria-controls="awards-pills" data-toggle="tab" role="tab">></a> </li>
+	                                      -->
+	                                      </ul>
+	                                      
+	                                      
                                     <!-- Tab panes -->
 					                    <div class="tab-content">                     
 										<!-- Start of Home tab Content -->
@@ -550,6 +692,8 @@ box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
 					                        </div>
 					                   </div>
                                     </div>
+                             
+                             		
                   	</div>
                   	</div>
                        

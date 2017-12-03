@@ -51,6 +51,7 @@
 					<ul id="demo3" class="collapse">
 						<li> <a href="MembershipInfographics">Membership</a> </li>
 						<li> <a href="SurveyVisitInfographics">Survey Visits</a> </li>
+						<li> <a href="AccreditorInfographics">Accreditors</a> </li>
 					</ul>
 				</li>
 				

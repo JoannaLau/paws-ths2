@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import Models.Accreditor;
 import Models.BoardMember;
 import Utilities.AccreditorUtil;
+import Utilities.BoardMembersLocalUtil;
 import Utilities.BoardMembersUtil;
 
 /**
@@ -36,15 +37,38 @@ public class EditBoardMember extends HttpServlet {
 		// TODO Auto-generated method stub
 		int bmID = Integer.parseInt(request.getParameter("bmID"));
 		BoardMembersUtil bmUtil = new BoardMembersUtil();
-		BoardMember bm = new BoardMember();
 		
-		bm = bmUtil.getBoardMember(bmID);
-		request.setAttribute("bmID", bmID);
-		request.setAttribute("bpID", bm.getBoardPositionID());
-		request.setAttribute("boardMember", bm);
+		if(bmUtil.getDB()!=null)
+		{
+			BoardMember bm = new BoardMember();
+			
+			bm = bmUtil.getBoardMember(bmID);
+			request.setAttribute("bmID", bmID);
+			request.setAttribute("bpID", bm.getBoardPositionID());
+			request.setAttribute("boardMember", bm);
+
+			request.setAttribute("connection", true);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("editBoardMember.jsp");
+			rd.forward(request, response);
+		}
+		else
+		{
+			BoardMembersLocalUtil bmlUtil = new BoardMembersLocalUtil();
+			BoardMember bm = new BoardMember();
+			
+			bm = bmlUtil.getBoardMember(bmID);
+			request.setAttribute("bmID", bmID);
+			request.setAttribute("bpID", bm.getBoardPositionID());
+			request.setAttribute("boardMember", bm);
+			request.setAttribute("connection", false);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("editBoardMember.jsp");
+			rd.forward(request, response);
+		}
+			
 		
-		RequestDispatcher rd = request.getRequestDispatcher("editBoardMember.jsp");
-		rd.forward(request, response);
+//<h6 style="padding-top: 10px;"><i class="fa fa-exclamation-triangle" style="color:red; font-size: 20px;"> Warning: </i>&nbsp;Unable to retrieve data from the website. Any changes made here will update the local database. You can sync these changes when internet connection becomes available.</h6>
 	}
 
 	/**

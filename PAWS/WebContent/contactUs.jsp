@@ -380,9 +380,6 @@
                     <div id="welcome">
                         <h1>List of Contact Us Responses</h1>
 
-                        <button type="button" style="float:right; position:relative;left:-50px; top:-52px; color:#3c4731;" class="btn btn-oval btn-secondary" onclick="location.href='addNews.jsp';"><em class="fa fa-plus"></em><b> Add News</b>
-                        </button>
-
                     </div>
                     <header class="header" id="customheader">
 

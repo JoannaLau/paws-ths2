@@ -275,7 +275,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 				
 				 <div class="title-block">
                         <h3 class="title" style="float:left;">
-							<a href="SchoolSystems"> List of School Systems </a> > Add New Institution
+							<a href="SchoolSystems"> List of School Systems </a> > Edit Institution
 						</h3>
 			     </div>
 				

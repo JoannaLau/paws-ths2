@@ -40,11 +40,12 @@ public class AddProgramToInst extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String specific = request.getParameter("specific");
+		String level = request.getParameter("level");
 		int generalID = Integer.parseInt((String)request.getParameter("general"));
 		int instID = Integer.parseInt((String)request.getParameter("instID"));
 		
 		InstitutionsUtil instUtil = new InstitutionsUtil();
-		instUtil.addProgramToInst(specific, generalID, instID);	
+		instUtil.addProgramToInst(specific, generalID, instID, level);	
 	System.out.println("output1:"+ specific);
 		RequestDispatcher rd = request.getRequestDispatcher("ViewInstitution?institutionID="+instID);
 		rd.forward(request, response);

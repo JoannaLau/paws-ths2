@@ -37,7 +37,16 @@ public class AddInstitution extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String ssID = request.getParameter("ssID");
+		
+		String ssID="";
+		if(request.getParameter("noSS")=="on")
+		{
+			ssID = "99999";
+		}
+		else {
+			ssID = request.getParameter("ssID");
+		}
+		
 		
 		String institutionName = request.getParameter("institutionName");
 		
@@ -69,7 +78,7 @@ public class AddInstitution extends HttpServlet {
 		
 		String membershipDate = request.getParameter("membershipDate");
 		
-		int educLevel = Integer.parseInt(request.getParameter("levelSelect"));
+		int educLevel = 0;
 		
 		
 		

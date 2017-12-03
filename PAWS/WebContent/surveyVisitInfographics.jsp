@@ -52,7 +52,15 @@
 		
         
         
-      
+        <script src="js/Chart.bundle.js"></script>
+    <script src="js/utils.js"></script>
+    <style>
+    canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+    </style>
         
         
         
@@ -347,15 +355,11 @@
          --%>
 
      <center>             
-                           
-                           
-      
 
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
-
+          
+<canvas id="canvas"></canvas>
                            
-                           
-                           
+                                                     
                </center>              
                         
                            
@@ -387,8 +391,6 @@
     
     
        <script type="text/javascript">
-      google.charts.load('current', {'packages':['bar']});
-      google.charts.setOnLoadCallback(drawChart);
 
 		var YearBar = new Array();
 		var GradeSchoolBar = new Array();
@@ -400,7 +402,6 @@
 		var CECSTE = new Array();
 		
 		
-
 		
 		 <c:forEach items="${surveyCountList}" var="count" >
 
@@ -420,46 +421,93 @@
 		 </c:forEach>
 		
 		
+	
 		
-		
+		 var CombinedBarNames = new Array();
+	        CombinedBarNames = ['Grade School', 'High School', 'Basic Education', 'Tertiary', 'Graduate School', 'Medical School', 'CECSTE'];
 
-		var CombinedBar = new Array();
-		CombinedBar[0] = ['Year', 'Grade School', 'High School', 'Basic Education', 'Tertiary', 'Graduate School', 'Medical School','CECSTE'];
-		
-		
-		
+   
 
-		for (var j = 0; j < YearBar.length; j++){
-		  CombinedBar[j + 1] = [ YearBar[j], GradeSchoolBar[j], HighSchoolBar[j], BasicBar[j], TertiaryBar[j], GradSchoolBar[j], MedBar[j], CECSTE[j]];
-		}
+			var CombinedBar = new Array();
+			CombinedBar = [GradeSchoolBar, HighSchoolBar, BasicBar, TertiaryBar, GradSchoolBar, MedBar, CECSTE];
+			   
 
-
-		for (var x = 0; x < YearBar.length; x++){
-		  console.log(CombinedBar[x]);
-		}
-
-
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable(CombinedBar);
-
-        var options = {
-          chart: {
-            title: 'Number of Survey Visits in the Past 5 Years',
-            subtitle: '',
-          },
-          bars: 'vertical', // Required for Material Bar Charts.
-          hAxis: {format: 'decimal'},
-          height: 400,
-          colors: ['#1b9e77', '#d95f02', '#7570b3']
-        };
-
-        var chart = new google.charts.Bar(document.getElementById('chart_div'));
-
-        chart.draw(data, google.charts.Bar.convertOptions(options));
+      
+      
+			
+			  var color = Chart.helpers.color;
+		        var RED = color(window.chartColors.red).alpha(0.5).rgbString();
+		        var BLUE = color(window.chartColors.blue).alpha(0.5).rgbString();
+		        var YELLOW = color(window.chartColors.yellow).alpha(0.5).rgbString();
+		        var GREEN = color(window.chartColors.green).alpha(0.5).rgbString();
+		        var ORANGE = color(window.chartColors.orange).alpha(0.5).rgbString();
+		        var PURPLE = color(window.chartColors.purple).alpha(0.5).rgbString();
+		        var GREY = color(window.chartColors.grey).alpha(0.5).rgbString();
 
 
+		        var colors = new Array();
+		        colors = [RED, BLUE, YELLOW, GREEN, ORANGE, PURPLE, GREY];
 
-      }
+
+		        var barChartData = {
+		            labels: YearBar
+		        };
+	        
+	        
+	        
+
+		        window.onload = function() {
+		            var ctx = document.getElementById("canvas").getContext("2d");
+		            window.myBar = new Chart(ctx, {
+		                type: 'bar',
+		                data: barChartData,
+		                options: {
+		                    responsive: true,
+		                    legend: {
+		                        position: 'top',
+		                    },
+		                    title: {
+		                        display: true,
+		                        text: 'Candidate Schools'
+		                    }
+		                }
+		            });
+
+		            for (var x = 0; x < CombinedBar.length; x++){
+		                addData(myBar, CombinedBarNames[x], colors[x], CombinedBar[x]);
+		            }
+
+
+		              console.log(CombinedBar[x]);
+
+		        };
+
+		        function getRandomColor() {
+		            var letters = '0123456789ABCDEF'.split('');
+		            var color = '#';
+		            for (var i = 0; i < 6; i++ ) {
+		                color += letters[Math.floor(Math.random() * 16)];
+		            }
+		            return color;
+		        }
+
+		        function addData(chart, label, color, data) {
+		            chart.data.datasets.push({
+		                label: label,
+		                backgroundColor: color,
+		                data: data
+		                });
+		            chart.update();
+		        }
+
+	        
+	        
+
+
+		        
+		        
+		        
+		        
     </script>
         
     

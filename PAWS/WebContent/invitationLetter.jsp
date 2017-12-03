@@ -41,12 +41,53 @@
 		</script>
 
     <script>
-    
-	    $(document).ready(function() {
+	   function forDB(){
+	   	$('#institutionSurveyForm_chosen').width('95%');
+	   	$('#accreditorForm_chosen').width('95%');
+	   	$('#institutionForm_chosen').width('95%');
+	   }
+	   
+    	$(document).ready(function() {
+	    	
+
+			$('#institutionSurveyForm').chosen().change(function(){
+								
+				$('#selectSurveyForm').empty();
+				var institutionID = $('#institutionSurveyForm').find(":selected").val();
+				
+				
+			
+				$.getJSON("SurveyDetailsLoader?institutionID=" + institutionID + "&date=" + getDateToday(), function(data){
+					var obj = document.getElementById('selectSurveyForm');
+					
+					if ( data.length > 0 ) {
+				    	var option = document.createElement("option");
+						option.text = "";
+						option.value = 0;
+						obj.add(option);
+								
+						$.each(data, function (key, value){
+							
+							var option = document.createElement("option");
+							option.text = value.type + " - " +  value.degreeName + " - " + value.startDate + " to " + value.endDate;
+							option.value = value.PSID;
+							obj.add(option);
+							
+							
+						});	
+						$('#selectSurveyForm').trigger("chosen:updated");
+				    }
+				});
+			});
+	    	
+			$('#selectSurveyForm').chosen().change(function(){
+				$("#divSurveyButton").html("<button class ='btn btn-info btn-sm' onclick='genPDFSurvey()'>Download PDF</button>");
+			});
+	    	
+			
 	    	$('#institutionForm').chosen().change(function(){
 				
 				$('#divProgramForm').empty();
-
 				var institutionID = $('#institutionForm').find(":selected").val();
 				document.getElementById("deptprog1").value = "";
 				
@@ -94,6 +135,8 @@
 			    	}
 			});
 			
+				
+				
 				$.getJSON("InstitutionForInvitationLoader?institutionID=" + institutionID, function(data){
 				   
 						$.each(data, function (key, value) {
@@ -131,7 +174,6 @@
 				var accreditorID = $('#accreditorForm').find(":selected").val();
 				document.getElementById("invited1").value = $('#accreditorForm').find(":selected").text();
 				document.getElementById("invited-1").value = $('#accreditorForm').find(":selected").text();
-
 				$.getJSON("AccreditorForInvitationLoader?accreditorID=" + accreditorID, function(data){
 					$.each(data, function (key, value) {
 					
@@ -155,13 +197,37 @@
 				
 			});
 		    
-		    getInstitutions();
+			getInstitutionsSurvey();
+		    getInstitutionsDB();
 		    getAccreditors();
 		    
+
 		});
 	    
+		function getInstitutionsSurvey()
+		{
+			var obj = document.getElementById('institutionSurveyForm');
+			
+			var dateToday = getDateToday();
+				
+			$.getJSON("InstitutionInSurveysLoader?date=" + dateToday, function(data){
+				var option = document.createElement("option");
+				option.text = "";
+				option.value = 0;
+				obj.add(option);
+				
+				$.each(data, function (key, value){
+					var option = document.createElement("option");
+					option.text = value.institutionName + " - " + value.city;
+					option.value = value.institutionID;
+					obj.add(option);
+					
+				});	
+				$('#institutionSurveyForm').trigger("chosen:updated");
+			});
+		}
 	    
-	    function getInstitutions(){
+	    function getInstitutionsDB(){
 	    	//GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
 			var obj = document.getElementById('institutionForm');
 			
@@ -174,7 +240,7 @@
 				$.each(data, function (key, value){
 					
 					var option = document.createElement("option");
-					option.text = value.institutionName + " - " + value.city + " - " + value.educLevel;
+					option.text = value.institutionName + " - " + value.city;
 					option.value = value.institutionID;
 					obj.add(option);
 					
@@ -184,7 +250,6 @@
 			
 		}
 	    
-
 	    function getAccreditors(){
 	    	//GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
 			var obj = document.getElementById('accreditorForm');
@@ -208,6 +273,28 @@
 			
 		}
 	    
+	    
+	    function getDateToday()
+	    {
+	    	var obj = document.getElementById('institutionSurveyForm');
+			
+			var objToday = new Date();
+
+			var month = (objToday.getMonth()+1);
+			
+			if(month < 10)
+				month = '0' + month;
+			
+			var day = (objToday.getDate());
+			
+			if(day < 10)
+				day = '0' + day;
+			
+			var dateToday = objToday.getFullYear().toString() + "" +  month.toString() + "" + day.toString();
+			
+			return dateToday;
+	    }
+	    
 	    Date.prototype.getFormatDate = function() {
 	        var monthNames = [ "January", "February", "March", "April", "May", "June", 
 	                           "July", "August", "September", "October", "November", "December" ];
@@ -216,22 +303,48 @@
 	        
 	    }
 	
-
+	    function genPDFSurvey() {
+	    	var PSID = $('#selectSurveyForm').find(":selected").val();
+			alert(PSID);
+			
+			
+			var accreditorID = $('#accreditorForm').find(":selected").val();
+			document.getElementById("invited1").value = $('#accreditorForm').find(":selected").text();
+			document.getElementById("invited-1").value = $('#accreditorForm').find(":selected").text();
+			$.getJSON("AccreditorForInvitationLoader?accreditorID=" + accreditorID, function(data){
+				$.each(data, function (key, value) {
+				
+					var recepientFromJSON = value.head;
+					var recepientPosiFromJSON = value.hPosition;
+					var instNameFromJSON = value.institutionName;
+					var cityFromJSON = value.city;
+					
+					document.getElementById("recepient1").value = recepientFromJSON;
+					document.getElementById("recepientpos1").value = recepientPosiFromJSON;
+					document.getElementById("school1").value = instNameFromJSON;
+					document.getElementById("city1").value = cityFromJSON;
+					
+					document.getElementById("recepient-1").value = recepientFromJSON;
+					
+				});
+				
+			});
+			
+			
+	    }
+	    
         function genPDF() {
 			var doc = new jsPDF();
             var suff = document.getElementById("suffix");
             var strsuff = suff.options[suff.selectedIndex].value;
             var deptdrop = document.getElementById("department-dropdown");
             var dept = deptdrop.options[deptdrop.selectedIndex].value;
-
             doc.setFontSize(12);
             doc.text(20, 70, textDate);
-
             doc.setFontType("bold");
             var recipient = $('#recipient').val();
             recipient = strsuff + recipient;
             doc.text(20, 85, recipient);
-
             doc.setFontType("normal");
             var recipientpos = $('#recipientpos').val();
             doc.text(20, 90, recipientpos);
@@ -240,53 +353,37 @@
             var city = $('#city').val();
             city = city + " City";
             doc.text(20, 100, city);
-
             var invited = $('#invited').val();
             var surveyschool = $('#surveyschool').val();
             var schoolcity = $('#schoolcity').val();
             schoolcity = schoolcity + " City";
             
             var from = $("#fromdate").val().split("-");
-
             var startdate = new Date(from[0], from[1], from[2]).getFormatDate().toString();
             
             var to = $("#todate").val().split("-");
-
             var todate = new Date(to[0], to[1]-1, to[2]).getFormatDate().toString();
             
             var signperson = $('#signperson').val();
             var signposition = $('#signposition').val();
-
             doc.text(20, 110, "Dear " + recipient + ":");
-
             var paragraph = "We have invited " + invited + " to join the Resurvey Team that will visit the " + dept + " Department of " + surveyschool + ", " + schoolcity + " on " + startdate + " to " + todate + ".\n\nWe will appreciate your making " + invited + " available for the survey. We realize this will take them out of school for some time. However, school visitation can be a most rewarding experience. It is also an opportunity for professional and personal growth.\n\nThank you for sharing our concern for quality education in the country.\n\n\nSincerely yours,\n\n\n" + signperson + "\n" + signposition + "";
-
             lines = doc.splitTextToSize(paragraph, 175);
-
             var img = new Image();
             var dataURL;
-
-
             img.onload = function() {
                 var canvas = document.createElement('canvas');
                 canvas.width = img.width;
                 canvas.height = img.height;
-
-
                 var context = canvas.getContext('2d');
                 context.drawImage(img, 0, 0);
-
                 dataURL = canvas.toDataURL('image/jpeg');
             }
-
             doc.text(20, 120, lines);
-
             doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50);
             doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50);
                 // doc.addImage(dataURL, 'JPEG', 20, 20, 75, 75)
-
             var filename = recipient + " Survey Invitation " + todayDateInput + ".pdf";
-
             doc.save(filename);
         }
         
@@ -294,20 +391,16 @@
         function genPDFDB() {
         
             var doc = new jsPDF();
-
 			var invited = $("#accreditorForm option:selected").text();
 			var chosenInstitution = $('#institutionForm').val();
 			
 			
 			  
-
             doc.setFontSize(12);
             doc.text(20, 70, textDate);
-
             doc.setFontType("bold");
             var recipient = $('#recepient1').val();
             doc.text(20, 85, recipient);
-
             doc.setFontType("normal");
             var recipientpos = $('#recepientpos1').val();
             doc.text(20, 90, recipientpos);
@@ -316,7 +409,6 @@
             var city = $('#city1').val();
             city = city + " City";
             doc.text(20, 100, city);
-
             var invited = $('#invited1').val();
             
             var deptprog = $('#deptprog1').val();
@@ -326,47 +418,31 @@
             schoolcity = schoolcity + " City";
             
             var from = $("#fromdate1").val().split("-");
-
             var startdate = new Date(from[0], from[1]-1, from[2]).getFormatDate().toString();
             
             var to = $("#todate1").val().split("-");
-
             var todate = new Date(to[0], to[1]-1, to[2]).getFormatDate().toString();
             
             var signperson = $('#signperson1').val();
             var signposition = $('#signposition1').val();
-
             doc.text(20, 110, "Dear " + recipient + ":");
-
             
             var paragraph = "We have invited " + invited + " to join the Resurvey Team that will visit the " + deptprog + " of " + surveyschool + ", " + schoolcity + " on " + startdate + " to " + todate + ".\n\nWe will appreciate your making " + invited + " available for the survey. We realize this will take them out of school for some time. However, school visitation can be a most rewarding experience. It is also an opportunity for professional and personal growth.\n\nThank you for sharing our concern for quality education in the country.\n\n\nSincerely yours,\n\n\n" + signperson + "\n" + signposition + "";
-
             lines = doc.splitTextToSize(paragraph, 175);
-
             var img = new Image();
             var dataURL;
-
             img.onload = function() {
                 var canvas = document.createElement('canvas');
                 canvas.width = img.width;
                 canvas.height = img.height;
-
-
                 var context = canvas.getContext('2d');
                 context.drawImage(img, 0, 0);
-
-                window.alert("nakapasok");
-
                 dataURL = canvas.toDataURL('image/jpeg');
             }
-
             doc.text(20, 120, lines);
-
             doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50);
             doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50);
-
             var filename = recipient + " Survey Invitation " + todayDateInput + ".pdf";
-
             doc.save(filename);
         }
         
@@ -520,37 +596,44 @@
                 </div>
                 <article class="content dashboard-page">
                     <ul class="nav nav-tabs" style="margin-top:-4cm;">
-                        <li class="active"><a data-toggle="tab" href="#fromDB">From Database</a>
+                       
+                        <li class="active"><a data-toggle="tab" href="#fromSurveys">From Surveys</a>
+                        </li>
+                        <li id="liDB" onclick="forDB();"><a data-toggle="tab" href="#fromDB">From Database</a>
                         </li>
                         <li><a data-toggle="tab" href="#manualInput">Manual Input</a>
                         </li>
                     </ul>
 
                     <div class="tab-content">
-                        <div id="fromDB" class="tab-pane fade in active">
+                   		
+                        <div id="fromSurveys" class="tab-pane fade in active">
+                        <br>
+                            <h3>Import From Surveys</h3>
+                            
+                            	<div class="form-group" id = "divSurveyInstitutionForm">
+									<label for="institutionSurveyForm">Step 1: Choose an institution: </label>
+									<select class="form-control underlined chosen-select" data-placeholder="Choose an Institution" id="institutionSurveyForm" style="background: transparent;">
+									</select>
+								</div>
+								
+								<div class="form-group" id = "divSurveyForm">
+									<label for="selectSurveyForm">Step 2: Choose a survey from the institution: </label>
+									<select class="form-control underlined chosen-select" data-placeholder="Choose a survey" id="selectSurveyForm" style="background: transparent;">
+									</select>
+								</div>
+								
+								<div id="divSurveyButton">
+								</div>
+								
+                             	
+                        </div>
+                        
+                        <div id="fromDB" class="tab-pane fade">
                         <br>
                             <h3>Import From Database</h3>
                             
-                            	<%-- <div class="form-group">
-									<label for="accreditorForm">Accreditor: </label>
-		                            <br>
-		                            <select class="form-control underlined chosen-select" data-placeholder="Choose an Accreditor..." id="accreditorForm" style="background: transparent;">
-	                         		    <option ></option>
-									    
-		                         		<c:forEach var="acc" items="${accreditors}">
-									        <option value="${acc.getAccreditorID()}">${acc.getHonorifics()}. ${acc.getFirstName()} ${acc.getLastName()} </option>
-									    </c:forEach> 
-									</select> 
-								</div> --%>
-									<%-- <label for="institutionForm">Institution: </label>
-		                            <br>
-		                            <select class="form-control underlined chosen-select" data-placeholder="Choose an Institution..." id="institutionForm" style="background: transparent;">
-		                         	       <option ></option>
-									
-		                         	    <c:forEach var="inst" items="${institutions}">
-									        <option value="${inst.getInstitutionID()}">${inst.getName()} - ${inst.getCity()} - ${inst.getEducLevel()} </option>
-									    </c:forEach>
-									</select> --%>
+                            	
 								<div class="form-group" id = "divAccreditorForm">
 									<label for="accreditorForm">Accreditor for the survey: </label>
 									<select class="form-control underlined chosen-select" data-placeholder="Choose an Accreditor..." id="accreditorForm" style="background: transparent;">
@@ -732,12 +815,12 @@
 	        
 	    }
     
+	
     
         var today = new Date();
         var textDate = new Date().getFormatDate().toString();
         var dd = today.getDate();
         var mm = today.getMonth() + 1;
-
         var yyyy = today.getFullYear();
         if (dd < 10) {
             dd = '0' + dd;
@@ -753,24 +836,17 @@
         function testfunction() {
             window.alert($('#fromdate').val());
         }
-
        
     </script>
 
     <script>
         $('#button').click(function() {
-
             var doc = new jsPDF();
-
             var name = $('#name').val();
-
             doc.setFontSize(26);
             doc.setTextColor(92, 76, 76);
-
             doc.text(23, 81, name);
             doc.save('test.pdf');
-
-
         });
     </script>
 

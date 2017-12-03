@@ -15,6 +15,8 @@ public class SchoolProgram {
 	private String lapseDate;
 	private String currentDecision;
 	private String decisionBy;
+	private String lastSurveyDate;
+	
 	
 	public SchoolProgram(int sPID, String institution, String level, String date_added, String next_survey_sched,
 			String pending_reports, String next_survey_type, String degree_name) {
@@ -35,39 +37,49 @@ public class SchoolProgram {
 		
 	}
 	
+	public String getLastSurveyDate() {
+		return lastSurveyDate;
+	}
+
+	public void setLastSurveyDate(String lastSurveyDate) {
+		this.lastSurveyDate = formatDate(lastSurveyDate);
+	}
+	
 	private static String formatDate(String date){
-		String format = new String();
+		String format = "NA";
 		String month = "";
 		String day;
 		String year;
-		System.out.println(date+"DAAAAAAAAAAAAAAAAAAATEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!!!@");
-		if(date!=null&&date!=""){
+		System.out.println(date+"date of next sruv sched");
+
+		if(date==null||date.equals("NA")||date.equals(" ")||date.equals("")){}
+		else{
 		String[] parts = date.split("-");
 		System.out.println("pogiako"+ date);
 		if(parts[1].equals("01")){
-			month = "January";
+			month = "Jan";
 		}else if(parts[1].equals("02")){
-			month = "February";
+			month = "Feb";
 		}else if(parts[1].equals("03")){
-			month = "March";
+			month = "Mar";
 		}else if(parts[1].equals("04")){
-			month = "April";
+			month = "Apr";
 		}else if(parts[1].equals("05")){
 			month = "May";
 		}else if(parts[1].equals("06")){
-			month = "June";
+			month = "Jun";
 		}else if(parts[1].equals("07")){
-			month = "July";
+			month = "Jul";
 		}else if(parts[1].equals("08")){
-			month = "August";
+			month = "Aug";
 		}else if(parts[1].equals("09")){
-			month = "September";
+			month = "Sep";
 		}else if(parts[1].equals("10")){
-			month = "October";
+			month = "Oct";
 		}else if(parts[1].equals("11")){
-			month = "November";
+			month = "Nov";
 		}else if(parts[1].equals("12")){
-			month = "December";
+			month = "Dec";
 		}
 		year = parts[0];
 

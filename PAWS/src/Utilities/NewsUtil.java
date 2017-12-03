@@ -33,14 +33,15 @@ public class NewsUtil {
 	
 	
 	
-	public void addNews(String title, String content, String date){
+	public void addNews(String title, String content, String date, String image){
 		try{
 			Connection conn = db.getConnection();
 
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO `news`(title, content, date) VALUES (?, ?, ?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `news`(title, content, date, image) VALUES (?, ?, ?, ?)");
 			ps.setString(1, title);
 			ps.setString(2, content);
 			ps.setString(3, date);
+			ps.setString(4, image);
 			ps.executeUpdate();		
 			db.cutPort();
 		} catch (Exception e){

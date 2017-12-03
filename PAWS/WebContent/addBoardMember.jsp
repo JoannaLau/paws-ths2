@@ -147,6 +147,10 @@
       
 
         function saveBoardMember() {
+        	$( ".loader" ).remove();
+        	var div = document.createElement("div");
+        	div.setAttribute("class", "loader");
+        	document.getElementById("load").appendChild(div);
         	
         	var honorifics = $('#honorifics').val();
         	var firstName = $('#firstName').val();
@@ -162,37 +166,95 @@
         	
         	if(honorifics == ""){
         		alert("Please fill out honorifics name!");
+       		   $( ".loader" ).remove();
+                   
         	}else if(firstName == ""){
         		alert("Please fill out first name!");
+        		   $( ".loader" ).remove();
+                   
         	}else if(middleName == ""){
         		alert("Please fill out middle initial!");
+        		   $( ".loader" ).remove();
+                   
         	}else if(lastName == ""){
-            		alert("Please fill out last name!");
+           		alert("Please fill out last name!");
+          		$( ".loader" ).remove();
+                      
         	}else if(boardPositionID == ""){
         		alert("Please fill out board position!");
+        		   $( ".loader" ).remove();
+                   
         	}else if(year == ""){
         		alert("Please choose a year!");
+        		   $( ".loader" ).remove();
+                   
         	}else if(position == ""){
-        		alert("Please input position!")
+        		alert("Please input position!");
+        		   $( ".loader" ).remove();
+                
         	}else if(institution == ""){
-        		alert("Please input institution!")
+        		alert("Please input institution!");
+        		   $( ".loader" ).remove();
+                   
         	}else if(city == ""){
-        		alert("Please input city!")
-        	}else{
-            	console.log( $('#bmForm').serializeArray() );
-	        	  $.ajax({
-	                url: 'AddBoardMember?' + $('#bmForm').serialize(),
-	                type: 'POST',
-	                async: false,
-	                dataType: 'json',
-	                success: function(result) {
-	                	console.log($('#bmForm').serialize());
-	
-	                }
-	            });
-	            alert('Accreditor successfully added! Redirecting you to the accreditors page...');
-	          	document.location.href = "BoardMembers";
+        		alert("Please input city!");
+        		   $( ".loader" ).remove();
+                   
+        		
+        	}else
+        	{
+        		var year = $("#year").val();
+        		var positionID = $('#boardPositions').find(":selected").val();
+        		var positionName = $('#boardPositions').find(":selected").text();
+        		
+        		if(positionID < 3)
+        		{
+        			$.getJSON("BoardMemberYearLoader?year="+year+"&positionID="+positionID, function(data) {
+						
+	            		if(data.length > 0)
+						{
+							$.each(data, function(key, value) {
+	                            
+			                    alert("Error! You have already assigned " + value.name + " as a " + $('#boardPositions').find(":selected").text() + " for the year " + $("#year").val());
+			                    $( ".loader" ).remove();
+	                         });
+						}
+						else
+						{
+							$.ajax({
+				                url: 'AddBoardMember?' + $('#bmForm').serialize(),
+				                type: 'POST',
+				                async: false,
+				                dataType: 'json',
+				                success: function(result) {
+				                	console.log($('#bmForm').serialize());
+				
+				                }
+				            });
+				            alert('Accreditor successfully added! Redirecting you to the accreditors page...');
+				          	document.location.href = "BoardMembers";
+						}
+	   		    	});
+        		}
+        		else
+				{
+					$.ajax({
+		                url: 'AddBoardMember?' + $('#bmForm').serialize(),
+		                type: 'POST',
+		                async: false,
+		                dataType: 'json',
+		                success: function(result) {
+		                	console.log($('#bmForm').serialize());
+		
+		                }
+		            });
+		            alert('Accreditor successfully added! Redirecting you to the accreditors page...');
+		          	document.location.href = "BoardMembers";
+				}
+            	
         	}
+/*             alert('Error! You have already assigned Tabora as a president for the year 2017.');
+ */   	     	
         }
 
         function togglePresent() {
@@ -230,6 +292,22 @@
         #maincard {
             height: 750px;
         }
+		.loader 
+		{
+				    border: 10px solid #e7e7e7; /* Light grey */
+				    border-top: 10px solid #9acd32; /* Blue */
+				    border-radius: 50%;
+				    width: 50px;
+				    height: 50px;
+				    margin: auto;
+				    animation: spin 1s linear infinite;
+		}
+			
+		@keyframes spin {
+		    0% { transform: rotate(0deg); }
+		    100% { transform: rotate(360deg); }
+		}
+           
        
     </style>
 </head>
@@ -238,60 +316,7 @@
     <div class="main-wrapper">
     </div>
     <div class="app" id="app">
-        <header class="header">
-            <div class="header-block header-block-collapse hidden-lg-up">
-                <button class="collapse-btn" id="sidebar-collapse-btn">
-                    <i class="fa fa-bars"></i>
-                </button>
-            </div>
-            <div class="header-block header-block-search hidden-sm-down">
-                <form role="search">
-                    <div class="input-container">
-                        <i class="fa fa-search"></i>
-                        <input type="search" placeholder="Search">
-                        <div class="underline"></div>
-                    </div>
-                </form>
-            </div>
-            <div style="margin-left:-150px;">
-                <div class="progress" style="width:500px; height:20px;" id="progBar">
-                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width:50%" id="progDetails">
-                        1. Details
-                    </div>
-                </div>
-            </div>
-            <div class="header-block header-block-nav">
-                <ul class="nav-profile">
-                    <li class="notifications new">
-                        <a href="" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <sup>
-                  <span class="counter">1</span>
-                  </sup> </a>
-                        <div class="dropdown-menu notifications-dropdown-menu">
-                            <ul class="notifications-container">
-                                <li>
-                                    <a href="" class="notification-item">
-                                        <div class="img-col">
-                                            <div class="img" style="background-image: url('assets/faces/marcos,nelson.jpg')"></div>
-                                        </div>
-                                        <div class="body-col">
-                                            <p> <span class="accent">Marcos, Nelson Phd</span> Achievement: <span class="accent">Completed 100th survey</span>. </p>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                            <footer>
-                                <ul>
-                                    <li> <a href="">
-                              View All
-                              </a>
-                                    </li>
-                                </ul>
-                            </footer>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </header>
+        
        	
        	<jsp:include page="sidebar.jsp" />
        	
@@ -303,7 +328,8 @@
       					<a href="BoardMembers"> List of Board Members </a> > Add New Board Member
      				</h3>
                 </div>
-                
+                <div id="load"></div>
+                <br>
                 <div class="row sameheight-container" id="formID">
                      <div class="col-md-12">
                          <div class="card sameheight-item">

@@ -40,8 +40,6 @@ public class ViewSchoolSystem extends HttpServlet {
 		SchoolSystem ss = ssUtil.getSchoolSystem(systemID);
 		InstitutionsUtil tUtil = new InstitutionsUtil();
 		ArrayList<Institution> institutions = tUtil.getSchoolSystemInstitutions(systemID);
-		
-		
 		request.setAttribute("schoolsystem", ss);
 		request.setAttribute("institutions", institutions);
 		

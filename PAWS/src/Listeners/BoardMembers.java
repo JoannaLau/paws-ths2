@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Utilities.AccreditorUtil;
+import Utilities.BoardMembersLocalUtil;
 import Utilities.BoardMembersUtil;
 import Models.Accreditor;
 import Models.BoardMember;
@@ -36,12 +37,28 @@ public class BoardMembers extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		BoardMembersUtil bmUtil = new BoardMembersUtil();
+		BoardMembersLocalUtil bmlUtil = new BoardMembersLocalUtil();
 		ArrayList<BoardMember> bm = new ArrayList<BoardMember>();
-		bm = bmUtil.getBoardMembers();
-		request.setAttribute("boardMembers", bm);
-		RequestDispatcher rd = request.getRequestDispatcher("boardMembers.jsp");
-		rd.forward(request, response);
-	
+		
+		if(bmUtil.getDB()!=null)
+		{
+			bm = bmUtil.getBoardMembers();
+			request.setAttribute("boardMembers", bm);
+			request.setAttribute("connection", true);
+			request.setAttribute("changeCount", bmlUtil.getCountBoardMemberChanges());
+			RequestDispatcher rd = request.getRequestDispatcher("boardMembers.jsp");
+			rd.forward(request, response);
+			
+		}
+		else
+		{
+			bm = bmlUtil.getBoardMembers();
+			request.setAttribute("boardMembers", bm);
+			request.setAttribute("connection", false);
+			RequestDispatcher rd = request.getRequestDispatcher("boardMembers.jsp");
+			rd.forward(request, response);
+		}
+		
 	}
 
 	/**

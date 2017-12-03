@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Models.BoardMember;
+import Utilities.BoardMembersLocalUtil;
 import Utilities.BoardMembersUtil;
 
 /**
@@ -30,7 +31,10 @@ public class SaveBoardMember extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 		BoardMembersUtil bmUtil = new BoardMembersUtil();
+		BoardMembersLocalUtil bmlUtil = new BoardMembersLocalUtil();
+		
 		BoardMember bm = new BoardMember();
 		
 		String honorifics = request.getParameter("honorifics");
@@ -55,7 +59,10 @@ public class SaveBoardMember extends HttpServlet {
 		bm.setPosition(position);
 		bm.setInstitution(institution);
 		
-		bmUtil.editBoardMember(bm.getBmID(), bm);
+		if(bmUtil.getDB()!=null)
+			bmUtil.editBoardMember(bm.getBmID(), bm);
+		bmlUtil.editBoardMember(bm.getBmID(), bm);
+		
 	}
 
 	/**

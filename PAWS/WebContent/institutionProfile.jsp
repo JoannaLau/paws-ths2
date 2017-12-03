@@ -103,7 +103,38 @@ function goToAddProgramToInstitution(ID, Name){
 	document.location.href='addProgramToInst.jsp?ID=' + ID+'&Name=' + apoName;
 
 	
-}        
+}   
+
+function saveLevel(){
+	document.getElementById("editLevelButton").style.display = "block";
+	document.getElementById("saveLevelButton").style.display = "none";
+	var table = document.getElementById("smarttable");
+	for (var i = 1, row; row = table.rows[i]; i++) {
+	   //iterate through rows
+	   //rows would be accessed using the "row" variable assigned in the for loop
+	   var levelTemp = row.cells[4].children[0].value;
+	   row.cells[4].innerHTML = levelTemp;
+ 	   var SPID =  row.cells[0].innerHTML;
+ 	   var level= levelTemp;
+ 	  $.ajax({url: "UpdateLevel?SPID=" + SPID+"&level="+level, success: function(result){
+ 	        alert(result);
+ 	    }});
+ 		
+	}
+	
+	
+}
+function editLevel(){
+	document.getElementById("editLevelButton").style.display = "none";
+	document.getElementById("saveLevelButton").style.display = "block";
+	var table = document.getElementById("smarttable");
+	for (var i = 1, row; row = table.rows[i]; i++) {
+	   //iterate through rows
+	   //rows would be accessed using the "row" variable assigned in the for loop
+	   var levelTemp = row.cells[4].innerHTML;
+	   row.cells[4].innerHTML = "<input style = 'width:22%' type='text' value='"+ levelTemp +"'/>" 
+	}
+}
             </script>
 
 
@@ -194,63 +225,23 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
         <div class="main-wrapper">
             <div class="app" id="app">
                 <header class="header">
-                    <div class="header-block header-block-collapse hidden-lg-up"> <button class="collapse-btn" id="sidebar-collapse-btn">
-    			<i class="fa fa-bars"></i>
-    		</button> </div>
+                    
                   
-				    <div class="header-block header-block-search hidden-sm-down">
-                        <form role="search">
-                            <div class="input-container"> <i class="fa fa-search"></i> <input type="search" placeholder="Search">
-                                <div class="underline"></div>
-                            </div>
-                        </form>
-                    </div>
+				    
 						<%@page import="Models.Institution" %>
 						<% Institution inst = (Institution)request.getAttribute("institution"); %>
 										
                      
-                    <div class="header-block header-block-nav">
-                        <ul class="nav-profile">
-                            <li class="notifications new">
-                                <a href="" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <sup>
-    			      <span class="counter">1</span>
-    			    </sup> </a>
-                                <div class="dropdown-menu notifications-dropdown-menu">
-                                    <ul class="notifications-container">
-                                        <li>
-                                            <a href="" class="notification-item">
-                                                <div class="img-col">
-                                                    <div class="img" style="background-image: url('assets/faces/marcos,nelson.jpg')"></div>
-                                                </div>
-                                                <div class="body-col">
-                                                    <p> <span class="accent">Marcos, Nelson Phd</span> Achievement: <span class="accent">Completed 100th survey</span>. </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                       
-                                    </ul>
-                                    <footer>
-                                        <ul>
-                                            <li> <a href="">
-    			            View All
-    			          </a> </li>
-                                        </ul>
-                                    </footer>
-                                </div>
-                            </li>
-                            
-                        </ul>
-                    </div>
                 </header>
                 <jsp:include page="sidebar.jsp" />
 				<article class="content grid-page">
                     <div class="title-block">
-                        <h3 class="title" style="float:left;">
+                         <h3 class="title" style="float:left;">
 							<a href="Institutions"><em class="fa fa-arrow-circle-left"></em> Institutions List </a> 
 						</h3>
 						
 						<h3 class="title" style="float:right;">
-							<em class="fa fa-pencil"></em> Edit
+							<a href="EditInstitution?institutionID=<%=inst.getInstitutionID()%>"><em class="fa fa-pencil"></em> Edit </a>
                         </h3>
                     </div>
 					
@@ -265,7 +256,9 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
 												<h2>
 													<%=inst.getName() %> - <%=inst.getCity() %>
 													</h2>
-													<h6><%=inst.getAddress() %></h6>
+													<% if(inst.getAddress()!=null) { %>
+													<h6>Address: <%=inst.getAddress() %></h6>
+													<% } %>
 													<h6>Date of Membership: <%=inst.getDateAddedWord() %></h6>
 													<hr>
 												</div>
@@ -322,8 +315,10 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
                                                 <div class="col-md-12">
 													<br><hr>
 													<%String instApo = inst.getName().replaceAll("'", "&apo;");%>
-													
-                                                    <button type="button" style="float:right; width:260px;"  class="btn btn-secondary btn-sm" onclick="goToAddProgramToInstitution('<%= inst.getInstitutionID()%>','<%=instApo%>')"><em class="fa fa-plus"></em>Add Programs to this Institutions</button><br>
+													 <button type="button" style="float:right; width:260px;"  class="btn btn-secondary btn-sm" onclick="goToAddProgramToInstitution('<%= inst.getInstitutionID()%>','<%=instApo%>')"><em class="fa fa-plus"></em>Add Programs to this Institutions</button><br>
+                                                <br>
+                                                    <button type="button" id="editLevelButton"style="float:right; width:260px;"  class="btn btn-secondary btn-sm" onclick="editLevel()">Edit 'Level' of the programs</button>
+                                                <button type="button" id="saveLevelButton"style="display:none;float:right; width:260px;"  class="btn btn-secondary btn-sm" onclick="saveLevel()">SAVE 'Level' of the programs</button><br>
                                                  </div>
                                             </div>
 											
@@ -332,6 +327,7 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
                                                 <table id="smarttable" class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                       <tr>
+                                                            <th>Program ID</th>
                                                             <th>Program Name</th>
                                                             <th>Date of Last Survey</th>
                                                             <th>Accreditation Lapse Date</th>
@@ -343,12 +339,12 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
                                                     <tbody>
 													<c:forEach items="${programs}" var="pp" >
                                                         <tr>
+                                                        	<td><c:out value="${pp.getSPID()}"/> </td>
                                                             <td><c:out value="${pp.getDegreeName()}"/> </td>
                                                             <td><c:out value="${pp.getDateAddedWord()}"/></td>                                                 
                                                             <td><c:out value="${pp.getNextSurveySched()}"/></td>
                                                               <td><c:out value="${pp.getLevel()}"/></td>
-                                                              <td><a href="ViewInstitutionProgramProfile?programName=<c:out value="${pp.getDegreeName()}"/>&SPID=<c:out value="${pp.getSPID()}"/>">View</a></td>
-                                                            
+                                                               <td><a href="ViewInstitutionProgramProfile?programName=<c:out value="${pp.getDegreeName()}"/>&SPID=<c:out value="${pp.getSPID()}"/>&instName=<%=inst.getName()%>">View</a></td>
                                                         </tr>
 														
 													</c:forEach>				

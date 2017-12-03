@@ -49,8 +49,19 @@
             {
                 document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
             }
+            
         </script>
 
+		<script>
+		$(document).ready(function() {
+			
+			if(${connection}==false)
+			{
+				document.getElementById("noConnection").innerHTML = "<i class=\"fa fa-exclamation-triangle\" style=\"color:red; font-size: 20px;\"> Warning: </i>&nbsp;Unable to retrieve data from the website. The information shown here is from the local database.";
+			}
+			
+		});
+		</script>
 		
 
 <style>
@@ -76,54 +87,9 @@
     <body>
         <div class="main-wrapper">
             <div class="app" id="app">
-                <header class="header">
-                    <div class="header-block header-block-collapse hidden-lg-up"> <button class="collapse-btn" id="sidebar-collapse-btn">
-    			<i class="fa fa-bars"></i>
-    		</button> </div>
-                  
-				    <div class="header-block header-block-search hidden-sm-down">
-                        <form role="search">
-                            <div class="input-container"> <i class="fa fa-search"></i> <input type="search" placeholder="Search">
-                                <div class="underline"></div>
-                            </div>
-                        </form>
-                    </div>
-					
-                     
-                    <div class="header-block header-block-nav">
-                        <ul class="nav-profile">
-                            <li class="notifications new">
-                                <a href="" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <sup>
-    			      <span class="counter">1</span>
-    			    </sup> </a>
-                                <div class="dropdown-menu notifications-dropdown-menu">
-                                    <ul class="notifications-container">
-                                        <li>
-                                            <a href="" class="notification-item">
-                                                <div class="img-col">
-                                                    <div class="img" style="background-image: url('assets/faces/marcos,nelson.jpg')"></div>
-                                                </div>
-                                                <div class="body-col">
-                                                    <p> <span class="accent">Marcos, Nelson Phd</span> Achievement: <span class="accent">Completed 100th survey</span>. </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                       
-                                    </ul>
-                                    <footer>
-                                        <ul>
-                                            <li> <a href="">
-    			            View All
-    			          </a> </li>
-                                        </ul>
-                                    </footer>
-                                </div>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                </header>
+                
                <jsp:include page="sidebar.jsp" />
+               
 				<article class="content grid-page">
 					<c:set var="bm" scope="session" value="${boardMember}"/>
                     <div class="title-block">
@@ -138,6 +104,8 @@
                     </div>
 					
 					<section class="section">
+					 <h6 style="padding-top: 10px;" id="noConnection"></h6>
+					
                         <div class="row sameheight-container">
                             <div class="col-md-12">
                                 <div class="card sameheight-item">

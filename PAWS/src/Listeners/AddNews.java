@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Models.News;
+import Utilities.FileUploadUtil;
 import Utilities.NewsUtil;
 
 /**
@@ -39,6 +40,7 @@ public class AddNews extends HttpServlet {
 
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
+		String image = request.getParameter("filename");
 
 	     Date dNow = new Date( );
 		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
@@ -46,7 +48,10 @@ public class AddNews extends HttpServlet {
 		NewsUtil news = new NewsUtil();
 		
 		
-		news.addNews(title, content, date);
+		news.addNews(title, content, date, image);
+		
+		FileUploadUtil file = new FileUploadUtil();
+		file.FileUpload(image);
 		
 		ArrayList<News> newslist = news.getAllNews();
 		

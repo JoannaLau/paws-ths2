@@ -4,6 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.mysql.jdbc.Connection;
 
 import Models.BoardMember;
@@ -63,6 +66,36 @@ public class CommissionMembersUtil {
 	    return position;
 	}
 
+
+	public JSONArray checkCommissionMembersInYear(int level, int year, int positionID) 
+	{
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		  
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM `paws-web`.`commission-members` WHERE year = ? AND commissionPositionID = ? AND educLevelID = ?");
+			ps.setInt(1, year);
+			ps.setInt(2, positionID);
+			ps.setInt(3, level);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("name", rs.getString(2) + " " + rs.getString(3));
+				job.put("year", year);
+				
+				jArray.put(job);
+			}
+			db.cutPort();
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitutionsJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+		
+	}
 
 	public CommissionMember getCommissionMember(int cmID) {
 		CommissionMember temp = new CommissionMember();
@@ -138,7 +171,6 @@ public class CommissionMembersUtil {
 			ps.setInt(9, cm.getCommissionPositionID());
 			ps.setInt(10, cm.getEducLevelID());
 			ps.setInt(11, cmID);
-			System.out.println("POTANGENA" + cmID);
 			ps.executeUpdate();
 			db.cutPort();
 		} catch (Exception e){

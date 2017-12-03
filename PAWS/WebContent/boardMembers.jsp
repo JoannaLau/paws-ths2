@@ -56,39 +56,15 @@
             }
         </script>
 		
-			
 		<script>
-		 j$ = jQuery.noConflict();
-			j$(document).ready( function () {
-				var contactTable = j$('[id$="smarttable"]').DataTable({
-					order: [[0, 'asc']],
-					
-					initComplete: function() {
-						var api = this.api();
-						var select = j$('[id$=yearSelect]');
-						api.column(2).data().unique().sort().each( function ( d, j ) {
-							select.append( '<option value="'+d+'">'+d+'</option>' )
-						} );   
-					}
-				});
-			
-				j$('[id$=yearSelect]').change(function() {
-					var val = j$.fn.dataTable.util.escapeRegex(
-						j$(this).val()
-					);
-					contactTable.column(1)
-						.search( val == 'All' ? '' : '^'+val+'$', true, false )
-						.draw();
-				});
-			});
+
 		
-			
 		
-		    $.fn.dataTable.ext.errMode = 'none';	
-			
-				
-		} );
+		
 		</script>
+			
+		
+		
 
 <style>
 
@@ -288,6 +264,12 @@
 				.search( val == 'All' ? '' : '^'+val+'$', true, false )
 				.draw();
 		});
+		
+		if(${connection}==false)
+		{
+			document.getElementById("noConnection").innerHTML = "<i class=\"fa fa-exclamation-triangle\" style=\"color:red; font-size: 20px;\"> Warning: </i>&nbsp;Unable to retrieve data from the website. The list shown below is the latest version of the board members in the website.";
+			
+		}
 	});
  
  </script>
@@ -310,21 +292,20 @@
             <div id="welcome">
 			<h1>List of Board Members</h1>
 			
-						<button type="button"  style="float:right; position:relative;left:-50px; top:-52px; color:#3c4731;" class="btn btn-oval btn-secondary" onclick="location.href='addBoardMember.jsp';"><em class="fa fa-plus"></em><b> Add Board Member</b></button>
+			<button type="button"  style="float:right; position:relative;left:-50px; top:-52px; color:#3c4731;" class="btn btn-oval btn-secondary" onclick="location.href='./UnsyncedBoardMembers';"><b> View Unsynced Board Members</b></button>
+             &nbsp;
+			<button type="button"  style="float:right; position:relative;left:-50px; top:-52px; color:#3c4731;" class="btn btn-oval btn-secondary" onclick="location.href='addBoardMember.jsp';"><em class="fa fa-plus"></em><b> Add Board Member</b></button>
                    
 			</div>
 			   <header class="header" id="customheader">
 			   
-					
+			   	
                 </header>
+                
                 <article class="content dashboard-page"  >
                     <section class="section" style="position: relative; top:-135px; left:-25px; width:105%;" >
-                      
-					
-					
-						
-					
-                                            <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
+                     <h6 style="padding-top: 10px;" id="noConnection"></h6>
+					                        <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
 											<label for="yearSelect">Year: </label>
 											<select id="yearSelect" class="chosen-single"><option value="All">All</option></select>
  
@@ -335,7 +316,6 @@
                                                             <th>Full Name</th>
                                                             <th>Board Position</th>
                                                             <th>Year</th>
-                                                            <th>Controls</th>
                                                         </tr>
                                                     </thead>
 													
@@ -345,7 +325,6 @@
 												          <td><c:out value="${bm.getFullName()}"/></td>
 												          <td><c:out value="${bm.getBoardPosition()}"/></td>
 												          <td><c:out value="${bm.getYear()}"/></td>
-												          <td><c:out value=""/></td>
 												          
 												          <%-- <a href="ViewAccreditor?accreditorID=<c:out value='${acc.getAccreditorID()}'/>">View</a>
 												          <a href="EditAccreditor?accreditorID=<c:out value='${acc.getAccreditorID()}'/>">Edit</a>

@@ -19,7 +19,12 @@ public class BoardMembersUtil {
 	public BoardMembersUtil(){
 		db = new DBUtilWeb();
 	}
-
+	
+	public Connection getDB()
+	{
+		return this.db.conn;
+	}
+	
 	public ArrayList<BoardMember> getBoardMembers() 
 	{
 		ArrayList<BoardMember> boardMembers = new ArrayList<BoardMember>();
@@ -57,13 +62,42 @@ public class BoardMembersUtil {
 			if(rs.first()){
 				position = rs.getString(1);
 			}
-			db.cutPort();
 		} catch (Exception e){
 			System.out.println("Error in InstitutionsUtil:getInstitutions()");
 			e.printStackTrace();
 		}
 		
 	    return position;
+	}
+	
+	
+	public JSONArray checkBoardMembersInYear(int year, int positionID) 
+	{
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		  
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM `paws-web`.`board-members` WHERE year = ? AND boardPositionID = ?");
+			ps.setInt(1, year);
+			ps.setInt(2, positionID);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("name", rs.getString(2) + " " + rs.getString(3));
+				job.put("year", year);
+				
+				jArray.put(job);
+			}
+			db.cutPort();
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitutionsJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+		
 	}
 
 	public BoardMember getBoardMember(int bmID) 
@@ -170,6 +204,38 @@ public class BoardMembersUtil {
 		return ID;
 		
 	}
+		
+	public int addBoardMemberSync(BoardMember bm) {
+		
+		int ID = 0;
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `board-members` (`firstname`, `lastname`, `middleinitial`, `honorifics`, `position`, `institution`, `city`, `year`, `boardPositionID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			ps.setString(1, bm.getFirstName());
+			ps.setString(2, bm.getLastName());
+			ps.setString(3, bm.getMiddleName());
+			ps.setString(4, bm.getHonorifics());
+			ps.setString(5, bm.getPosition());
+			ps.setString(6, bm.getInstitution());
+			ps.setString(7, bm.getCity());
+			ps.setInt(8, bm.getYear());
+			ps.setInt(9, bm.getBoardPositionID());
+			
+			ps.executeUpdate();
+			
+			ps = conn.prepareStatement("SELECT LAST_INSERT_ID()");
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			ID = rs.getInt(1);
+			
+		} catch (Exception e){
+			System.out.println("Error in AccreditorUtil:addAccreditor()");
+			e.printStackTrace();
+		}
+		return ID;
+		
+	}
 
 	public void editBoardMember(int bmID, BoardMember bm) {
 		try{
@@ -185,7 +251,6 @@ public class BoardMembersUtil {
 			ps.setInt(8, bm.getYear());
 			ps.setInt(9, bm.getBoardPositionID());
 			ps.setInt(10, bmID);
-			System.out.println("POTANGENA" + bmID);
 			ps.executeUpdate();
 			db.cutPort();
 		} catch (Exception e){
@@ -193,5 +258,47 @@ public class BoardMembersUtil {
 			e.printStackTrace();
 		}
 	}
+	
+	public void editBoardMemberSync(int bmID, BoardMember bm) {
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("UPDATE `board-members` SET `firstname` = ?, `lastname` = ?, `middleinitial` = ?, `honorifics` = ?, `position` = ?, `institution` = ?, `city` = ?, `year` = ?, `boardPositionID` = ? WHERE boardMemberID = ?");
+			ps.setString(1, bm.getFirstName());
+			ps.setString(2, bm.getLastName());
+			ps.setString(3, bm.getMiddleName());
+			ps.setString(4, bm.getHonorifics());
+			ps.setString(5, bm.getPosition());
+			ps.setString(6, bm.getInstitution());
+			ps.setString(7, bm.getCity());
+			ps.setInt(8, bm.getYear());
+			ps.setInt(9, bm.getBoardPositionID());
+			ps.setInt(10, bmID);
+			ps.executeUpdate();
+		} catch (Exception e){
+			System.out.println("Error in AccreditorUtil:addAccreditor()");
+			e.printStackTrace();
+		}
+	}
+
+
+	public void syncBoardMembers(ArrayList<BoardMember> unsyncedBoardMembers) 
+	{
+		try{
+			for(int i = 0; i<unsyncedBoardMembers.size(); i++)
+			{
+				if(unsyncedBoardMembers.get(i).getBmID()==0)
+					addBoardMemberSync(unsyncedBoardMembers.get(i));
+				else
+					editBoardMemberSync(unsyncedBoardMembers.get(i).getBmID(), unsyncedBoardMembers.get(i));
+				
+			}
+			db.cutPort();
+		} catch (Exception e){
+			System.out.println("Error in AccreditorUtil:addAccreditor()");
+			e.printStackTrace();
+		}
+	}
+	
+	
 	
 }

@@ -45,13 +45,14 @@ public class InstitutionsUtil {
 		return jArray;
 	}
 	
+	//NEW
 	public JSONArray getInvitationInstitutionsJSON(){
 		JSONArray jArray = new JSONArray();
 		JSONObject job = new JSONObject();
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT institutionID, name, city, educLevelID FROM institutions");
+			PreparedStatement ps = conn.prepareStatement("SELECT institutionID, name, city FROM institutions");
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
@@ -59,7 +60,6 @@ public class InstitutionsUtil {
 				job.put("institutionID", rs.getInt(1));
 				job.put("institutionName", rs.getString(2));
 				job.put("city", rs.getString(3));
-				job.put("educLevel", getEducLevelName(rs.getInt(4)));
 				
 				
 				jArray.put(job);
@@ -73,8 +73,7 @@ public class InstitutionsUtil {
 		return jArray;
 	}
 	
-	
-	
+	//NEW
 	public JSONArray getInstitutionForInvitationJSON(int instID){
 		JSONArray jArray = new JSONArray();
 		JSONObject job = new JSONObject();
@@ -82,7 +81,7 @@ public class InstitutionsUtil {
 		try{
 			Connection conn = db.getConnection();
 			//PreparedStatement ps = conn.prepareStatement("SELECT name, head, hPosition, city FROM `institutions` WHERE institutionID = (SELECT institutionID FROM `work` WHERE accreditorID = ? AND dateFinished IS NULL)");
-			PreparedStatement ps = conn.prepareStatement("SELECT head, hPosition, name, city, educLevelID FROM `institutions` WHERE institutionID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT head, hPosition, name, city FROM `institutions` WHERE institutionID = ?");
 			ps.setInt(1, instID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
@@ -91,7 +90,6 @@ public class InstitutionsUtil {
 				job.put("hPosition", rs.getString(2));
 				job.put("name", rs.getString(3));
 				job.put("city", rs.getString(4));
-				job.put("educLevel", getEducLevelName(rs.getInt(5)));
 				
 				
 
@@ -106,7 +104,99 @@ public class InstitutionsUtil {
 		return jArray;
 	}
 	
+	//NEW
+	public JSONArray getInstitutionInSurveysJSON(int date){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			//PreparedStatement ps = conn.prepareStatement("SELECT name, head, hPosition, city FROM `institutions` WHERE institutionID = (SELECT institutionID FROM `work` WHERE accreditorID = ? AND dateFinished IS NULL)");
+			PreparedStatement ps = conn.prepareStatement("SELECT institutionID, name, city FROM `institutions` WHERE institutionID IN (SELECT DISTINCT institutionID from surveys WHERE startDate > ?)");
+			ps.setInt(1, date);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("institutionID", rs.getInt(1));
+				job.put("institutionName", rs.getString(2));
+				job.put("city", rs.getString(3));
+				
+				
+				
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitutionInSurveysJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
 	
+
+
+	//NEW
+	public JSONArray getSurveysOfInstitutionJSON(int ID, int date){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT ps.PSID, s.surveyID, sp.degreeName, s.startDate, s.endDate, ps.surveyType FROM `program-survey` ps, surveys s, `school-program` sp WHERE ps.surveyID = s.surveyID AND ps.SPID = sp.SPID AND s.surveyID IN (SELECT surveyID from surveys WHERE institutionID = ? AND startDate > ?)");
+			ps.setInt(1, ID);
+			ps.setInt(2, date);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				
+				job.put("PSID", rs.getInt(1));
+				job.put("surveyID", rs.getInt(2));
+				job.put("degreeName", rs.getString(3));
+				job.put("startDate", formatDateDash(rs.getString(4)));
+				job.put("endDate", formatDateDash(rs.getString(5)));
+				job.put("type", rs.getString(6));
+				
+
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getSurveysOfInstitutionJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
+	
+	
+	//OLD
+	public JSONArray getDuplicateCheckerJSON(){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT systemID, name, city FROM `institutions`");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("ssID", rs.getInt(1));
+				job.put("institutionName", rs.getString(2)); 
+				job.put("city", rs.getString(3));
+				jArray.put(job);				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionUtil:getDuplicateCheckerJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
+	
+	
+	//NEW
 	public JSONArray getAllInstitutionsJSON(){
 		JSONArray jArray = new JSONArray();
 		JSONObject job = new JSONObject();
@@ -138,6 +228,7 @@ public class InstitutionsUtil {
 		return jArray;
 	}
 	
+	//NEW
 	public JSONArray getAllInstitutionsNoSystemJSON(){
 		JSONArray jArray = new JSONArray();
 		JSONObject job = new JSONObject();
@@ -168,6 +259,8 @@ public class InstitutionsUtil {
 		return jArray;
 	}
 	
+	
+	//NEW
 	private String getEducLevelName(int educLevelID)
 	{
 		String name="";
@@ -188,8 +281,6 @@ public class InstitutionsUtil {
 		
 		return name;
 	}
-	
-	
 	
 	private String getSchoolSystemName(int ID){
 		String name="";
@@ -244,6 +335,7 @@ public class InstitutionsUtil {
 	    return institutions;
 	}
 	
+	//NEW
 	public ArrayList<Institution> getInstitutionsNameIDLevel(){
 		ArrayList<Institution> institutions = new ArrayList<Institution>();
 		Institution temp = new Institution();
@@ -273,7 +365,7 @@ public class InstitutionsUtil {
 	    return institutions;
 	}
 	
-	
+	//NEW
 	public JSONArray getInstitutionsForLevelJSON(int educLevelID){
 		JSONArray jArray = new JSONArray();
 		JSONObject job = new JSONObject();
@@ -306,6 +398,7 @@ public class InstitutionsUtil {
 		return jArray;
 	}
 
+	//NEW
 	public String getInstitutionName(int institutionID){
 		String name = "";
 		Institution temp = new Institution();
@@ -455,25 +548,43 @@ public class InstitutionsUtil {
 		}
 	}
 	
-	
-	public void addProgramToInst(String specific, int generalID, int insinstitutionID){
+	public void addProgramToInst(String specific, int generalID, int instID, String level){
 		try{
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
 			String strDate = dateFormat.format(date);
 			
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO `school-program` (programID, institutionID, level, dateAdded, degreeName) VALUES (?,?,?,?,?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `school-program` (programID, institutionID, accLevel, dateAdded, degreeName) VALUES (?,?,?,?,?)");
 		
 			ps.setInt(1, generalID);
-			ps.setInt(2, insinstitutionID);
-			ps.setString(3, "NA");
-			ps.setString(4, strDate);
+			ps.setInt(2, instID);
+			ps.setString(3, level);
+			
 			ps.setString(5, specific);
+			ps.setString(4, strDate);
 			
 			ps.executeUpdate();
 		} catch (Exception e){
-			System.out.println("Error in InstitutionsUtil:addProgramToInstitution()");
+			System.out.println("Error in InstitutionUtil:addProgramToInstitution()");
+			e.printStackTrace();	
+		}
+		
+	}
+	
+	//OLD
+	public void updateProgramToInst(String SPID, String level){
+		try{
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!00000000"+level);
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("UPDATE `school-program` SET accLevel=? WHERE `SPID`=?");
+						
+			ps.setString(1, level);
+			ps.setString(2, SPID);
+					
+			ps.executeUpdate();
+		} catch (Exception e){
+			System.out.println("Error in InstitutionUtil:addProgramToInstitution()");
 			e.printStackTrace();	
 		}
 		
@@ -572,8 +683,47 @@ public class InstitutionsUtil {
 		format = year + " " + month + " "+ day;
 		return format;
 	}
+	
+	private static String formatDateDash(String date){
+		String format = new String();
+		String month = "";
+		String day;
+		String year;
+		String[] parts = date.split("-");
+		if(parts[1].equals("01")){
+			month = "January";
+		}else if(parts[1].equals("02")){
+			month = "February";
+		}else if(parts[1].equals("03")){
+			month = "March";
+		}else if(parts[1].equals("04")){
+			month = "April";
+		}else if(parts[1].equals("05")){
+			month = "May";
+		}else if(parts[1].equals("06")){
+			month = "June";
+		}else if(parts[1].equals("07")){
+			month = "July";
+		}else if(parts[1].equals("08")){
+			month = "August";
+		}else if(parts[1].equals("09")){
+			month = "September";
+		}else if(parts[1].equals("10")){
+			month = "October";
+		}else if(parts[1].equals("11")){
+			month = "November";
+		}else if(parts[1].equals("12")){
+			month = "December";
+		}
+		year = parts[0];
 
+		day = parts[2];
+		
+		format = month + " "+ day + ", " + year;
+		return format;
+	}
 
+	//NEW
 	public JSONArray getEducLevelJSON(int instID) {
 		JSONArray jArray = new JSONArray();
 		JSONObject job = new JSONObject();

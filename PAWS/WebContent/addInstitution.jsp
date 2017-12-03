@@ -168,6 +168,17 @@ function getSystems(){
 }
 
 
+function disableSS(){
+	if(document.getElementById("noSS").checked==true){
+		document.getElementById("systemForm").disabled = "true";
+		$('#systemForm').prop('disabled', true).trigger("chosen:updated");
+	}
+	else{
+		document.getElementById("systemForm").disabled = "false";
+		$('#systemForm').prop('disabled', false).trigger("chosen:updated");
+	}
+}
+
 
 </script>
 
@@ -200,6 +211,69 @@ function changeDetails(){
 	$("#progProponents").className = "progress-bar progress-bar-success progress-bar-striped";
 	$("#progDetails").className = "progress-bar progress-bar-success";
 	$("#progSure").className = "progress-bar progress-bar-success";
+}
+
+
+function duplicateCheck(entry){
+	var hasMatch = false;
+// 	alert(entry);
+	 $.ajax({
+   	  url: "CheckDuplicateInstitution",
+   	  dataType: 'json',
+   	  async: false,
+   	  success: function(data) {
+   		  $.each(data, function (key, value){
+   			var inst = value.ssID+"|"+value.institutionName+"|"+value.city;
+   				if(inst.toUpperCase() == entry.toUpperCase()){
+	   				alert("This institution already exists in the database."); 
+	   				hasMatch=true; 
+	   				return false;
+   				} 
+   			});	
+   		
+   	  }
+   	});	
+	 if(!hasMatch){return true;}
+}
+
+function validateForm() {
+	
+	
+	var ssName = document.forms["addInstForm"]["ssName"].value;
+	var institutionName = document.forms["addInstForm"]["institutionName"].value;
+    var institutionName = document.forms["addInstForm"]["institutionName"].value;
+    var institutionAcronym = document.forms["addInstForm"]["institutionAcronym"].value;
+    var membershipDate = document.forms["addInstForm"]["membershipDate"].value;
+    var city =  document.forms["addInstForm"]["city"].value;
+    
+    var entry = ssName +"|"+institutionName+"|"+city
+   
+    if(duplicateCheck(entry)){
+    if(ssName=="0"){
+    	alert("School System must be selected");
+        return false;	
+    }    
+    else if (institutionName == "") {
+        alert("Institution Name must be filled out");
+        return false;
+    }
+    else if (institutionAcronym == "") {
+        alert("Institution Acronym must be filled out");
+        return false;
+    }
+    else if (membershipDate == "") {
+        alert("Membership Date must be filled out");
+        return false;
+    }
+    else if (city == "") {
+        alert("City must be filled out");
+        return false;
+    }
+    else{
+    	alert("succesfully added institution!");
+    	location.href = 'institutions.jsp';
+        }}
+    else return false;
 }
 </script>
 
@@ -298,7 +372,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 				
          
                 <article class="content dashboard-page">
-				<form method="post" action="AddInstitution" class="form">
+				<form name="addInstForm" onsubmit="return validateForm()"  method="post" action="AddInstitution" class="form">
 				
 				 <div class="title-block">
                         <h3 class="title" style="float:left;">
@@ -317,36 +391,26 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 							New Institutions Form
 						</h3> </div>
 											<div class="form-group">
-  						<label for="sel1">School System:</label><br>
+  						<label for="sel1">School System<b style="color:red">*</b> </label>
+  						<br>
   						<select class="form-control underlined chosen-select" data-placeholder="Choose a System..." id="systemForm" style="background: transparent;" name="ssName">
 							 				
   						</select>
+  						<br>
+  						<input  onclick="disableSS()" type="checkbox" id="noSS" name="noSS">
+  						<h7  style="position:relative;top:-3px;"><small>No School System</small></h7>
   						
   						<input type="hidden" id="ssID" name="ssID">
 					</div>
 					
 					
-											<div class="form-group" style="width:48%; padding-right"> <label class="control-label">Institution Name</label> <input type="text" class="form-control underlined" style="width:90%;"  placeholder="e.g. De La Salle University" name="institutionName"> </div>
-											<div class="form-group" style="width:48%; padding-right"> <label class="control-label">Institution Acronym</label> <input type="text" class="form-control underlined" style="width:90%;"  placeholder="e.g. DLSU-M" name="institutionAcronym"> </div>
-											<div class="form-group"  style="width:48%; padding-right">
-											 	<label class="control-label">Institution Level: </label>
-											 	<select name="levelSelect">
-													<option value="1">Elementary Education</option>
-													<option value="2">Secondary Education</option>
-													<option value="3">Integrated Basic Education</option>
-													<option value="4">Tertiary Education</option>
-													<option value="5">Graduate Education</option>
-													<option value="6">Medical Education</option>
-													<option value="7">CECSTE</option>
-													
-												</select>
-											
-											 </div>
+											<div class="form-group" style="width:48%; padding-right"> <label class="control-label">Institution Name<b style="color:red">*</b></label> <input type="text" class="form-control underlined" style="width:90%;"  placeholder="e.g. De La Salle University" name="institutionName"> </div>
+											<div class="form-group" style="width:48%; padding-right"> <label class="control-label">Institution Acronym<b style="color:red">*</b></label> <input type="text" class="form-control underlined" style="width:90%;"  placeholder="e.g. DLSU-M" name="institutionAcronym"> </div>
 								<br><br><br>	
 											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Address</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. 2401 Taft Avenue, 1004 Manila, Philippines" name="address"> </div>
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Date of Membership</label> <input id="datepicker" type="text" class="form-control underlined" style="width:90%;" placeholder="" name="membershipDate"> </div>
+											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Date of Membership<b style="color:red">*</b></label> <input id="datepicker" type="text" class="form-control underlined" style="width:90%;" placeholder="" name="membershipDate"> </div>
 											
-											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">City of Institution </label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. 2401 Taft Avenue, 1004 Manila, Philippines" name="city"> </div>
+											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">City of Institution<b style="color:red">*</b></label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. 2401 Taft Avenue, 1004 Manila, Philippines" name="city"> </div>
 								<br><br><br>
 											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Country of Institution </label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Philippines" name="country"> </div>
 											<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Institution Website</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. http://www.dlsu.edu.ph/" name="website"> </div>
@@ -373,7 +437,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 <!-- 									Submit then add Programs  						 -->
 <!-- 									</button> -->
 									
-									<button type="submit" class="btn btn-info" onclick="alert('Successfully added Institutions!');location.href = 'institutions.jsp';"  style="float:right; padding-right:15px;">
+									<button type="submit" class="btn btn-info" style="float:right; padding-right:15px;">
 									Save
 									</button>
 								</div>

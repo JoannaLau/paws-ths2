@@ -35,8 +35,24 @@
     
     <script>
     	$(document).ready(function() {
-    		
-			$.getJSON("DashboardLoader?day1="+Date.monday().toString('yyyy-MM-dd')+"&day2="+Date.tuesday().toString('yyyy-MM-dd')+"&day3="+Date.wednesday().toString('yyyy-MM-dd')+"&day4="+Date.thursday().toString('yyyy-MM-dd')+"&day5="+Date.friday().toString('yyyy-MM-dd')+"&day6="+Date.saturday().toString('yyyy-MM-dd')+"&today="+Date.today().toString('yyyy-MM-dd'), function(data){
+    		var objToday = new Date(),
+        	weekday = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'),
+        	dayOfWeek = weekday[objToday.getDay()],
+        	domEnder = function() { var a = objToday; if (/1/.test(parseInt((a + "").charAt(0)))) return "th"; a = parseInt((a + "").charAt(1)); return 1 == a ? "st" : 2 == a ? "nd" : 3 == a ? "rd" : "th" }(),
+        	dayOfMonth = today + ( objToday.getDate() < 10) ? '0' + objToday.getDate() + domEnder : objToday.getDate() + domEnder,
+        	months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
+        	curMonth = months[objToday.getMonth()],
+        	curYear = objToday.getFullYear(),
+        	curHour = objToday.getHours() > 12 ? objToday.getHours() - 12 : (objToday.getHours() < 10 ? "0" + objToday.getHours() : objToday.getHours()),
+        	curMinute = objToday.getMinutes() < 10 ? "0" + objToday.getMinutes() : objToday.getMinutes(),
+        	curSeconds = objToday.getSeconds() < 10 ? "0" + objToday.getSeconds() : objToday.getSeconds(),
+        	curMeridiem = objToday.getHours() > 12 ? "PM" : "AM";
+       		var today = "Today is " + dayOfWeek + " " + dayOfMonth + " of " + curMonth + ", " + curYear;
+       		
+       		
+    		$("#today").text(today);
+        
+    		$.getJSON("DashboardLoader?day1="+Date.monday().toString('yyyy-MM-dd')+"&day2="+Date.tuesday().toString('yyyy-MM-dd')+"&day3="+Date.wednesday().toString('yyyy-MM-dd')+"&day4="+Date.thursday().toString('yyyy-MM-dd')+"&day5="+Date.friday().toString('yyyy-MM-dd')+"&day6="+Date.saturday().toString('yyyy-MM-dd')+"&today="+Date.today().toString('yyyy-MM-dd'), function(data){
 				
 				
 				$.each(data, function (key, value){
@@ -54,6 +70,7 @@
     		
     		
     	});
+    	
     
     </script>
     
@@ -212,8 +229,9 @@ box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
                     </button>
                 </div>
 
-                <div style="position:relative; left:43%">
-                    <h2><small>Dashboard</small></h2>
+                <div style="position:relative; left:5%">
+                
+                    <h3><small id="today"></small></h3>
                 </div>
                
             </header>

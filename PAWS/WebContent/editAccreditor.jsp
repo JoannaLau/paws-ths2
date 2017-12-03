@@ -344,7 +344,7 @@ function getCities() {
 
     });
 }
-
+/* 
 function getDisciplines() {
     //GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
 
@@ -362,6 +362,34 @@ function getDisciplines() {
         });
 
     });
+} */
+
+
+function getDisciplines(){
+	//GETS ALL DISCIPLINES FOR THE SELECT DROPDOWN
+	var discipline = "${acc.getDiscipline()}";
+	
+	var obj = document.getElementById('disciplineForm');	
+	$.getJSON("DisciplineLoader", function(data){	
+		var option = document.createElement("option");
+		option.text = "";
+		option.value = 0;
+		obj.add(option);
+	
+		$.each(data, function (key, value){
+		
+			var option = document.createElement("option");
+			option.text = value.disciplineName;
+			option.value = value.disciplineID;
+			if(option.text == discipline){
+				option.selected = true;
+			}
+			obj.add(option);
+		
+		});	
+		$('#disciplineForm').trigger("chosen:updated");
+	});
+	
 }
 
 function addProp(){
@@ -591,12 +619,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
                         <datalist id="countrySuggestions">
 	                    </datalist>
                     </div>
-    				<div class="col-xs-5">
+					
+					<div class="col-xs-5">
 						<label><b>Discipline/Specialization:</b></label>
- 						<input type="text" class="form-control underlined" id="surveyName" name="discipline" value="${acc.getDiscipline()}" list="disciplineSuggestions">
-                        <datalist id="disciplineSuggestions">
-	                    </datalist>
-                                                
+  						<select class="form-control underlined chosen-select" data-placeholder="Choose a Discipline..." id="disciplineForm" style="background: transparent;" name="discipline">
+						</select>
 					</div>
 					
     				

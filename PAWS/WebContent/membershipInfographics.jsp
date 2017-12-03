@@ -23,6 +23,18 @@
 	<script src="js/dataTables.bootstrap.min.js"></script>
 	
  	<link title="timeline-styles" rel="stylesheet" href="css/timeline.css">
+ 	
+ 	
+ 	 <script src="js/Chart.bundle.js"></script>
+    <script src="js/utils.js"></script>
+    <style>
+    canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+    </style>
+ 	
 	
 	<!-- END IMPORTS -->
     	
@@ -349,11 +361,13 @@
                            
                            
       
+<canvas id="canvas"></canvas>
+<br>
 
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+<canvas id="canvas2"></canvas>
 
-                  <div id="chart_div2" style="width: 900px; height: 500px"></div>
-                           
+            <!--       <div id="chart_div2" style="width: 900px; height: 500px"></div>
+                            -->
                            
                            
                </center>              
@@ -407,7 +421,7 @@
     
     
     
-        <script>
+     <script>
     $(document).ready ( function(){
     	var max = new Date().getFullYear();
         var min = max - 30;
@@ -434,8 +448,7 @@
     
     
        <script type="text/javascript">
-      google.charts.load('current', {'packages':['bar']});
-      google.charts.setOnLoadCallback(drawChart);
+   
 
 		var YearBar = new Array();
 		var GradeSchoolBar = new Array();
@@ -470,111 +483,193 @@
 		
 		
 
-		var CombinedBar = new Array();
-		CombinedBar[0] = ['Year', 'Grade School', 'High School', 'Basic Education', 'Tertiary', 'Graduate School', 'Medical School','CECSTE'];
 		
 		
-		
+		 var CombinedBarNames = new Array();
+	        CombinedBarNames = ['Grade School', 'High School', 'Basic Education', 'Tertiary', 'Graduate School', 'Medical School', 'CECSTE'];
+	        
 
-		for (var j = 0; j < YearBar.length; j++){
-		  CombinedBar[j + 1] = [ YearBar[j], GradeSchoolBar[j], HighSchoolBar[j], BasicBar[j], TertiaryBar[j], GradSchoolBar[j], MedBar[j], CECSTE[j]];
-		}
+			var CombinedBar = new Array();
+			CombinedBar = [GradeSchoolBar, HighSchoolBar, BasicBar, TertiaryBar, GradSchoolBar, MedBar, CECSTE];
+			   
+
+      
+      
+			
+			  var color = Chart.helpers.color;
+		        var RED = color(window.chartColors.red).alpha(0.5).rgbString();
+		        var BLUE = color(window.chartColors.blue).alpha(0.5).rgbString();
+		        var YELLOW = color(window.chartColors.yellow).alpha(0.5).rgbString();
+		        var GREEN = color(window.chartColors.green).alpha(0.5).rgbString();
+		        var ORANGE = color(window.chartColors.orange).alpha(0.5).rgbString();
+		        var PURPLE = color(window.chartColors.purple).alpha(0.5).rgbString();
+		        var GREY = color(window.chartColors.grey).alpha(0.5).rgbString();
 
 
-		for (var x = 0; x < YearBar.length; x++){
-		  console.log(CombinedBar[x]);
-		}
+		        var colors = new Array();
+		        colors = [RED, BLUE, YELLOW, GREEN, ORANGE, PURPLE, GREY];
 
 
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable(CombinedBar);
+		        var barChartData = {
+		            labels: YearBar
+		        };
 
-        var options = {
-          chart: {
-            title: 'Number of Member Schools in the Past 5 Years',
-            subtitle: '',
-          },
-          bars: 'vertical', // Required for Material Bar Charts.
-          hAxis: {format: 'decimal'},
-          height: 400,
-          colors: ['#1b9e77', '#d95f02', '#7570b3']
-        };
+		        function load1() {
+		            var ctx1 = document.getElementById("canvas").getContext("2d");
+		            window.myBar = new Chart(ctx1, {
+		                type: 'bar',
+		                data: barChartData,
+		                options: {
+		                    responsive: true,
+		                    legend: {
+		                        position: 'top',
+		                    },
+		                    title: {
+		                        display: true,
+		                        text: 'Number of Member Schools'
+		                    }
+		                }
+		            });
 
-        var chart = new google.charts.Bar(document.getElementById('chart_div'));
+		            for (var x = 0; x < CombinedBar.length; x++){
+		                addData(myBar, CombinedBarNames[x], colors[x], CombinedBar[x]);
+		            }
 
-        chart.draw(data, google.charts.Bar.convertOptions(options));
 
-        var btns = document.getElementById('btn-group');
+		              console.log(CombinedBar[x]);
 
-      }
+		        };
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		    	var Year2 = new Array();
+				
+				var Tertiary2 = new Array();
+				var GradSchool2 = new Array();
+			
+				
+			
+				
+				 <c:forEach items="${programsCountList}" var="count2" >	 
+				 
+				 Year2.push("${count2.getYear()}");
+				 Tertiary2.push(parseInt("${count2.getTertiary()}"));
+				 GradSchool2.push(parseInt("${count2.getGraduate()}"));
+				 </c:forEach>
+				
+
+				var CombinedBarNames2 = new Array();
+				CombinedBarNames2 = ['Year', 'Tertiary', 'Graduate School'];		
+
+				var CombinedBar2 = new Array();
+				CombinedBar2 = [Tertiary2, GradSchool2];
+				   
+
+			        var colors2 = new Array();
+			        colors2 = [GREEN, ORANGE];
+
+
+			        var barChartData2 = {
+			            labels: Year2
+			        };
+
+			        function load2() {
+			            var ctx2 = document.getElementById("canvas2").getContext("2d");
+			            window.myBar = new Chart(ctx2, {
+			                type: 'bar',
+			                data: barChartData2,
+			                options: {
+			                    responsive: true,
+			                    legend: {
+			                        position: 'top',
+			                    },
+			                    title: {
+			                        display: true,
+			                        text: 'Member School Programs'
+			                    }
+			                }
+			            });
+
+			            for (var x = 0; x < CombinedBar2.length; x++){
+			                addData(myBar, CombinedBarNames2[x], colors2[x], CombinedBar2[x]);
+			            }
+
+
+			        };
+		        
+		        
+		        
+		        
+		        
+		        
+			        window.onload = function() {
+			        	
+			        	
+			        	
+			        	load1();
+			        	load2();
+			        }
+		        
+		        
+		        
+		        
+		        
+
+		        function getRandomColor() {
+		            var letters = '0123456789ABCDEF'.split('');
+		            var color = '#';
+		            for (var i = 0; i < 6; i++ ) {
+		                color += letters[Math.floor(Math.random() * 16)];
+		            }
+		            return color;
+		        }
+
+		        function addData(chart, label, color, data) {
+		            chart.data.datasets.push({
+		                label: label,
+		                backgroundColor: color,
+		                data: data
+		                });
+		            chart.update();
+		        }
+
+			
+			
+			
+			
+			
+			
     </script>
         
     
     
     
 
-    
        <script type="text/javascript">
-      google.charts.load('current', {'packages':['bar']});
-      google.charts.setOnLoadCallback(drawChart);
 
-		var Year = new Array();
-		
-		var Tertiary = new Array();
-		var GradSchool = new Array();
 	
-		
-	
-		
-		 <c:forEach items="${programsCountList}" var="count2" >	 
-		 
-		 Year.push("${count2.getYear()}");
-		 Tertiary.push(parseInt("${count2.getTertiary()}"));
-		 GradSchool.push(parseInt("${count2.getGraduate()}"));
-		 </c:forEach>
-		
 
-		var Combined = new Array();
-		Combined[0] = ['Year', 'Tertiary', 'Graduate School'];
 		
 		
 		
-
-		for (var j = 0; j < Year.length; j++){
-		  Combined[j + 1] = [ YearBar[j], Tertiary[j], GradSchool[j]];
-		}
-
-
-		for (var x = 0; x < Year.length; x++){
-		  console.log(Combined[x]);
-		}
-
-
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable(Combined);
-
-        var options = {
-          chart: {
-            title: 'Number of Member School Programs in the Past 5 Years',
-            subtitle: '',
-          },
-          bars: 'vertical', // Required for Material Bar Charts.
-          hAxis: {format: 'decimal'},
-          height: 400,
-          colors: ['#1b9e77', '#d95f02', '#7570b3']
-        };
-
-        var chart = new google.charts.Bar(document.getElementById('chart_div2'));
-
-        chart.draw(data, google.charts.Bar.convertOptions(options));
 
        
 
-      }
+      
     </script>
-        
-    
-   
+ 
     
     
     

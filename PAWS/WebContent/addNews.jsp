@@ -211,17 +211,6 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 </script>
 
 </head>
@@ -261,9 +250,7 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 						</h6>
 					 </div>
 					
-			
-
-                        
+      
                   
     
  <div id="sample">
@@ -289,17 +276,9 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
  <br>
 <label>News Image (Optional): </label>   &nbsp;&nbsp;  
     
-     
-     <button onclick="printText();">Select File</button><br><br>
-     
-     <button onclick="printText();" type="submit" value="Submit">Save News</button>
-  
-                        
+     <input type="file" name="filename">Select File</input><br><br>
+     <button  type="submit" value="Submit">Save News</button>
 
-                        
-    <!-- <input type="button" id="button" value="Submit"/> -->
-  
-  
   </form>
       
      

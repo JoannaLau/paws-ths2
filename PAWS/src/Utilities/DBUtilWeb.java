@@ -43,7 +43,17 @@ public class DBUtilWeb{
 	            // Connect to remote server
 	            session.connect();
 	            // Apply the port forwarding
-	            session.setPortForwardingL(boundaddress, lport, rhost, rport);
+	            if(session.getPortForwardingL()!=null)
+	            {
+	            	try
+		            {
+		            		session.setPortForwardingL(boundaddress, lport, rhost, rport);
+		            }
+		            catch(Exception e)
+		            {
+		            	
+		            }
+	            }
 	            // Connect to remote database
 	            Class.forName(driverName);
 	            conn = (Connection) DriverManager.getConnection(db2Url, dbUsr, dbPwd);
@@ -57,17 +67,19 @@ public class DBUtilWeb{
         }
 		
         public Connection getConnection(){
-			if(conn != null) System.out.println("Connection Established.");
+			if(conn != null) 
+				System.out.println("Connection Established.");
 			return this.conn;
         }
         
        public void cutPort()
        {
     	   try {
-			session.delPortForwardingL(lport);
+    		   if(session.getPortForwardingL()!=null)
+    			   session.delPortForwardingL(lport);
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
        }
 }
