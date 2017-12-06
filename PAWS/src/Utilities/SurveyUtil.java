@@ -812,12 +812,13 @@ public class SurveyUtil {
 	private String getInstitutionCity(int institutionID){
 		String name = null;
 		try{
+			System.out.println(institutionID + "12345678901234567890");
 			Connection conn = db.getConnection();
 			PreparedStatement ps = conn.prepareStatement("SELECT city FROM institutions WHERE institutionID = ?");
 			ps.setInt(1, institutionID);
 			ResultSet rs = ps.executeQuery();
-			rs.next();
-			name = rs.getString(1);
+			while(rs.next())
+				name = rs.getString(1);
 		} catch (Exception e){
 			System.out.println("Error in SurveyUtil:getInstitutionCity()");
 			e.printStackTrace();

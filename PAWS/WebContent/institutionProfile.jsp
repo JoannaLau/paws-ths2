@@ -315,7 +315,7 @@ box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
                                                 <div class="col-md-12">
 													<br><hr>
 													<%String instApo = inst.getName().replaceAll("'", "&apo;");%>
-													 <button type="button" style="float:right; width:260px;"  class="btn btn-secondary btn-sm" onclick="goToAddProgramToInstitution('<%= inst.getInstitutionID()%>','<%=instApo%>')"><em class="fa fa-plus"></em>Add Programs to this Institutions</button><br>
+													 <button type="button" style="float:right; width:260px;"  class="btn btn-secondary btn-sm" onclick="goToAddProgramToInstitution('<%= inst.getInstitutionID()%>','<%=instApo%>')"><em class="fa fa-plus"></em>Add Programs to this Institution</button><br>
                                                 <br>
                                                     <button type="button" id="editLevelButton"style="float:right; width:260px;"  class="btn btn-secondary btn-sm" onclick="editLevel()">Edit 'Level' of the programs</button>
                                                 <button type="button" id="saveLevelButton"style="display:none;float:right; width:260px;"  class="btn btn-secondary btn-sm" onclick="saveLevel()">SAVE 'Level' of the programs</button><br>

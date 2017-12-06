@@ -63,9 +63,14 @@ public class UpdateInstitution extends HttpServlet {
 		
 		String membershipDate  = request.getParameter("membershipDate");
 		
+		Double lng  = Double.parseDouble(request.getParameter("longitude"));
+		
+		Double lat  = Double.parseDouble(request.getParameter("latitude"));
+		
+		System.out.println("INSIDE UPDATE INST---------------------------------------------------------");
 				
 		InstitutionsUtil instUtil = new InstitutionsUtil();
-		instUtil.editInstitution(institutionID, ssID, institutionName, institutionAcronym,  address, city, country, website, contactNumber, fax, institutionHead, position, headEmail, contactPerson, contactPosition, contactEmail, membershipDate);
+		instUtil.editInstitution(institutionID, ssID, institutionName, institutionAcronym,  address, city, country, website, contactNumber, fax, institutionHead, position, headEmail, contactPerson, contactPosition, contactEmail, membershipDate, lng, lat);
 		RequestDispatcher rd = request.getRequestDispatcher("Institutions");
 		rd.forward(request, response);
 	

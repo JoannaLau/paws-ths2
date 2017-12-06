@@ -1,5 +1,7 @@
 package Models;
 
+import java.sql.Date;
+
 public class Institution {
 
 	private int institutionID;
@@ -17,25 +19,42 @@ public class Institution {
 	private String contactPerson="";
 	private String contactNumber="";
 	private String contactPosition="";
+	private Double longitude;
+	private Double latitude;
 	private String schoolSystemName;
 	private int schoolSystemID;
 	private String website;
 	private String country;
 	private String contactEmail;
 	private String dateAddedWord;
-
-	private String educLevel;
-	
+	private Date dateChanged;
 	
 	
 	
 
-	public String getEducLevel() {
-		return educLevel;
+
+	public Date getDateChanged() {
+		return dateChanged;
 	}
 
-	public void setEducLevel(String educLevel) {
-		this.educLevel = educLevel;
+	public void setDateChanged(Date dateChanged) {
+		this.dateChanged = dateChanged;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
 
 	public int getInstitutionID() {
@@ -210,7 +229,8 @@ public class Institution {
 	
 	public Institution(int institutionID, int schoolsystemID, String name, String head, String position, String email,
 			String address, String status, String date_added, String city, String fax,
-			String contact_person, String contact_position, String contact_number, String website, String country, String contact_email, String institutionAcronym, String educLevel) {
+			String contact_person, String contact_position, String contact_number, String website, String country, 
+			String contact_email, String institutionAcronym) {
 		super();
 		this.institutionID = institutionID;
 		this.schoolSystemID = schoolsystemID;
@@ -230,18 +250,76 @@ public class Institution {
 		this.contactNumber = contact_number;
 		this.contactEmail = contact_email;
 		this.website = website;
-		this.contactPosition =contact_position;
-		this.educLevel = educLevel;
+		this.contactPosition = contact_position;
+	}
+	
+	
+	public Institution(int institutionID, int schoolsystemID, String name, String head, String position, String email,
+			String address, String status, String date_added, String city, String fax,
+			String contact_person, String contact_position, String contact_number, String website, String country,
+			String contact_email, String institutionAcronym, Double lng, Double lat) {
+		super();
+		this.institutionID = institutionID;
+		this.schoolSystemID = schoolsystemID;
+		this.institutionAcronym = institutionAcronym;
+		this.name = name;
+		this.head = head;
+		this.hPosition = position;
+		this.hEmail = email;
+		this.address = address;
+		this.country = country;
+		this.status = status;
+		this.dateAdded = formatDate_yearFirst(date_added);
+		this.dateAddedWord = formatDate(date_added);
+		this.city = city;
+		this.fax = fax;
+		this.contactPerson = contact_person;
+		this.contactNumber = contact_number;
+		this.contactEmail = contact_email;
+		this.website = website;
+		this.contactPosition = contact_position;
+		this.longitude = lng;
+		this.latitude = lat;
 		System.out.println(date_added+"CITY!!!!!!!!!!"+ institutionAcronym);
 	}
 	
-	public Institution(int institutionID, String name, String city, String educLevel)
+	public Institution(int institutionID, int schoolsystemID, String name, String head, String position, String email,
+			String address, String status, String date_added, String city, String fax,
+			String contact_person, String contact_position, String contact_number, String website, String country,
+			String contact_email, String institutionAcronym, Double lng, Double lat, Date dateChanged) {
+		super();
+		this.institutionID = institutionID;
+		this.schoolSystemID = schoolsystemID;
+		this.institutionAcronym = institutionAcronym;
+		this.name = name;
+		this.head = head;
+		this.hPosition = position;
+		this.hEmail = email;
+		this.address = address;
+		this.country = country;
+		this.status = status;
+		this.dateAdded = formatDate_yearFirst(date_added);
+		this.dateAddedWord = formatDate(date_added);
+		this.city = city;
+		this.fax = fax;
+		this.contactPerson = contact_person;
+		this.contactNumber = contact_number;
+		this.contactEmail = contact_email;
+		this.website = website;
+		this.contactPosition = contact_position;
+		this.longitude = lng;
+		this.latitude = lat;
+		this.dateChanged = dateChanged;
+		
+		System.out.println(date_added+"CITY!!!!!!!!!!"+ institutionAcronym);
+	}
+	
+	public Institution(int institutionID, String name, String city)
 	{
 		super();
 		this.institutionID = institutionID;
 		this.name = name;
 		this.city = city;
-		this.educLevel = educLevel;
 	}
 
 	private static String formatDate(String date){

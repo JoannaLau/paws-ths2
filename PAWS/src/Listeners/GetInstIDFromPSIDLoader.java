@@ -1,28 +1,28 @@
 package Listeners;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+
+import Utilities.AccreditorUtil;
 import Utilities.InstitutionsUtil;
-import Utilities.SchoolSystemUtil;
 
 /**
- * Servlet implementation class AddProgramToInst
+ * Servlet implementation class GetInstIDFromPSIDLoader
  */
-@WebServlet("/AddProgramToInst")
-public class AddProgramToInst extends HttpServlet {
+@WebServlet("/GetInstIDFromPSIDLoader")
+public class GetInstIDFromPSIDLoader extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddProgramToInst() {
+    public GetInstIDFromPSIDLoader() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,26 +32,20 @@ public class AddProgramToInst extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.setContentType("application/json");
+		JSONArray jArray = new JSONArray();
+		InstitutionsUtil instUtil = new InstitutionsUtil();
+		int PSID = Integer.parseInt(request.getParameter("PSID"));
+		System.out.println(PSID + "-----------------------");
+		jArray = instUtil.getInstIDFromPSID(PSID);
+		response.getWriter().write(jArray.toString());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String specific = request.getParameter("specific");
-		String level = request.getParameter("level");
-		int generalID = Integer.parseInt((String)request.getParameter("general"));
-		int instID = Integer.parseInt((String)request.getParameter("instID"));
-		
-		InstitutionsUtil instUtil = new InstitutionsUtil();
-		instUtil.addProgramToInst(specific, generalID, instID, level);	
-	
-		
-		
-		//System.out.println("output1:"+ specific);
-		RequestDispatcher rd = request.getRequestDispatcher("ViewInstitution?institutionID="+instID);
-		rd.forward(request, response);
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

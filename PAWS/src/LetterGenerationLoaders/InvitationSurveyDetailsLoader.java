@@ -1,4 +1,4 @@
-package InvitationLoaders;
+package LetterGenerationLoaders;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -9,20 +9,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 
-import Utilities.InstitutionsUtil;
+import Utilities.AccreditorUtil;
 
 /**
- * Servlet implementation class InstitutionInSurveysLoader
+ * Servlet implementation class AccreditorInSurveyLoader
  */
-@WebServlet("/InstitutionInSurveysLoader")
-public class InstitutionInSurveysLoader extends HttpServlet {
+@WebServlet("/InvitationSurveyDetailsLoader")
+public class InvitationSurveyDetailsLoader extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-	
-    public InstitutionInSurveysLoader() {
+    public InvitationSurveyDetailsLoader() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,12 +30,11 @@ public class InstitutionInSurveysLoader extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.setContentType("application/json");
 		JSONArray jArray = new JSONArray();
-		InstitutionsUtil instUtil = new InstitutionsUtil();
-		int date = Integer.parseInt(request.getParameter("date"));
-		jArray = instUtil.getInstitutionInSurveysJSON(date);
+		AccreditorUtil accUtil = new AccreditorUtil();
+		int PSID = Integer.parseInt(request.getParameter("PSID"));
+		jArray = accUtil.getInvitationDetailsJSON(PSID);
 		response.getWriter().write(jArray.toString());
 	}
 

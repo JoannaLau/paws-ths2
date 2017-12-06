@@ -177,17 +177,17 @@
 				$.getJSON("AccreditorForInvitationLoader?accreditorID=" + accreditorID, function(data){
 					$.each(data, function (key, value) {
 					
-						var recepientFromJSON = value.head;
-						var recepientPosiFromJSON = value.hPosition;
+						var recipientFromJSON = value.head;
+						var recipientPosiFromJSON = value.hPosition;
 						var instNameFromJSON = value.institutionName;
 						var cityFromJSON = value.city;
 						
-						document.getElementById("recepient1").value = recepientFromJSON;
-						document.getElementById("recepientpos1").value = recepientPosiFromJSON;
+						document.getElementById("recipient1").value = recipientFromJSON;
+						document.getElementById("recipientpos1").value = recipientPosiFromJSON;
 						document.getElementById("school1").value = instNameFromJSON;
 						document.getElementById("city1").value = cityFromJSON;
 						
-						document.getElementById("recepient-1").value = recepientFromJSON;
+						document.getElementById("recipient-1").value = recipientFromJSON;
 						
 					});
 					
@@ -305,28 +305,81 @@
 	
 	    function genPDFSurvey() {
 	    	var PSID = $('#selectSurveyForm').find(":selected").val();
-			alert(PSID);
 			
-			
-			var accreditorID = $('#accreditorForm').find(":selected").val();
-			document.getElementById("invited1").value = $('#accreditorForm').find(":selected").text();
-			document.getElementById("invited-1").value = $('#accreditorForm').find(":selected").text();
-			$.getJSON("AccreditorForInvitationLoader?accreditorID=" + accreditorID, function(data){
-				$.each(data, function (key, value) {
+			$.getJSON("InvitationSurveyDetailsLoader?PSID=" + PSID, function(data){
 				
-					var recepientFromJSON = value.head;
-					var recepientPosiFromJSON = value.hPosition;
-					var instNameFromJSON = value.institutionName;
-					var cityFromJSON = value.city;
+				if(data.length > 0)
+				{
+					$.each(data, function (key, value){
+						
+						var accName = value.accName;
+						
+						var head = value.head;
+						var hPosition = value.hPosition;
+						var institutionName = value.institutionName;
+						var city = value.city + " City";
+						
+						var degreeName = value.degreeName;
+						var startdate = value.startDate;
+						var todate = value.endDate;
+						var type = value.type;
+						
+						if(!type.includes("survey"))
+							type = type + " Survey";
+						
+						var doc = new jsPDF();
+			            doc.setFontSize(12);
+			            doc.text(20, 70, textDate);
+			            doc.setFontType("bold");
+			            
+			            doc.text(20, 85, head);
+			            doc.setFontType("normal");
+			            
+			            doc.text(20, 90, hPosition);
+			            
+			            doc.text(20, 95, institutionName);
+			            
+			            doc.text(20, 100, city);
+			            
+			            var invited = accName;
+			            
+			            var surveyschool = $('#institutionSurveyForm').find(":selected").text();
+						
+			            var schoolcity = surveyschool + " City";
+			            
+			           /*  var from = $("#fromdate").val().split("-");
+			            var startdate = new Date(from[0], from[1], from[2]).getFormatDate().toString();
+			            
+			            var to = $("#todate").val().split("-");
+			            var todate = new Date(to[0], to[1]-1, to[2]).getFormatDate().toString();
+			            */ 
+			            
+			            var signperson = $('#signperson2').val();
+			            var signposition = $('#signposition2').val();
+			            
+			            doc.text(20, 110, "Dear " + head + ":");
+			            var paragraph = "We have invited " + invited + " to join the " + type + " Team that will visit the " + degreeName + " Department of " + schoolcity + " on " + startdate + " to " + todate + ".\n\nWe will appreciate your making " + invited + " available for the survey. We realize this will take them out of school for some time. However, school visitation can be a most rewarding experience. It is also an opportunity for professional and personal growth.\n\nThank you for sharing our concern for quality education in the country.\n\n\nSincerely yours,\n\n\n" + signperson + "\n" + signposition + "";
+			            lines = doc.splitTextToSize(paragraph, 175);
+			            var img = new Image();
+			            var dataURL;
+			            img.onload = function() {
+			                var canvas = document.createElement('canvas');
+			                canvas.width = img.width;
+			                canvas.height = img.height;
+			                var context = canvas.getContext('2d');
+			                context.drawImage(img, 0, 0);
+			                dataURL = canvas.toDataURL('image/jpeg');
+			            }
+			            doc.text(20, 120, lines);
+			            doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50);
+			            doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50);
+			                // doc.addImage(dataURL, 'JPEG', 20, 20, 75, 75)
+			            var filename = head + " Survey Invitation " + todayDateInput + ".pdf";
+			            doc.save(filename);
+					});	
 					
-					document.getElementById("recepient1").value = recepientFromJSON;
-					document.getElementById("recepientpos1").value = recepientPosiFromJSON;
-					document.getElementById("school1").value = instNameFromJSON;
-					document.getElementById("city1").value = cityFromJSON;
-					
-					document.getElementById("recepient-1").value = recepientFromJSON;
-					
-				});
+				}
+				
 				
 			});
 			
@@ -354,6 +407,8 @@
             city = city + " City";
             doc.text(20, 100, city);
             var invited = $('#invited').val();
+
+            var type = $('#surveytype').val();
             var surveyschool = $('#surveyschool').val();
             var schoolcity = $('#schoolcity').val();
             schoolcity = schoolcity + " City";
@@ -367,7 +422,7 @@
             var signperson = $('#signperson').val();
             var signposition = $('#signposition').val();
             doc.text(20, 110, "Dear " + recipient + ":");
-            var paragraph = "We have invited " + invited + " to join the Resurvey Team that will visit the " + dept + " Department of " + surveyschool + ", " + schoolcity + " on " + startdate + " to " + todate + ".\n\nWe will appreciate your making " + invited + " available for the survey. We realize this will take them out of school for some time. However, school visitation can be a most rewarding experience. It is also an opportunity for professional and personal growth.\n\nThank you for sharing our concern for quality education in the country.\n\n\nSincerely yours,\n\n\n" + signperson + "\n" + signposition + "";
+            var paragraph = "We have invited " + invited + " to join the " + type + " Team that will visit the " + dept + " Department of " + surveyschool + ", " + schoolcity + " on " + startdate + " to " + todate + ".\n\nWe will appreciate your making " + invited + " available for the survey. We realize this will take them out of school for some time. However, school visitation can be a most rewarding experience. It is also an opportunity for professional and personal growth.\n\nThank you for sharing our concern for quality education in the country.\n\n\nSincerely yours,\n\n\n" + signperson + "\n" + signposition + "";
             lines = doc.splitTextToSize(paragraph, 175);
             var img = new Image();
             var dataURL;
@@ -399,10 +454,10 @@
             doc.setFontSize(12);
             doc.text(20, 70, textDate);
             doc.setFontType("bold");
-            var recipient = $('#recepient1').val();
+            var recipient = $('#recipient1').val();
             doc.text(20, 85, recipient);
             doc.setFontType("normal");
-            var recipientpos = $('#recepientpos1').val();
+            var recipientpos = $('#recipientpos1').val();
             doc.text(20, 90, recipientpos);
             var school = $('#school1').val();
             doc.text(20, 95, school);
@@ -413,6 +468,7 @@
             
             var deptprog = $('#deptprog1').val();
             
+            var type = $('#surveytype1').val();    
             var surveyschool = $('#surveyschool1').val();
             var schoolcity = $('#schoolcity1').val();
             schoolcity = schoolcity + " City";
@@ -427,7 +483,7 @@
             var signposition = $('#signposition1').val();
             doc.text(20, 110, "Dear " + recipient + ":");
             
-            var paragraph = "We have invited " + invited + " to join the Resurvey Team that will visit the " + deptprog + " of " + surveyschool + ", " + schoolcity + " on " + startdate + " to " + todate + ".\n\nWe will appreciate your making " + invited + " available for the survey. We realize this will take them out of school for some time. However, school visitation can be a most rewarding experience. It is also an opportunity for professional and personal growth.\n\nThank you for sharing our concern for quality education in the country.\n\n\nSincerely yours,\n\n\n" + signperson + "\n" + signposition + "";
+            var paragraph = "We have invited " + invited + " to join the " + type + " Team that will visit the " + deptprog + " of " + surveyschool + ", " + schoolcity + " on " + startdate + " to " + todate + ".\n\nWe will appreciate your making " + invited + " available for the survey. We realize this will take them out of school for some time. However, school visitation can be a most rewarding experience. It is also an opportunity for professional and personal growth.\n\nThank you for sharing our concern for quality education in the country.\n\n\nSincerely yours,\n\n\n" + signperson + "\n" + signposition + "";
             lines = doc.splitTextToSize(paragraph, 175);
             var img = new Image();
             var dataURL;
@@ -609,7 +665,7 @@
                    		
                         <div id="fromSurveys" class="tab-pane fade in active">
                         <br>
-                            <h3>Import From Surveys</h3>
+                            <h3>Import From Upcoming Surveys</h3>
                             
                             	<div class="form-group" id = "divSurveyInstitutionForm">
 									<label for="institutionSurveyForm">Step 1: Choose an institution: </label>
@@ -622,7 +678,19 @@
 									<select class="form-control underlined chosen-select" data-placeholder="Choose a survey" id="selectSurveyForm" style="background: transparent;">
 									</select>
 								</div>
+								<label>Step 3: Input signature fields: </label>
+								<br>
+								<p style="display: inline-block;">Sincerely Yours,</p>
+                                	<br>
+	                            	<input style="width: 20%;" placeholder="Signed By" id="signperson2">							
+									<br>
+									<input style="width: 20%;" placeholder="Position" id="signposition2">							
+									<br>
+									<br>
 								
+								<label>Step 4: Click on 'Download PDF' to download the invitation letter. Button will show once a survey is chosen.</label>
+								<br>
+                             
 								<div id="divSurveyButton">
 								</div>
 								
@@ -635,41 +703,48 @@
                             
                             	
 								<div class="form-group" id = "divAccreditorForm">
-									<label for="accreditorForm">Accreditor for the survey: </label>
+									<label for="accreditorForm">Step 1: Choose accreditor for the survey: </label>
 									<select class="form-control underlined chosen-select" data-placeholder="Choose an Accreditor..." id="accreditorForm" style="background: transparent;">
 									</select>
 								</div>
 								<div class="form-group" id = "divInstitutionForm">
-									<label for="institutionForm">Institution to survey: </label>
+									<label for="institutionForm">Step 2: Choose the institution to be surveyed: </label>
 									<select class="form-control underlined chosen-select" data-placeholder="Choose an Institution..." id="institutionForm" style="background: transparent;">
 									</select>
 								</div>
+
+									<label>Step 3: Select program to be surveyed (programs will show once an institution is chosen). </label>
 								<div class="form-group" id="divProgramForm">
-									
 								</div>
+								
+								<label>Step 4: Input, edit, and double-check the fields: </label>
+								<br>
 								<div class="form-group" id="textFields">
 									<br>
 									<br>
 									<br>
 									<h5>Edit Text Fields</h5>
 									<hr>
-									<input style="width: 30%;" placeholder="Recepient" id="recepient1">	
+									<input style="width: 30%;" placeholder="Recipient" id="recipient1">	
 									<br>						
-									<input style="width: 30%;" placeholder="Recepient Position" id="recepientpos1">							
+									<input style="width: 30%;" placeholder="Recipient Position" id="recipientpos1">							
 									<br>
 									<input style="width: 30%;" placeholder="Institution Name" id="school1">							
 									<br>
 									<input style="width: 30%;" placeholder="Institution City" id="city1">							
 									
 									<br><br>
-									<p style="display: inline-block;">Dear &nbsp;</p><input style="width: 20%;" placeholder="Recepient" id="recepient-1"><p style="display: inline-block;">: &nbsp;</p>	
+									<p style="display: inline-block;">Dear &nbsp;</p><input style="width: 20%;" placeholder="Recipient" id="recipient-1"><p style="display: inline-block;">: &nbsp;</p>	
 									<br>
 									<br>
 									<p style="display: inline-block;">We have invited &nbsp;</p>
 									
 									<input style="width: 20%;" placeholder="Accreditor" id="invited1">
 									
-									<p style="display: inline-block;"> to join the Resurvey Team that will visit the&nbsp;</p>
+									<p style="display: inline-block;"> to join the </p>
+									<input style="width: 20%;" placeholder="Survey Type" id="surveytype1">
+									<p style="display: inline-block;"> Team that will visit the&nbsp;</p>
+
 									<input style="width: 20%;" placeholder="Department or Program" id="deptprog1">
 									<p style="display: inline-block;">&nbsp; of &nbsp;</p>
 									<input style="width: 40%;" placeholder="Institution Name" id="surveyschool1">
@@ -703,7 +778,8 @@
 									
 									
 								</div>
-								
+								<label>Step 5: Click on 'Download PDF' to download the invitation letter.</label>
+								<br>
                              	<button class ="btn btn-info btn-sm" onclick="genPDFDB()">Download PDF</button>
                              
 							
@@ -734,7 +810,9 @@
                                 <br>
 
                                 <input type="text" id="invited" value="" placeholder="Invited Faculty">
-                                <br>
+                               
+								<input type="text" id="surveytype" value="" placeholder="Survey Type">
+                              	<br>
                                 <br>
 
                                 <label for="department-dropdown">Select Department</label>

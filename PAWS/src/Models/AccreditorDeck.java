@@ -171,7 +171,7 @@ public class AccreditorDeck {
 			jTemp.put("discipline", temp.getDiscipline());
 			jTemp.put("numberSurveys", temp.getNumberSurveys());
 			jTemp.put("accreditorID", temp.getAccreditorID());
-			jTemp.put("rank", accList.size() + priList.size() + 1);
+			jTemp.put("rank", -1);
 			jTemp.put("affiliation", temp.getAffiliation());
 			jTemp.put("lastSurveyDate", temp.getLastSurveyDate());
 

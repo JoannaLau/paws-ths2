@@ -41,6 +41,17 @@
 		</script>
 
       <script type="text/javascript">
+	  	 function forDB(){
+
+		   	$('#accreditorForm1_chosen').width('95%');
+		   	$('#accreditorForm2_chosen').width('95%');
+		   	$('#accreditorForm3_chosen').width('95%');
+		   	$('#accreditorForm4_chosen').width('95%');
+		   	$('#accreditorForm5_chosen').width('95%');
+		   	$('#accreditorForm6_chosen').width('95%');
+		   	$('#chairpersonForm_chosen').width('95%');
+		   	$('#institutionForm_chosen').width('95%');
+		   }
 
           function genPDF() {
 
@@ -55,7 +66,8 @@
             var recipient = $('#recipient').val();
             recipient = strsuff + recipient;
             doc.text(20, 70, recipient);
-
+            var type = $('#surveytype').val();
+            
             doc.setFontType("normal");
             var recipientpos = $('#recipientpos').val();
             doc.text(20, 75, recipientpos);
@@ -70,11 +82,11 @@
             var schoolcity = $('#schoolcity').val();
             schoolcity = schoolcity + " City";
            
-            var from = $("#fromdate1").val().split("-");
+            var from = $("#fromdate").val().split("-");
 
             var startdate = new Date(from[0], from[1]-1, from[2]).getFormatDate().toString();
             
-            var to = $("#todate1").val().split("-");
+            var to = $("#todate").val().split("-");
 
             var todate = new Date(to[0], to[1]-1, to[2]).getFormatDate().toString();
             
@@ -92,7 +104,7 @@
 
             doc.text(20, 95, "Dear " + recipient + ":");
 
-            var paragraph="\nWe are pleased to confirm the Preliminary Survey Visit to the "+program+" of "+surveyschool+", "+schoolcity+" on "+startdate+" to "+todate+".\n\nFrom among the many educators experienced in survey activities, the following have been selected to carry out the evaluation of your institution:\n\n\t\tChairperson :\t"+chairperson+"\n\t\t     Members :\t"+member1+"\n\t\t\t\t              "+member2+"\n\t\t\t\t              "+member3+"\n\t\t\t\t              "+member4+"\n\t\t\t\t              "+member5+"\n\t\t\t\t              "+member6+"\n\nIn keeping with PAASCU policy, institutions may make representations concerning the composition of the team. However, since the selection already represents a careful balance of experience and expertise, should there be need for adjustment in the composition of the team, reasons for such may be presented in writing to the President by the institution. Failure to hear from you would be interpreted as your being in agreement with the composition of the team. \n\nWe look forward to visiting your institution.\n\n\nSincerely,\n\n\n"+signperson+"\n"+signposition+"";
+            var paragraph="\nWe are pleased to confirm the " + type + " Visit to the "+program+" of "+surveyschool+", "+schoolcity+" on "+startdate+" to "+todate+".\n\nFrom among the many educators experienced in survey activities, the following have been selected to carry out the evaluation of your institution:\n\n\t\tChairperson :\t"+chairperson+"\n\t\t     Members :\t"+member1+"\n\t\t\t\t              "+member2+"\n\t\t\t\t              "+member3+"\n\t\t\t\t              "+member4+"\n\t\t\t\t              "+member5+"\n\t\t\t\t              "+member6+"\n\nIn keeping with PAASCU policy, institutions may make representations concerning the composition of the team. However, since the selection already represents a careful balance of experience and expertise, should there be need for adjustment in the composition of the team, reasons for such may be presented in writing to the President by the institution. Failure to hear from you would be interpreted as your being in agreement with the composition of the team. \n\nWe look forward to visiting your institution.\n\n\nSincerely,\n\n\n"+signperson+"\n"+signposition+"";
             
             lines = doc.splitTextToSize(paragraph, 175);
 
@@ -114,18 +126,19 @@
               doc.text(20, 55, textDate);
 
               doc.setFontType("bold");
-              var recipient = $('#recepient1').val();
+              var recipient = $('#recipient1').val();
               doc.text(20, 70, recipient);
 
               doc.setFontType("normal");
-              var recipientpos = $('#recepientpos1').val();
+              var recipientpos = $('#recipientpos1').val();
               doc.text(20, 75, recipientpos);
               var school = $('#school1').val();
               doc.text(20, 80, school);
               var city = $('#city1').val();
               city = city + " City";
               doc.text(20, 85, city);
-
+              var type = $('#surveytype1').val();
+              
               
               if($('#prog1').val())
            	  {
@@ -167,7 +180,7 @@
 
               doc.text(20, 95, "Dear " + recipient + ":");
 
-              var paragraph="\nWe are pleased to confirm the Preliminary Survey Visit to the "+program+" of "+surveyschool+", "+schoolcity+" on "+startdate+" to "+todate+".\n\nFrom among the many educators experienced in survey activities, the following have been selected to carry out the evaluation of your institution:\n\n\t\tChairperson :\t"+chairperson+"\n\t\t     Members :\t"+member1+"\n\t\t\t\t              "+member2+"\n\t\t\t\t              "+member3+"\n\t\t\t\t              "+member4+"\n\t\t\t\t              "+member5+"\n\t\t\t\t              "+member6+"\n\nIn keeping with PAASCU policy, institutions may make representations concerning the composition of the team. However, since the selection already represents a careful balance of experience and expertise, should there be need for adjustment in the composition of the team, reasons for such may be presented in writing to the President by the institution. Failure to hear from you would be interpreted as your being in agreement with the composition of the team. \n\nWe look forward to visiting your institution.\n\n\nSincerely,\n\n\n"+signperson+"\n"+signposition+"";
+              var paragraph="\nWe are pleased to confirm the "+ type + " Visit to the "+program+" of "+surveyschool+", "+schoolcity+" on "+startdate+" to "+todate+".\n\nFrom among the many educators experienced in survey activities, the following have been selected to carry out the evaluation of your institution:\n\n\t\tChairperson :\t"+chairperson+"\n\t\t     Members :\t"+member1+"\n\t\t\t\t              "+member2+"\n\t\t\t\t              "+member3+"\n\t\t\t\t              "+member4+"\n\t\t\t\t              "+member5+"\n\t\t\t\t              "+member6+"\n\nIn keeping with PAASCU policy, institutions may make representations concerning the composition of the team. However, since the selection already represents a careful balance of experience and expertise, should there be need for adjustment in the composition of the team, reasons for such may be presented in writing to the President by the institution. Failure to hear from you would be interpreted as your being in agreement with the composition of the team. \n\nWe look forward to visiting your institution.\n\n\nSincerely,\n\n\n"+signperson+"\n"+signposition+"";
               
               lines = doc.splitTextToSize(paragraph, 175);
 
@@ -181,7 +194,27 @@
               doc.save(filename);
             }
             
-            
+
+  	    function getDateToday()
+  	    {
+  	    	var obj = document.getElementById('institutionSurveyForm');
+  			
+  			var objToday = new Date();
+
+  			var month = (objToday.getMonth()+1);
+  			
+  			if(month < 10)
+  				month = '0' + month;
+  			
+  			var day = (objToday.getDate());
+  			
+  			if(day < 10)
+  				day = '0' + day;
+  			
+  			var dateToday = objToday.getFullYear().toString() + "" +  month.toString() + "" + day.toString();
+  			
+  			return dateToday;
+  	    }
 
       </script>
         
@@ -189,7 +222,41 @@
 
 	    $(document).ready(function() {
 	    	
-
+	    	$('#institutionSurveyForm').chosen().change(function(){
+				
+				$('#selectSurveyForm').empty();
+				var institutionID = $('#institutionSurveyForm').find(":selected").val();
+				
+				
+			
+				$.getJSON("SurveyDetailsLoader?institutionID=" + institutionID + "&date=" + getDateToday(), function(data){
+					var obj = document.getElementById('selectSurveyForm');
+					
+					if ( data.length > 0 ) {
+				    	var option = document.createElement("option");
+						option.text = "";
+						option.value = 0;
+						obj.add(option);
+								
+						$.each(data, function (key, value){
+							
+							var option = document.createElement("option");
+							option.text = value.type + " - " +  value.degreeName + " - " + value.startDate + " to " + value.endDate;
+							option.value = value.PSID;
+							obj.add(option);
+							
+							
+						});	
+						$('#selectSurveyForm').trigger("chosen:updated");
+				    }
+				});
+			});
+	    	
+			$('#selectSurveyForm').chosen().change(function(){
+				$("#divSurveyButton").html("<button class ='btn btn-info btn-sm' onclick='genPDFSurvey()'>Download PDF</button>");
+			});
+	    	
+			
 			$('#chairpersonForm').chosen().change(function(){
 				
 				var textFields = document.getElementById("chairFields");
@@ -257,13 +324,13 @@
 						$.each(data, function (key, value) {
 						    var schoolFromLoader = value.name;
 							var cityFromLoader = value.city;
-							var recepientFromLoader = value.head;
-							var recepientPosiFromLoader = value.hPosition;
+							var recipientFromLoader = value.head;
+							var recipientPosiFromLoader = value.hPosition;
 							var educLevelFromLoader = value.educLevel;
 							
-							document.getElementById("recepient1").value = recepientFromLoader;
-							document.getElementById("recepient-1").value = recepientFromLoader;
-							document.getElementById("recepientpos1").value = recepientPosiFromLoader;
+							document.getElementById("recipient1").value = recipientFromLoader;
+							document.getElementById("recipient-1").value = recipientFromLoader;
+							document.getElementById("recipientpos1").value = recipientPosiFromLoader;
 							document.getElementById("city1").value = cityFromLoader;
 							document.getElementById("schoolcity1").value = cityFromLoader;
 							document.getElementById("surveyschool1").value = schoolFromLoader;
@@ -463,11 +530,35 @@
 			    getAccreditors5();
 			    getAccreditors6();
 			    getChairpersons();
-			    
+			    getInstitutionsSurvey();
 			    
 			});
 	    
-	        function getInstitutions(){
+	        
+		    function getInstitutionsSurvey()
+			{
+				var obj = document.getElementById('institutionSurveyForm');
+				
+				var dateToday = getDateToday();
+					
+				$.getJSON("InstitutionInSurveysLoader?date=" + dateToday, function(data){
+					var option = document.createElement("option");
+					option.text = "";
+					option.value = 0;
+					obj.add(option);
+					
+					$.each(data, function (key, value){
+						var option = document.createElement("option");
+						option.text = value.institutionName + " - " + value.city;
+						option.value = value.institutionID;
+						obj.add(option);
+						
+					});	
+					$('#institutionSurveyForm').trigger("chosen:updated");
+				});
+			}
+	    
+    		function getInstitutions(){
 		    	//GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
 				var obj = document.getElementById('institutionForm');
 				
@@ -480,7 +571,7 @@
 					$.each(data, function (key, value){
 						
 						var option = document.createElement("option");
-						option.text = value.institutionName + " - " + value.city + " - " + value.educLevel;
+						option.text = value.institutionName + " - " + value.city;
 						option.value = value.institutionID;
 						obj.add(option);
 						
@@ -679,6 +770,115 @@
 				});
 				
 			}
+		    
+
+		    function genPDFSurvey() {
+		    	var PSID = $('#selectSurveyForm').find(":selected").val();
+				
+				$.getJSON("ConfirmationSurveyDetailsLoader?PSID=" + PSID + "&instID=" + $('#institutionSurveyForm').find(":selected").val(), function(data){
+					$.each(data, function (key, value){
+						
+						var accSize = value.accSize;
+	
+						var degreeName = value.degreeName;
+						var startdate = value.startDate;
+						var todate = value.endDate;
+						var type = value.type;
+						
+						var chairperson = value.chairperson;
+						
+						if(!type.includes("survey"))
+						{
+							type = type + " Survey";
+						}
+						
+						var head = value.head;
+						var hPosition = value.hPosition;
+						var name = value.name;
+						var city = value.city;
+	
+	
+			              var doc = new jsPDF();
+	
+			              doc.setFontSize(12);
+			              doc.text(20, 55, textDate);
+	
+			              doc.setFontType("bold");
+			              doc.text(20, 70, head);
+	
+			              doc.setFontType("normal");
+			              doc.text(20, 75, hPosition);
+			              
+			              doc.text(20, 80, name);
+			            
+			              city = city + " City";
+			              doc.text(20, 85, city);
+	
+			              
+			              doc.setFontType("bold");
+			              var surveyschool = name;
+			              var schoolcity = surveyschool + " " + city;
+	
+			             		              
+			              doc.setFontType("normal");
+			              var signperson = $('#signperson2').val();
+			              var signposition = $('#signposition2').val();
+	
+			             
+	
+			              doc.text(20, 95, "Dear " + head + ":");
+	
+			              var paragraph="\nWe are pleased to confirm the " + type + " Visit to the "+degreeName+" Department of "+schoolcity+" on "+startdate+" to "+todate+".\n\nFrom among the many educators experienced in survey activities, the following have been selected to carry out the evaluation of your institution:\n\n\t\tChairperson :\t"+chairperson+"\n\t\t     Members :\t";
+			              
+			              var PSID = $('#selectSurveyForm').find(":selected").val();
+							
+			              
+			              
+		
+			              
+			              var json = (function () {
+			            	    var json = null;
+			            	    $.ajax({
+			            	        'async': false,
+			            	        'global': false,
+			            	        'url': "AccreditorInSurveyLoader?PSID=" + PSID,
+			            	        'dataType': "json",
+			            	        'success': function (data) {
+			            	            json = data;
+			            	        }
+			            	    });
+			            	    return json;
+			            	})(); 
+			              
+			              
+			              
+			              for(var i = 0; i<json.length; i++)
+		            	  {
+			            	  paragraph = paragraph + json[i]["accName"] + "\n\t\t\t\t              ";
+		            	  }
+			              
+			              
+			              
+			              paragraph = paragraph + "\n\nIn keeping with PAASCU policy, institutions may make representations concerning the composition of the team. However, since the selection already represents a careful balance of experience and expertise, should there be need for adjustment in the composition of the team, reasons for such may be presented in writing to the President by the institution. Failure to hear from you would be interpreted as your being in agreement with the composition of the team. \n\nWe look forward to visiting your institution.\n\n\nSincerely,\n\n\n"+signperson+"\n"+signposition+"";
+			              
+			              lines = doc.splitTextToSize(paragraph, 175);
+	
+			              doc.text(20, 100, lines);
+	
+			              doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50);
+			              doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50);
+	
+			              var filename = head + " Confirmation Letter " + todayDateInput + ".pdf";
+	
+			              doc.save(filename);
+							
+						});
+					});
+					
+				
+				
+				
+		    }
         </script>
         
     <style>
@@ -826,37 +1026,53 @@
                 </div>
                 <article class="content dashboard-page">
                     <ul class="nav nav-tabs" style="margin-top:-4cm;">
-                        <li class="active"><a data-toggle="tab" href="#fromDB">From Database</a>
+                        <li class="active"><a data-toggle="tab" href="#fromSurveys">From Surveys</a>
+                        </li>
+                        <li id="liDB" onclick="forDB();"><a data-toggle="tab" href="#fromDB">From Database</a>
                         </li>
                         <li><a data-toggle="tab" href="#manualInput">Manual Input</a>
                         </li>
                     </ul>
 
                     <div class="tab-content">
-                        <div id="fromDB" class="tab-pane fade in active">
+                        <div id="fromSurveys" class="tab-pane fade in active">
+                        <br>
+                       		<h3>Import From Upcoming Surveys</h3>
+                           
+                           	<div class="form-group" id = "divSurveyInstitutionForm">
+								<label for="institutionSurveyForm">Step 1: Choose an institution: </label>
+								<select class="form-control underlined chosen-select" data-placeholder="Choose an Institution" id="institutionSurveyForm" style="background: transparent;">
+								</select>
+							</div>
+							
+							<div class="form-group" id = "divSurveyForm">
+								<label for="selectSurveyForm">Step 2: Choose a survey from the institution: </label>
+								<select class="form-control underlined chosen-select" data-placeholder="Choose a survey" id="selectSurveyForm" style="background: transparent;">
+								</select>
+							</div>
+							<label>Step 3: Input signature fields: </label>
+							<br>
+							<p style="display: inline-block;">Sincerely Yours,</p>
+                               	<br>
+                            	<input style="width: 20%;" placeholder="Signed By" id="signperson2">							
+								<br>
+								<input style="width: 20%;" placeholder="Position" id="signposition2">							
+								<br>
+								<br>
+							
+							<label>Step 4: Click on 'Download PDF' to download the invitation letter. Button will show once a survey is chosen.</label>
+							<br>
+                            
+							<div id="divSurveyButton">
+							</div>
+								 
+								
+							
+                        </div>
+                        <div id="fromDB" class="tab-pane fade">
                         <br>
                             <h3>Import From Database</h3>
                             
-                            	<%-- <div class="form-group">
-									<label for="accreditorForm">Accreditor: </label>
-		                            <br>
-		                            <select class="form-control underlined chosen-select" data-placeholder="Choose an Accreditor..." id="accreditorForm" style="background: transparent;">
-	                         		    <option ></option>
-									    
-		                         		<c:forEach var="acc" items="${accreditors}">
-									        <option value="${acc.getAccreditorID()}">${acc.getHonorifics()}. ${acc.getFirstName()} ${acc.getLastName()} </option>
-									    </c:forEach> 
-									</select> 
-								</div> --%>
-									<%-- <label for="institutionForm">Institution: </label>
-		                            <br>
-		                            <select class="form-control underlined chosen-select" data-placeholder="Choose an Institution..." id="institutionForm" style="background: transparent;">
-		                         	       <option ></option>
-									
-		                         	    <c:forEach var="inst" items="${institutions}">
-									        <option value="${inst.getInstitutionID()}">${inst.getName()} - ${inst.getCity()} - ${inst.getEducLevel()} </option>
-									    </c:forEach>
-									</select> --%>
 								<div class="form-group" id = "divInstitutionForm">
 									<label for="institutionForm">Institution to survey:</label>
 									<select class="form-control underlined chosen-select" data-placeholder="Choose an Institution..." id="institutionForm" style="background: transparent;">
@@ -907,32 +1123,34 @@
 									<hr>
 									
                                 	
-                                	<input style="width: 30%;" placeholder="Recepient" id="recepient1">	
+                                	<input style="width: 30%;" placeholder="Recipient" id="recipient1">	
 									<br>						
-									<input style="width: 30%;" placeholder="Recepient Position" id="recepientpos1">							
+									<input style="width: 30%;" placeholder="Recipient Position" id="recipientpos1">							
 									<br>
 									<input style="width: 30%;" placeholder="Institution Name" id="school1">							
 									<br>
 									<input style="width: 30%;" placeholder="Institution City" id="city1">		
                                 	
                                 	<br><br>
-									<p style="display: inline-block;">Dear &nbsp;</p><input style="width: 20%;" placeholder="Recepient" id="recepient-1"><p style="display: inline-block;">: &nbsp;</p>	
+									<p style="display: inline-block;">Dear &nbsp;</p><input style="width: 20%;" placeholder="Recipient" id="recipient-1"><p style="display: inline-block;">: &nbsp;</p>	
 									<br>
 									<br>
 									
-									<p style="display: inline-block;">We are pleased to confirm the Preliminary Survey Visit to the </p>
-									<br>
+									<p style="display: inline-block;">We are pleased to confirm the</p>
+									
+									<input style="width: 30%;" placeholder="Survey Type" id="surveytype1">
+									
+									<p style="display: inline-block;">Visit to the </p>
 									<div id="divDept1">
-										<input style="width: 100%;" placeholder="Department" id="dept1">
+										<input style="width: 30%;" placeholder="Department" id="dept1">
 									</div>
-									<br>
 									<div id="divProg1" style="visibility: hidden;">
-										<input style="width: 100%;" placeholder="Program(s)" id="prog1">
+										<input style="width: 30%;" placeholder="Program(s)" id="prog1">
 									</div>
 									
 									
 									<p style="display: inline-block;">&nbsp; of &nbsp;</p>
-									<input style="width: 40%;" placeholder="Institution Name" id="surveyschool1">
+									<input style="width: 30%;" placeholder="Institution Name" id="surveyschool1">
 									<p style="display: inline-block;">, &nbsp;</p>
 									<input style="width: 20%;" placeholder="Institution City" id="schoolcity1">
 									<p style="display: inline-block;">&nbsp; from &nbsp;</p>
@@ -1011,6 +1229,7 @@
 							    <input type="text" id="city" value="" placeholder="City"> City<br>
 							
 							    <br>
+							    <input type="text" id="surveytype" value="" placeholder="Survey Type"><br>							    
 							    <input type="text" id="surveyschool" value="" placeholder="Survey School"><br>
 							    <input type="text" id="schoolcity" value="" placeholder="School City"> City<br><br>
 							    <input type="text" id="program" value="" placeholder="Program(s) (Ex. Bachelor of Arts in Animation)"><br>

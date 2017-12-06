@@ -5,8 +5,12 @@
 
 <html class="no-js" lang="en">
 
+    
     <head>
-	<!-- IMPORTS -->
+<!-- IMPORTS -->
+
+	<link rel="stylesheet" href="css/main.css"/>
+    
     <script src='js/jquery.min.js'></script>
 <!--     <script src='js/jquery-ui.min.js'></script> -->
     <link rel="stylesheet" href="css/bootstrap.css">
@@ -24,6 +28,11 @@
 <!--  	<link title="timeline-styles" rel="stylesheet" href="css/timeline.css"> -->
  	<script src="js/bootstrap-datepicker.min.js"></script>
  	<link rel="stylesheet" href="css/bootstrap-datepicker.css">
+ 	<script id="google_map_api_script" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVizdQeh3udy11xDc5Ao2YStR2gLc-rfc&v=3.exp&libraries=places"></script>
+    <script type="text/javascript" src="js/map.js"></script>
+    
+    
+    
 <!-- 	<link title="timeline-styles" rel="stylesheet" href="css/datepicker.css"> -->
 	<!-- END IMPORTS -->
         <!-- Theme initialization -->
@@ -41,14 +50,30 @@
             }
             </script>
 
+		<script>
+        function autocomplete(){
+        var input = document.getElementById('street_address');
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        }
+        google.maps.event.addDomListener(window, 'load', autocomplete);
+    </script>
+    
 <script >	
 
 $(document).ready(function() {
 	getSystems();
+
 	var systemForm = document.getElementById('systemForm');
 	/* initialize the external events
 	-----------------------------------------------------------------*/
-
+	$('#street_address').bind('input', function() { 
+		  $('.pac-container').css("top", "200px"); 
+		//$('.pac-container').remove();
+	    
+	    // get the current value of the input field.
+	});
+	
 
 	$('#systemForm').chosen().change(function(){
 		document.getElementById('ssID').value= $('#systemForm').find(":selected").val();
@@ -260,7 +285,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
     </head>
 
-    <body>
+    <body onLoad="initialize(${inst.getLatitude()}, ${inst.getLongitude()});" class="frontend">
     	 
         <div class="main-wrapper">
       				
@@ -337,7 +362,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 											<h3 class="title">
 							Edit Institution Form
 						</h3> </div>
-											<div class="form-group">
+					<div class="form-group">
   						<label for="sel1">School System:</label><br>
   						<select class="form-control underlined chosen-select" data-placeholder="Choose a System..." id="systemForm" style="background: transparent;" name="ssName">
 							 				
@@ -371,6 +396,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 							<br><br><br>			
 							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Position of the Contact Person</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. Chairman" name="contactPosition" value="${inst.getContactPosition()}"> </div>
 							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Email of Contact Person</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="e.g. person@email.com" name="contactEmail" value="${inst.getContactEmail()}"> </div>
+							<br><br>
+							<label>Coordinates: Search for the coordinates (longitude and latitude) in the map below.</label>		
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Latitude</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="Search for the latitude" name="latitude" value="${inst.getLatitude()}"> </div>
+							<div class="form-group"  style="width:48%; padding-right"> <label class="control-label">Longitude</label> <input type="text" class="form-control underlined" style="width:90%;" placeholder="Search for the longitude" name="longitude" value="${inst.getLongitude()}"> </div>
+			
 					</div>
 				</div>
 
@@ -383,7 +413,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 <!-- 									</button> -->
 									
 									<button type="submit" class="btn btn-info" alert('Successfully edited Institutions!');location.href = 'institutions.jsp';"  style="float:right; padding-right:15px;">
-									Submit Only
+									Submit
 									</button>
 								</div>
 						</div>
@@ -391,8 +421,27 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 				   </section>
 				   
 				   </form>
-					
-				  
+					<section class="container clearfix" style="max-width: 800px;">
+			            <div id="map_container" class="clearfix">
+			                <div id="search_street_container" class="col-md-12">
+			                    <form id="frm_show_address" name="frm_show_address" action="#"
+			                          class="fromAddress printHidden row">
+			                        <div class="col-md-9 col-sm-8 col-xs-8">
+			                            <input id="street_address" name="street_address" type="text" class="textBefore vpsClearOnFocus" placeholder="House number, Street, City etc..." />
+			                        </div>
+			                        
+			                        <div class="col-md-2 col-sm-4 col-xs-10">
+			                            <input type="submit" value="Show Location" class="submitOn"/>
+			                            <div class="clear"></div>
+			                        </div>
+			                    </form>
+			                </div>
+			                <div id="map_canvas_container" class="container maps_divs col-md-12">
+			                    <div id="map_canvas"></div>
+			                </div>
+			                <div class="mapDir"></div>
+			            </div>
+					</section>
                 </article>
              
              
@@ -408,6 +457,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
        </div></div>
         <script src="js/app.js"></script>
 		
+		<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	
+	  ga('create', 'UA-2613916-1', 'auto');
+	  ga('send', 'pageview');
+
+		</script>
 		
 		</body>
 

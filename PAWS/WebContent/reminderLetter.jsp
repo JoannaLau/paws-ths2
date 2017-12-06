@@ -75,8 +75,11 @@
             var surveyschool = $('#surveyschool').val()
             var schoolcity = $('#schoolcity').val()
             schoolcity = schoolcity + " City"
-            var todate = $('#todate').val()
+            
+            var to = $("#todate").val().split("-");
 
+            var todate = new Date(to[0], to[1]-1, to[2]).getFormatDate().toString();
+            
             var signperson = $('#signperson').val()
             var signposition = $('#signposition').val()
 
@@ -105,11 +108,11 @@
               doc.text(20, 55, textDate) 
 
               doc.setFontType("bold");
-              var recipient = $('#recepient1').val()
+              var recipient = $('#recipient1').val()
               doc.text(20, 70, recipient)
 
               doc.setFontType("normal");
-              var recipientpos = $('#recepientpos1').val()
+              var recipientpos = $('#recipientpos1').val()
               doc.text(20, 75, recipientpos)
               var school = $('#school1').val()
               doc.text(20, 80, school)
@@ -146,8 +149,11 @@
 		   	  var surveyschool = $('#surveyschool1').val()
               var schoolcity = $('#schoolcity1').val()
               schoolcity = schoolcity + " City"
-              var todate = $('#todate1').val()
-			
+            
+            
+	          var to = $("#todate1").val().split("-");
+	          var todate = new Date(to[0], to[1]-1, to[2]).getFormatDate().toString();
+              
  	          var addNotes = $('#addNotes1').val()
               var signperson = $('#signperson1').val()
               var signposition = $('#signposition1').val()
@@ -170,8 +176,63 @@
 
       </script>
     <script>
-    
-	    $(document).ready(function() {
+		    $(document).ready(function() {
+				    	
+			$('#institutionSurveyForm').chosen().change(function(){
+							
+				var institutionID = $('#institutionSurveyForm').find(":selected").val();
+				
+				$.getJSON("InstitutionForInvitationLoader?institutionID=" + institutionID, function(data){
+
+					$.each(data, function (key, value) {
+						
+						var schoolFromLoader = value.name;
+						var cityFromLoader = value.city;
+						var headFromLoader = value.head;
+						var headPosiFromLoader = value.hPosition;
+						
+						document.getElementById("recipient1").value = headFromLoader;
+						document.getElementById("recipient-1").value = headFromLoader;
+						document.getElementById("school1").value = schoolFromLoader;
+						document.getElementById("city1").value = cityFromLoader;
+						document.getElementById("recipientpos1").value = headPosiFromLoader;
+					    
+			    	});
+				});
+				
+				
+
+				$('#divPrograms').empty();
+	
+				var institutionID = $('#institutionSurveyForm').find(":selected").val();
+				$.getJSON("NextSurveyProgramsLoader?instID=" + institutionID, function(data){
+					var objToday = new Date();
+					
+					var h5 = document.createElement("b");
+					h5.innerHTML = 'Programs that are scheduled to be surveyed in the year ' + (objToday.getFullYear() + 1).toString();
+				    document.getElementById("divPrograms").append(h5);
+				    
+					$.each(data, function (key, value) {
+						
+						var h5 = document.createElement("h6");
+						var br = document.createElement("br");
+						h5.innerHTML = value.degreeName + " - Next Survey Schedule on " + value.nextSched;
+						h5.setAttribute("style", "padding-left: 15px;");
+					    document.getElementById("divPrograms").append(h5);
+					    
+					  	if(document.getElementById("dept1").value == "")
+				  		{
+						    document.getElementById("dept1").value = value.degreeName;
+				  		}
+					  	else
+					  	{
+					  		document.getElementById("dept1").value = document.getElementById("dept1").value + ", " + value.degreeName;
+				  		}
+					  	
+					    
+			    	});
+				});
+			});
 	    	$('#institutionForm').chosen().change(function(){
 				
 				$('#divProgramForm').empty();
@@ -187,18 +248,17 @@
 
 						var educLevelFromLoader = value.educLevel;
 						
-						document.getElementById("recepient1").value = headFromLoader;
-						document.getElementById("recepient-1").value = headFromLoader;
+						document.getElementById("recipient1").value = headFromLoader;
+						document.getElementById("recipient-1").value = headFromLoader;
 						document.getElementById("school1").value = schoolFromLoader;
 						document.getElementById("city1").value = cityFromLoader;
-						document.getElementById("recepientpos1").value = headPosiFromLoader;
-						document.getElementById("dept1").value = educLevelFromLoader + " Department";
+						document.getElementById("recipientpos1").value = headPosiFromLoader;
 			    	});
 					
 					
 					
 		    	
-			});
+				});
 				
 				$.getJSON("ProgramLoader?institutionID=" + institutionID, function(data){
 				    if ( data.length == 0 ) {
@@ -256,13 +316,36 @@
 			
 			});
 		    getInstitutions();
+		    getInstitutionsNextSurvey();
 		    
 		});
 	    
+
+	    function getInstitutionsNextSurvey(){
+	    	var obj = document.getElementById('institutionSurveyForm');
+			
+			$.getJSON("NextSurveyInstitutionsLoader", function(data){
+				
+				var option = document.createElement("option");
+				option.text = "";
+				option.value = 0;
+				obj.add(option);
+				$.each(data, function (key, value){
+					
+					var option = document.createElement("option");
+					option.text = value.institutionName + " - " + value.city;
+					option.value = value.institutionID;
+					obj.add(option);
+					
+				});	
+				$('#institutionSurveyForm').trigger("chosen:updated");
+			});
+			
+		}
+	    
 	    
 	    function getInstitutions(){
-	    	//GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
-			var obj = document.getElementById('institutionForm');
+	    	var obj = document.getElementById('institutionForm');
 			
 			$.getJSON("InvitationInstitutionsLoader", function(data){
 				
@@ -273,7 +356,7 @@
 				$.each(data, function (key, value){
 					
 					var option = document.createElement("option");
-					option.text = value.institutionName + " - " + value.city + " - " + value.educLevel;
+					option.text = value.institutionName + " - " + value.city;
 					option.value = value.institutionID;
 					obj.add(option);
 					
@@ -443,42 +526,43 @@
                 </div>
                 <article class="content dashboard-page">
                     <ul class="nav nav-tabs" style="margin-top:-4cm;">
-                        <li class="active"><a data-toggle="tab" href="#fromDB">From Database</a>
+                        <li class="active"><a data-toggle="tab" href="#fromSurveys">From Survey Schedules</a>
                         </li>
                         <li><a data-toggle="tab" href="#manualInput">Manual Input</a>
                         </li>
                     </ul>
 
                     <div class="tab-content">
-                        <div id="fromDB" class="tab-pane fade in active">
+                    	<div id="fromSurveys" class="tab-pane fade in active">
                         <br>
-                            <h3>Import From Database</h3>
+                            <h3>Import From Next Survey Schedules</h3>
                             
-                            	
-								<div class="form-group" id = "divInstitutionForm">
-									<label for="institutionForm">Institution to survey:</label>
-									<select class="form-control underlined chosen-select" data-placeholder="Choose an Institution..." id="institutionForm" style="background: transparent;">
+                          		<div class="form-group" id = "divInstitutionForm">
+									<label for="institutionSurveyForm">Step 1: Choose an institution: </label>
+									<select class="form-control underlined chosen-select" data-placeholder="Choose an Institution..." id="institutionSurveyForm" style="background: transparent;">
 									</select>
 								</div>
-								<div class="form-group" id="divProgramForm">
+								<div class="form-group" id="divPrograms">
 									
 								</div>
+								
+								<br>
+								<br>
+								<label>Step 2: Confirm auto-generated data on text fields: </label>
+								
 								<div class="form-group" id="textFields">
-									<br>
-									<br>
-									<br>
 									<h5>Edit Text Fields</h5>
 									<hr>
-									<input style="width: 30%;" placeholder="Recepient" id="recepient1">	
+									<input style="width: 30%;" placeholder="Recipient" id="recipient1">	
 									<br>						
-									<input style="width: 30%;" placeholder="Recepient Position" id="recepientpos1">							
+									<input style="width: 30%;" placeholder="Recipient Position" id="recipientpos1">							
 									<br>
 									<input style="width: 30%;" placeholder="Institution Name" id="school1">							
 									<br>
 									<input style="width: 30%;" placeholder="Institution City" id="city1">		
                                 	
                                 	<br><br>
-									<p style="display: inline-block;">Dear &nbsp;</p><input style="width: 20%;" placeholder="Recepient" id="recepient-1"><p style="display: inline-block;">: &nbsp;</p>	
+									<p style="display: inline-block;">Dear &nbsp;</p><input style="width: 20%;" placeholder="Recipient" id="recipient-1"><p style="display: inline-block;">: &nbsp;</p>	
 									<br>
 									<br>							
 											
@@ -523,8 +607,8 @@
                              	<button class ="btn btn-info btn-sm" onclick="genPDFDB()">Download PDF</button>
                              
 							
-							
                         </div>
+                       
                         <div id="manualInput" class="tab-pane fade">
                         	<br>
                             <h3>Manual Input</h3>

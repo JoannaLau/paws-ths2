@@ -38,6 +38,9 @@ public class AddInstitution extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		InstitutionsUtil instUtil = new InstitutionsUtil();
+		
+		
 		String ssID="";
 		if(request.getParameter("noSS")=="on")
 		{
@@ -78,15 +81,17 @@ public class AddInstitution extends HttpServlet {
 		
 		String membershipDate = request.getParameter("membershipDate");
 		
-		int educLevel = 0;
+		
+		if(request.getParameter("longitude")!="" && request.getParameter("latitude")!="")
+		{
+			Double lng = Double.parseDouble(request.getParameter("longitude"));
+			Double lat = Double.parseDouble(request.getParameter("latitude"));
+			instUtil.addInstitutionLngLat(ssID, institutionName, institutionAcronym,  address, city, country, website, contactNumber, fax, institutionHead, position, headEmail, contactPerson, contactPosition, contactEmail, membershipDate, lng, lat);
+		}
+		else
+			instUtil.addInstitution(ssID, institutionName, institutionAcronym,  address, city, country, website, contactNumber, fax, institutionHead, position, headEmail, contactPerson, contactPosition, contactEmail, membershipDate);
 		
 		
-		
-		
-				
-		InstitutionsUtil instUtil = new InstitutionsUtil();
-		instUtil.addInstitution(ssID, institutionName, institutionAcronym,  address, city, country, website, contactNumber, fax, institutionHead, position, headEmail, contactPerson, contactPosition, contactEmail, membershipDate, educLevel);
-		System.out.println(ssID+"SSID");
 		RequestDispatcher rd = request.getRequestDispatcher("Institutions");
 		rd.forward(request, response);
 	}

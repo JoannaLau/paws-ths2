@@ -43,7 +43,7 @@ public class InstitutionsEducLevelLoader extends HttpServlet {
 		
 		int levelID = Integer.parseInt(request.getParameter("educLevelID"));
 		
-		jArray = insUtil.getInstitutionsForLevelJSON(levelID);
+		//jArray = insUtil.getInstitutionsForLevelJSON(levelID);
 		
 		response.getWriter().write(jArray.toString());	
 	}

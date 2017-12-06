@@ -1,4 +1,4 @@
-package InvitationLoaders;
+package LetterGenerationLoaders;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -12,16 +12,16 @@ import org.json.JSONArray;
 import Utilities.InstitutionsUtil;
 
 /**
- * Servlet implementation class SurveyDetailsLoader
+ * Servlet implementation class NextSurveyInstitutionsLoader
  */
-@WebServlet("/SurveyDetailsLoader")
-public class SurveyDetailsLoader extends HttpServlet {
+@WebServlet("/NextSurveyInstitutionsLoader")
+public class NextSurveyInstitutionsLoader extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SurveyDetailsLoader() {
+    public NextSurveyInstitutionsLoader() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,10 +34,7 @@ public class SurveyDetailsLoader extends HttpServlet {
 		response.setContentType("application/json");
 		JSONArray jArray = new JSONArray();
 		InstitutionsUtil instUtil = new InstitutionsUtil();
-		int date = Integer.parseInt(request.getParameter("date"));
-		int ID = Integer.parseInt(request.getParameter("institutionID"));
-		
-		jArray = instUtil.getSurveysOfInstitutionJSON(ID, date);
+		jArray = instUtil.getNextSurveyInstitutions();
 		response.getWriter().write(jArray.toString());
 	}
 

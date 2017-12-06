@@ -41,7 +41,11 @@
 		</script>
 
       <script type="text/javascript">
+      		function forDB(){
 
+			   	$('#accreditorForm_chosen').width('95%');
+			   	$('#institutionForm_chosen').width('95%');
+		   }
           function genPDF() {
 
             var doc = new jsPDF()
@@ -69,15 +73,22 @@
             var surveyschool = $('#surveyschool').val()
             var schoolcity = $('#schoolcity').val()
             schoolcity = schoolcity + " City"
-            var startdate = $('#fromdate').val()
-            var todate = $('#todate').val()
+            
+            var from = $("#fromdate").val().split("-");
 
+            var startdate = new Date(from[0], from[1]-1, from[2]).getFormatDate().toString();
+            
+            var to = $("#todate").val().split("-");
+
+            var todate = new Date(to[0], to[1]-1, to[2]).getFormatDate().toString();
+            
+            var type = $('#surveytype').val()
             var signperson = $('#signperson').val()
             var signposition = $('#signposition').val()
 
             doc.text(20, 110, "Dear " + recipient)
 
-            var paragraph="Thank you for accepting our invitation to join the Resurvey Team to "+surveyschool+", "+schoolcity+" on "+startdate+" to "+todate+".\n\nEnclosed are the materials you need in evaluating the institution. Attached is a copy of the team line-up. \n\nIf there is anything else you need, please let us know. \n\nWarmest regards.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
+            var paragraph="Thank you for accepting our invitation to join the " + type + " Team to "+surveyschool+", "+schoolcity+" on "+startdate+" to "+todate+".\n\nEnclosed are the materials you need in evaluating the institution. Attached is a copy of the team line-up. \n\nIf there is anything else you need, please let us know. \n\nWarmest regards.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
             
             lines = doc.splitTextToSize(paragraph, 175)
 
@@ -116,6 +127,7 @@
               var schoolcity = $('#schoolcity1').val()
               schoolcity = schoolcity + " City"
 
+              var type = $('#surveytype1').val()
 
               var from = $("#fromdate1").val().split("-");
 
@@ -130,7 +142,7 @@
 
               doc.text(20, 110, "Dear " + recipient + ":")
 
-              var paragraph="Thank you for accepting our invitation to join the Resurvey Team to "+surveyschool+", "+schoolcity+" on "+startdate+" to "+todate+".\n\nEnclosed are the materials you need in evaluating the institution. Attached is a copy of the team line-up. \n\nIf there is anything else you need, please let us know. \n\nWarmest regards.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
+              var paragraph="Thank you for accepting our invitation to join the " + type + " Team to "+surveyschool+", "+schoolcity+" on "+startdate+" to "+todate+".\n\nEnclosed are the materials you need in evaluating the institution. Attached is a copy of the team line-up. \n\nIf there is anything else you need, please let us know. \n\nWarmest regards.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
               
               lines = doc.splitTextToSize(paragraph, 175)
 
@@ -144,10 +156,119 @@
               doc.save(filename);
             }
 
+          function genPDFSurvey() {
+        	  var PSID = $('#selectSurveyForm').find(":selected").val();
+        	  $.getJSON("ThankYouSurveyDetailsLoader?PSID=" + PSID + "&instID=" + $('#institutionSurveyForm').find(":selected").val(), function(data){
+					$.each(data, function (key, value){
+						
+						var instName = value.instName;
+						var city = value.city + " City";
+						
+						alert(value.accName);
+						var accName = value.accName;
+						var position = value.position;
+						var placePos = value.placeOfPosition;
+						
+						
+						var degreeName = value.degreeName;
+						var startdate = value.startDate;
+						var todate = value.endDate;
+						var type = value.type;
+						
+						if(!type.includes("survey"))
+						{
+							type = type + " Survey";
+						}
+						
+						
+
+			              var doc = new jsPDF()
+			            
+			              doc.setFontSize(12)
+			              doc.text(20, 70, textDate) 
+
+			              doc.setFontType("bold");
+			              doc.text(20, 85, accName);
+
+			              doc.setFontType("normal");
+			              
+			              if(value.position != "")
+			              {
+			            	  var recipientpos = position + ", " + placePos;
+				              doc.text(20, 90, recipientpos)
+			              }
+			              
+			              if(value.instName != "")
+		            	  {
+			            	  doc.text(20, 95, instName)
+				              doc.text(20, 100, city)
+		            	  }
+			              
+			              var surveyschool = $('#institutionSurveyForm').find(":selected").text();
+			              var schoolcity = surveyschool + " City";
+			              
+			              var signperson = $('#signperson2').val()
+			              var signposition = $('#signposition2').val()
+
+			              doc.text(20, 110, "Dear " + accName + ":")
+
+			              var paragraph="Thank you for accepting our invitation to join the " + type + " Team to "+schoolcity+" on "+startdate+" to "+todate+".\n\nEnclosed are the materials you need in evaluating the institution. Attached is a copy of the team line-up. \n\nIf there is anything else you need, please let us know. \n\nWarmest regards.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
+			              
+			              lines = doc.splitTextToSize(paragraph, 175)
+
+			              doc.text(20, 120, lines)
+
+			              doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50)
+			              doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50)
+
+			              var filename = accName + " Thank You Before Survey " + todayDateInput + ".pdf";
+
+			              doc.save(filename);
+							
+						});
+					});
+        	  
+          }
     	</script>
    		<script>
     
 	    $(document).ready(function() {
+	    	
+
+			$('#institutionSurveyForm').chosen().change(function(){
+								
+				$('#selectSurveyForm').empty();
+				var institutionID = $('#institutionSurveyForm').find(":selected").val();
+				
+				
+			
+				$.getJSON("SurveyDetailsLoader?institutionID=" + institutionID + "&date=" + getDateToday(), function(data){
+					var obj = document.getElementById('selectSurveyForm');
+					
+					if ( data.length > 0 ) {
+				    	var option = document.createElement("option");
+						option.text = "";
+						option.value = 0;
+						obj.add(option);
+								
+						$.each(data, function (key, value){
+							
+							var option = document.createElement("option");
+							option.text = value.type + " - " +  value.degreeName + " - " + value.startDate + " to " + value.endDate;
+							option.value = value.PSID;
+							obj.add(option);
+							
+							
+						});	
+						$('#selectSurveyForm').trigger("chosen:updated");
+				    }
+				});
+			});
+	    	
+			$('#selectSurveyForm').chosen().change(function(){
+				$("#divSurveyButton").html("<button class ='btn btn-info btn-sm' onclick='genPDFSurvey()'>Download PDF</button>");
+			});
+	    	
 	    	$('#institutionForm').chosen().change(function(){
 	    		
 	    		var institutionID = $('#institutionForm').find(":selected").val();
@@ -193,13 +314,38 @@
 				
 			});
 		    
-		    getInstitutions();
+		    getInstitutionsDB();
+		    getInstitutionsSurvey();
 		    getAccreditors();
 		    
 		});
 	    
+
+		function getInstitutionsSurvey()
+		{
+			var obj = document.getElementById('institutionSurveyForm');
+			
+			var dateToday = getDateToday();
+				
+			$.getJSON("InstitutionInSurveysLoader?date=" + dateToday, function(data){
+				var option = document.createElement("option");
+				option.text = "";
+				option.value = 0;
+				obj.add(option);
+				
+				$.each(data, function (key, value){
+					var option = document.createElement("option");
+					option.text = value.institutionName + " - " + value.city;
+					option.value = value.institutionID;
+					obj.add(option);
+					
+				});	
+				$('#institutionSurveyForm').trigger("chosen:updated");
+			});
+		}
 	    
-	    function getInstitutions(){
+	    
+	    function getInstitutionsDB(){
 	    	//GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
 			var obj = document.getElementById('institutionForm');
 			
@@ -245,6 +391,29 @@
 			});
 			
 		}
+	    
+	    
+	    function getDateToday()
+	    {
+	    	var obj = document.getElementById('institutionSurveyForm');
+			
+			var objToday = new Date();
+
+			var month = (objToday.getMonth()+1);
+			
+			if(month < 10)
+				month = '0' + month;
+			
+			var day = (objToday.getDate());
+			
+			if(day < 10)
+				day = '0' + day;
+			
+			var dateToday = objToday.getFullYear().toString() + "" +  month.toString() + "" + day.toString();
+			
+			return dateToday;
+	    }
+	    
 	    
 	    Date.prototype.getFormatDate = function() {
 	        var monthNames = [ "January", "February", "March", "April", "May", "June", 
@@ -404,14 +573,48 @@
                 </div>
                 <article class="content dashboard-page">
                     <ul class="nav nav-tabs" style="margin-top:-4cm;">
-                        <li class="active"><a data-toggle="tab" href="#fromDB">From Database</a>
+                        <li class="active"><a data-toggle="tab" href="#fromSurveys">From Surveys</a>
+                        </li>
+						<li id="liDB" onclick="forDB();"><a data-toggle="tab" href="#fromDB">From Database</a>
                         </li>
                         <li><a data-toggle="tab" href="#manualInput">Manual Input</a>
                         </li>
                     </ul>
 
                     <div class="tab-content">
-                        <div id="fromDB" class="tab-pane fade in active">
+                        <div id="fromSurveys" class="tab-pane fade in active">
+                        <br>
+                            <h3>Import From Upcoming Surveys</h3>
+                            
+                           	<div class="form-group" id = "divSurveyInstitutionForm">
+								<label for="institutionSurveyForm">Step 1: Choose an institution: </label>
+								<select class="form-control underlined chosen-select" data-placeholder="Choose an Institution" id="institutionSurveyForm" style="background: transparent;">
+								</select>
+							</div>
+							
+							<div class="form-group" id = "divSurveyForm">
+								<label for="selectSurveyForm">Step 2: Choose a survey from the institution: </label>
+								<select class="form-control underlined chosen-select" data-placeholder="Choose a survey" id="selectSurveyForm" style="background: transparent;">
+								</select>
+							</div>
+							<label>Step 3: Input signature fields: </label>
+							<br>
+							<p style="display: inline-block;">Sincerely Yours,</p>
+                               	<br>
+                            	<input style="width: 20%;" placeholder="Signed By" id="signperson2">							
+								<br>
+								<input style="width: 20%;" placeholder="Position" id="signposition2">							
+								<br>
+								<br>
+							
+							<label>Step 4: Click on 'Download PDF' to download the invitation letter. Button will show once a survey is chosen.</label>
+							<br>
+                            
+							<div id="divSurveyButton">
+							</div>
+							
+                        </div>
+                        <div id="fromDB" class="tab-pane fade">
                         <br>
                             <h3>Import From Database</h3>
                             
@@ -466,7 +669,9 @@
 									
 									<br>
 									<br>
-									<p style="display: inline-block;">Thank you for accepting our invitation to join the Resurvey Team to &nbsp;</p>
+									<p style="display: inline-block;">Thank you for accepting our invitation to join the</p>
+									<input style="width: 30%;" placeholder="Survey Type" id="surveytype1">
+									<p>Team to &nbsp;</p>
 									<input style="width: 30%;" placeholder="Institution Name" id="surveyschool1">
 									
 									<p style="display: inline-block;">&nbsp; ,&nbsp;</p>
@@ -515,6 +720,8 @@
 						    <input type="text" id="city" value="" placeholder="City"> City<br>
 						
 						    <br><br>
+						    
+   						    <input type="text" id="surveytype" value="" placeholder="Survey Type"><br>
 						    <input type="text" id="surveyschool" value="" placeholder="Survey School"><br>
 						    <input type="text" id="schoolcity" value="" placeholder="School City"> City<br><br>
 						    <label for="fromdate" id="fromdatelabel"></label><br>

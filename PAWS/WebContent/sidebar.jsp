@@ -82,10 +82,12 @@
 				</li>
 				
 				<li>
-					<a href="#board" data-toggle="collapse" > <i class="fa fa fa-users"></i> Web Members <i class="fa arrow"></i> </a>
+					<a href="#board" data-toggle="collapse" > <i class="fa fa fa-users"></i> Web Database <i class="fa arrow"></i> </a>
 					<ul id="board" class="collapse">
 						<li> <a href="BoardMembers">Board Members</a> </li>
 						<li> <a href="CommissionMembers">Commission Members</a> </li>
+						<li> <a href="WebInstitutions">Institutions</a> </li>
+						
 					</ul>
 				</li>
 				

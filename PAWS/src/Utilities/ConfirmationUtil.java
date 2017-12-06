@@ -15,12 +15,6 @@ public class ConfirmationUtil {
 	public ConfirmationUtil(){
 		db = new DBUtil();
 	}
-	private void checkNotif(int accID){
-		
-		
-		
-		
-	}
 	
 	public void confirmAttendance(int PSID,int areaID, int accID){
 				
@@ -94,7 +88,8 @@ public class ConfirmationUtil {
 		
 	}
 	
-public void updateCurrentDecisionBy(String by, int PSID, String boardApproval, String valid_thru){
+	//MODIFIED to allow validUntil in school-program table
+	public void updateCurrentDecisionBy(String by, int PSID, String boardApproval, String valid_thru){
 				
 		try{
 			String queryPortion = "`validThru` =?,";
@@ -105,11 +100,30 @@ public void updateCurrentDecisionBy(String by, int PSID, String boardApproval, S
 			else{
 				queryPortion= "`validThru` ="+valid_thru+",";
 			}
+			
+			String queryPortion2 = "`validUntil` =?,";
+			if(valid_thru==""|| valid_thru == null){
+				queryPortion = "";
+			}
+			else{
+				queryPortion= "`validUntil` ="+valid_thru+",";
+			}
 			PreparedStatement ps = conn.prepareStatement("UPDATE `program-survey` SET `currentDecisionBy` =?, "+queryPortion+"  `boardApprovalDate`=? WHERE  PSID= ?");
 			ps.setString(1, by);
 			ps.setString(2, boardApproval);
 			ps.setInt(3, PSID);
 			ps.executeUpdate();
+			
+			PreparedStatement ps1 = conn.prepareStatement("SELECT sp.SPID FROM `program-survey` ps, `school-program` sp WHERE sp.SPID = ps.SPID AND ps.PSID = ?");
+			ps1.setInt(1, PSID);
+			ResultSet rs = ps1.executeQuery();
+			if(rs.first())
+			{
+				PreparedStatement ps2 = conn.prepareStatement("UPDATE `school-program SET "+queryPortion2+" WHERE SPID = ?");
+				ps2.setInt(1, rs.getInt(1));
+				ps2.executeUpdate();
+			}
+		
 			conn.close();
 			
 		} catch (Exception e){

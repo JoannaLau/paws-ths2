@@ -869,6 +869,7 @@
 
             function addAccreditor(area, program, survey, areaCounter, programCounter, btn) {
                 var add = "";
+                var aff = false;
                 //BUILDING THE ACCREDITOR TABLE SPECIFICALLY TAILORED FOR EACH INSTITUTION - PROGRAM - AREA
                 var accreditors = [];
                 var obj = {};
@@ -886,7 +887,6 @@
                 });
 
                 $('#modalTitle').html('<span class="sr-only">close</span></button><h4 id="modalTitle" class="modal-title"> Adding accreditor for ' + program + " - " + area + '</h4>');
-                add += " *Affiliated accreditors and those of different disciplines are hidden in the table.";
                 add += "<hr>";
                 add += '<div class="table-responsive" style="width:100%; float:right;" id="contenthole">';
                 add += '<table id="smarttable" class="table table-striped table-bordered table-hover">';
@@ -898,10 +898,15 @@
                 var removal = accreditors[accreditors.length - 1].rank;
 
                 for (var i = 0; i < accreditors.length; i++) {
-                    if (accreditors[i].rank == removal) {
+                    if (accreditors[i].rank == -1) {
+                    	aff = true;
+                    	alert("sdadad");
+                    	alert(accreditors[i].accreditorName);
                         removes.push(accreditors[i]);
                     } else {
-                        add += "<tr>";
+                    	alert(accreditors[i].accreditorName);
+                        
+                    	add += "<tr>";
                         add += '<td>' + accreditors[i].accreditorID + '</td>';
                         add += '<td>' + accreditors[i].rank + '</td>';
                         add += '<td>' + accreditors[i].accreditorName + '</td>';
@@ -934,32 +939,37 @@
                     ]
                 });
 
-
-                var removesButton = document.createElement("BUTTON");
-                removesButton.innerHTML = "<i class='fa fa-times-circle' aria-hidden='true' ></i> Show all Accreditors ";
-                removesButton.onclick = function() {
-                    removesButton.parentNode.removeChild(removesButton);
-                    var aff;
-                    for (var j = 0; j < removes.length; j++) {
-                        var t = table.row.add([
-                            removes[j].accreditorID,
-                            removes[j].rank,
-                            removes[j].accreditorName,
-                            removes[j].affiliation,
-                            removes[j].discipline,
-                            removes[j].primaryArea,
-                            removes[j].secondaryArea,
-                            removes[j].tertiaryArea,
-                            removes[j].lastSurveyDate,
-                            removes[j].numberSurveys,
-                            removes[j].city
-                        ]).draw(false);
-                        $(t.node()).addClass('danger');
-                    }
-                };
-
-                $('#modalBody').prepend(removesButton);
-
+				if(aff)
+				{
+            	    var removesButton = document.createElement("BUTTON");
+	                removesButton.innerHTML = "<i class='fa fa-times-circle' aria-hidden='true' ></i> Show all Accreditors ";
+	                removesButton.onclick = function() {
+	                    removesButton.parentNode.removeChild(removesButton);
+	                    var aff;
+	                    for (var j = 0; j < removes.length; j++) {
+	                        var t = table.row.add([
+	                            removes[j].accreditorID,
+	                            removes[j].rank,
+	                            removes[j].accreditorName,
+	                            removes[j].affiliation,
+	                            removes[j].discipline,
+	                            removes[j].primaryArea,
+	                            removes[j].secondaryArea,
+	                            removes[j].tertiaryArea,
+	                            removes[j].numberSurveys,
+	                            removes[j].lastSurveyDate,
+	                            removes[j].city
+	                        ]).draw(false);
+	                        $(t.node()).addClass('danger');
+	                    }
+	                };
+	
+	                var removesInfo = document.createElement("h6")
+	                removesInfo.innerHTML = "*Affiliated accreditors are hidden in the table.";
+	                
+	                $('#modalBody').prepend(removesInfo);
+	                $('#modalBody').prepend(removesButton);
+				}
 
                 //var table = $('#smarttable').DataTable( {} );
 

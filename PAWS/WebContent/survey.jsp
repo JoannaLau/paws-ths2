@@ -20,6 +20,12 @@
 	<script src='calendar/lib/moment.min.js'></script>
 	<script src='calendar/fullcalendar.min.js'></script>
 	
+	
+      <script type="text/javascript" src="js/jspdf.min.js"></script>
+      <script type="text/javascript" src="js/html2canvas.min.js"></script>
+   	  <link type="text/css" rel="stylesheet" href="css/stylestest.css"/>
+   	  <script type="text/javascript" src="js/headerfooter.js"></script>
+   	  
 	<script type="text/javascript" src="js/jspdf.min.js"></script>
 	<!-- END IMPORTS -->
 	
@@ -58,6 +64,415 @@
 
 
 <script>
+	Date.prototype.getMonthName = function() {
+	    var monthNames = [ "January", "February", "March", "April", "May", "June", 
+	                       "July", "August", "September", "October", "November", "December" ];
+	    return monthNames[this.getMonth()];
+	}
+	
+	
+	Date.prototype.getFormatDate = function() {
+	    var monthNames = [ "January", "February", "March", "April", "May", "June", 
+	                       "July", "August", "September", "October", "November", "December" ];
+	    return this.getDate() + ' ' + monthNames[this.getMonth()]+ ' ' + +this.getFullYear();
+	    
+	    
+	}
+	
+	
+	
+	var today = new Date();
+	var textDate = new Date().getFormatDate().toString();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1;
+	var yyyy = today.getFullYear();
+	if (dd < 10) {
+	    dd = '0' + dd;
+	}
+	if (mm < 10) {
+	    mm = '0' + mm;
+	}
+	var today = dd + '/' + mm + '/' + yyyy;
+	var todayDateInput = yyyy + '-' + mm + '-' + dd;
+	var textDateNum = today.toString();
+
+	function genPDFInvitationSurvey(PSID) {
+		
+
+		alert("in invi");
+		$.getJSON("InvitationSurveyDetailsLoader?PSID=" + PSID, function(data){
+			
+			if(data.length > 0)
+			{
+				alert("inside data length");
+				$.each(data, function (key, value){
+					
+					var accName = value.accName;
+					
+					var head = value.head;
+					var hPosition = value.hPosition;
+					var institutionName = value.institutionName;
+					var city = value.city + " City";
+					
+					var degreeName = value.degreeName;
+					var startdate = value.startDate;
+					var todate = value.endDate;
+					var type = value.type;
+					
+					if(!type.includes("survey"))
+						type = type + " Survey";
+					
+					var doc = new jsPDF();
+		            doc.setFontSize(12);
+		            doc.text(20, 70, textDate);
+		            doc.setFontType("bold");
+		            
+		            doc.text(20, 85, head);
+		            doc.setFontType("normal");
+		            
+		            doc.text(20, 90, hPosition);
+		            
+		            doc.text(20, 95, institutionName);
+		            
+		            doc.text(20, 100, city);
+		            
+		            var invited = accName;
+		            
+		           
+		            var surveyschool = value.surveyInst;
+					
+		            var schoolcity = surveyschool + " City";
+		            
+		           /*  var from = $("#fromdate").val().split("-");
+		            var startdate = new Date(from[0], from[1], from[2]).getFormatDate().toString();
+		            
+		            var to = $("#todate").val().split("-");
+		            var todate = new Date(to[0], to[1]-1, to[2]).getFormatDate().toString();
+		            */ 
+		            
+		            var signperson = $('#signperson2').val();
+		            var signposition = $('#signposition2').val();
+		            
+		            doc.text(20, 110, "Dear " + head + ":");
+		            var paragraph = "We have invited " + invited + " to join the " + type + " Team that will visit the " + degreeName + " Department of " + schoolcity + " on " + startdate + " to " + todate + ".\n\nWe will appreciate your making " + invited + " available for the survey. We realize this will take them out of school for some time. However, school visitation can be a most rewarding experience. It is also an opportunity for professional and personal growth.\n\nThank you for sharing our concern for quality education in the country.\n\n\nSincerely yours,\n\n\n" + signperson + "\n" + signposition + "";
+		            lines = doc.splitTextToSize(paragraph, 175);
+		            var img = new Image();
+		            var dataURL;
+		            img.onload = function() {
+		                var canvas = document.createElement('canvas');
+		                canvas.width = img.width;
+		                canvas.height = img.height;
+		                var context = canvas.getContext('2d');
+		                context.drawImage(img, 0, 0);
+		                dataURL = canvas.toDataURL('image/jpeg');
+		            }
+		            doc.text(20, 120, lines);
+		            doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50);
+		            doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50);
+		                // doc.addImage(dataURL, 'JPEG', 20, 20, 75, 75)
+		            var filename = head + " Survey Invitation " + todayDateInput + ".pdf";
+		            doc.save(filename);
+				});	
+				
+			}
+			
+			
+		});
+		
+		
+	}
+	
+	 function genPDFConfirmationSurvey(PSID) {
+	    	
+		 
+			var json =  (function () {
+				alert("inside json");
+        	    var json = null;
+        	    $.ajax({
+        	        'async': false,
+        	        'global': false,
+        	        'url': "GetInstIDFromPSIDLoader?PSID=" + PSID,
+        	        'dataType': "json",
+        	        'success': function (data) {
+        	            json = data;
+        	        }
+        	    });
+        	    return json;
+        	})();
+			
+    		$.getJSON("ConfirmationSurveyDetailsLoader?PSID=" + PSID + "&instID=" + json[0]["instID"], function(data){
+				$.each(data, function (key, value){
+					
+					var accSize = value.accSize;
+
+					var degreeName = value.degreeName;
+					var startdate = value.startDate;
+					var todate = value.endDate;
+					var type = value.type;
+					
+					var chairperson = value.chairperson;
+					
+					if(!type.includes("survey"))
+					{
+						type = type + " Survey";
+					}
+					
+					var head = value.head;
+					var hPosition = value.hPosition;
+					var name = value.name;
+					var city = value.city;
+
+
+		              var doc = new jsPDF();
+
+		              doc.setFontSize(12);
+		              doc.text(20, 55, textDate);
+
+		              doc.setFontType("bold");
+		              doc.text(20, 70, head);
+
+		              doc.setFontType("normal");
+		              doc.text(20, 75, hPosition);
+		              
+		              doc.text(20, 80, name);
+		            
+		              city = city + " City";
+		              doc.text(20, 85, city);
+
+		              
+		              doc.setFontType("bold");
+		              var surveyschool = name;
+		              var schoolcity = surveyschool + " " + city;
+
+		             		              
+		              doc.setFontType("normal");
+		              var signperson = $('#signperson2').val();
+		              var signposition = $('#signposition2').val();
+
+		             
+
+		              doc.text(20, 95, "Dear " + head + ":");
+
+		              var paragraph="\nWe are pleased to confirm the " + type + " Visit to the "+degreeName+" Department of "+schoolcity+" on "+startdate+" to "+todate+".\n\nFrom among the many educators experienced in survey activities, the following have been selected to carry out the evaluation of your institution:\n\n\t\tChairperson :\t"+chairperson+"\n\t\t     Members :\t";
+		              	              
+		              var json = (function () {
+		            	    var json = null;
+		            	    $.ajax({
+		            	        'async': false,
+		            	        'global': false,
+		            	        'url': "AccreditorInSurveyLoader?PSID=" + PSID,
+		            	        'dataType': "json",
+		            	        'success': function (data) {
+		            	            json = data;
+		            	        }
+		            	    });
+		            	    return json;
+		            	})(); 
+		              
+		              
+		              
+		              for(var i = 0; i<json.length; i++)
+	            	  {
+		            	  paragraph = paragraph + json[i]["accName"] + "\n\t\t\t\t              ";
+	            	  }
+		              
+		              
+		              
+		              paragraph = paragraph + "\n\nIn keeping with PAASCU policy, institutions may make representations concerning the composition of the team. However, since the selection already represents a careful balance of experience and expertise, should there be need for adjustment in the composition of the team, reasons for such may be presented in writing to the President by the institution. Failure to hear from you would be interpreted as your being in agreement with the composition of the team. \n\nWe look forward to visiting your institution.\n\n\nSincerely,\n\n\n"+signperson+"\n"+signposition+"";
+		              
+		              lines = doc.splitTextToSize(paragraph, 175);
+
+		              doc.text(20, 100, lines);
+
+		              doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50);
+		              doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50);
+
+		              var filename = head + " Confirmation Letter " + todayDateInput + ".pdf";
+
+		              doc.save(filename);
+						
+					});
+				});
+				 
+	    }
+	
+		 function genPDFThankYouSurvey(PSID) {
+			 
+
+			 alert('adaasd');
+				var json =  (function () {
+					alert("inside json");
+	        	    var json = null;
+	        	    $.ajax({
+	        	        'async': false,
+	        	        'global': false,
+	        	        'url': "GetInstIDFromPSIDLoader?PSID=" + PSID,
+	        	        'dataType': "json",
+	        	        'success': function (data) {
+	        	            json = data;
+	        	        }
+	        	    });
+	        	    return json;
+	        	})();
+				
+				
+	   	  		$.getJSON("ThankYouSurveyDetailsLoader?PSID=" + PSID + "&instID=" + json[0]["instID"], function(data){
+					$.each(data, function (key, value){
+						
+						var instName = value.instName;
+						var city = value.city + " City";
+						
+						alert(value.accName);
+						var accName = value.accName;
+						var position = value.position;
+						var placePos = value.placeOfPosition;
+						
+						
+						var degreeName = value.degreeName;
+						var startdate = value.startDate;
+						var todate = value.endDate;
+						var type = value.type;
+						
+						if(!type.includes("survey"))
+						{
+							type = type + " Survey";
+						}
+						
+						
+	
+			              var doc = new jsPDF()
+			            
+			              doc.setFontSize(12)
+			              doc.text(20, 70, textDate) 
+	
+			              doc.setFontType("bold");
+			              doc.text(20, 85, accName);
+	
+			              doc.setFontType("normal");
+			              
+			              if(value.position != "")
+			              {
+			            	  var recipientpos = position + ", " + placePos;
+				              doc.text(20, 90, recipientpos)
+			              }
+			              
+			              if(value.instName != "")
+		            	  {
+			            	  doc.text(20, 95, instName)
+				              doc.text(20, 100, city)
+		            	  }
+			              
+			              var surveyschool = value.surveyInst;
+			              var schoolcity = surveyschool + " City";
+			              
+			              var signperson = $('#signperson2').val()
+			              var signposition = $('#signposition2').val()
+	
+			              doc.text(20, 110, "Dear " + accName + ":")
+	
+			              var paragraph="Thank you for accepting our invitation to join the " + type + " Team to "+schoolcity+" on "+startdate+" to "+todate+".\n\nEnclosed are the materials you need in evaluating the institution. Attached is a copy of the team line-up. \n\nIf there is anything else you need, please let us know. \n\nWarmest regards.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
+			              
+			              lines = doc.splitTextToSize(paragraph, 175)
+	
+			              doc.text(20, 120, lines)
+	
+			              doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50)
+			              doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50)
+	
+			              var filename = accName + " Thank You Before Survey " + todayDateInput + ".pdf";
+	
+			              doc.save(filename);
+							
+						});
+					});
+	   	  
+	     }
+		 
+		 
+		 function genPDFChairpersonSurvey(PSID) {
+				
+				$.getJSON("ChairpersonSurveyDetailsLoader?PSID=" + PSID, function(data){
+					
+					if(data.length > 0)
+					{
+						$.each(data, function (key, value){
+							
+
+							var instName = value.instName;
+							var city = value.city + " City";
+							
+							alert(value.accName);
+							var accName = value.accName;
+							var position = value.position;
+							var placePos = value.placeOfPosition;
+							
+							
+							var degreeName = value.degreeName;
+							var startdate = value.startDate;
+							var todate = value.endDate;
+							var type = value.type;
+							
+							if(!type.includes("survey"))
+							{
+								type = type + " Survey";
+							}
+							
+							var area = value.area;
+							
+		
+				              var doc = new jsPDF()
+				            
+				              doc.setFontSize(12)
+				              doc.text(20, 55, textDate) 
+		
+				              doc.setFontType("bold");
+				              doc.text(20, 70, accName);
+		
+				              doc.setFontType("normal");
+				              
+				              if(value.position != "")
+				              {
+				            	  var recipientpos = position + ", " + placePos;
+					              doc.text(20, 75, recipientpos)
+				              }
+				              
+				              if(value.instName != "")
+			            	  {
+				            	  doc.text(20, 80, instName)
+					              doc.text(20, 85, city)
+			            	  }
+				              
+				              var surveyschool = value.surveyInst;
+				              var schoolcity = surveyschool + " City";
+				              
+				              var signperson = $('#signperson2').val()
+				              var signposition = $('#signposition2').val()
+
+				            doc.text(20, 95, "Dear " + accName + ": ")
+
+				            var paragraph="\nWe are in the process of forming a Committee for the " + type + " Visit of the "+ degreeName +" Department of "+schoolcity+". The visit has been scheduled on "+startdate+" to "+todate+".\n\nYou have been recommended to serve as Chairperson for the area of "+area+". The school's report and other relevant data will be sent to you as soon as we hear from you.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
+				            
+				            lines = doc.splitTextToSize(paragraph, 175) 
+
+				            doc.text(20, 100, lines)
+
+				            doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50)
+				            doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50)
+
+				            var filename = accName + " Chairperson Letter " + todayDateInput + ".pdf";
+
+				            doc.save(filename);
+						});	
+						
+					}
+					
+					
+				});
+				
+				
+		    }
+		
+		 
 	var past = 'rgb(12, 48, 107)';
 	var complete = 'rgb(0, 119, 29)';
 	var incomplete = 'rgb(91, 9, 9)';
@@ -450,7 +865,11 @@ function formatDate(date) {
 	            
 	            for(var i = 0; i < event.programs.length; i++){
 	            	var PSID = event.programs[i].PSID;
+	            	
+	            	
 		            add += ("<li class='list-group-item'><label id='PSID"+PSID+"'>" + event.programs[i].programName + " - " + event.programs[i].surveyType + " <i id='editIcon' style='position:relative; top:0px;right:-5px;' onclick='editType("+PSID+",\""+ event.programs[i].programName +"\", \"" + event.programs[i].surveyType + "\")' class='fa fa-pencil-square-o'></i></label><button onclick='DeleteProgram(" + PSID + ", this)' class='btn btn-link btn-sm' style='float:right;' data-toggle='tooltip' title='This will delete the whole program currently associated with the visit.'><i class='fa fa-times'></i> Delete</button>");
+		            add += ("<br><button class='btn btn-sm btn-info' onclick='genPDFInvitationSurvey("+ PSID +")'> Generate Invitation Letter </button>&nbsp;<button class='btn btn-sm btn-info' onclick='genPDFConfirmationSurvey("+ PSID +")'> Generate Confirmation Letter </button><br><button class='btn btn-sm btn-info' onclick='genPDFThankYouSurvey("+ PSID +")'> Generate Thank You Letter </button>&nbsp;<button class='btn btn-sm btn-info' onclick='genPDFChairpersonSurvey("+ PSID +")'> Generate Chairperson Letter </button><br>");
+		            add += ("<br><input style='width: 20%;' placeholder='Signed By' id='signperson2'><br><input style='width: 20%;' placeholder='Position' id='signposition2'>");			
 		            add += ("<br><br><table class='table'>");
 		            add += ("<thead><tr><th style='width: 20%;'>Name</th> <th style='width: 40%;'>Area</th> <th style='width: 40%;'>Specify Availability</th></tr></thead>");
 		            add += ("<tbody>"); 
@@ -774,7 +1193,8 @@ function addNewProgram(surveyID, institutionID){
 					var PSID = data;
 					var add = "";
 					add += ("<li class='list-group-item'><label id='PSID"+PSID+"'>" + programName + " - Preliminary <i id='editIcon' style='position:relative; top:0px;right:-5px;' onclick='editType("+PSID+",\""+ programName +"\", \"Preliminary\")' class='fa fa-pencil-square-o'></i></label><button onclick='DeleteProgram(" + PSID + ", this)' class='btn btn-link btn-sm' style='float:right;' data-toggle='tooltip' title='This will delete the whole program currently associated with the visit.'><i class='fa fa-times'></i> Delete</button>");
-				    add += ("<br><br><table class='table'>");
+					add += ("<br><button class='btn btn-sm btn-info' onclick='genPDFInvitationSurvey("+ PSID +")'> Generate Invitation Letter </button>&nbsp;<button class='btn btn-sm btn-info' onclick='genPDFConfirmationSurvey("+ PSID +")'> Generate Confirmation Letter </button><br>&nbsp;<button class='btn btn-sm btn-info' onclick='genPDFThankYouSurvey("+ PSID +")'> Generate Thank You Letter </button>&nbsp;<button class='btn btn-sm btn-info' onclick='genPDFChairpersonSurvey("+ PSID +")'> Generate Chairperson Letter </button><br>");
+		            add += ("<br><br><table class='table'>");
 				    add += ("<thead><tr><th style='width: 20%;'>Name</th> <th style='width: 40%;'>Area</th> <th style='width: 40%;'>Specify Availability</th></tr></thead>");
 				    add += ("<tbody>"); 
 	

@@ -3,6 +3,9 @@ package Models;
 public class SchoolProgram {
 	
 	private int SPID;
+	private int institutionID;
+	private int programID;
+	private int levelID;
 	private String institution;
 	private String level;
 	private String dateAdded;
@@ -16,6 +19,41 @@ public class SchoolProgram {
 	private String currentDecision;
 	private String decisionBy;
 	private String lastSurveyDate;
+	private String validUntil;
+	
+	
+	
+	/*SPID int(11) 
+	programID int(11) 
+	institutionID int(11) 
+	accLevel varchar(45) 
+	dateAdded varchar(20) 
+	nextSurveySched varchar(45) 
+	pendingReports varchar(45) 
+	nextSurveyType varchar(45) 
+	degreeName varchar(45) 
+	levelID int(1)
+	
+	*/
+	
+	public SchoolProgram(int SPID, int programID, int institutionID, String accLevel,
+			String dateAdded, String nextSurveySched, String pendingReports, 
+			String nextSurveyType, String degreeName, int levelID, String validUntil)
+	{
+		super();
+		this.SPID = SPID;
+		this.programID = programID;
+		this.institutionID = institutionID;
+		this.level = accLevel;
+		this.dateAdded = dateAdded;
+		this.nextSurveySched = nextSurveySched;
+		this.pendingReports = pendingReports;
+		this.nextSurveyType = nextSurveyType;
+		this.degreeName = degreeName;
+		this.levelID = levelID;
+		this.validUntil = validUntil;
+		
+	}
 	
 	
 	public SchoolProgram(int sPID, String institution, String level, String date_added, String next_survey_sched,
@@ -37,6 +75,49 @@ public class SchoolProgram {
 		
 	}
 	
+	
+	
+	
+	public int getLevelID() {
+		return levelID;
+	}
+
+
+	public void setLevelID(int levelID) {
+		this.levelID = levelID;
+	}
+
+
+	public String getValidUntil() {
+		return validUntil;
+	}
+
+
+	public void setValidUntil(String validUntil) {
+		this.validUntil = validUntil;
+	}
+
+
+	public int getInstitutionID() {
+		return institutionID;
+	}
+
+
+	public void setInstitutionID(int institutionID) {
+		this.institutionID = institutionID;
+	}
+
+
+	public int getProgramID() {
+		return programID;
+	}
+
+
+	public void setProgramID(int programID) {
+		this.programID = programID;
+	}
+
+
 	public String getLastSurveyDate() {
 		return lastSurveyDate;
 	}

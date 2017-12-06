@@ -777,9 +777,9 @@ public class AccreditorUtil {
 
 
 	//NEW
-	public JSONArray getAccreditorsInSurveyJSON(int PSID) {
-		JSONArray jArray = new JSONArray();
-		JSONObject job = new JSONObject();
+	public ArrayList<Integer> getAccreditorsInSurvey(int PSID) {
+
+		ArrayList<Integer> accList = new ArrayList<Integer>();
 		
 		try{
 			Connection conn = db.getConnection();
@@ -788,10 +788,8 @@ public class AccreditorUtil {
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				job = new JSONObject();
-				job.put("accreditorID", rs.getInt(1));
 				
-				jArray.put(job);
+				accList.add(rs.getInt(1));
 				
 			}
 		} catch (Exception e){
@@ -799,7 +797,7 @@ public class AccreditorUtil {
 			e.printStackTrace();
 		}
 		
-		return jArray;
+		return accList;
 	}
 
 
@@ -864,6 +862,725 @@ public class AccreditorUtil {
 		
 		return jArray;
 	}
+	
+	//NEW
+	public JSONArray getInvitationDetailsJSON(int PSID) {
+		ArrayList<Integer> accList = getAccreditorsInSurvey(PSID);
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		if(accList.size() > 0)
+		{
+			for(int j = 0; j<accList.size(); j++)
+			{
+				job = new JSONObject();
+				
+				//get accreditor name
+				try{
+					Connection conn = db.getConnection();
+					PreparedStatement ps = conn.prepareStatement("SELECT accreditorID, lastname, firstname, honorifics FROM accreditors WHERE accreditorID = ?");
+					ps.setInt(1, accList.get(j));
+					ResultSet rs = ps.executeQuery();
+					if(rs.first())
+					{
+						
+						String cleanLastName = rs.getString(2);
+						String cleanFirstName = rs.getString(3);
+						String cleanHonorifics = rs.getString(4);
+						String[] partsLastName = cleanLastName.split(" ");
+						String[] partsFirstName = cleanFirstName.split(" ");
+						String[] partsHonorifics = cleanHonorifics.split(" ");
+						cleanLastName = "";
+						cleanFirstName = "";
+						cleanHonorifics = "";
+						
+						for(int i = 0; i<partsLastName.length; i++)
+						{
+							partsLastName[i] = 	partsLastName[i].substring(0, 1).toUpperCase() + partsLastName[i].substring(1).toLowerCase();
+							if(cleanLastName == "")
+								cleanLastName = partsLastName[i];
+							else
+								cleanLastName = cleanLastName + " " + partsLastName[i];
+						}
+						
+						for(int i = 0; i<partsFirstName.length; i++)
+						{
+							partsFirstName[i] = partsFirstName[i].substring(0, 1).toUpperCase() + partsFirstName[i].substring(1).toLowerCase();
+							
+							if(cleanFirstName == "")
+								cleanFirstName = partsFirstName[i];
+							else
+								cleanFirstName = cleanFirstName + " " + partsFirstName[i];
+								
+						}
+						
+						for(int i = 0; i<partsHonorifics.length; i++)
+						{
+							partsHonorifics[i] = partsHonorifics[i].substring(0, 1).toUpperCase() + partsHonorifics[i].substring(1).toLowerCase();
+							cleanHonorifics = cleanHonorifics + partsHonorifics[i];
+						}
+						
+						
+						job.put("accName", cleanHonorifics + " " + cleanFirstName + " " + cleanLastName);
+						
+					}
+				} catch (Exception e){
+					System.out.println("Error in InstitutionsUtil:getAccreditorsNameIDJSON()");
+					e.printStackTrace();
+				}
+				
+				//get accreditor's work for recipient details
+				try{
+					Connection conn = db.getConnection();
+					PreparedStatement ps = conn.prepareStatement("SELECT head, hPosition, name, city FROM institutions WHERE institutionID = (SELECT institutionID FROM work WHERE accreditorID = ? AND dateFinished IS NULL LIMIT 1)");
+					ps.setInt(1,  accList.get(j));
+					ResultSet rs = ps.executeQuery();
+					if(rs.first()){
+						
+						
+						String head = rs.getString(1);
+						String partsHead[] = head.split(" ");
+						head = "";
+						for(int i = 0; i<partsHead.length; i++)
+						{
+							if(head == "")
+							{
+								head = partsHead[i].substring(0, 1).toUpperCase() + partsHead[i].substring(1).toLowerCase(); 
+							}
+							else	
+								head = head + " " + partsHead[i].substring(0, 1).toUpperCase() + partsHead[i].substring(1).toLowerCase(); 
+						}
+
+						job.put("head", head);
+						job.put("hPosition", rs.getString(2));
+						job.put("institutionName", rs.getString(3));
+						job.put("city", rs.getString(4));
+						
+					}
+				} catch (Exception e){
+					System.out.println("Error in InstitutionsUtil:getAccreditorForInvitationJSON()");
+					e.printStackTrace();
+				}
+				
+				//get survey details
+				try{
+					Connection conn = db.getConnection();
+					PreparedStatement ps = conn.prepareStatement("SELECT ps.PSID, s.surveyID, sp.degreeName, s.startDate, s.endDate, ps.surveyType FROM `program-survey` ps, surveys s, `school-program` sp WHERE ps.surveyID = s.surveyID AND ps.SPID = sp.SPID AND s.surveyID = (SELECT surveyID from `program-survey` WHERE PSID = ?) AND ps.PSID = ?");
+					ps.setInt(1, PSID);
+					ps.setInt(2, PSID);
+					
+					ResultSet rs = ps.executeQuery();
+					if(rs.first()){
+						
+						job.put("PSID", rs.getInt(1));
+						job.put("surveyID", rs.getInt(2));
+						job.put("degreeName", rs.getString(3));
+						job.put("startDate", formatDateDash(rs.getString(4)));
+						job.put("endDate", formatDateDash(rs.getString(5)));
+						job.put("type", rs.getString(6));
+
+						
+					}
+				} catch (Exception e){
+					System.out.println("Error in InstitutionsUtil:getSurveysOfInstitutionJSON()");
+					e.printStackTrace();
+				}
+				
+				//get institution name
+				try{
+					Connection conn = db.getConnection();
+					PreparedStatement ps = conn.prepareStatement("SELECT i.name, i.city FROM `program-survey` ps, surveys s, `institutions` i WHERE ps.surveyID = s.surveyID AND ps.PSID = ? AND s.institutionID = i.institutionID");
+					ps.setInt(1, PSID);
+					
+					ResultSet rs = ps.executeQuery();
+					if(rs.first()){
+						
+						job.put("surveyInst", rs.getString(1) + " - " + rs.getString(2));
+						
+					}
+				} catch (Exception e){
+					System.out.println("Error in InstitutionsUtil:getSurveysOfInstitutionJSON()");
+					e.printStackTrace();
+				}
+				
+				
+				
+				jArray.put(job);
+				
+			}
+			
+			
+			
+		}
+		
+		return jArray;
+	}
+	
+	public JSONArray getAccreditorsOfSurveyJSON(int PSID) {
+		ArrayList<Integer> accList = getAccreditorsInSurvey(PSID);
+		JSONArray jArray = new JSONArray();
+	
+	
+		//get accreditors
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT accreditorID, lastname, firstname, honorifics FROM accreditors WHERE accreditorID IN (SELECT accreditorID FROM `program-area` WHERE PSID = ?)");
+			ps.setInt(1, PSID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				JSONObject job = new JSONObject();
+				
+				String cleanLastName = rs.getString(2);
+				String cleanFirstName = rs.getString(3);
+				String cleanHonorifics = rs.getString(4);
+				String[] partsLastName = cleanLastName.split(" ");
+				String[] partsFirstName = cleanFirstName.split(" ");
+				String[] partsHonorifics = cleanHonorifics.split(" ");
+				cleanLastName = "";
+				cleanFirstName = "";
+				cleanHonorifics = "";
+				
+				for(int i = 0; i<partsLastName.length; i++)
+				{
+					partsLastName[i] = 	partsLastName[i].substring(0, 1).toUpperCase() + partsLastName[i].substring(1).toLowerCase();
+					if(cleanLastName == "")
+						cleanLastName = partsLastName[i];
+					else
+						cleanLastName = cleanLastName + " " + partsLastName[i];
+				}
+				
+				for(int i = 0; i<partsFirstName.length; i++)
+				{
+					partsFirstName[i] = partsFirstName[i].substring(0, 1).toUpperCase() + partsFirstName[i].substring(1).toLowerCase();
+					
+					if(cleanFirstName == "")
+						cleanFirstName = partsFirstName[i];
+					else
+						cleanFirstName = cleanFirstName + " " + partsFirstName[i];
+						
+				}
+				
+				for(int i = 0; i<partsHonorifics.length; i++)
+				{
+					partsHonorifics[i] = partsHonorifics[i].substring(0, 1).toUpperCase() + partsHonorifics[i].substring(1).toLowerCase();
+					cleanHonorifics = cleanHonorifics + partsHonorifics[i];
+				}
+				
+				
+				job.put("accName", cleanHonorifics + " " + cleanFirstName + " " + cleanLastName);
+				jArray.put(job);
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getAccreditorsNameIDJSON()");
+			e.printStackTrace();
+		}
+	
+		return jArray;
+	}
+	
+	
+	
+	//NEW
+	public JSONArray getConfirmationDetailsJSON(int PSID, int instID) {
+		ArrayList<Integer> accList = getAccreditorsInSurvey(PSID);
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		if(accList.size() > 0)
+		{
+			job = new JSONObject();
+			
+			//get institution details
+			try{
+				Connection conn = db.getConnection();
+				//PreparedStatement ps = conn.prepareStatement("SELECT name, head, hPosition, city FROM `institutions` WHERE institutionID = (SELECT institutionID FROM `work` WHERE accreditorID = ? AND dateFinished IS NULL)");
+				PreparedStatement ps = conn.prepareStatement("SELECT head, hPosition, name, city FROM `institutions` WHERE institutionID = ?");
+				ps.setInt(1, instID);
+				ResultSet rs = ps.executeQuery();
+				if(rs.first()){
+					job.put("head", rs.getString(1));
+					job.put("hPosition", rs.getString(2));
+					job.put("name", rs.getString(3));
+					job.put("city", rs.getString(4));
+					
+												
+				}
+			} catch (Exception e){
+				System.out.println("Error in InstitutionsUtil:getInstitutionForInvitationJSON()");
+				e.printStackTrace();
+			}
+			
+			
+			
+			//get chairperson
+			try{
+				Connection conn = db.getConnection();
+				PreparedStatement ps = conn.prepareStatement("SELECT accreditorID, lastname, firstname, honorifics FROM accreditors WHERE accreditorID = (SELECT s.chairpersonID FROM surveys s, `program-survey` ps WHERE ps.surveyID = s.surveyID AND ps.PSID = ?)");
+				ps.setInt(1, PSID);
+				ResultSet rs = ps.executeQuery();
+				if(rs.first())
+				{
+					
+					String cleanLastName = rs.getString(2);
+					String cleanFirstName = rs.getString(3);
+					String cleanHonorifics = rs.getString(4);
+					String[] partsLastName = cleanLastName.split(" ");
+					String[] partsFirstName = cleanFirstName.split(" ");
+					String[] partsHonorifics = cleanHonorifics.split(" ");
+					cleanLastName = "";
+					cleanFirstName = "";
+					cleanHonorifics = "";
+					
+					for(int i = 0; i<partsLastName.length; i++)
+					{
+						partsLastName[i] = 	partsLastName[i].substring(0, 1).toUpperCase() + partsLastName[i].substring(1).toLowerCase();
+						if(cleanLastName == "")
+							cleanLastName = partsLastName[i];
+						else
+							cleanLastName = cleanLastName + " " + partsLastName[i];
+					}
+					
+					for(int i = 0; i<partsFirstName.length; i++)
+					{
+						partsFirstName[i] = partsFirstName[i].substring(0, 1).toUpperCase() + partsFirstName[i].substring(1).toLowerCase();
+						
+						if(cleanFirstName == "")
+							cleanFirstName = partsFirstName[i];
+						else
+							cleanFirstName = cleanFirstName + " " + partsFirstName[i];
+							
+					}
+					
+					for(int i = 0; i<partsHonorifics.length; i++)
+					{
+						partsHonorifics[i] = partsHonorifics[i].substring(0, 1).toUpperCase() + partsHonorifics[i].substring(1).toLowerCase();
+						cleanHonorifics = cleanHonorifics + partsHonorifics[i];
+					}
+					
+					
+					job.put("chairperson", cleanHonorifics + " " + cleanFirstName + " " + cleanLastName);
+					
+				}
+			} catch (Exception e){
+				System.out.println("Error in InstitutionsUtil:getAccreditorsNameIDJSON()");
+				e.printStackTrace();
+			}
+			
+
+			//get institution to be surveyed
+			try{
+				Connection conn = db.getConnection();
+				PreparedStatement ps = conn.prepareStatement("SELECT sp.degreeName, s.startDate, s.endDate, ps.surveyType FROM `program-survey` ps, surveys s, `school-program` sp WHERE ps.SPID = sp.SPID AND ps.surveyID = s.surveyID AND ps.PSID = ?");
+				ps.setInt(1, PSID);
+				
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					
+					job.put("degreeName", rs.getString(1));
+					job.put("startDate", formatDateDash(rs.getString(2)));
+					job.put("endDate", formatDateDash(rs.getString(3)));
+					job.put("type", rs.getString(4));
+
+					
+				}
+			} catch (Exception e){
+				System.out.println("Error in InstitutionsUtil:getSurveysOfInstitutionJSON()");
+				e.printStackTrace();
+			}
+			
+			
+			
+			job.put("accSize", accList.size());
+			
+			jArray.put(job);
+			
+			
+		}
+		
+		return jArray;
+	}
+	
+	//NEW
+	public JSONArray getThankYouDetailsJSON(int PSID, int instID) {
+		ArrayList<Integer> accList = getAccreditorsInSurvey(PSID);
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		if(accList.size() > 0)
+		{
+			
+			for(int j = 0; j<accList.size(); j++)
+			{
+				job = new JSONObject();
+				
+				//get accreditor and institution details
+				try{
+					Connection conn = db.getConnection();
+					//PreparedStatement ps = conn.prepareStatement("SELECT name, head, hPosition, city FROM `institutions` WHERE institutionID = (SELECT institutionID FROM `work` WHERE accreditorID = ? AND dateFinished IS NULL)");
+					PreparedStatement ps = conn.prepareStatement("SELECT i.name, i.city, a.lastname, a.firstname, a.honorifics, w.position, w.placeOfPosition FROM work w, institutions i, accreditors a WHERE w.accreditorID = a.accreditorID and w.institutionID = i.institutionID AND w.accreditorID = ? ORDER BY w.dateEntered DESC LIMIT 1");
+					ps.setInt(1, accList.get(j));
+					ResultSet rs = ps.executeQuery();
+					if(rs.first()){
+						job.put("instName", rs.getString(1));
+						job.put("city", rs.getString(2));
+						
+	
+						String cleanLastName = rs.getString(3);
+						String cleanFirstName = rs.getString(4);
+						String cleanHonorifics = rs.getString(5);
+						String[] partsLastName = cleanLastName.split(" ");
+						String[] partsFirstName = cleanFirstName.split(" ");
+						String[] partsHonorifics = cleanHonorifics.split(" ");
+						cleanLastName = "";
+						cleanFirstName = "";
+						cleanHonorifics = "";
+						
+						for(int i = 0; i<partsLastName.length; i++)
+						{
+							partsLastName[i] = 	partsLastName[i].substring(0, 1).toUpperCase() + partsLastName[i].substring(1).toLowerCase();
+							if(cleanLastName == "")
+								cleanLastName = partsLastName[i];
+							else
+								cleanLastName = cleanLastName + " " + partsLastName[i];
+						}
+						
+						for(int i = 0; i<partsFirstName.length; i++)
+						{
+							partsFirstName[i] = partsFirstName[i].substring(0, 1).toUpperCase() + partsFirstName[i].substring(1).toLowerCase();
+							
+							if(cleanFirstName == "")
+								cleanFirstName = partsFirstName[i];
+							else
+								cleanFirstName = cleanFirstName + " " + partsFirstName[i];
+								
+						}
+						
+						for(int i = 0; i<partsHonorifics.length; i++)
+						{
+							partsHonorifics[i] = partsHonorifics[i].substring(0, 1).toUpperCase() + partsHonorifics[i].substring(1).toLowerCase();
+							cleanHonorifics = cleanHonorifics + partsHonorifics[i];
+						}
+						
+						
+						job.put("accName", cleanHonorifics + " " + cleanFirstName + " " + cleanLastName);
+					
+						job.put("position", rs.getString(6));
+						job.put("placeOfPosition", rs.getString(7));
+						
+					
+					}
+					else
+					{
+						
+						job.put("instName", "");
+						job.put("city", "");
+					
+						PreparedStatement ps1 = conn.prepareStatement("SELECT lastname, firstname, honorifics FROM accreditors WHERE accreditorID = ?");
+						ps1.setInt(1, accList.get(j));
+						ResultSet rs1 = ps1.executeQuery();
+						
+						if(rs1.first())
+						{
+							String cleanLastName = rs1.getString(1);
+							String cleanFirstName = rs1.getString(2);
+							String cleanHonorifics = rs1.getString(3);
+							String[] partsLastName = cleanLastName.split(" ");
+							String[] partsFirstName = cleanFirstName.split(" ");
+							String[] partsHonorifics = cleanHonorifics.split(" ");
+							cleanLastName = "";
+							cleanFirstName = "";
+							cleanHonorifics = "";
+							
+							for(int i = 0; i<partsLastName.length; i++)
+							{
+								partsLastName[i] = 	partsLastName[i].substring(0, 1).toUpperCase() + partsLastName[i].substring(1).toLowerCase();
+								if(cleanLastName == "")
+									cleanLastName = partsLastName[i];
+								else
+									cleanLastName = cleanLastName + " " + partsLastName[i];
+							}
+							
+							for(int i = 0; i<partsFirstName.length; i++)
+							{
+								partsFirstName[i] = partsFirstName[i].substring(0, 1).toUpperCase() + partsFirstName[i].substring(1).toLowerCase();
+								
+								if(cleanFirstName == "")
+									cleanFirstName = partsFirstName[i];
+								else
+									cleanFirstName = cleanFirstName + " " + partsFirstName[i];
+									
+							}
+							
+							for(int i = 0; i<partsHonorifics.length; i++)
+							{
+								partsHonorifics[i] = partsHonorifics[i].substring(0, 1).toUpperCase() + partsHonorifics[i].substring(1).toLowerCase();
+								cleanHonorifics = cleanHonorifics + partsHonorifics[i];
+							}
+							
+						
+							job.put("accName", cleanHonorifics + " " + cleanFirstName + " " + cleanLastName);
+						}
+						job.put("position", "");
+						job.put("placeOfPosition", "");
+						
+					}
+					
+				} catch (Exception e){
+					System.out.println("Error in InstitutionsUtil:getInstitutionForInvitationJSON()");
+					e.printStackTrace();
+				}
+				
+				//get survey details
+				try{
+					Connection conn = db.getConnection();
+					PreparedStatement ps = conn.prepareStatement("SELECT ps.PSID, s.surveyID, sp.degreeName, s.startDate, s.endDate, ps.surveyType FROM `program-survey` ps, surveys s, `school-program` sp WHERE ps.surveyID = s.surveyID AND ps.SPID = sp.SPID AND s.surveyID = (SELECT surveyID from `program-survey` WHERE PSID = ?) AND ps.PSID = ?");
+					ps.setInt(1, PSID);
+					ps.setInt(2, PSID);
+					
+					ResultSet rs = ps.executeQuery();
+					if(rs.first()){
+						
+						job.put("PSID", rs.getInt(1));
+						job.put("surveyID", rs.getInt(2));
+						job.put("degreeName", rs.getString(3));
+						job.put("startDate", formatDateDash(rs.getString(4)));
+						job.put("endDate", formatDateDash(rs.getString(5)));
+						job.put("type", rs.getString(6));
+
+						
+					}
+				} catch (Exception e){
+					System.out.println("Error in InstitutionsUtil:getSurveysOfInstitutionJSON()");
+					e.printStackTrace();
+				}
+				
+				//get institution name
+				try{
+					Connection conn = db.getConnection();
+					PreparedStatement ps = conn.prepareStatement("SELECT name, city FROM institutions WHERE institutionID = ?");
+					ps.setInt(1, instID);
+					
+					ResultSet rs = ps.executeQuery();
+					if(rs.first()){
+						
+						job.put("surveyInst", rs.getString(1) + " - " + rs.getString(2));
+						
+					}
+				} catch (Exception e){
+					System.out.println("Error in InstitutionsUtil:getSurveysOfInstitutionJSON()");
+					e.printStackTrace();
+				}
+				
+				
+				
+				jArray.put(job);
+			}
+			
+		}
+		
+		return jArray;
+	}
+	
+	
+	//NEW
+	public JSONArray getChairpersonDetailsJSON(int PSID) {
+		ArrayList<Integer> accList = getAccreditorsInSurvey(PSID);
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		if(accList.size() > 0)
+		{
+			
+			for(int j = 0; j<accList.size(); j++)
+			{
+				job = new JSONObject();
+				
+				//get accreditor and institution details
+				try{
+					Connection conn = db.getConnection();
+					PreparedStatement ps = conn.prepareStatement("SELECT i.name, i.city, a.lastname, a.firstname, a.honorifics, w.position, w.placeOfPosition FROM work w, institutions i, accreditors a WHERE w.accreditorID = a.accreditorID and w.institutionID = i.institutionID AND w.accreditorID = ? ORDER BY w.dateEntered DESC LIMIT 1");
+					ps.setInt(1, accList.get(j));
+					ResultSet rs = ps.executeQuery();
+					if(rs.first()){
+						job.put("instName", rs.getString(1));
+						job.put("city", rs.getString(2));
+						
+	
+						String cleanLastName = rs.getString(3);
+						String cleanFirstName = rs.getString(4);
+						String cleanHonorifics = rs.getString(5);
+						String[] partsLastName = cleanLastName.split(" ");
+						String[] partsFirstName = cleanFirstName.split(" ");
+						String[] partsHonorifics = cleanHonorifics.split(" ");
+						cleanLastName = "";
+						cleanFirstName = "";
+						cleanHonorifics = "";
+						
+						for(int i = 0; i<partsLastName.length; i++)
+						{
+							partsLastName[i] = 	partsLastName[i].substring(0, 1).toUpperCase() + partsLastName[i].substring(1).toLowerCase();
+							if(cleanLastName == "")
+								cleanLastName = partsLastName[i];
+							else
+								cleanLastName = cleanLastName + " " + partsLastName[i];
+						}
+						
+						for(int i = 0; i<partsFirstName.length; i++)
+						{
+							partsFirstName[i] = partsFirstName[i].substring(0, 1).toUpperCase() + partsFirstName[i].substring(1).toLowerCase();
+							
+							if(cleanFirstName == "")
+								cleanFirstName = partsFirstName[i];
+							else
+								cleanFirstName = cleanFirstName + " " + partsFirstName[i];
+								
+						}
+						
+						for(int i = 0; i<partsHonorifics.length; i++)
+						{
+							partsHonorifics[i] = partsHonorifics[i].substring(0, 1).toUpperCase() + partsHonorifics[i].substring(1).toLowerCase();
+							cleanHonorifics = cleanHonorifics + partsHonorifics[i];
+						}
+						
+						
+						job.put("accName", cleanHonorifics + " " + cleanFirstName + " " + cleanLastName);
+					
+						job.put("position", rs.getString(6));
+						job.put("placeOfPosition", rs.getString(7));
+						
+					
+					}
+					else
+					{
+						
+						job.put("instName", "");
+						job.put("city", "");
+					
+						PreparedStatement ps1 = conn.prepareStatement("SELECT lastname, firstname, honorifics FROM accreditors WHERE accreditorID = ?");
+						ps1.setInt(1, accList.get(j));
+						ResultSet rs1 = ps1.executeQuery();
+						
+						if(rs1.first())
+						{
+							String cleanLastName = rs1.getString(1);
+							String cleanFirstName = rs1.getString(2);
+							String cleanHonorifics = rs1.getString(3);
+							String[] partsLastName = cleanLastName.split(" ");
+							String[] partsFirstName = cleanFirstName.split(" ");
+							String[] partsHonorifics = cleanHonorifics.split(" ");
+							cleanLastName = "";
+							cleanFirstName = "";
+							cleanHonorifics = "";
+							
+							for(int i = 0; i<partsLastName.length; i++)
+							{
+								partsLastName[i] = 	partsLastName[i].substring(0, 1).toUpperCase() + partsLastName[i].substring(1).toLowerCase();
+								if(cleanLastName == "")
+									cleanLastName = partsLastName[i];
+								else
+									cleanLastName = cleanLastName + " " + partsLastName[i];
+							}
+							
+							for(int i = 0; i<partsFirstName.length; i++)
+							{
+								partsFirstName[i] = partsFirstName[i].substring(0, 1).toUpperCase() + partsFirstName[i].substring(1).toLowerCase();
+								
+								if(cleanFirstName == "")
+									cleanFirstName = partsFirstName[i];
+								else
+									cleanFirstName = cleanFirstName + " " + partsFirstName[i];
+									
+							}
+							
+							for(int i = 0; i<partsHonorifics.length; i++)
+							{
+								partsHonorifics[i] = partsHonorifics[i].substring(0, 1).toUpperCase() + partsHonorifics[i].substring(1).toLowerCase();
+								cleanHonorifics = cleanHonorifics + partsHonorifics[i];
+							}
+							
+						
+							job.put("accName", cleanHonorifics + " " + cleanFirstName + " " + cleanLastName);
+						}
+						job.put("position", "");
+						job.put("placeOfPosition", "");
+						
+					}
+					
+				} catch (Exception e){
+					System.out.println("Error in InstitutionsUtil:getInstitutionForInvitationJSON()");
+					e.printStackTrace();
+				}
+				
+				//get survey details
+				try{
+					Connection conn = db.getConnection();
+					PreparedStatement ps = conn.prepareStatement("SELECT ps.PSID, s.surveyID, sp.degreeName, s.startDate, s.endDate, ps.surveyType FROM `program-survey` ps, surveys s, `school-program` sp WHERE ps.surveyID = s.surveyID AND ps.SPID = sp.SPID AND s.surveyID = (SELECT surveyID from `program-survey` WHERE PSID = ?) AND ps.PSID = ?");
+					ps.setInt(1, PSID);
+					ps.setInt(2, PSID);
+					
+					ResultSet rs = ps.executeQuery();
+					if(rs.first()){
+						
+						job.put("PSID", rs.getInt(1));
+						job.put("surveyID", rs.getInt(2));
+						job.put("degreeName", rs.getString(3));
+						job.put("startDate", formatDateDash(rs.getString(4)));
+						job.put("endDate", formatDateDash(rs.getString(5)));
+						job.put("type", rs.getString(6));
+
+						
+					}
+				} catch (Exception e){
+					System.out.println("Error in InstitutionsUtil:getSurveysOfInstitutionJSON()");
+					e.printStackTrace();
+				}
+				
+				//get accreditor's area
+
+				try{
+					Connection conn = db.getConnection();
+					PreparedStatement ps = conn.prepareStatement("SELECT a.name FROM areas a, `program-area` pa WHERE pa.areaID = a.areaID AND pa.PSID = ? AND pa.accreditorID = ?");
+					ps.setInt(1, PSID);
+					ps.setInt(2, accList.get(j));
+					
+					ResultSet rs = ps.executeQuery();
+					if(rs.first()){
+						
+						job.put("area", rs.getString(1));
+						
+					}
+				} catch (Exception e){
+					System.out.println("Error in InstitutionsUtil:getSurveysOfInstitutionJSON()");
+					e.printStackTrace();
+				}
+				
+				
+				//get institution name
+				try{
+					Connection conn = db.getConnection();
+					PreparedStatement ps = conn.prepareStatement("SELECT i.name, i.city FROM `program-survey` ps, surveys s, `institutions` i WHERE ps.surveyID = s.surveyID AND ps.PSID = ? AND s.institutionID = i.institutionID");
+					ps.setInt(1, PSID);
+					
+					ResultSet rs = ps.executeQuery();
+					if(rs.first()){
+						
+						job.put("surveyInst", rs.getString(1) + " - " + rs.getString(2));
+						
+					}
+				} catch (Exception e){
+					System.out.println("Error in InstitutionsUtil:getSurveysOfInstitutionJSON()");
+					e.printStackTrace();
+				}
+				
+				jArray.put(job);
+			}
+			
+		}
+		
+		return jArray;
+	}
+
 	
 	
 	public ArrayList<Accreditor> getAccreditors(){
@@ -1145,7 +1862,44 @@ public class AccreditorUtil {
 		format = year + "-" + month + "-"+ day;
 		return format;
 	}
-	
+	private static String formatDateDash(String date){
+		String format = new String();
+		String month = "";
+		String day;
+		String year;
+		String[] parts = date.split("-");
+		if(parts[1].equals("01")){
+			month = "January";
+		}else if(parts[1].equals("02")){
+			month = "February";
+		}else if(parts[1].equals("03")){
+			month = "March";
+		}else if(parts[1].equals("04")){
+			month = "April";
+		}else if(parts[1].equals("05")){
+			month = "May";
+		}else if(parts[1].equals("06")){
+			month = "June";
+		}else if(parts[1].equals("07")){
+			month = "July";
+		}else if(parts[1].equals("08")){
+			month = "August";
+		}else if(parts[1].equals("09")){
+			month = "September";
+		}else if(parts[1].equals("10")){
+			month = "October";
+		}else if(parts[1].equals("11")){
+			month = "November";
+		}else if(parts[1].equals("12")){
+			month = "December";
+		}
+		year = parts[0];
+
+		day = parts[2];
+		
+		format = month + " "+ day + ", " + year;
+		return format;
+	}
 	public void addAccreditor(Accreditor acc, JSONObject affObject){
 		try{
 			Connection conn = db.getConnection();
@@ -1355,15 +2109,41 @@ public class AccreditorUtil {
 			String secondaryArea =  getArea(secondaryAreaID);
 			String tertiaryArea =  getArea(tertiaryAreaID);
 			
-			//Affiliation Implementation
+			//Affiliation and Discipline Implementation
 				boolean aff = checkAffiliations(accID, systemID);
-				if(aff){deck.addCard_dump(temp); temp.setAffiliation("Affiliated");continue;}
-				else{temp.setAffiliation("Non-affiliated");}
-				
-			//Discipline implementaion
-				boolean disc = checkDiscipline(accID, SPID);
-				if(!disc){deck.addCard_dump(temp); continue;}
-				
+				if(aff)
+				{	
+					boolean disc = checkDiscipline(accID, SPID);
+					if(disc)
+					{	
+						temp.setAffiliation("Affiliated");
+						System.out.println("----------------------------------------------- aff disc checking: " + temp.getAccreditorName());
+						deck.addCard_dump(temp); 
+						continue;
+					}
+					else
+					{
+						System.out.println("----------------------------------------------- aff !disc checking: " + temp.getAccreditorName());
+						
+						continue;
+					}
+				}
+				else
+				{
+					boolean disc = checkDiscipline(accID, SPID);
+					if(!disc)
+					{
+						System.out.println("----------------------------------------------- !aff !disc checking: " + temp.getAccreditorName());
+						
+						continue;
+					}
+					else
+					{
+						temp.setAffiliation("Non-affiliated");
+						System.out.println("----------------------------------------------- !aff disc checking: " + temp.getAccreditorName());
+						
+					}
+				}
 				
 				
 				
@@ -1383,9 +2163,17 @@ public class AccreditorUtil {
 				
 			//City
 				String city = getCity(SPID);
-				if(city.equals(rs.getString(6))){deck.addPriorityCard(temp);}
-				else{deck.addCard_filtered(temp);}
 				
+				if(city.equals(rs.getString(6)))
+				{
+					System.out.println("INSIDE IF-----------------------------------");
+					deck.addPriorityCard(temp);
+				}
+				else
+				{
+					System.out.println("INSIDE ELSEEEE_-----------------------------------");
+					deck.addCard_filtered(temp);
+				}
 				System.out.println(temp.getAccreditorName() + " : " + temp.getV1()
 				 + " : " + temp.getV2() + " : " + temp.getV3()
 						);
@@ -1500,4 +2288,7 @@ public class AccreditorUtil {
 		
 		return jArray;
 	}
+
+
+
 }

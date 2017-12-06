@@ -41,15 +41,44 @@
 		</script>
 
       <script type="text/javascript">
-
+	      function forDB(){
+	  	   	$('#accreditorForm_chosen').width('95%');
+	  	 	$('#institutionForm_chosen').width('95%');
+	  		$('#areaForm_chosen').width('95%');
+  	   	
+	  	   }
+	  	   
+	      function getDateToday()
+		    {
+		    	var obj = document.getElementById('institutionSurveyForm');
+				
+				var objToday = new Date();
+	
+				var month = (objToday.getMonth()+1);
+				
+				if(month < 10)
+					month = '0' + month;
+				
+				var day = (objToday.getDate());
+				
+				if(day < 10)
+					day = '0' + day;
+				
+				var dateToday = objToday.getFullYear().toString() + "" +  month.toString() + "" + day.toString();
+				
+				return dateToday;
+		    }
+      
           function genPDF() {
 
             var doc = new jsPDF()
             var suff = document.getElementById("suffix");
             var strsuff = suff.options[suff.selectedIndex].value;
-            var deptdrop = document.getElementById("department-dropdown");
+/*             var deptdrop = document.getElementById("department-dropdown");
             var dept = deptdrop.options[deptdrop.selectedIndex].value;
-            var areadrop = document.getElementById("area-dropdown");
+ */
+ 			var dept = $('#department').val();
+ 			var areadrop = document.getElementById("area-dropdown");
             var area = areadrop.options[areadrop.selectedIndex].value;
 
             doc.setFontSize(12)
@@ -69,20 +98,28 @@
             city = city + " City"
             doc.text(20, 85, city)
 
+            var type = $('#surveytype').val()
 
             var invited = $('#invited').val()
             var surveyschool = $('#surveyschool').val()
             var schoolcity = $('#schoolcity').val()
             schoolcity = schoolcity + " City"
-            var startdate = $('#fromdate').val()
-            var todate = $('#todate').val()
+            
+            
+            var from = $("#fromdate").val().split("-");
+
+            var startdate = new Date(from[0], from[1]-1, from[2]).getFormatDate().toString();
+            
+            var to = $("#todate").val().split("-");
+
+            var todate = new Date(to[0], to[1]-1, to[2]).getFormatDate().toString();
 
             var signperson = $('#signperson').val()
             var signposition = $('#signposition').val()
 
             doc.text(20, 95, "Dear " + recipient)
 
-            var paragraph="\nWe are in the process of forming a Committee for the Resurvey Visit of the "+dept+" of "+surveyschool+", "+schoolcity+". The visit has been scheduled on "+startdate+" to "+todate+".\n\nYou have been recommended to serve as Chairperson for the area of Faculty. The school's report and other relevant data will be sent to you as soon as we hear from you.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
+            var paragraph="\nWe are in the process of forming a Committee for the "+type+" Visit of the "+dept+" of "+surveyschool+", "+schoolcity+". The visit has been scheduled on "+startdate+" to "+todate+".\n\nYou have been recommended to serve as Chairperson for the area of Faculty. The school's report and other relevant data will be sent to you as soon as we hear from you.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
             
             lines = doc.splitTextToSize(paragraph, 175) 
 
@@ -135,7 +172,8 @@
             var schoolcity = $('#schoolcity1').val()
             schoolcity = schoolcity + " City"
             var area = $('#area1').val()
-
+			var type = $('#surveytype1').val();
+            
             var from = $("#fromdate1").val().split("-");
 
             var startdate = new Date(from[0], from[1]-1, from[2]).getFormatDate().toString();
@@ -149,7 +187,7 @@
 
             doc.text(20, 95, "Dear " + recipient + ": ")
 
-            var paragraph="\nWe are in the process of forming a Committee for the Resurvey Visit of the "+program+" of "+surveyschool+", "+schoolcity+". The visit has been scheduled on "+startdate+" to "+todate+".\n\nYou have been recommended to serve as Chairperson for the area of "+area+". The school's report and other relevant data will be sent to you as soon as we hear from you.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
+            var paragraph="\nWe are in the process of forming a Committee for the "+type+" Visit of the "+program+" of "+surveyschool+", "+schoolcity+". The visit has been scheduled on "+startdate+" to "+todate+".\n\nYou have been recommended to serve as Chairperson for the area of "+area+". The school's report and other relevant data will be sent to you as soon as we hear from you.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
             
             lines = doc.splitTextToSize(paragraph, 175) 
 
@@ -167,6 +205,44 @@
       <script>
     
 	    $(document).ready(function() {
+	    	
+	    	
+
+			$('#institutionSurveyForm').chosen().change(function(){
+								
+				$('#selectSurveyForm').empty();
+				var institutionID = $('#institutionSurveyForm').find(":selected").val();
+				
+				
+			
+				$.getJSON("SurveyDetailsLoader?institutionID=" + institutionID + "&date=" + getDateToday(), function(data){
+					var obj = document.getElementById('selectSurveyForm');
+					
+					if ( data.length > 0 ) {
+				    	var option = document.createElement("option");
+						option.text = "";
+						option.value = 0;
+						obj.add(option);
+								
+						$.each(data, function (key, value){
+							
+							var option = document.createElement("option");
+							option.text = value.type + " - " +  value.degreeName + " - " + value.startDate + " to " + value.endDate;
+							option.value = value.PSID;
+							obj.add(option);
+							
+							
+						});	
+						$('#selectSurveyForm').trigger("chosen:updated");
+				    }
+				});
+			});
+	    	
+			$('#selectSurveyForm').chosen().change(function(){
+				$("#divSurveyButton").html("<button class ='btn btn-info btn-sm' onclick='genPDFSurvey()'>Download PDF</button>");
+			});
+	    	
+	    	
 			$('#institutionForm').chosen().change(function(){
 				
 				$('#divProgramForm').empty();
@@ -268,7 +344,9 @@
 			});
 			
 		    
-		    getInstitutions();
+			getInstitutionsDB();
+			getInstitutionsSurvey();
+		    
 		    getAccreditors();
 		    getAreas();
 		    
@@ -296,9 +374,30 @@
 			});
 			
 		}
+	    function getInstitutionsSurvey()
+		{
+			var obj = document.getElementById('institutionSurveyForm');
+			
+			var dateToday = getDateToday();
+				
+			$.getJSON("InstitutionInSurveysLoader?date=" + dateToday, function(data){
+				var option = document.createElement("option");
+				option.text = "";
+				option.value = 0;
+				obj.add(option);
+				
+				$.each(data, function (key, value){
+					var option = document.createElement("option");
+					option.text = value.institutionName + " - " + value.city;
+					option.value = value.institutionID;
+					obj.add(option);
+					
+				});	
+				$('#institutionSurveyForm').trigger("chosen:updated");
+			});
+		}
 	    
-	    
-	    function getInstitutions(){
+	    function getInstitutionsDB(){
 	    	//GETS ALL SYSTEMS FOR THE SELECT DROPDOWN
 			var obj = document.getElementById('institutionForm');
 			
@@ -351,6 +450,92 @@
 	        return monthNames[this.getMonth()]+ ' ' + this.getDate() + ', '+this.getFullYear();
 	        
 	        
+	    }
+	    
+	    
+
+	    function genPDFSurvey() {
+	    	var PSID = $('#selectSurveyForm').find(":selected").val();
+			
+			$.getJSON("ChairpersonSurveyDetailsLoader?PSID=" + PSID, function(data){
+				
+				if(data.length > 0)
+				{
+					$.each(data, function (key, value){
+						
+
+						var instName = value.instName;
+						var city = value.city + " City";
+						
+						alert(value.accName);
+						var accName = value.accName;
+						var position = value.position;
+						var placePos = value.placeOfPosition;
+						
+						
+						var degreeName = value.degreeName;
+						var startdate = value.startDate;
+						var todate = value.endDate;
+						var type = value.type;
+						
+						if(!type.includes("survey"))
+						{
+							type = type + " Survey";
+						}
+						
+						var area = value.area;
+						
+	
+			              var doc = new jsPDF()
+			            
+			              doc.setFontSize(12)
+			              doc.text(20, 55, textDate) 
+	
+			              doc.setFontType("bold");
+			              doc.text(20, 70, accName);
+	
+			              doc.setFontType("normal");
+			              
+			              if(value.position != "")
+			              {
+			            	  var recipientpos = position + ", " + placePos;
+				              doc.text(20, 75, recipientpos)
+			              }
+			              
+			              if(value.instName != "")
+		            	  {
+			            	  doc.text(20, 80, instName)
+				              doc.text(20, 85, city)
+		            	  }
+			              
+			              var surveyschool = $('#institutionSurveyForm').find(":selected").text();
+			              var schoolcity = surveyschool + " City";
+			              
+			              var signperson = $('#signperson2').val()
+			              var signposition = $('#signposition2').val()
+
+			            doc.text(20, 95, "Dear " + accName + ": ")
+
+			            var paragraph="\nWe are in the process of forming a Committee for the " + type + " Visit of the "+ degreeName +" Department of "+schoolcity+". The visit has been scheduled on "+startdate+" to "+todate+".\n\nYou have been recommended to serve as Chairperson for the area of "+area+". The school's report and other relevant data will be sent to you as soon as we hear from you.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
+			            
+			            lines = doc.splitTextToSize(paragraph, 175) 
+
+			            doc.text(20, 100, lines)
+
+			            doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50)
+			            doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50)
+
+			            var filename = accName + " Chairperson Letter " + todayDateInput + ".pdf";
+
+			            doc.save(filename);
+					});	
+					
+				}
+				
+				
+			});
+			
+			
 	    }
 	
 		</script>
@@ -501,14 +686,49 @@
                 </div>
                 <article class="content dashboard-page">
                     <ul class="nav nav-tabs" style="margin-top:-4cm;">
-                        <li class="active"><a data-toggle="tab" href="#fromDB">From Database</a>
+                        <li class="active"><a data-toggle="tab" href="#fromSurveys">From Surveys</a>
+                        </li>
+                        <li id="liDB" onclick="forDB();"><a data-toggle="tab" href="#fromDB">From Database</a>
                         </li>
                         <li><a data-toggle="tab" href="#manualInput">Manual Input</a>
                         </li>
                     </ul>
 
                     <div class="tab-content">
-                        <div id="fromDB" class="tab-pane fade in active">
+                        <div id="fromSurveys" class="tab-pane fade in active">
+                        <br>
+                            <h3>Import From Upcoming Surveys</h3>
+                            
+                            	<div class="form-group" id = "divSurveyInstitutionForm">
+									<label for="institutionSurveyForm">Step 1: Choose an institution: </label>
+									<select class="form-control underlined chosen-select" data-placeholder="Choose an Institution" id="institutionSurveyForm" style="background: transparent;">
+									</select>
+								</div>
+								
+								<div class="form-group" id = "divSurveyForm">
+									<label for="selectSurveyForm">Step 2: Choose a survey from the institution: </label>
+									<select class="form-control underlined chosen-select" data-placeholder="Choose a survey" id="selectSurveyForm" style="background: transparent;">
+									</select>
+								</div>
+								<label>Step 3: Input signature fields: </label>
+								<br>
+								<p style="display: inline-block;">Sincerely Yours,</p>
+                                	<br>
+	                            	<input style="width: 20%;" placeholder="Signed By" id="signperson2">							
+									<br>
+									<input style="width: 20%;" placeholder="Position" id="signposition2">							
+									<br>
+									<br>
+								
+								<label>Step 4: Click on 'Download PDF' to download the invitation letter. Button will show once a survey is chosen.</label>
+								<br>
+                             
+								<div id="divSurveyButton">
+								</div>
+								
+                             	
+                        </div>
+                        <div id="fromDB" class="tab-pane fade">
                         <br>
                             <h3>Import From Database</h3>
                             
@@ -570,7 +790,10 @@
 									<p style="display: inline-block;">Dear &nbsp;</p><input style="width: 30%;" placeholder="Recepient" id="recepient-1"><p style="display: inline-block;">: &nbsp;</p>	
 									<br>
 									<br>
-									<p style="display: inline-block;">We are in the process of forming a Committee for the Resurvey Visit of the &nbsp;</p>
+									<p style="display: inline-block;">We are in the process of forming a Committee for the </p>
+								 	<input style="width: 30%;" placeholder="Survey Type" id="surveytype1">
+									
+									<p> Visit of the &nbsp;</p>
 									
 									<div id="divDept1">
 										<input style="width: 100%;" placeholder="Department" id="dept1">
@@ -638,17 +861,12 @@
 						    <input type="text" id="recipientpos" value="" placeholder="Recipient Position"><br>
 						    <input type="text" id="school" value="" placeholder="School"><br>
 						    <input type="text" id="city" value="" placeholder="City"> City<br>
-						
-						    <label for="department-dropdown">Select Department</label><br>
-						    <select name="department-dropdown" id="department-dropdown">
-						        <option value="Elementary Education Program">Elementary</option>
-						        <option value="Secondary Education Program">Secondary</option>
-						        <option value="Integrated Basic Education Program">Integrated Basic Education</option>
-						        <option value="Tertiary Education Program">Tertiary</option>
-						        <option value="Graduate Education Program">Graduate</option>
-						        <option value="Medical Education Program">Medical</option>
-						        <option value="CECSTE Program">CECSTE</option>
-						    </select>
+						    <br>
+							<input type="text" id="surveytype" value="" placeholder="Survey Type">
+						    <br>
+						    <input type="text" id="department" value="" placeholder="Department/Degree Name">
+						    
+						   
 						
 						    <br>
 						    <input type="text" id="surveyschool" value="" placeholder="Survey School"><br>
