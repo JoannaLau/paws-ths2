@@ -868,6 +868,26 @@ public class InstitutionsUtil {
 	}
 	
 	//NEW
+	public int deleteSchoolProgramsChanges(ArrayList<SchoolProgram> spList) 
+	{
+		int rows = 0;
+		try{
+			Connection conn = db.getConnection();
+			for(int i = 0; i<spList.size(); i++)
+			{
+				PreparedStatement ps = conn.prepareStatement("DELETE from `school-program-changes` WHERE SPID = ?");
+				ps.setInt(1, spList.get(i).getSPID());
+				if(ps.executeUpdate() > 0)
+					rows++;
+			}
+		} catch (Exception e){
+			System.out.println("Error in AccreditorUtil:addAccreditor()");
+			e.printStackTrace();
+		}
+		return rows;
+	}
+	
+	//NEW
 	public ArrayList<SchoolProgram> getSchoolProgramChanges()
 	{
 		ArrayList<SchoolProgram> schoolPrograms = new ArrayList<SchoolProgram>();
@@ -890,14 +910,14 @@ public class InstitutionsUtil {
 	}
 	
 	//MODIFIED
-	public void addProgramToInst(String specific, int generalID, int instID, String level){
+	public void addProgramToInst(String specific, int generalID, int instID, String level, int educLevelID){
 		try{
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
 			String strDate = dateFormat.format(date);
 			
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO `school-program` (programID, institutionID, accLevel, dateAdded, degreeName) VALUES (?,?,?,?,?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `school-program` (programID, institutionID, accLevel, dateAdded, degreeName, levelID) VALUES (?,?,?,?,?,?)");
 		
 			ps.setInt(1, generalID);
 			ps.setInt(2, instID);
@@ -905,6 +925,8 @@ public class InstitutionsUtil {
 			
 			ps.setString(5, specific);
 			ps.setString(4, strDate);
+			ps.setInt(6, educLevelID);
+			
 			
 			if(ps.executeUpdate() > 0)
 			{
@@ -930,7 +952,7 @@ public class InstitutionsUtil {
 								ps1.setString(6, inst.gethEmail());
 								ps1.setString(7, inst.getAddress());
 								ps1.setString(8, "Preliminary Visit");
-								ps1.setString(9, inst.getDateAdded());
+								ps1.setString(9, inst.getDateAddedRaw());
 								ps1.setString(10, inst.getCity());
 								ps1.setString(11, inst.getFax());
 								ps1.setString(12, inst.getContactPerson());
@@ -969,7 +991,7 @@ public class InstitutionsUtil {
 								ps1.setString(5, inst.gethEmail());
 								ps1.setString(6, inst.getAddress());
 								ps1.setString(7, "Preliminary Visit");
-								ps1.setString(8, inst.getDateAdded());
+								ps1.setString(8, inst.getDateAddedRaw());
 								ps1.setString(9, inst.getCity());
 								ps1.setString(10, inst.getFax());
 								ps1.setString(11, inst.getContactPerson());
@@ -1013,14 +1035,16 @@ public class InstitutionsUtil {
 					if(rs.first())
 					{
 						
-						PreparedStatement ps3 = conn.prepareStatement("INSERT INTO `school-program-changes` (programID, institutionID, accLevel, dateAdded, degreeName) VALUES (?,?,?,?,?)");
+						PreparedStatement ps3 = conn.prepareStatement("INSERT INTO `school-program-changes` (SPID, programID, institutionID, accLevel, dateAdded, degreeName, levelID) VALUES (?,?,?,?,?,?,?)");
 	
-						ps3.setInt(1, generalID);
-						ps3.setInt(2, instID);
-						ps3.setString(3, level);
+						ps3.setInt(1, rs.getInt(1));
+						ps3.setInt(2, generalID);
+						ps3.setInt(3, instID);
+						ps3.setString(4, level);
 						
-						ps3.setString(5, specific);
-						ps3.setString(4, strDate);
+						ps3.setString(6, specific);
+						ps3.setString(5, strDate);
+						ps3.setInt(7, educLevelID);
 						
 						
 						ps3.executeUpdate();
@@ -1043,14 +1067,178 @@ public class InstitutionsUtil {
 	//OLD
 	public void updateProgramToInst(String SPID, String level){
 		try{
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!00000000"+level);
 			Connection conn = db.getConnection();
 			PreparedStatement ps = conn.prepareStatement("UPDATE `school-program` SET accLevel=? WHERE `SPID`=?");
 						
 			ps.setString(1, level);
 			ps.setString(2, SPID);
 					
-			ps.executeUpdate();
+			if(ps.executeUpdate() > 0)
+			{
+				try{
+					Institution inst = getInstitutionFromSPID(Integer.parseInt(SPID.replaceAll("\\s","")));
+					try{
+						PreparedStatement ps2 = conn.prepareStatement("SELECT * FROM `institutions-changes` WHERE institutionID=?");
+						ps2.setInt(1, inst.getInstitutionID());
+						ResultSet rs = ps2.executeQuery();
+						
+						//institution not yet in changes
+						if(!rs.first())
+						{
+							try
+							{
+								System.out.print("INSIDE EXECUTE UPDATE -------------------------------------------------");
+								PreparedStatement ps1 = conn.prepareStatement("INSERT INTO `institutions-changes` (institutionID, systemID, name, head, hPosition, hEmail, address, status, dateAdded, city, fax, contactPerson, contactPosition, contactNumber, website, country, contactEmail, acronym, longitude, latitude, dateChanged) VALUES (?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+								
+								ps1.setInt(1, inst.getInstitutionID());
+								ps1.setInt(2, inst.getSchoolSystemID());
+								ps1.setString(3, inst.getName());
+								ps1.setString(4, inst.getHead());
+								ps1.setString(5, inst.gethPosition());
+								ps1.setString(6, inst.gethEmail());
+								ps1.setString(7, inst.getAddress());
+								ps1.setString(8, "Preliminary Visit");
+								ps1.setString(9, inst.getDateAddedRaw());
+								ps1.setString(10, inst.getCity());
+								ps1.setString(11, inst.getFax());
+								ps1.setString(12, inst.getContactPerson());
+								ps1.setString(13, inst.getContactPosition());
+								ps1.setString(14, inst.getContactNumber());
+								ps1.setString(15, inst.getWebsite());
+								ps1.setString(16, inst.getCountry());
+								ps1.setString(17, inst.getContactEmail());
+								ps1.setString(18, inst.getInstitutionAcronym());
+								ps1.setDouble(19, inst.getLongitude());
+								ps1.setDouble(20, inst.getLatitude());
+								Date date1 = new Date();
+								String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date1);
+								ps1.setString(21, modifiedDate);
+								
+								ps1.executeUpdate();
+								
+							} catch (Exception e){
+								System.out.println("Error in InstitutionsUtil:editInstitution()");
+								e.printStackTrace();	
+							}
+						}
+						else
+						{
+							try
+							{
+								
+								System.out.print("INSIDE EXECUTE UPDATE -------------------------------------------------");
+								PreparedStatement ps1 = conn.prepareStatement("UPDATE `institutions-changes` SET systemID=?, name=?, head=?, hPosition=?, hEmail=?, address=?, status=?, dateAdded=?, city=?, fax=?, contactPerson=?, contactPosition=?, contactNumber=?, website=?, country=?, contactEmail=?, acronym=?, longitude=?, latitude=?, dateChanged=? WHERE institutionID=?");
+								
+								
+								ps1.setInt(1, inst.getSchoolSystemID());
+								ps1.setString(2, inst.getName());
+								ps1.setString(3, inst.getHead());
+								ps1.setString(4, inst.gethPosition());
+								ps1.setString(5, inst.gethEmail());
+								ps1.setString(6, inst.getAddress());
+								ps1.setString(7, "Preliminary Visit");
+								ps1.setString(8, inst.getDateAddedRaw());
+								ps1.setString(9, inst.getCity());
+								ps1.setString(10, inst.getFax());
+								ps1.setString(11, inst.getContactPerson());
+								ps1.setString(12, inst.getContactPosition());
+								ps1.setString(13, inst.getContactNumber());
+								ps1.setString(14, inst.getWebsite());
+								ps1.setString(15, inst.getCountry());
+								ps1.setString(16, inst.getContactEmail());
+								ps1.setString(17, inst.getInstitutionAcronym());
+								ps1.setDouble(18, inst.getLongitude());
+								ps1.setDouble(19, inst.getLatitude());
+								
+								Date date1 = new Date();
+								String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date1);
+								ps1.setString(20, modifiedDate);
+								
+								ps1.setInt(21, inst.getInstitutionID());
+								
+								ps1.executeUpdate();
+								
+								
+							} catch (Exception e){
+								System.out.println("Error in InstitutionsUtil:editInstitution()");
+								e.printStackTrace();	
+							}
+						}
+					} catch (Exception e){
+						System.out.println("Error in InstitutionsUtil:editInstitution()");
+						e.printStackTrace();	
+					}
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();	
+					
+				}
+				
+				try{
+					PreparedStatement ps2 = conn.prepareStatement("SELECT * FROM `school-program-changes` WHERE SPID = ?");
+					ps2.setInt(1, Integer.parseInt(SPID.replaceAll("\\s","")));
+					ResultSet rs = ps2.executeQuery();
+					System.out.println("OUTSIDE IF SPID ------------------------------------------------");
+			
+					if(rs.first())
+					{
+						System.out.println("INSIDE TRY SPID ------------------------------------------------");
+						PreparedStatement ps3 = conn.prepareStatement("UPDATE `school-program-changes` SET accLevel=? WHERE `SPID`=?");
+						
+						ps3.setString(1, level);
+						ps3.setString(2, SPID);
+						
+						ps3.executeUpdate();
+				
+					}
+					else
+					{
+						
+						try{
+							PreparedStatement ps4 = conn.prepareStatement("SELECT * FROM `school-program` WHERE SPID = ?");
+							ps4.setInt(1, Integer.parseInt(SPID.replaceAll("\\s","")));
+							ResultSet rs1 = ps4.executeQuery();
+							if(rs1.first())
+							{
+								SchoolProgram sp = new SchoolProgram(rs1.getInt(1), rs1.getInt(2), rs1.getInt(3), rs1.getString(4), 
+										rs1.getString(5), rs1.getString(6), rs1.getString(7), rs1.getString(8), rs1.getString(9),
+										rs1.getInt(10), rs1.getString(11));
+								
+								PreparedStatement ps3 = conn.prepareStatement("INSERT INTO `school-program-changes` (SPID, programID, institutionID, accLevel, dateAdded, degreeName, validUntil, levelID) VALUES (?,?,?,?,?,?,?,?)");
+								ps3.setInt(1, sp.getSPID());
+								ps3.setInt(2, sp.getProgramID());
+								ps3.setInt(3, sp.getInstitutionID());
+								ps3.setString(4, sp.getLevel());
+								ps3.setString(5, sp.getDateAdded());
+								ps3.setString(6, sp.getDegreeName());
+								ps3.setString(7, sp.getValidUntil());
+								ps3.setInt(8, sp.getLevelID());
+								
+								
+								
+								ps3.executeUpdate();
+							}
+							
+						
+						} catch (Exception e){
+							System.out.println("Error in InstitutionsUtil:addInstitution()");
+							e.printStackTrace();	
+						}
+						
+						
+						
+						
+					}
+				
+				} catch (Exception e){
+					System.out.println("Error in InstitutionsUtil:addInstitution()");
+					e.printStackTrace();	
+				}
+				
+			}
+			
+			
 		} catch (Exception e){
 			System.out.println("Error in InstitutionUtil:addProgramToInstitution()");
 			e.printStackTrace();	
@@ -1058,6 +1246,26 @@ public class InstitutionsUtil {
 		
 	}
 	
+	private Institution getInstitutionFromSPID(int SPID) {
+		Institution temp = new Institution();
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT i.* FROM institutions i, `school-program` sp WHERE i.institutionID = sp.institutionID AND sp.SPID = ?");
+			ps.setInt(1,  SPID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				temp =  new Institution(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), rs.getString(17), rs.getString(18), rs.getDouble(19), rs.getDouble(20));
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitution()");
+			e.printStackTrace();
+		}
+		
+	    return temp;
+		
+	}
+
+
 	public void deleteInstitution(int institutionID){
 		try{
 			Connection conn = db.getConnection();
@@ -1069,6 +1277,9 @@ public class InstitutionsUtil {
 			e.printStackTrace();
 		}
 	}
+	
+
+	
 	
 	private static String formatDate(String date){
 		String format = new String();
@@ -1244,6 +1455,8 @@ public class InstitutionsUtil {
 		
 		return jArray;
 	}
+
+	
 
 	
 }

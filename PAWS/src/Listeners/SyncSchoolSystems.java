@@ -10,25 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Models.BoardMember;
-import Models.Institution;
-import Models.SchoolProgram;
-import Utilities.BoardMembersLocalUtil;
-import Utilities.BoardMembersUtil;
-import Utilities.InstitutionsUtil;
+import Models.SchoolSystem;
 import Utilities.InstitutionsWebUtil;
+import Utilities.SchoolSystemUtil;
 
 /**
- * Servlet implementation class SyncInstitutions
+ * Servlet implementation class SyncSchoolSystems
  */
-@WebServlet("/SyncInstitutions")
-public class SyncInstitutions extends HttpServlet {
+@WebServlet("/SyncSchoolSystems")
+public class SyncSchoolSystems extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SyncInstitutions() {
+    public SyncSchoolSystems() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,47 +33,19 @@ public class SyncInstitutions extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		InstitutionsUtil instUtil = new InstitutionsUtil();
+		SchoolSystemUtil ssUtil = new SchoolSystemUtil();
 		InstitutionsWebUtil instWebUtil = new InstitutionsWebUtil();
-		ArrayList<Institution> inst = new ArrayList<Institution>();
 		
 		if(instWebUtil.getDB()!=null)
 		{
 			request.setAttribute("connection", true);
-			ArrayList<Institution> instList = instUtil.getInstitutionsChanges();
+			ArrayList<SchoolSystem> ssList = ssUtil.getSchoolSystemsChanges();
 			
-			ArrayList<SchoolProgram> spList = instUtil.getSchoolProgramChanges();
-			
-			
-			//for school programs
-			if(instWebUtil.getDB()!=null && spList.size() > 0)
+			if(instWebUtil.getDB()!=null && ssList.size() > 0)
 			{
-				if(instWebUtil.getDB()!=null && instWebUtil.updateSchoolPrograms(spList)!=0)
+				if(instWebUtil.getDB()!=null && instWebUtil.updateSchoolSystems(ssList)!=0)
 				{
-					if(instUtil.deleteSchoolProgramsChanges(spList) == spList.size())
-					{
-						request.setAttribute("deleted", true);
-					}
-				}
-				else
-				{
-					request.setAttribute("deleted", false);
-					request.setAttribute("connection", false);
-				}
-			}
-			else
-			{
-				request.setAttribute("deleted", false);
-				request.setAttribute("connection", false);
-			}
-			
-			//for institutions
-			if(instWebUtil.getDB()!=null && instList.size() > 0)
-			{
-				if(instWebUtil.getDB()!=null && instWebUtil.updateInstitutions(instList)!=0)
-				{
-					if(instUtil.deleteInstitutionsChanges(instList) == instList.size())
+					if(ssUtil.deleteSchoolSystemsChanges(ssList) == ssList.size())
 					{
 						request.setAttribute("deleted", true);
 					}
@@ -102,9 +70,9 @@ public class SyncInstitutions extends HttpServlet {
 		}
 		
 		
-		inst = instUtil.getInstitutionsChanges();
-		request.setAttribute("institutions", inst);
-		RequestDispatcher rd = request.getRequestDispatcher("webInstitutions.jsp");
+		ArrayList<SchoolSystem> ssList = ssUtil.getSchoolSystemsChanges();
+		request.setAttribute("schoolSystems", ssList);
+		RequestDispatcher rd = request.getRequestDispatcher("webSchoolSystems.jsp");
 		rd.forward(request, response);
 	}
 

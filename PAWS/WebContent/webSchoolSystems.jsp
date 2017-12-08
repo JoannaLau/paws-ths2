@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-
+    
 <!doctype html>
-
 <html class="no-js" lang="en">
 
     <head>
-      	 <!-- IMPORTS -->
+      	 	 <!-- IMPORTS -->
 	<link rel="stylesheet" href="chosen/chosen.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -59,7 +58,6 @@
                 document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
             }
         </script>
-		
 	
 <script>
 $(document).ready(function() {
@@ -71,7 +69,7 @@ $(document).ready(function() {
     	buttons: [
                   {
                 	  extend: 'pdfHtml5',
-                	  title: "List of Disciplines",
+                	  title: "List of School Systems",
                 	  download: 'open',
                 	  exportOptions: {
                           columns: [ 0, 1]
@@ -79,7 +77,7 @@ $(document).ready(function() {
                   },
                   {
                 	  extend: 'excelHtml5',
-                	  title: "List of Disciplines",
+                	  title: "List of School Systems",
                 	  exportOptions: {
                           columns: [ 0, 1]
                       }
@@ -107,6 +105,7 @@ $(document).ready(function() {
             } );
         }
     } );
+	
 		$("#smarttable").colResizable({
 			liveDrag:true
 		});
@@ -131,7 +130,7 @@ $(document).ready(function() {
 		white-space: nowrap;	}
 		
 	#smarttable th{
-	
+
 		color:#3c4731;
 		font-size:110%;		}
 
@@ -289,9 +288,10 @@ $(document).ready(function() {
     <body>
         <div class="main-wrapper">
             <div class="app" id="app">
-                
+               
                 <jsp:include page="sidebar.jsp" />
-				<div class="container">
+				
+               <div class="container">
 		<video poster="assets/banner.jpg" id="bgvid"  playsinline autoplay muted loop>
 			  <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
 
@@ -299,78 +299,71 @@ $(document).ready(function() {
 			</video>
 			</div>
 						<div id="welcome">
-						<h1>List of Levels and Disciplines/Programs</h1>
+						<h1>List of School Systems</h1>
 						
-									<button type="button"  style="float:right; position:relative;left:-50px; top:-52px; color:#3c4731;" class="btn btn-oval btn-secondary" onclick="location.href='addProgram.jsp';"><em class="fa fa-plus"></em><b> Add Level/Discipline</b></button>
-							   
+					
+						<button type="button"  style="float:right; position:relative;left:-50px; top:-52px; color:#3c4731;" class="btn btn-oval btn-secondary" onclick="location.href='./SyncSchoolSystems';"><b>&nbsp;Sync Changes</b></button>
+                   		   
 						</div>
 			   <header class="header" id="customheader">
 			   
 					
                 </header>
                  <article class="content dashboard-page"  >
-                    <section class="section" style="position: relative; top:-135px; left:-25px; width:105%;" >
-                        <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
-							<table id="smarttable" class="table table-striped table-bordered table-hover">
-                               <thead>
-                                 <tr>
-                                       <th>Discipline/Program of Study</th>
-                                       <th>Number of Institutions with this discipline</th>
-                                       <th>Controls</th>
-                                   </tr>
-                               </thead>
-                               <tbody>
-									<c:forEach items="${programs}" var="program" >
-									<tr>
-									<c:if test = "${program.getProgramID() > 3}">
-							        	<td> <c:out value="${program.getName()}"/> </td>
-										<td> <c:out value="${program.getCount()}"/> </td>
-										<td>
-										<a href="ViewProgram?programID=<c:out value='${program.getProgramID()}'/>">View</a>
-										<a href="EditProgram?programID=<c:out value='${program.getProgramID()}'/>">Edit</a>
-										</td>
-									</c:if>
-									<c:if test = "${program.getProgramID() < 4}">
-							        	<td style="display: none;"> <c:out value="${program.getName()}"/> </td>
-										<td style="display: none;"> <c:out value="${program.getCount()}"/> </td>
-										<td style="display: none;">
-										<a href="ViewProgram?programID=<c:out value='${program.getProgramID()}'/>">View</a>
-										<a href="EditProgram?programID=<c:out value='${program.getProgramID()}'/>">Edit</a>
-										</td>
-									</c:if>
-									
-									</tr>
-									</c:forEach>
-									
-                               </tbody>
-                           </table>
-                       </div>
-                       <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
-							<table id="smarttable" class="table table-striped table-bordered table-hover">
-                               <thead>
-                                 <tr>
-                                       <th>Education Level</th>
-                                       <th>Number of Institutions with this level</th>
-                                       <th>Controls</th>
-                                   </tr>
-                               </thead>
-                               <tbody>
-									<c:forEach items="${programsNonTertiary}" var="programNT" >
-									<tr>
-										<td> <c:out value="${programNT.getName()}"/> </td>
-										<td> <c:out value="${programNT.getCount()}"/> </td>
-										<td>
-										<a href="ViewProgram?programID=<c:out value='${programNT.getProgramID()}'/>">View</a>
-										<a href="EditProgram?programID=<c:out value='${programNT.getProgramID()}'/>">Edit</a>
-										</td>
-									</tr>
-									</c:forEach>
-									
-                               </tbody>
-                           </table>
-                       </div>
-                   </section>
+	                    <section class="section" style="position: relative; top:-135px; left:-25px; width:105%;" >
+	                       <label>This is the list of school systems whose details have been changed.</label>
+						<label>Click on 'Sync Changes' to upload these changes to the website.</label>
+						<br>
+						 <c:if test = "${deleted == true}">
+							<label style="color: green;">Your changes have been synced to the website.</label>
+						 </c:if>
+						 
+						 <c:if test = "${connection == false}">
+							<label style="color: red;">Error! The system was unable to connect to the web database.</label>
+						 </c:if>
+	                    
+					
+					
+						
+					
+                                            <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
+										
+                                                  <table id="smarttable" class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                      <tr>
+                                                            <th>Date Changed</th>
+                                                            <th>System Name</th>
+                                                            <th>Number of Institutions</th>
+                                                            <th>Controls</th>
+                                                           
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+													<c:forEach items="${schoolsystems}" var="ss" >
+														<tr>
+															<td> <c:out value="${ss.getDateChanged()}"/> </td>
+															<td> <c:out value="${ss.getName()}"/> </td>
+															<td> <c:out value="${ss.getNumberOfInstitutions()}"/></td>
+															<td> 
+															<a href="ViewSchoolSystem?schoolsystemID=<c:out value='${ss.getSchoolSystemID()}'/>">View</a>
+															<a href="EditSchoolSystem?schoolsystemID=<c:out value='${ss.getSchoolSystemID()}'/>">Edit</a>
+														<%--     <a href="DeleteSchoolSystem?schoolsystemID=<c:out value='${ss.getSchoolSystemID()}'/>">Delete</a> </td>
+														 --%>	
+														</tr>
+													</c:forEach>
+									               </tbody>
+                                                </table>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						
+                    </section>
                 </article>
+             
+             
              
              
         <!-- Reference block for JS -->
@@ -388,3 +381,7 @@ $(document).ready(function() {
     </body>
 
 </html>
+
+
+
+

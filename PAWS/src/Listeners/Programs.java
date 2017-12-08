@@ -33,9 +33,16 @@ public class Programs extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ArrayList<Program> programs = new ArrayList<Program>();
+		ArrayList<Program> programsNonTertiary = new ArrayList<Program>();
 		ProgramUtil progUtil = new ProgramUtil();
+		programsNonTertiary = progUtil.getProgramsNonTertiary();
+		
+		ArrayList<Program> programs = new ArrayList<Program>();
 		programs = progUtil.getPrograms();
+		
+
+		request.setAttribute("programsNonTertiary", programsNonTertiary);
+		
 		request.setAttribute("programs", programs);
 		RequestDispatcher rd = request.getRequestDispatcher("programs.jsp");
 		rd.forward(request, response);

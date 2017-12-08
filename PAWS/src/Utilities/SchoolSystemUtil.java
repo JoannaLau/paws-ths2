@@ -38,6 +38,31 @@ public SchoolSystem getSchoolSystem(int ssID){
 }
 
 
+public ArrayList<SchoolSystem> getSchoolSystemsChanges() {
+	ArrayList<SchoolSystem> schoolsystems = new ArrayList<SchoolSystem>();
+	SchoolSystem temp = new SchoolSystem();
+	try{
+		Connection conn = db.getConnection();
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `school-systems-changes` ORDER BY `name`");
+		ResultSet rs = ps.executeQuery();
+		
+		while(rs.next()){
+			//constructor is (int accreditorID, String name, String institution, String discipline, String primaryArea, 
+			// String secondaryArea, int totalSurveys, String city)
+			//db returns accreditorID, lastname, firstname, midlename, honorifics, 
+			//email, num_surveys, date_trained, contact, address, city, country, venue_trained
+			temp = new SchoolSystem(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getDate(4));
+			temp.setNumberOfInstitutions(getInstitutionCount(temp.getSchoolSystemID()));
+			schoolsystems.add(temp);
+		}
+	} catch (Exception e){
+		System.out.println("Error in ProgramUtil:getSchoolSystems()");
+		e.printStackTrace();
+	}
+	return schoolsystems;
+}
+
+
 public ArrayList<SchoolSystem> getSchoolSystems(){
 	ArrayList<SchoolSystem> schoolsystems = new ArrayList<SchoolSystem>();
 	SchoolSystem temp = new SchoolSystem();
@@ -113,8 +138,12 @@ public void addSchoolSystem(String name, String date_joined){
 		PreparedStatement ps = conn.prepareStatement("INSERT INTO `school-systems` (name, dateJoined) VALUES (?,?)");
 		ps.setString(1, name);
 		ps.setString(2, date_joined);
-		System.out.println(name + " " + date_joined +"!!!!!!!!!!!!!!");	
-		ps.executeUpdate();
+		if(ps.executeUpdate() > 0)
+		{
+			ps = conn.prepareStatement("INSERT INTO `school-systems-changes` (name, dateJoined) VALUES (?,?)");
+			ps.setString(1, name);
+			ps.setString(2, date_joined);
+		}
 	} catch (Exception e){
 		System.out.println("Error in ProgramUtil:addSystem()");
 		e.printStackTrace();	
@@ -146,6 +175,25 @@ public void deleteSchoolSystem(int schoolSystemID){
 		System.out.println("Error in SchoolSystemUtil:deleteSchoolSystem()");
 		e.printStackTrace();
 	}
+}
+
+public int deleteSchoolSystemsChanges(ArrayList<SchoolSystem> ssList) {
+	int rows = 0;
+	
+	for(int i = 0; i<ssList.size(); i++)
+		{
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("DELETE from `school-systems-changes` WHERE systemID = ?");
+			ps.setInt(1, ssList.get(i).getSchoolSystemID());
+			if(ps.executeUpdate() > 0)
+				rows++;
+		} catch (Exception e){
+			System.out.println("Error in SchoolSystemUtil:deleteSchoolSystem()");
+			e.printStackTrace();
+		}
+	}
+	return rows;
 }
 
 

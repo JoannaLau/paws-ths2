@@ -8,6 +8,7 @@ import com.mysql.jdbc.Connection;
 
 import Models.Institution;
 import Models.SchoolProgram;
+import Models.SchoolSystem;
 
 
 public class InstitutionsWebUtil 
@@ -39,7 +40,7 @@ public class InstitutionsWebUtil
 				//SP exists, update only
 				if(rs.first())
 				{
-					PreparedStatement ps2 = conn.prepareStatement("UPDATE `school-program` SET `programID` = ?, `institutionID` = ?, `accLevel` = ?, `dateAdded` = ?, `degreeName` = ?, `validUntil` = ? WHERE SPID = ?");
+					PreparedStatement ps2 = conn.prepareStatement("UPDATE `school-program` SET `programID` = ?, `institutionID` = ?, `accLevel` = ?, `dateAdded` = ?, `degreeName` = ?, `validUntil` = ?, `levelID` = ? WHERE SPID = ?");
 					//ps1.setInt(1, instList.get(i).getInstitutionID());
 					
 					ps2.setInt(1, spList.get(i).getProgramID());
@@ -48,7 +49,8 @@ public class InstitutionsWebUtil
 					ps2.setString(4, spList.get(i).getDateAdded());
 					ps2.setString(5, spList.get(i).getDegreeName());
 					ps2.setString(6, spList.get(i).getValidUntil());
-					ps2.setInt(7, spList.get(i).getSPID());
+					ps2.setInt(7, spList.get(i).getLevelID());
+					ps2.setInt(8, spList.get(i).getSPID());
 					
 					
 					if(ps2.executeUpdate() > 0)
@@ -61,7 +63,7 @@ public class InstitutionsWebUtil
 				//new SP
 				else
 				{
-						PreparedStatement ps2 = conn.prepareStatement("INSERT INTO `school-program` (SPID, programID, institutionID, accLevel, dateAdded, degreeName, validUntil) VALUES (?,?,?,?,?,?,?)");
+						PreparedStatement ps2 = conn.prepareStatement("INSERT INTO `school-program` (SPID, programID, institutionID, accLevel, dateAdded, degreeName, validUntil, levelID) VALUES (?,?,?,?,?,?,?,?)");
 						//ps1.setInt(1, instList.get(i).getInstitutionID());
 						
 						ps2.setInt(1, spList.get(i).getSPID());
@@ -71,6 +73,7 @@ public class InstitutionsWebUtil
 						ps2.setString(5, spList.get(i).getDateAdded());
 						ps2.setString(6, spList.get(i).getDegreeName());
 						ps2.setString(7, spList.get(i).getValidUntil());
+						ps2.setInt(8, spList.get(i).getLevelID());
 						
 						
 						
@@ -182,29 +185,61 @@ public class InstitutionsWebUtil
 		return rows;
 		
 	}
-		
 	
-	private String getSchoolSystemName(int ID){
-		String name="";
-		
-		try{
-			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT `name` FROM `school-systems` where `systemID`=?");
-			ps.setInt(1, ID);
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()){				
+	public int updateSchoolSystems(ArrayList<SchoolSystem> ssList) {
+		int rows = 0;
+		for(int i = 0; i<ssList.size(); i++)
+		{
+			try{
+				//check SP already exists
+				Connection conn = db.getConnection();
+				PreparedStatement ps = conn.prepareStatement("SELECT * FROM `school-systems` WHERE systemID = ?");
+				ps.setInt(1, ssList.get(i).getSchoolSystemID());
+				ResultSet rs = ps.executeQuery();
+				
+				//SS exists, update only
+				if(rs.first())
+				{
+					PreparedStatement ps2 = conn.prepareStatement("UPDATE `school-systems` SET `name` = ? WHERE systemID = ?");
+					//ps1.setInt(1, instList.get(i).getInstitutionID());
+					
+					ps2.setString(1, ssList.get(i).getName());
+					ps2.setInt(2, ssList.get(i).getSchoolSystemID());
+					
+					
+					if(ps2.executeUpdate() > 0)
+						//successful update
+						rows++;
+					
+					
+					
+				}
+				//new SS
+				else
+				{
+						PreparedStatement ps2 = conn.prepareStatement("INSERT INTO `school-systems` (systemID, name, dateJoined) VALUES (?,?,?)");
+						//ps1.setInt(1, instList.get(i).getInstitutionID());
+						
+						ps2.setInt(1, ssList.get(i).getSchoolSystemID());
+						ps2.setString(2, ssList.get(i).getName());
+						ps2.setString(3, ssList.get(i).getDateJoined());
+						
+						if(ps2.executeUpdate() > 0)
+							//successful update
+							rows++;
+						
+				}
 			
-				name = rs.getString(1);
-				System.out.println("Checking schoolsystemName: "+ name);
+	
+			} catch (Exception e){
+				System.out.println("Error in AccreditorUtil:addAccreditor()");
+				e.printStackTrace();
 			}
-			db.cutPort();
-		} catch (Exception e){
-			System.out.println("Error in InstitutionsUtil:getSchoolSystemName()");
-			e.printStackTrace();
 		}
-		
-		return name;
+		db.cutPort();
+		return rows;
 	}
 
+	
 	
 }

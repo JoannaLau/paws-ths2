@@ -346,7 +346,7 @@
 						
 					
                                             <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
-											<label for="discipline">Discipline/Program of Study</label>
+											<label for="discipline">Level/Discipline</label>
 											<select id="disciplineSelect"><option value="All">All</option></select>
  
                                                 <table id="smarttable" class="table table-striped table-bordered table-hover" style="width:100%">
@@ -354,7 +354,7 @@
                                                     <thead>
                                                       <tr>
                                                             <th>Full Name</th>
-                                                            <th>Discipline/Program of Study</th>
+                                                            <th>Level/Discipline</th>
 															<th>Total Surveys</th>
                                                             <th>City</th>
                                                             <th>Controls</th>

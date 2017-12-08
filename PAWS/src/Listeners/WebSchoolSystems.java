@@ -1,6 +1,7 @@
 package Listeners;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,20 +10,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Models.Institution;
+import Models.SchoolSystem;
 import Utilities.InstitutionsUtil;
 import Utilities.SchoolSystemUtil;
 
 /**
- * Servlet implementation class AddProgramToInst
+ * Servlet implementation class WebSchoolSystems
  */
-@WebServlet("/AddProgramToInst")
-public class AddProgramToInst extends HttpServlet {
+@WebServlet("/WebSchoolSystems")
+public class WebSchoolSystems extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddProgramToInst() {
+    public WebSchoolSystems() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,16 +35,11 @@ public class AddProgramToInst extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String specific = request.getParameter("degreeName");
-		int programID = Integer.parseInt((String)request.getParameter("programID"));
-		int instID = Integer.parseInt((String)request.getParameter("instID"));
-		int educLevelID = Integer.parseInt((String)request.getParameter("educLevelID"));
-		
-		InstitutionsUtil instUtil = new InstitutionsUtil();
-		instUtil.addProgramToInst(specific, programID, instID, "NA", educLevelID);	
-	
-		
-		RequestDispatcher rd = request.getRequestDispatcher("ViewInstitution?institutionID="+instID);
+		ArrayList<SchoolSystem> systemsList = new ArrayList<SchoolSystem>();
+		SchoolSystemUtil ssUtil = new SchoolSystemUtil();
+		systemsList = ssUtil.getSchoolSystemsChanges();
+		request.setAttribute("schoolSystems", systemsList);
+		RequestDispatcher rd = request.getRequestDispatcher("webSchoolSystems.jsp");
 		rd.forward(request, response);
 	}
 
@@ -49,8 +47,8 @@ public class AddProgramToInst extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
-		
 	}
 
 }

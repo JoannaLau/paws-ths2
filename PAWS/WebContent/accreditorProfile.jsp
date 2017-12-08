@@ -116,7 +116,7 @@
 													
 													
 													
-													Discipline: <b><c:out value="${acc.getDiscipline()}"/></b><br>
+													Discipline/Level: <b><c:out value="${acc.getDiscipline()}"/></b><br>
 													Areas of Expertise: <b><c:out value="${acc.getPrimaryArea()}"/>, <c:out value="${acc.getSecondaryArea()}"/>, <c:out value="${acc.getTertiaryArea()}"/></b><br>
 													Number of Surveys : <b><c:out value="${acc.getTotalSurveys()}"/></b><br>
 													<c:out value="${acc.getContact()}"/> <br>													

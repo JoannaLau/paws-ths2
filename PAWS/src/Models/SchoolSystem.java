@@ -1,11 +1,14 @@
 package Models;
 
+import java.sql.Date;
+
 public class SchoolSystem {
 
 
 	private int schoolSystemID;
 	private String name;
 	private String dateJoined = "";
+	private Date dateChanged;
 	private int numberOfInstitutions;
 	
 	public SchoolSystem(){}
@@ -23,6 +26,24 @@ public class SchoolSystem {
 		this.schoolSystemID = schoolsystemID;
 		this.name = name;
 		this.dateJoined = date_joined;
+	}
+
+	public SchoolSystem(int schoolsystemID, String name, String date_joined, Date dateChanged) {
+		super();
+		this.schoolSystemID = schoolsystemID;
+		this.name = name;
+		this.dateJoined = date_joined;
+		this.dateChanged = dateChanged;
+	}
+	
+	
+
+	public Date getDateChanged() {
+		return dateChanged;
+	}
+
+	public void setDateChanged(Date dateChanged) {
+		this.dateChanged = dateChanged;
 	}
 
 	public int getSchoolSystemID() {

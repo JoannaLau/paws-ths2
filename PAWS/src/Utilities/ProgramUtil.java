@@ -65,6 +65,31 @@ public class ProgramUtil {
 		
 		return jArray;
 	}
+
+	//NEW
+	public JSONArray getAllProgramsJSON(){
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM programs");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("programID", rs.getInt(1));
+				job.put("name", rs.getString(2));
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in ProgramUtil:getAllProgramsJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+	}
 	
 	public ArrayList<Program> getPrograms(){
 		ArrayList<Program> programs = new ArrayList<Program>();
@@ -72,6 +97,30 @@ public class ProgramUtil {
 		try{
 			Connection conn = db.getConnection();
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM programs");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				//constructor is (int accreditorID, String name, String institution, String discipline, String primaryArea, 
+				// String secondaryArea, int totalSurveys, String city)
+				//db returns accreditorID, lastname, firstname, midlename, honorifics, 
+				//email, num_surveys, date_trained, contact, address, city, country, venue_trained
+				temp = new Program(rs.getInt(1), rs.getString(2), rs.getString(3), getCount(rs.getInt(1)));
+				System.out.println(rs.getString(2));
+				programs.add(temp);
+			}
+		} catch (Exception e){
+			System.out.println("Error in ProgramUtil:getPrograms()");
+			e.printStackTrace();
+		}
+		
+	    return programs;
+	}
+	
+	public ArrayList<Program> getProgramsNonTertiary(){
+		ArrayList<Program> programs = new ArrayList<Program>();
+		Program temp = new Program();
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM programs WHERE programID < 4");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				//constructor is (int accreditorID, String name, String institution, String discipline, String primaryArea, 

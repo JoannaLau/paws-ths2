@@ -13,6 +13,7 @@ public class Institution {
 	private String address="";
 	private String region="";
 	private String status="";
+	private String dateAddedRaw="";
 	private String dateAdded="";
 	private String city="";
 	private String fax="";
@@ -31,7 +32,13 @@ public class Institution {
 	
 	
 	
+	public String getDateAddedRaw() {
+		return dateAddedRaw;
+	}
 
+	public void setDateAddedRaw(String dateAddedRaw) {
+		this.dateAddedRaw = dateAddedRaw;
+	}
 
 	public Date getDateChanged() {
 		return dateChanged;
@@ -242,6 +249,7 @@ public class Institution {
 		this.address = address;
 		this.country = country;
 		this.status = status;
+		this.dateAddedRaw = date_added;
 		this.dateAdded = formatDate_yearFirst(date_added);
 		this.dateAddedWord = formatDate(date_added);
 		this.city = city;
@@ -269,6 +277,7 @@ public class Institution {
 		this.address = address;
 		this.country = country;
 		this.status = status;
+		this.dateAddedRaw = date_added;
 		this.dateAdded = formatDate_yearFirst(date_added);
 		this.dateAddedWord = formatDate(date_added);
 		this.city = city;
@@ -298,6 +307,7 @@ public class Institution {
 		this.address = address;
 		this.country = country;
 		this.status = status;
+		this.dateAddedRaw = date_added;
 		this.dateAdded = formatDate_yearFirst(date_added);
 		this.dateAddedWord = formatDate(date_added);
 		this.city = city;
