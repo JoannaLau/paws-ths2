@@ -22,7 +22,7 @@ public class InfographicsUtil {
 	
 	
 	
-	public int getInstitutionPragramCount(int educLevelID, int year, String status){
+	public int getInstitutionProgramCount(int educLevelID, int year, String status){
 
 			int count =0;
 		
@@ -60,10 +60,9 @@ public class InfographicsUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(`institutionID`) FROM `institutions` WHERE YEAR(STR_TO_DATE(`dateAdded`, '%Y-%m-%d')) = ? AND `educLevelID` = ? AND `status` = ?");
-			ps.setInt(1, year);
-			ps.setInt(2, educLevelID);
-			ps.setString(3, status);
+			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM `school-program` WHERE levelID = ? AND dateAdded LIKE ?");
+			ps.setInt(1, educLevelID);
+			ps.setString(2, "%" + year + "%");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){				
 			
@@ -134,9 +133,9 @@ int year=0;
 	
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(`surveyID`) FROM surveys WHERE surveys.institutionID IN (SELECT institutionID from INSTITUTIONS WHERE educLevelID = ?) AND YEAR(STR_TO_DATE(`startDate`, '%Y-%m-%d')) = ?");
-			ps.setInt(1, educLevelID);
-			ps.setInt(2, year); 
+			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM `program-survey` ps, surveys s, `school-program` sp WHERE ps.SPID = sp.SPID AND ps.surveyID = s.surveyID AND ps.boardApprovalDate LIKE ? AND sp.levelID = ?");
+			ps.setString(1, "%" + year + "%");
+			ps.setInt(2, educLevelID); 
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){				
 			
@@ -193,7 +192,7 @@ int count = 0;
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM `program-area` pa, `program-survey` ps, surveys s, `school-program` sp WHERE pa.PSID = ps.PSID AND ps.surveyID = s.surveyID AND ps.SPID = sp.SPID AND ps.surveyID IN (SELECT surveyID FROM surveys WHERE YEAR(STR_TO_DATE(startDate, '%Y-%m-%d')) =?) AND sp.levelID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT Count(*) FROM areas ar, accreditors a, institutions i, `program-area` pa, `program-survey` ps, surveys s, `school-program` sp WHERE ar.areaID = pa.areaID AND pa.accreditorID = a.accreditorID AND sp.institutionID = i.institutionID AND pa.PSID = ps.PSID AND ps.surveyID = s.surveyID AND ps.SPID = sp.SPID AND ps.surveyID IN (SELECT surveyID FROM surveys WHERE YEAR(STR_TO_DATE(startDate, '%Y-%m-%d')) = ?) AND sp.levelID = ?");
 			ps.setInt(1, year);
 			ps.setInt(2, level); 
 			ResultSet rs = ps.executeQuery();

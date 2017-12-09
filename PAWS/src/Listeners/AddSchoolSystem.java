@@ -43,7 +43,7 @@ public class AddSchoolSystem extends HttpServlet {
 		String date_joined = request.getParameter("joinDate");
 		SchoolSystemUtil ssUtil = new SchoolSystemUtil();
 		ssUtil.addSchoolSystem(SchoolSystemName, date_joined);	
-		System.out.println("output1:"+ SchoolSystemName);
+	//	System.out.println("output1:"+ SchoolSystemName);
 		response.sendRedirect("SchoolSystems");
 	}
 

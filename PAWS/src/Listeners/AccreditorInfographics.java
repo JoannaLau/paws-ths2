@@ -100,8 +100,6 @@ ArrayList<Infographic> infList = new ArrayList<Infographic>();
 		
 		
 		
-		
-		
 	}
 
 	/**

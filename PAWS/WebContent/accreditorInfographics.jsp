@@ -75,6 +75,9 @@
         
         
 <style>
+	td:hover {
+	 cursor:pointer;
+	}
 
 	#contenthole{
 		-webkit-box-shadow: 0px 4px 13px -4px rgba(0,0,0,0.5);
@@ -302,14 +305,14 @@
 													 <c:forEach items="${SurveyCountList}" var="count" >
 														<tr>
 															<td> <c:out value="${count.getYear()}"/> 
-															<td> <c:out value="${count.getGradeSchool()}"/> </td>
-															<td> <c:out value="${count.getHighSchool()}"/> </td>
-															<td> <c:out value="${count.getBasicEd()}"/> </td>
-															<td> <c:out value="${count.getTertiary()}"/> </td>
-															<td> <c:out value="${count.getGraduate()}"/> </td>
-															<td> <c:out value="${count.getMedical()}"/> </td>
-															<td> <c:out value="${count.getCecste()}"/> </td>
-															<td> <c:out value="${count.getTotal()}"/> </td>
+															<td onclick="window.document.location='ViewAccreditorForLevelSurvey?educLevelID=1&year='+'${count.getYear()}';" title="Click to view list of accreditors in grade school surveys for ${count.getYear()}"> <c:out value="${count.getGradeSchool()}"/> </td>
+															<td onclick="window.document.location='ViewAccreditorForLevelSurvey?educLevelID=2&year='+'${count.getYear()}';" title="Click to view list of accreditors in high school surveys for ${count.getYear()}"> <c:out value="${count.getHighSchool()}"/> </td>
+															<td onclick="window.document.location='ViewAccreditorForLevelSurvey?educLevelID=3&year='+'${count.getYear()}';" title="Click to view list of accreditors in basic education level surveys for ${count.getYear()}"> <c:out value="${count.getBasicEd()}"/> </td>
+															<td onclick="window.document.location='ViewAccreditorForLevelSurvey?educLevelID=4&year='+'${count.getYear()}';" title="Click to view list of accreditors in tertiary level surveys for ${count.getYear()}"> <c:out value="${count.getTertiary()}"/> </td>
+															<td onclick="window.document.location='ViewAccreditorForLevelSurvey?educLevelID=5&year='+'${count.getYear()}';" title="Click to view list of accreditors in graduate level surveys for ${count.getYear()}"> <c:out value="${count.getGraduate()}"/> </td>
+															<td onclick="window.document.location='ViewAccreditorForLevelSurvey?educLevelID=6&year='+'${count.getYear()}';" title="Click to view list of accreditors in medical level surveys for ${count.getYear()}"> <c:out value="${count.getMedical()}"/> </td>
+															<td onclick="window.document.location='ViewAccreditorForLevelSurvey?educLevelID=7&year='+'${count.getYear()}';" title="Click to view list of accreditors in CECSTE level surveys for ${count.getYear()}"> <c:out value="${count.getCecste()}"/> </td>
+															<td onclick="window.document.location='ViewAccreditorForLevelSurvey?educLevelID=0&year='+'${count.getYear()}';" title="Click to view list of accreditors in all surveys for ${count.getYear()}"> <c:out value="${count.getTotal()}"/> </td>
 															
 															
 														</tr>
@@ -345,11 +348,11 @@
 													 <c:forEach items="${TypeCountList}" var="count2" >
 														<tr>
 															<td> <c:out value="${count2.getYear()}"/> 
-															<td> <c:out value="${count2.getPreliminary()}"/> </td>
-															<td> <c:out value="${count2.getFormal()}"/> </td>
-															<td> <c:out value="${count2.getResurvey()}"/> </td>
-															<td> <c:out value="${count2.getInterim()}"/> </td>
-															<td> <c:out value="${count2.getTotal()}"/> </td>
+															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Preliminary&year='+'${count2.getYear()}';" title="Click to view list of preliminary surveys for ${count2.getYear()}"> <c:out value="${count2.getPreliminary()}"/> </td>
+															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Formal&year='+'${count2.getYear()}';" title="Click to view list of formal surveys for ${count2.getYear()}"> <c:out value="${count2.getFormal()}"/> </td>
+															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Resurvey&year='+'${count2.getYear()}';" title="Click to view list of resurveys for ${count2.getYear()}"> <c:out value="${count2.getResurvey()}"/> </td>
+															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Consultancy&year='+'${count2.getYear()}';" title="Click to view list of consultancy/interim surveys for ${count2.getYear()}"> <c:out value="${count2.getInterim()}"/> </td>
+															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=&year='+'${count2.getYear()}';" title="Click to view list of all surveys for ${count2.getYear()}"> <c:out value="${count2.getTotal()}"/> </td>
 														
 															
 															
@@ -690,7 +693,7 @@
 	j$ = jQuery.noConflict();
 	j$(document).ready( function () {
 		var contactTable = j$('[id$="smarttable"]').DataTable({
-			order: [[0, 'asc']],
+			order: [[0, 'dec']],
 			
 		});
 

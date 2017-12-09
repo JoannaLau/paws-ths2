@@ -55,7 +55,6 @@
 			{
 				setTimeout( function() { deleteEvent(id); }, delay );
 			}
-
 			function deleteEvent(id){
 			$('#calendar').fullCalendar( 'removeEvents', id );
 			}
@@ -95,10 +94,8 @@
 	var today = dd + '/' + mm + '/' + yyyy;
 	var todayDateInput = yyyy + '-' + mm + '-' + dd;
 	var textDateNum = today.toString();
-
 	function genPDFInvitationSurvey(PSID) {
 		
-
 		alert("in invi");
 		$.getJSON("InvitationSurveyDetailsLoader?PSID=" + PSID, function(data){
 			
@@ -204,7 +201,6 @@
 				$.each(data, function (key, value){
 					
 					var accSize = value.accSize;
-
 					var degreeName = value.degreeName;
 					var startdate = value.startDate;
 					var todate = value.endDate;
@@ -221,16 +217,11 @@
 					var hPosition = value.hPosition;
 					var name = value.name;
 					var city = value.city;
-
-
 		              var doc = new jsPDF();
-
 		              doc.setFontSize(12);
 		              doc.text(20, 55, textDate);
-
 		              doc.setFontType("bold");
 		              doc.text(20, 70, head);
-
 		              doc.setFontType("normal");
 		              doc.text(20, 75, hPosition);
 		              
@@ -238,21 +229,16 @@
 		            
 		              city = city + " City";
 		              doc.text(20, 85, city);
-
 		              
 		              doc.setFontType("bold");
 		              var surveyschool = name;
 		              var schoolcity = surveyschool + " " + city;
-
 		             		              
 		              doc.setFontType("normal");
 		              var signperson = $('#signperson2').val();
 		              var signposition = $('#signposition2').val();
-
 		             
-
 		              doc.text(20, 95, "Dear " + head + ":");
-
 		              var paragraph="\nWe are pleased to confirm the " + type + " Visit to the "+degreeName+" Department of "+schoolcity+" on "+startdate+" to "+todate+".\n\nFrom among the many educators experienced in survey activities, the following have been selected to carry out the evaluation of your institution:\n\n\t\tChairperson :\t"+chairperson+"\n\t\t     Members :\t";
 		              	              
 		              var json = (function () {
@@ -281,14 +267,10 @@
 		              paragraph = paragraph + "\n\nIn keeping with PAASCU policy, institutions may make representations concerning the composition of the team. However, since the selection already represents a careful balance of experience and expertise, should there be need for adjustment in the composition of the team, reasons for such may be presented in writing to the President by the institution. Failure to hear from you would be interpreted as your being in agreement with the composition of the team. \n\nWe look forward to visiting your institution.\n\n\nSincerely,\n\n\n"+signperson+"\n"+signposition+"";
 		              
 		              lines = doc.splitTextToSize(paragraph, 175);
-
 		              doc.text(20, 100, lines);
-
 		              doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50);
 		              doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50);
-
 		              var filename = head + " Confirmation Letter " + todayDateInput + ".pdf";
-
 		              doc.save(filename);
 						
 					});
@@ -298,7 +280,6 @@
 	
 		 function genPDFThankYouSurvey(PSID) {
 			 
-
 			 alert('adaasd');
 				var json =  (function () {
 					alert("inside json");
@@ -397,7 +378,6 @@
 					{
 						$.each(data, function (key, value){
 							
-
 							var instName = value.instName;
 							var city = value.city + " City";
 							
@@ -447,20 +427,14 @@
 				              
 				              var signperson = $('#signperson2').val()
 				              var signposition = $('#signposition2').val()
-
 				            doc.text(20, 95, "Dear " + accName + ": ")
-
 				            var paragraph="\nWe are in the process of forming a Committee for the " + type + " Visit of the "+ degreeName +" Department of "+schoolcity+". The visit has been scheduled on "+startdate+" to "+todate+".\n\nYou have been recommended to serve as Chairperson for the area of "+area+". The school's report and other relevant data will be sent to you as soon as we hear from you.\n\n\nSincerely yours,\n\n\n"+signperson+"\n"+signposition+""
 				            
 				            lines = doc.splitTextToSize(paragraph, 175) 
-
 				            doc.text(20, 100, lines)
-
 				            doc.addImage(imgHeader, 'JPEG', 0, 0, 210, 50)
 				            doc.addImage(imgFooter, 'JPEG', 0, 260, 210, 50)
-
 				            var filename = accName + " Chairperson Letter " + todayDateInput + ".pdf";
-
 				            doc.save(filename);
 						});	
 						
@@ -478,7 +452,6 @@
 	var incomplete = 'rgb(91, 9, 9)';
 	/*
 	$.getJSON("SurveyLoader", function(data) {
-
 	      //iterating over each value that the servlet returns
 	      $.each(data, function(key, value) {
 	               alert(value.id); //alerting the values set in the JSONObject of the Sevlet.
@@ -495,9 +468,6 @@ function UpdateConfirmation(con, id, psid, area, obj){
 		obj.parentNode.parentNode.className="success";
 		obj.className = "btn btn-pill-right btn-success btn-sm";
 		obj.previousSibling.className = "btn btn-pill-left btn-secondary btn-sm";
-
-
-
 	}
 	$.ajax({url: "UpdateConfirmation?accreditorID=" + id + "&confirmation=" + con + "&PSID=" + psid + "&areaID=" + area, success: function(result){
     }});
@@ -531,8 +501,6 @@ function deleteArea(accreditorID, PSID, areaID, btn){
 function editAccreditor(accreditorID, institutionID, PSID, areaID, btn, surveyID){
 	//btn.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.modal();
 	$('#fullCalModal').modal("hide");
-
-
 	var add = "";
 	var accreditors = [];
 	var obj = {};
@@ -577,15 +545,11 @@ function editAccreditor(accreditorID, institutionID, PSID, areaID, btn, surveyID
 				add += '<td>' + accreditors[i].lastSurveyDate + '</td>';
 				add += '<td>' + accreditors[i].city + '</td>';
 				add += '</tr>';
-
 			}
 			
 		}
 	}
 	add += '</tbody></table></div>';
-
-
-
 	$('#modalBody1').html(add);
 	$('#modalBody1').attr('height', '400px');
 	$('#modalBody1').attr('overflow-y', 'scroll');
@@ -595,7 +559,6 @@ function editAccreditor(accreditorID, institutionID, PSID, areaID, btn, surveyID
 		click: function(){
 			$('#addModal').modal('toggle');
 			showEvent(surveyID);
-
 		}
 	});
 	$('#modalFooter1').append(btnBack);
@@ -651,22 +614,16 @@ function editAccreditor(accreditorID, institutionID, PSID, areaID, btn, surveyID
 			$('#fullCalModal').modal('show');
 			
 			
-
     } );
-
 	$('#addModal').modal();
 	
-
 	//$('#addModal').modal('hide');
 	
 	
-
 }
-
 function showEvent(surveyID){
 	$('#event' + surveyID).parents("a.fc-day-grid-event").trigger("click");
 }
-
 function formatDate(date) {
 	  var monthNames = [
 	    "January", "February", "March",
@@ -674,14 +631,11 @@ function formatDate(date) {
 	    "August", "September", "October",
 	    "November", "December"
 	  ];
-
 	  var day = date.getDate();
 	  var monthIndex = date.getMonth();
 	  var year = date.getFullYear();
-
 	  return monthNames[monthIndex] + ' '+ day + ', ' + year;
 	}
-
 	$(document).ready(function() {
 		
 		
@@ -689,9 +643,7 @@ function formatDate(date) {
 		
 		/* initialize the external events
 		-----------------------------------------------------------------*/
-
 		
-
 		var today = new Date(); var dd = today.getDate(); var mm = today.getMonth()+1; //January is 0!
     	var yyyy = today.getFullYear();
     	if(dd<10){ dd='0'+dd;} 
@@ -748,7 +700,6 @@ function formatDate(date) {
 		        $("#calendar").fullCalendar("refetchEvents");
 		    	$("#calendar").fullCalendar("rerenderEvents");
 	        	$("#calendar").fullCalendar("refresh");
-
 		    },
 		    eventResize: function(event, delta, revertFunc, element) {
 		    	
@@ -761,10 +712,8 @@ function formatDate(date) {
 		        	$("#calendar").fullCalendar("refetchEvents");
 		        	$("#calendar").fullCalendar("rerenderEvents");
 		        	$("#calendar").fullCalendar("refresh");
-
 		        }
 		        
-
 		    },
 		    eventReceive: function(event) {
 		    	var d1 = Date.parse(today);
@@ -792,7 +741,6 @@ function formatDate(date) {
 		        $("#calendar").fullCalendar("refetchEvents");
 		    	$("#calendar").fullCalendar("rerenderEvents");
 	        	$("#calendar").fullCalendar("refresh");
-
 		    },
 		    eventRender: function(event, element) {
 		    	var d1 = Date.parse(today);
@@ -813,7 +761,6 @@ function formatDate(date) {
 				add += "</p>";
 				
 			    $(element).tooltip('destroy');
-
 				$(element).tooltip({title:add, placement:"auto left", html:true, container:'body'}); 
 				element.find('.fc-content').attr("id", "event" + event.id);
 				
@@ -830,7 +777,6 @@ function formatDate(date) {
 				var d1 = Date.parse(today);
 				var institutionID = event.institutionID;
 		    	var d2 = Date.parse(event.start);
-
 				if(d2 <= d1 ){
 					
 					$('#modalTitle').html(event.title + "<a class='btn btn-oval btn-sm btn-secondary'style='position: releative;float:right; right:10px; ' href='ConfirmationPage?surveyID=" + surveyID +"'>Go to confirmation page</a>");
@@ -841,7 +787,6 @@ function formatDate(date) {
 		            $('#modalBody').html("<div style='width: 49%; float:left;'><h4>Date: " + dateStart + "</h4><h6>Institution: " + event.institutionName + "</h6></div>");
 				}else{
 		            $('#modalBody').html("<div style='width: 49%; float:left;'><h4>Date: " + dateStart + " to " + dateEnd + "</h4><h6>Institution: " + event.institutionName + "</h6></div>");
-
 				}
 				
 				var extra = "<div style='width:30%; float:left;'>";
@@ -873,7 +818,6 @@ function formatDate(date) {
 		            add += ("<br><br><table class='table'>");
 		            add += ("<thead><tr><th style='width: 20%;'>Name</th> <th style='width: 40%;'>Area</th> <th style='width: 40%;'>Specify Availability</th></tr></thead>");
 		            add += ("<tbody>"); 
-
 		            for(var j = 0; j < event.programs[i].areas.length; j++){
 		            	if(event.programs[i].areas[j].confirmation == "Not Available"){
 			            	add += ("<tr class='danger'>");	
@@ -904,10 +848,8 @@ function formatDate(date) {
 		            add += ("<tr class='info' style='height:65px'><td><select id='areaSelect" + PSID + "'><option>Faculty</option><option>Instruction</option><option>Laboratories</option><option>Libraries</option><option>Community</option><option>Physical Facilities</option><option>Student Services</option><option>Administration</option><option>Research</option><option>Clinical Training</option><option>Other Resources</option></select></td><td><button onclick='addNewSurveyArea("+PSID+", " + institutionID + ")'  class='btn btn-info btn-sm' style='position:relative; left:50%; top:10px'><i class='fa fa-plus'></i> Add New Area</button></td><td></td></tr>");
 		            add += ("</tbody>");
 		            add += ("</table></li>");
-
 	            }
 	            add += ("</ul></div>");
-
 	            
 	            
 	            add += ("</ul></div>");
@@ -925,7 +867,6 @@ function formatDate(date) {
 						programForm.add(option);
 						
 						$('#programForm').trigger("chosen:updated");
-
 					});
 				});
 				
@@ -942,7 +883,6 @@ function formatDate(date) {
 			//past, incomplete, complete
 			
 			eventSources: [
-
 		        // your event source
 		        {
 		            url: 'SurveyLoader',
@@ -958,7 +898,6 @@ function formatDate(date) {
 		        }
 		
 		        // any other sources...
-
     ]
 		});
 	
@@ -979,7 +918,6 @@ function formatDate(date) {
 	 */
 // 	btnExpanded.click(function(){
 // 		//java
-
 // 		var curDate = $('#calendar').fullCalendar('getView').start;
 // 		var lasDate = $('#calendar').fullCalendar('getView').end;
 		
@@ -1069,7 +1007,6 @@ function formatDate(date) {
 // 		  for(var i=0; i < 6; i++){	  	
 // 			    ctx.fillText(days[i], (187*(i%6))+57, (Math.floor(i/6)*100)+25);   
 // 		  }
-
 // 		  var date1ptr = 0; var maindateptr = 0; var date2ptr = 0;
 // 		  var dayCounter = 0; var j = 0;
 		  
@@ -1101,18 +1038,14 @@ function formatDate(date) {
 // 		  	}
 // 		  }while(j < 36);
 // 			ctx.font = 'bold 20px serif';
-
 // 			ctx.fillText(date1 + " to " + date2, 900,700);
 // 			ctx.font = 'bold 12px serif';
-
-
 		  
 // 		  $.ajax({ //CALLING ACCREDITORS WITH EXTRA CHECKING FOR AFFILIATION CONFLICTS
 // 			  url: "SurveyJSONLoader?startDate=" + date1 + "&endDate=" + date2,
 // 			  dataType: 'json',
 // 			  async: false,
 // 			  success: function(data) {
-
 // 				$.each(data, function(key, val) {
 // 					var curDate;
 // 					var pos = 0;
@@ -1158,29 +1091,22 @@ function formatDate(date) {
 // 		  $('#expModal').modal("show");
 // 		  $('#expmodalTitle').html("Showing Expanded Calendar for " + date1 + " to " + date2);
 // 	});
-
-
  	loadPendings();
 });
-
 $('[data-toggle="tooltip"]').tooltip(); 
 function addAlert(){
 	$('#section').append('<div class="alert alert-success"><a class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Success!</strong> Successfully added survey called: '+asd +'.</div> <br>');
 }
-
 function goToDate(date){
 	var dates = date.split(" ");
 	var month = dates[0];
 	var year = dates[1];
 	window.location.href = "SurveyLoaderDate?month=" + month + "&year=" + year;
-
 }
-
 function revertEndDate(date){
 	var dates = String(date.format()).split("-");
 	return dates[0] + "-" + (dates[1] - 1) + "-" + dates[2];
 }
-
 function addNewProgram(surveyID, institutionID){
 	var programID = $('#programForm').find(":selected").val();
 	var programName = $('#programForm').find(":selected").text();
@@ -1210,15 +1136,12 @@ function addNewProgram(surveyID, institutionID){
 	
 	}
 }
-
 function editType(PSID,pName, orig){
 	var content = document.getElementById("PSID"+PSID).innerHTML;
 	content =  pName + " - <select id='selected"+PSID+"'><option>Preliminary</option><option>Formal</option><option>Consultancy</option><option>Revisit</option><option>Interim</option><option>Resurvey</option></select> <i id='saveIcon' style='position:relative; top:0px;right:-5px;' onclick='saveType("+PSID+",\""+pName+"\", \"" + orig + "\")' class='fa fa-check'></i>" +
 	"<i id='cancelIcon' style='position:relative; top:0px;right:-10px;' onclick='saveType2("+PSID+",\""+ pName +"\", \"" + orig + "\")' class='fa fa-times'></i>";
-
 	document.getElementById("PSID"+PSID).innerHTML = content;
 }
-
 function saveType(PSID,pName, orig){
 	var e = document.getElementById("selected"+PSID+"");
 	var type = e.options[e.selectedIndex].text;
@@ -1232,7 +1155,6 @@ function saveType(PSID,pName, orig){
 	$("#calendar").fullCalendar("rerenderEvents");
 	
 }
-
 function saveType2(PSID,pName, orig){
 	
 	type = orig;
@@ -1244,7 +1166,6 @@ function saveType2(PSID,pName, orig){
 	$("#calendar").fullCalendar("rerenderEvents");
 	
 }
-
 function addNewSurveyArea(PSID, institutionID){
 	var e = document.getElementById("areaSelect" + PSID);
 	var area = e.options[e.selectedIndex].value;
@@ -1275,7 +1196,6 @@ function addNewSurveyArea(PSID, institutionID){
      add += ("<tr class='info' style='height:65px'><td><select id='areaSelect" + PSID + "'><option>Faculty</option><option>Instruction</option><option>Laboratories</option><option>Libraries</option><option>Community</option><option>Physical Facilities</option><option>Student Services</option><option>Administration</option><option>Research</option><option>Clinical Training</option><option>Other Resources</option></select></td><td><button onclick='addNewSurveyArea("+PSID+", "+ institutionID + ")'  class='btn btn-info btn-sm' style='position:relative; left:50%; top:10px'><i class='fa fa-plus'></i> Add New Area</button></td><td></td></tr>");
 	nice.innerHTML += add;
 }
-
 function deleteSurvey(surveyID){
 	var r = confirm("Are you sure?\nThis will delete all survey details as well as the programs, areas and accreditors linked to this survey.")
 	if(r == true){
@@ -1292,7 +1212,6 @@ function deleteSurvey(surveyID){
 	
 	
 }
-
 function loadPendings(){
 	
 	$.getJSON("PendingSurveyLoader", function(data){
@@ -1315,12 +1234,10 @@ function loadPendings(){
 				revertDuration: 0  //  original position after the drag
 			});
 			$('#external-events').append(obj);
-
 		});
 		
 	});
 }
-
 function addSurvey(){
 	var sysVar = document.getElementById("systemForm").value;
 	var instVar = document.getElementById("institutionForm").value;
@@ -1328,28 +1245,23 @@ function addSurvey(){
 	
 	$('#external-events').append('<div class="fc-event ui-draggable ui-draggable-handle" data-event="{\"title\":\"' + sysVar + '\"}">' + instVar + '</div> <br>');
 	$('#external-events .fc-event').each(function() {
-
 		// store data so the calendar knows to render an event upon drop
 		$(this).data('event', {
 			title: $.trim($(this).text()), // use the element's text as the event title
 			backgroundColor: incomplete,
 			stick: true // maintain when user navigates (see docs on the renderEvent method)
 		});
-
 		// make the event draggable using jQuery UI
 		$(this).draggable({
 			
 			revert: true,      // will cause the event to go back to its
 			revertDuration: 0  //  original position after the drag
 		});
-
 	});
 	$('#systemForm').value = "";
 	$('#institutionForm').value = "" ;
 	
-
 }
-
     jsPDF.API.align = function(txt, options, x, y) {
         options = options ||{};
         /* Use the options align property to specify desired text alignment
@@ -1360,10 +1272,8 @@ function addSurvey(){
         if( options.align == "center" ){
             // Get current font size
             var fontSize = this.internal.getFontSize();
-
             // Get page width
             var pageWidth = this.internal.pageSize.width;
-
             // Get the actual text's width
             /* You multiply the unit width of your string by your font size and divide
              * by the internal scale factor. The division is necessary
@@ -1371,16 +1281,12 @@ function addSurvey(){
              * of jsPDF.
             */
             txtWidth = this.getStringUnitWidth(txt)*fontSize/this.internal.scaleFactor;
-
             // Calculate text's x coordinate
             x = ( pageWidth - txtWidth ) / 2;
         }
-
         // Draw text at x,y
         this.text(txt,x,y);
     };
-
-
 function generateTeam(program, institution, institutionCity,  date, chairpersonName, chairpersonInstitution, chairpersonPosition, chairpersonCity, paascu1Name, paascu1Position, paascu2Name, paascu2Position){
 	var indent = 80;
 	
@@ -1486,7 +1392,6 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
 	}
     pdf.save('Team line up.pdf');
 }
-
 </script>
 
 <style>
@@ -1498,7 +1403,6 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
   left: 0;
   overflow: hidden;
 }
-
 .expDialog {
   position: fixed;
   margin: 0;
@@ -1506,7 +1410,6 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
   height: 100%;
   padding: 0;
 }
-
 .expContent {
   position: absolute;
   top: 0;
@@ -1517,7 +1420,6 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
   border-radius: 0;
   box-shadow: none;
 }
-
 .expHeader {
   position: absolute;
   top: 0;
@@ -1529,14 +1431,12 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
   background: #6598d9;
   border: 0;
 }
-
 .expmodalTitle {
   font-weight: 300;
   font-size: 2em;
   color: #fff;
   line-height: 25px;
 }
-
 .expBody{
   position: absolute;
   top: 30px;
@@ -1545,7 +1445,6 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
   font-weight: 300;
   overflow: auto;
 }
-
 .expFooter {
   position: absolute;
   right: 0;
@@ -1555,12 +1454,6 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
   padding: 10px;
   background: #f1f3f5;
 }
-
-
-
-
-
-
 	.my-legend .legend-title {
     text-align: left;
     margin-bottom: 5px;
@@ -1605,7 +1498,6 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
 		padding:10px;
 		background-color: #f8f8f8;
 	}
-
 	
 	#smarttable th, #smarttable td {		
 		text-align: left;
@@ -1617,14 +1509,11 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
 		background-color:#85CE36;
 		color:#3c4731;
 		font-size:110%;		}
-
 	#smarttable td{
 		padding:15px;
 		padding-left:10px;
 		border: none;
 		color:#3c4731;		}
-
-
 	#smarttable tr:nth-child(even){
 		background-color:#e6f2da;}
 	
@@ -1645,22 +1534,18 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
 		background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
 		background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=0 );
-
 		-webkit-box-shadow: inset 0px 1px 5px 0px rgba(0,0,0,0.49);
 		-moz-box-shadow: inset 0px 1px 5px 0px rgba(0,0,0,0.49);
 		box-shadow: inset 0px 1px 5px 0px rgba(0,0,0,0.49);
 		cursor: pointer;}
-
 	#bgvid{
 		position:relative;
 		top:-400px;
 		margin-top:0px;
 		width:115%	}
-
 	body {		
 		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 		font-size: 14px;	}
-
 	#calendar {
 		max-width: 900px;
 		margin: 0 auto;	
@@ -1785,14 +1670,12 @@ box-shadow: inset 2px 0px 7px 2px rgba(0,0,0,0.52);
 
 
 <style>
-
 #logo{
 top:80px;
 left:14%;
 height: 625px;
 position:absolute;
 opacity:0.05;
-
 }
 #delButton{
 position:relative;
@@ -1802,27 +1685,22 @@ top:0px;
 opacity:1;
 height:35px;
 }
-
 #delIcon{
 left:40px;
 top:10px;
 color: #4e4e4e; !important
 transition: 1s ease;
 }
-
 #delIcon:hover{
 color:red;
 font-size:120%;
 }
-
 .fc-content{
   transition:  height 2s ease;
 }
 .fc-content:hover{
 height:25px;
-
 }
-
 #aPending{
 position:relative;
 top:10px;
@@ -1838,14 +1716,11 @@ left:17%;
 box-shadow: 0px 4px 7px 1px rgba(0,0,0,0.41);
 }
 #bPending:hover{
-
 top:83px;
 -webkit-box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
 -moz-box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
 box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
-
 }
-
 #expanded{
 position:relative;
 top:80px;
@@ -1855,19 +1730,15 @@ left:17%;
 box-shadow: 0px 4px 7px 1px rgba(0,0,0,0.41);
 }
 #expanded:hover{
-
 top:83px;
 -webkit-box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
 -moz-box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
 box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
-
 }
 #cPending{
 position:relative;
 top:75px;
 left:5px;
-
-
 }
 .widget{
  overflow:visible;
@@ -2078,10 +1949,8 @@ left:5px;
 
 <%-- <!doctype html>
 <html class="no-js" lang="en">
-
     <head>
     <!-- IMPORTS -->
-
     <script src='js/jquery.min.js'></script>
     <script src='js/jquery-ui.min.js'></script>
     <link rel="stylesheet" href="css/bootstrap.css">
@@ -2090,7 +1959,6 @@ left:5px;
    
 		<link href='css/fullcalendar.css' rel='stylesheet' />
  
-
     <link href='calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 	 <link href='css/vendor.css' rel='stylesheet' />
 	<script src='calendar/lib/moment.min.js'></script>
@@ -2125,23 +1993,16 @@ left:5px;
 			{
 				setTimeout( function() { deleteEvent(id); }, delay );
 			}
-
 			function deleteEvent(id){
 			$('#calendar').fullCalendar( 'removeEvents', id );
 			}
         </script>
-
-
-
-
-
 <script>
 	var past = 'rgb(12, 48, 107)';
 	var complete = 'rgb(0, 119, 29)';
 	var incomplete = 'rgb(91, 9, 9)';
 	/*
 	$.getJSON("SurveyLoader", function(data) {
-
 	      //iterating over each value that the servlet returns
 	      $.each(data, function(key, value) {
 	               alert(value.id); //alerting the values set in the JSONObject of the Sevlet.
@@ -2154,7 +2015,6 @@ left:5px;
 			obj.parentNode.parentNode.className="danger";
 		}else if (con == "Confirmed"){
 			obj.parentNode.parentNode.className="success";
-
 		}
 		$.ajax({url: "UpdateConfirmation?accreditorID=" + id + "&confirmation=" + con + "&PSID=" + psid + "&areaID=" + area, success: function(result){
 	    }});
@@ -2180,14 +2040,11 @@ left:5px;
 		    "August", "September", "October",
 		    "November", "December"
 		  ];
-
 		  var day = date.getDate();
 		  var monthIndex = date.getMonth();
 		  var year = date.getFullYear();
-
 		  return monthNames[monthIndex] + ' '+ day + ', ' + year;
 		}
-
 	$(document).ready(function() {
 		
 		
@@ -2195,9 +2052,7 @@ left:5px;
 		
 		/* initialize the external events
 		-----------------------------------------------------------------*/
-
 		
-
 		var today = new Date(); var dd = today.getDate(); var mm = today.getMonth()+1; //January is 0!
     	var yyyy = today.getFullYear();
     	if(dd<10){ dd='0'+dd;} 
@@ -2247,9 +2102,7 @@ left:5px;
 					}
 				}
 		        
-
 		        $('#calendar').fullCalendar('refresh');
-
 		    },
 		    eventReceive: function(event) {
 		        event.start.stripTime();
@@ -2269,9 +2122,7 @@ left:5px;
 					}
 				}
 		        
-
 		        $('#calendar').fullCalendar('refresh');
-
 		    },
 		    eventRender: function(event, element) {
 		    	var d1 = Date.parse(today);
@@ -2321,7 +2172,6 @@ left:5px;
 		            $('#modalBody').html("<div style='width: 49%; float:left;'><h4>Date: " + dateStart + "</h4><h6>Institution: " + event.institutionName + "</h6></div>");
 				}else{
 		            $('#modalBody').html("<div style='width: 49%; float:left;'><h4>Date: " + dateStart + " to " + dateEnd + "</h4><h6>Institution: " + event.institutionName + "</h6></div>");
-
 				}
 	            
 	            add += ("<button class='btn btn-sm btn-info' data-toggle='collapse' data-target='#reports' style='float:right;'><i class='fa fa-folder-open'></i> Reports</button>");
@@ -2334,7 +2184,6 @@ left:5px;
 		            add += ("<br><br><table class='table'>");
 		            add += ("<thead><tr><th style='width: 20%;'>Name</th> <th style='width: 40%;'>Area</th> <th style='width: 40%;'>Specify Availability</th></tr></thead>");
 		            add += ("<tbody>"); 
-
 		            for(var j = 0; j < event.programs[i].areas.length; j++){
 		            	if(event.programs[i].areas[j].confirmation == "Not Available"){
 			            	add += ("<tr class='danger'>");	
@@ -2345,7 +2194,6 @@ left:5px;
 		            	}
 		            	if(event.programs[i].areas[j].accreditorID == 0){
 			            	add += ("<td>" + event.programs[i].areas[j].accreditor + "</td><td>" + event.programs[i].areas[j].area + "</td><td><button class='btn btn-link btn-sm' onclick='UpdateConfirmation(\"Not Available\", " + event.programs[i].areas[j].accreditorID + ", " + PSID + ", " + event.programs[i].areas[j].areaID + ", this)'><i class='fa fa-thumbs-o-down'></i> Not Available</button><button class='btn btn-link btn-sm' onclick='UpdateConfirmation(\"Confirmed\", " + event.programs[i].areas[j].accreditorID + ", " + PSID + ", " + event.programs[i].areas[j].areaID + ", this)'><i class='fa fa-thumbs-o-up'></i> Available</button></td></tr>");
-
 		            	}else{
 			            	add += ("<td><a href='ViewAccreditor?accreditorID=" + event.programs[i].areas[j].accreditorID + "' data-toggle='tooltip' title='This will take you to the accreditor page.'>" + event.programs[i].areas[j].accreditor + "</a></td><td>" + event.programs[i].areas[j].area + "</td><td><button class='btn btn-link btn-sm' onclick='UpdateConfirmation(\"Not Available\", " + event.programs[i].areas[j].accreditorID + ", " + PSID + ", " + event.programs[i].areas[j].areaID + ", this)'><i class='fa fa-thumbs-o-down'></i> Not Available</button><button class='btn btn-link btn-sm' onclick='UpdateConfirmation(\"Confirmed\", " + event.programs[i].areas[j].accreditorID + ", " + PSID + ", " + event.programs[i].areas[j].areaID + ", this)'><i class='fa fa-thumbs-o-up'></i> Available</button></td></tr>");
 		            
@@ -2353,10 +2201,8 @@ left:5px;
 		            }
 		            add += ("</tbody>");
 		            add += ("</table></li>");
-
 	            }
 	            add += ("</ul></div>");
-
 	            
 	            
 	            add += ("</ul></div>");
@@ -2374,7 +2220,6 @@ left:5px;
 			//past, incomplete, complete
 			
 			eventSources: [
-
 		        // your event source
 		        {
 		            url: 'SurveyLoader',
@@ -2390,7 +2235,6 @@ left:5px;
 		        }
 		
 		        // any other sources...
-
     ]
 		});
 		
@@ -2399,8 +2243,6 @@ $('[data-toggle="tooltip"]').tooltip();
 function addAlert(){
 	$('#section').append('<div class="alert alert-success"><a class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Success!</strong> Successfully added survey called: '+asd +'.</div> <br>');
 }
-
-
 function deleteSurvey(surveyID){
 	var r = confirm("Are you sure?\nThis will delete all survey details as well as the programs, areas and accreditors linked to this survey.")
 	if(r == true){
@@ -2430,12 +2272,10 @@ function loadPendings(){
 				revertDuration: 0  //  original position after the drag
 			});
 			$('#external-events').append(obj);
-
 		});
 		
 	});
 }
-
 function addSurvey(){
 	var sysVar = document.getElementById("systemForm").value;
 	var instVar = document.getElementById("institutionForm").value;
@@ -2443,28 +2283,23 @@ function addSurvey(){
 	
 	$('#external-events').append('<div class="fc-event ui-draggable ui-draggable-handle" data-event="{\"title\":\"' + sysVar + '\"}">' + instVar + '</div> <br>');
 	$('#external-events .fc-event').each(function() {
-
 		// store data so the calendar knows to render an event upon drop
 		$(this).data('event', {
 			title: $.trim($(this).text()), // use the element's text as the event title
 			backgroundColor: incomplete,
 			stick: true // maintain when user navigates (see docs on the renderEvent method)
 		});
-
 		// make the event draggable using jQuery UI
 		$(this).draggable({
 			
 			revert: true,      // will cause the event to go back to its
 			revertDuration: 0  //  original position after the drag
 		});
-
 	});
 	$('#systemForm').value = "";
 	$('#institutionForm').value = "" ;
 	
-
 }
-
     jsPDF.API.align = function(txt, options, x, y) {
         options = options ||{};
         /* Use the options align property to specify desired text alignment
@@ -2475,10 +2310,8 @@ function addSurvey(){
         if( options.align == "center" ){
             // Get current font size
             var fontSize = this.internal.getFontSize();
-
             // Get page width
             var pageWidth = this.internal.pageSize.width;
-
             // Get the actual text's width
             /* You multiply the unit width of your string by your font size and divide
              * by the internal scale factor. The division is necessary
@@ -2486,16 +2319,12 @@ function addSurvey(){
              * of jsPDF.
             */
             txtWidth = this.getStringUnitWidth(txt)*fontSize/this.internal.scaleFactor;
-
             // Calculate text's x coordinate
             x = ( pageWidth - txtWidth ) / 2;
         }
-
         // Draw text at x,y
         this.text(txt,x,y);
     };
-
-
 function generateTeam(program, institution, institutionCity,  date, chairpersonName, chairpersonInstitution, chairpersonPosition, chairpersonCity, paascu1Name, paascu1Position, paascu2Name, paascu2Position){
 	var pdf = new jsPDF('p', 'mm', 'a4');
 	pdf.setFontSize(12);
@@ -2537,7 +2366,6 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
 		y+=10;
 		
 	    
-
 		for(var j = 0; j < program[i].areas.length; j++){
 			pdf.setFontType("normal");
 		    pdf.text(program[i].areas[j].area, 30, y);
@@ -2571,13 +2399,10 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
         pdf.text(": " + paascu2Name, 120, y);
         y+=5;
         pdf.text(": " + paascu2Position, 120, y);
-
     }
     pdf.save('Team l	ine up.pdf');
 }
-
 </script>
-
 <style>
 	.my-legend .legend-title {
     text-align: left;
@@ -2623,7 +2448,6 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
 		padding:10px;
 		background-color: #f8f8f8;
 	}
-
 	
 	#smarttable th, #smarttable td {		
 		text-align: left;
@@ -2635,14 +2459,11 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
 		background-color:#85CE36;
 		color:#3c4731;
 		font-size:110%;		}
-
 	#smarttable td{
 		padding:15px;
 		padding-left:10px;
 		border: none;
 		color:#3c4731;		}
-
-
 	#smarttable tr:nth-child(even){
 		background-color:#e6f2da;}
 	
@@ -2663,22 +2484,18 @@ function generateTeam(program, institution, institutionCity,  date, chairpersonN
 		background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
 		background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=0 );
-
 		-webkit-box-shadow: inset 0px 1px 5px 0px rgba(0,0,0,0.49);
 		-moz-box-shadow: inset 0px 1px 5px 0px rgba(0,0,0,0.49);
 		box-shadow: inset 0px 1px 5px 0px rgba(0,0,0,0.49);
 		cursor: pointer;}
-
 	#bgvid{
 		position:relative;
 		top:-400px;
 		margin-top:0px;
 		width:115%	}
-
 	body {		
 		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 		font-size: 14px;	}
-
 	#calendar {
 		max-width: 900px;
 		margin: 0 auto;	
@@ -2800,17 +2617,13 @@ box-shadow: inset 2px 0px 7px 2px rgba(0,0,0,0.52);
 }
 		
 </style>
-
-
 <style>
-
 #logo{
 top:80px;
 left:14%;
 height: 625px;
 position:absolute;
 opacity:0.05;
-
 }
 #delButton{
 position:relative;
@@ -2820,27 +2633,22 @@ top:0px;
 opacity:1;
 height:35px;
 }
-
 #delIcon{
 left:40px;
 top:10px;
 color: #4e4e4e; !important
 transition: 1s ease;
 }
-
 #delIcon:hover{
 color:red;
 font-size:120%;
 }
-
 .fc-content{
   transition:  height 2s ease;
 }
 .fc-content:hover{
 height:25px;
-
 }
-
 #aPending{
 position:relative;
 top:10px;
@@ -2856,26 +2664,21 @@ left:17%;
 box-shadow: 0px 4px 7px 1px rgba(0,0,0,0.41);
 }
 #bPending:hover{
-
 top:83px;
 -webkit-box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
 -moz-box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
 box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
-
 }
 #cPending{
 position:relative;
 top:75px;
 left:5px;
-
-
 }
 .widget{
  overflow:visible;
 }
 </style>
     </head>
-
     <body>
     	 
         <div class="main-wrapper">
@@ -2925,7 +2728,6 @@ left:5px;
 				<div class="container">
 	<video poster="assets/banner.jpg" id="bgvid"  playsinline autoplay muted loop>
   <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
-
 <source src="assets/vid.mp4" type="video/mp4">
 </video>
 </div>
@@ -2957,7 +2759,6 @@ left:5px;
         <!-- QUICK ADD MODAL -->
 			<div id="myModal" class="modal fade" role="dialog">
   				<div class="modal-dialog">
-
     			<!-- Modal content-->
     			<div class="modal-content">
       			<div class="modal-header">
@@ -2984,7 +2785,6 @@ left:5px;
         			<button type="button" class="btn btn-success" onclick="alert('wala pa'); "data-dismiss="modal" >Submit</button>
       			</div>
     			</div>
-
   				</div>
 			</div>  
 			
@@ -3019,5 +2819,4 @@ left:5px;
 		
 		<script>loadPendings();</script>
 		</body>
-
 </html> --%>

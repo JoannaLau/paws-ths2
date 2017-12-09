@@ -84,7 +84,7 @@ public class MembershipInfographics extends HttpServlet {
 		for(n=startYear; n<=endYear; n++){
 			
 			
-			ProgramInfographic p = new ProgramInfographic(n, ins.getInstitutionPragramCount(4, n, "Active"), ins.getInstitutionPragramCount(5, n, "Active"));
+			ProgramInfographic p = new ProgramInfographic(n, ins.getInstitutionProgramCount(4, n, "Active"), ins.getInstitutionProgramCount(5, n, "Active"));
 			
 			proInfList.add(p);
 			

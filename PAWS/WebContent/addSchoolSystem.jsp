@@ -276,7 +276,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 				
 				 <div class="title-block">
                         <h3 class="title" style="float:left;">
-							<a href="SchoolSystems"> List of School Systems </a> > Add New Institution
+							<a href="SchoolSystems"> List of School Systems </a> > Add New School System
 						</h3>
 			     </div>
 				
@@ -288,7 +288,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 									<div class="card card-block sameheight-item">
 										<div class="title-block">
 											<h3 class="title">
-							New Institution Form
+							New School System Form
 						</h3> </div>
 						
 											<div style="width:48%; padding-right"> <label class="control-label">School System Name</label> 

@@ -23,6 +23,18 @@
 	<script src="js/dataTables.bootstrap.min.js"></script>
 	
  	<link title="timeline-styles" rel="stylesheet" href="css/timeline.css">
+ 	
+ 	
+ 	 <script src="js/Chart.bundle.js"></script>
+    <script src="js/utils.js"></script>
+    <style>
+    canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+    </style>
+ 	
 	
 	<!-- END IMPORTS -->
     	
@@ -52,15 +64,7 @@
 		
         
         
-        <script src="js/Chart.bundle.js"></script>
-    <script src="js/utils.js"></script>
-    <style>
-    canvas {
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-    }
-    </style>
+      
         
         
         
@@ -71,9 +75,11 @@
         
         
 <style>
+
 	td:hover {
 	 cursor:pointer;
 	}
+
 	#contenthole{
 		-webkit-box-shadow: 0px 4px 13px -4px rgba(0,0,0,0.5);
 		-moz-box-shadow: 0px 4px 13px -4px rgba(0,0,0,0.5);
@@ -253,64 +259,43 @@
 </video>
 </div>
             <div id="welcome">
-			<h1>Survey Visits Infographics</h1>
+			<h1>Accreditors that surveyed for the year ${year}</h1>
 			
 
                    
 			</div>
-	
+	   		 
+    
                 <article class="content dashboard-page"  >
+                         
                     <section class="section" style="position: relative; top:-135px; left:-25px; width:105%;" >
                        <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
-										
-										<h2>Survey Visits</h2>
-										
-																
-  <form method="post" action="SurveyVisitInfographics">				
-					  
-						<label>Start Year: </label> <select id="yearStartSelect" name ="yearStartSelect">
+								<h3 class="title" style="float:left;">
+			       <a href="AccreditorInfographics"> Accreditors in surveys </a> &nbsp;> ${level} Accreditors
+    			</h3>		
 						
-						</select>	
-					
-					
-						<label> End Year: </label> <select id="yearEndSelect" name = "yearEndSelect">
-						
-						</select> 
-							  &nbsp &nbsp <button type="submit" value="Submit">Filter</button>				     
-								</form>	
-										
+						<br>			
+											     <br>
 											     <table id="smarttable" class="table table-striped table-bordered table-hover">
-                                        
-                                        
-                                        
                                                     <thead>
                                                       <tr>
-                                                            <th>Year</th>
-                                                            <th>Grade School</th>
-                                                            <th>High School</th>
-                                                             <th>Basic Education</th>
-                                                            <th>Tertiary</th>
-                                                            <th>Graduate</th>
-                                                            <th>Medical</th>
-                                                              <th>CECSTE</th>
-                                                             <th>Total</th>
+                                                     		<th>Accreditor</th>
+                                                            <th>Area</th>
+                                                            <th>Institution</th>
+                                                            <th>Degree Name</th>
+                                                            
                                                             
                                                         
                                                         </tr>
                                                     </thead>
                                                     <tbody id = "tableInstitutions">
 													
-													 <c:forEach items="${surveyCountList}" var="count" >
-														<tr>
-															<td> <c:out value="${count.getYear()}"/> 
-															<td onclick="window.document.location='ViewSurveyVisits?educLevelID=1&year='+'${count.getYear()}';" title="Click to view list of grade school surveys done for ${count.getYear()}"> <c:out value="${count.getGradeSchool()}"/> </td>
-															<td onclick="window.document.location='ViewSurveyVisits?educLevelID=2&year='+'${count.getYear()}';" title="Click to view list of high school surveys done for ${count.getYear()}"> <c:out value="${count.getHighSchool()}"/> </td>
-															<td onclick="window.document.location='ViewSurveyVisits?educLevelID=3&year='+'${count.getYear()}';" title="Click to view list of basic education level surveys done for ${count.getYear()}"> <c:out value="${count.getBasicEd()}"/> </td>
-															<td onclick="window.document.location='ViewSurveyVisits?educLevelID=4&year='+'${count.getYear()}';" title="Click to view list of tertiary level surveys done for ${count.getYear()}"> <c:out value="${count.getTertiary()}"/> </td>
-															<td onclick="window.document.location='ViewSurveyVisits?educLevelID=5&year='+'${count.getYear()}';" title="Click to view list of graduate level surveys done for ${count.getYear()}"> <c:out value="${count.getGraduate()}"/> </td>
-															<td onclick="window.document.location='ViewSurveyVisits?educLevelID=6&year='+'${count.getYear()}';" title="Click to view list of medical level surveys done for ${count.getYear()}"> <c:out value="${count.getMedical()}"/> </td>
-															<td onclick="window.document.location='ViewSurveyVisits?educLevelID=7&year='+'${count.getYear()}';" title="Click to view list of CECSTE level surveys done for ${count.getYear()}"> <c:out value="${count.getCecste()}"/> </td>
-															<td onclick="window.document.location='ViewSurveyVisits?educLevelID=0&year='+'${count.getYear()}';" title="Click to view list of all surveys done for ${count.getYear()}"> <c:out value="${count.getTotal()}"/> </td>
+													 <c:forEach items="${accList}" var="accList" >
+														<tr onclick="window.document.location='ViewAccreditor?accreditorID='+'${accList.getAccreditorID()}';">
+															<td> <c:out value="${accList.getHonorifics()} ${accList.getFirstName()} ${accList.getLastName()}"/> </td>
+															<td> <c:out value="${accList.getPrimaryArea()}"/> </td>
+															<td> <c:out value="${accList.getInstitution()}"/> </td>
+															<td> <c:out value="${accList.getDiscipline()}"/> </td>
 															
 															
 														</tr>
@@ -323,47 +308,6 @@
         <br>
         
         
-        	<%-- 
-										<h2>Member School Programs</h2>
-											     <table id="smarttable" class="table table-striped table-bordered table-hover">
-                                                    <thead>
-                                                      <tr>
-                                                            <th>Year</th>
-                                                            <th>Tertiary</th>
-                                                            <th>Graduate</th>
-                                                    
-                                                            
-                                                        
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id = "tableInstitutions">
-													
-													 <c:forEach items="${programsCountList}" var="count2" >
-														<tr>
-															<td> <c:out value="${count2.getYear()}"/> 
-															<td> <c:out value="${count2.getTertiary()}"/> </td>
-															<td> <c:out value="${count2.getGraduate()}"/> </td>
-														
-															
-															
-														</tr>
-													</c:forEach>
-														
-                                                    </tbody>
-                                                </table>
- 
-        
-        <br>
-         --%>
-
-     <center>             
-
-          
-<canvas id="canvas"></canvas>
-                           
-                                                     
-               </center>              
-                        
                            
                                             </div>
                              
@@ -389,10 +333,15 @@
     
     
     
-
+    
+    
+    
+    
+    
     
     
        <script type="text/javascript">
+   
 
 		var YearBar = new Array();
 		var GradeSchoolBar = new Array();
@@ -404,8 +353,9 @@
 		var CECSTE = new Array();
 		
 		
+
 		
-		 <c:forEach items="${surveyCountList}" var="count" >
+		 <c:forEach items="${membersCountList}" var="count" >
 
 		 
 		 
@@ -423,12 +373,14 @@
 		 </c:forEach>
 		
 		
-	
+		
+		
+
+		
 		
 		 var CombinedBarNames = new Array();
 	        CombinedBarNames = ['Grade School', 'High School', 'Basic Education', 'Tertiary', 'Graduate School', 'Medical School', 'CECSTE'];
-
-   
+	        
 
 			var CombinedBar = new Array();
 			CombinedBar = [GradeSchoolBar, HighSchoolBar, BasicBar, TertiaryBar, GradSchoolBar, MedBar, CECSTE];
@@ -454,13 +406,10 @@
 		        var barChartData = {
 		            labels: YearBar
 		        };
-	        
-	        
-	        
 
-		        window.onload = function() {
-		            var ctx = document.getElementById("canvas").getContext("2d");
-		            window.myBar = new Chart(ctx, {
+		        function load1() {
+		            var ctx1 = document.getElementById("canvas").getContext("2d");
+		            window.myBar = new Chart(ctx1, {
 		                type: 'bar',
 		                data: barChartData,
 		                options: {
@@ -470,7 +419,7 @@
 		                    },
 		                    title: {
 		                        display: true,
-		                        text: 'Candidate Schools'
+		                        text: 'Number of Member Schools'
 		                    }
 		                }
 		            });
@@ -483,6 +432,93 @@
 		              console.log(CombinedBar[x]);
 
 		        };
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		    	var Year2 = new Array();
+				
+				var Tertiary2 = new Array();
+				var GradSchool2 = new Array();
+			
+				
+			
+				
+				 <c:forEach items="${programsCountList}" var="count2" >	 
+				 
+				 Year2.push("${count2.getYear()}");
+				 Tertiary2.push(parseInt("${count2.getTertiary()}"));
+				 GradSchool2.push(parseInt("${count2.getGraduate()}"));
+				 </c:forEach>
+				
+
+				var CombinedBarNames2 = new Array();
+				CombinedBarNames2 = ['Year', 'Tertiary', 'Graduate School'];		
+
+				var CombinedBar2 = new Array();
+				CombinedBar2 = [Tertiary2, GradSchool2];
+				   
+
+			        var colors2 = new Array();
+			        colors2 = [GREEN, ORANGE];
+
+
+			        var barChartData2 = {
+			            labels: Year2
+			        };
+
+			        function load2() {
+			            var ctx2 = document.getElementById("canvas2").getContext("2d");
+			            window.myBar = new Chart(ctx2, {
+			                type: 'bar',
+			                data: barChartData2,
+			                options: {
+			                    responsive: true,
+			                    legend: {
+			                        position: 'top',
+			                    },
+			                    title: {
+			                        display: true,
+			                        text: 'Member School Programs'
+			                    }
+			                }
+			            });
+
+			            for (var x = 0; x < CombinedBar2.length; x++){
+			                addData(myBar, CombinedBarNames2[x], colors2[x], CombinedBar2[x]);
+			            }
+
+
+			        };
+		        
+		        
+		        
+		        
+		        
+		        
+			        window.onload = function() {
+			        	
+			        	
+			        	
+			        	load1();
+			        	load2();
+			        }
+		        
+		        
+		        
+		        
+		        
 
 		        function getRandomColor() {
 		            var letters = '0123456789ABCDEF'.split('');
@@ -502,16 +538,31 @@
 		            chart.update();
 		        }
 
-	        
-	        
-
-
-		        
-		        
-		        
-		        
+			
+			
+			
+			
+			
+			
     </script>
         
+    
+    
+    
+
+       <script type="text/javascript">
+
+	
+
+		
+		
+		
+
+       
+
+      
+    </script>
+ 
     
     
     
@@ -521,7 +572,7 @@
 	j$ = jQuery.noConflict();
 	j$(document).ready( function () {
 		var contactTable = j$('[id$="smarttable"]').DataTable({
-			order: [[0, 'dec']],
+			order: [[0, 'asc']],
 			
 		});
 
@@ -531,58 +582,10 @@
 			
     
     
-     <script>
-    
-     jQuery(document).ready ( function(){
-
-
-    	var max = new Date().getFullYear();
-        var min = max - 30;
-        select = document.getElementById('yearStartSelect');
-
-    for (var i = min; i<=max; i++){
-    	console.log(i);
-        var opt = document.createElement('option');
-        opt.value = i;
-        opt.innerHTML = i;
-        select.appendChild(opt);
-    }
-
-    select.value = new Date().getFullYear();
-    	
-    });
-    </script>
-    
-        <script>
-    
-        jQuery(document).ready ( function(){
-
-
-    	var max = new Date().getFullYear();
-        var min = max - 30;
-        select = document.getElementById('yearEndSelect');
-
-    for (var i = min; i<=max; i++){
-    	console.log(i);
-        var opt = document.createElement('option');
-        opt.value = i;
-        opt.innerHTML = i;
-        select.appendChild(opt);
-    }
-
-    select.value = new Date().getFullYear();
-    	
-    });
-    </script>
     
     
     
-    
-    
-    
-    
-    
-    
+     
     
     
     

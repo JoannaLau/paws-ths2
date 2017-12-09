@@ -6,8 +6,10 @@ public class SchoolProgram {
 	private int institutionID;
 	private int programID;
 	private int levelID;
+	private String educLevel;
 	private String institution;
 	private String level;
+	private String programName;
 	private String dateAdded;
 	private String nextSurveySched;
 	private String pendingReports;
@@ -35,6 +37,50 @@ public class SchoolProgram {
 	levelID int(1)
 	
 	*/
+	
+	public SchoolProgram(String institution, String degreeName, String educLevel, String boardApprovalDate)
+	{
+		super();
+		this.institution = institution;
+		this.degreeName = degreeName;
+		this.educLevel = educLevel;
+		this.lastSurveyDate = boardApprovalDate;
+	}
+	
+	public SchoolProgram(int surveyID, String institution, String degreeName, String educLevel, String boardApprovalDate)
+	{
+		super();
+		this.SPID = surveyID;
+		this.institution = institution;
+		this.degreeName = degreeName;
+		this.educLevel = educLevel;
+		this.lastSurveyDate = boardApprovalDate;
+	}
+	
+	public SchoolProgram(int institutionID, String institution, String programName, String degreeName, String dateAdded, String educLevel)
+	{
+		super();
+		this.institutionID = institutionID;
+		this.institution = institution;
+		this.programName = programName;
+		this.degreeName = degreeName;
+		this.dateAdded = dateAdded;
+		this.educLevel = educLevel;
+		
+	}
+	
+	public SchoolProgram(String institution, int programID, String programName, String degreeName, String dateAdded, String educLevel)
+	{
+		super();
+		this.institution = institution;
+		this.programID = programID;
+		this.programName = programName;
+		this.degreeName = degreeName;
+		this.dateAdded = dateAdded;
+		this.educLevel = educLevel;
+		
+	}
+
 	
 	public SchoolProgram(int SPID, int programID, int institutionID, String accLevel,
 			String dateAdded, String nextSurveySched, String pendingReports, 
@@ -78,6 +124,26 @@ public class SchoolProgram {
 	
 	
 	
+	public String getEducLevel() {
+		return educLevel;
+	}
+
+
+	public void setEducLevel(String educLevel) {
+		this.educLevel = educLevel;
+	}
+
+
+	public String getProgramName() {
+		return programName;
+	}
+
+
+	public void setProgramName(String programName) {
+		this.programName = programName;
+	}
+
+
 	public int getLevelID() {
 		return levelID;
 	}

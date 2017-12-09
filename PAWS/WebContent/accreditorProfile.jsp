@@ -152,7 +152,8 @@
 															<thead>
 															  <tr>
 																	<th>Institutions Surveyed</th>
-																	<th>Programs</th>
+																	<th>Program</th>
+																	<th>Area/s</th>
 																	<th>Visited From</th>
 																	<th>Visited To</th>
 																</tr>
@@ -161,11 +162,12 @@
 															<c:forEach items="${accreditations}" var="prgs">
 																<tr>
 																	<td><c:out value="${prgs.getInstitution()}"/></td>
-																	<td><c:out value="${prgs.getPrograms()}" escapeXml="false"/></td>
+																	<td><c:out value="${prgs.getProgram()}"/></td>
+																	<td><c:out value="${prgs.getAreas()}"/></td>
 																	<td><c:out value="${prgs.getFrom()}"/></td>
 																	<td><c:out value="${prgs.getTo()}"/></td>
 																</tr>
-																</c:forEach>
+															</c:forEach>
 													 </table>
 										 </section>
 									</div>	 

@@ -1264,7 +1264,167 @@ public class InstitutionsUtil {
 	    return temp;
 		
 	}
+	
+	//NEW
+	public ArrayList<SchoolProgram> getMembershipFromYear(int year, int educLevelID) {
+		ArrayList<SchoolProgram> sp = new ArrayList<SchoolProgram>();
+		SchoolProgram temp = new SchoolProgram();
+		try{
+			Connection conn = db.getConnection();
+			
+			if(educLevelID != 0)
+			{
+				PreparedStatement ps = conn.prepareStatement("SELECT i.institutionID, i.name, p.name, sp.degreeName, sp.dateAdded, e.levelName FROM educationlevel e, institutions i, programs p, `school-program` sp WHERE e.levelID = sp.levelID AND i.institutionID = sp.institutionID AND p.programID = sp.programID AND sp.dateAdded LIKE ? AND sp.levelID = ? ORDER BY i.name ASC");
+				ps.setString(1,  "%" + year + "%");
+				ps.setInt(2,  educLevelID);
+				
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					temp =  new SchoolProgram(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+					sp.add(temp);
+				}
+			}
+			else
+			{
+				PreparedStatement ps = conn.prepareStatement("SELECT i.institutionID, i.name, p.name, sp.degreeName, sp.dateAdded, e.levelName FROM educationlevel e, institutions i, programs p, `school-program` sp WHERE e.levelID = sp.levelID AND i.institutionID = sp.institutionID AND p.programID = sp.programID AND sp.dateAdded LIKE ? ORDER BY i.name ASC");
+				ps.setString(1,  "%" + year + "%");
+				
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					temp =  new SchoolProgram(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+					sp.add(temp);
+				}
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitution()");
+			e.printStackTrace();
+		}
+		
+	    return sp;
+	}
+	
+	//NEW
+	public ArrayList<SchoolProgram> getMemberProgramsFromYear(int year, int educLevelID) {
+		ArrayList<SchoolProgram> sp = new ArrayList<SchoolProgram>();
+		SchoolProgram temp = new SchoolProgram();
+		try{
+			Connection conn = db.getConnection();
+			
+			if(educLevelID!=0)
+			{
+				PreparedStatement ps = conn.prepareStatement("SELECT i.name, p.programID, p.name, sp.degreeName, sp.dateAdded, e.levelName FROM educationlevel e, institutions i, programs p, `school-program` sp WHERE e.levelID = sp.levelID AND i.institutionID = sp.institutionID AND p.programID = sp.programID AND sp.dateAdded LIKE ? AND sp.levelID = ? ORDER BY i.name ASC");
+				ps.setString(1,  "%" + year + "%");
+				ps.setInt(2, educLevelID);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					temp =  new SchoolProgram(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+					sp.add(temp);
+				}
+				
+			}
+			else
+			{
+				PreparedStatement ps = conn.prepareStatement("SELECT i.name, p.programID, p.name, sp.degreeName, sp.dateAdded, e.levelName FROM educationlevel e, institutions i, programs p, `school-program` sp WHERE e.levelID = sp.levelID AND i.institutionID = sp.institutionID AND p.programID = sp.programID AND sp.dateAdded LIKE ? AND (sp.levelID = 4 OR sp.levelID = 5) ORDER BY i.name ASC");
+				ps.setString(1,  "%" + year + "%");
+				ps.setInt(2, educLevelID);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					temp =  new SchoolProgram(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+					sp.add(temp);
+				}
 
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitution()");
+			e.printStackTrace();
+		}
+		
+	    return sp;
+	}
+	
+	//NEW
+	public ArrayList<SchoolProgram> getSurveyVisits(int year, int educLevelID) {
+		ArrayList<SchoolProgram> sp = new ArrayList<SchoolProgram>();
+		SchoolProgram temp = new SchoolProgram();
+		try{
+			Connection conn = db.getConnection();
+			
+			if(educLevelID!=0)
+			{
+				PreparedStatement ps = conn.prepareStatement("SELECT s.surveyID, i.name, sp.degreeName, e.levelName, ps.boardApprovalDate FROM educationlevel e, institutions i, `program-survey` ps, surveys s, `school-program` sp WHERE e.levelID = sp.levelID AND sp.institutionID = i.institutionID AND ps.SPID = sp.SPID AND ps.surveyID = s.surveyID AND sp.levelID = ? AND ps.boardApprovalDate LIKE ?");
+				ps.setInt(1, educLevelID);
+				ps.setString(2,  "%" + year + "%");
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					temp =  new SchoolProgram(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+					sp.add(temp);
+				}
+			}
+			else
+			{
+				PreparedStatement ps = conn.prepareStatement("SELECT s.surveyID, i.name, sp.degreeName, e.levelName, ps.boardApprovalDate FROM educationlevel e, institutions i, `program-survey` ps, surveys s, `school-program` sp WHERE e.levelID = sp.levelID AND sp.institutionID = i.institutionID AND ps.SPID = sp.SPID AND ps.surveyID = s.surveyID AND ps.boardApprovalDate LIKE ?");
+				ps.setString(1,  "%" + year + "%");
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					temp =  new SchoolProgram(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+					sp.add(temp);
+				}
+
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitution()");
+			e.printStackTrace();
+		}
+		
+	    return sp;
+	}
+	
+	//NEW
+	public ArrayList<SchoolProgram> getSurveyTypeForYear(int year, String surveyType) {
+		ArrayList<SchoolProgram> sp = new ArrayList<SchoolProgram>();
+		SchoolProgram temp = new SchoolProgram();
+		try{
+			Connection conn = db.getConnection();
+			
+			if(surveyType!="" && surveyType!="Consultancy")
+			{
+				PreparedStatement ps = conn.prepareStatement("SELECT s.surveyID, i.name, sp.degreeName, e.levelName, ps.boardApprovalDate FROM educationlevel e, institutions i, `program-survey` ps, surveys s, `school-program` sp WHERE e.levelID = sp.levelID AND sp.institutionID = i.institutionID AND ps.SPID = sp.SPID AND ps.surveyID = s.surveyID AND ps.surveyType = ? AND ps.boardApprovalDate LIKE ?");
+				ps.setString(1, surveyType);
+				ps.setString(2,  "%" + year + "%");
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					temp =  new SchoolProgram(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+					sp.add(temp);
+				}
+			}
+			else if(surveyType!="" && surveyType=="Consultancy")
+			{
+				PreparedStatement ps = conn.prepareStatement("SELECT s.surveyID, i.name, sp.degreeName, e.levelName, ps.boardApprovalDate FROM educationlevel e, institutions i, `program-survey` ps, surveys s, `school-program` sp WHERE e.levelID = sp.levelID AND sp.institutionID = i.institutionID AND ps.SPID = sp.SPID AND ps.surveyID = s.surveyID AND (ps.surveyType = 'Interim' OR ps.surveyType = 'Consultancy' AND ps.boardApprovalDate LIKE ?");
+				ps.setString(1,  "%" + year + "%");
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					temp =  new SchoolProgram(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+					sp.add(temp);
+				}
+			}
+			else
+			{
+				PreparedStatement ps = conn.prepareStatement("SELECT s.surveyID, i.name, sp.degreeName, e.levelName, ps.boardApprovalDate FROM educationlevel e, institutions i, `program-survey` ps, surveys s, `school-program` sp WHERE e.levelID = sp.levelID AND sp.institutionID = i.institutionID AND ps.SPID = sp.SPID AND ps.surveyID = s.surveyID AND ps.boardApprovalDate LIKE ?");
+				ps.setString(1,  "%" + year + "%");
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					temp =  new SchoolProgram(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+					sp.add(temp);
+				}
+
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitution()");
+			e.printStackTrace();
+		}
+		
+	    return sp;
+	}
 
 	public void deleteInstitution(int institutionID){
 		try{
@@ -1455,6 +1615,10 @@ public class InstitutionsUtil {
 		
 		return jArray;
 	}
+
+
+
+
 
 	
 

@@ -1,28 +1,29 @@
 package Listeners;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-
-import Utilities.AccreditorUtil;
+import Models.SchoolProgram;
 import Utilities.InstitutionsUtil;
 
 /**
- * Servlet implementation class AccreditorsLoader
+ * Servlet implementation class ViewSurveyTypesFromYear
  */
-@WebServlet("/AccreditorsLoader")
-public class AccreditorsLoader extends HttpServlet {
+@WebServlet("/ViewSurveyTypesFromYear")
+public class ViewSurveyTypesFromYear extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AccreditorsLoader() {
+    public ViewSurveyTypesFromYear() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,15 +33,19 @@ public class AccreditorsLoader extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setContentType("application/json");
-		JSONArray jArray = new JSONArray();
-		AccreditorUtil accUtil = new AccreditorUtil();
-		int systemID = Integer.parseInt(request.getParameter("systemID"));
-		int SPID = Integer.parseInt(request.getParameter("SPID"));
+		int year = Integer.parseInt(request.getParameter("year"));
+		String surveyType = request.getParameter("surveyType");
 		
-		String area = request.getParameter("area");
-		jArray = accUtil.getAccreditorsJSON(SPID, systemID, area);
-		response.getWriter().write(jArray.toString());
+		
+		InstitutionsUtil instUtil = new InstitutionsUtil();
+		ArrayList<SchoolProgram> spList = instUtil.getSurveyTypeForYear(year, surveyType);
+		request.setAttribute("spList", spList);
+		request.setAttribute("year", year);
+		
+		request.setAttribute("surveyType", surveyType);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("surveyTypesInYear.jsp");
+		rd.forward(request, response);	
 	}
 
 	/**

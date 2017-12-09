@@ -169,12 +169,13 @@ public class SurveyUtil {
 			int PSID = rs.getInt(1);
 			
 			temp = PSID;
-			
+			createDecision(temp);
 			
 		} catch (Exception e){
 			System.out.println("Error in SurveyUtil:addNewProgram()");
 			e.printStackTrace();
 		}
+
 		return temp;
 	}
 	

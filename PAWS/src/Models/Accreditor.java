@@ -30,7 +30,19 @@ public class Accreditor {
 	private ArrayList<Work> works;
 	
 	
-	
+	public Accreditor(int accreditorID, String honorifics, String firstName, String lastName,
+			String institution, String discipline, String primaryArea) {
+		super();
+		this.accreditorID = accreditorID;
+		this.honorifics = honorifics;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.institution = institution;
+		this.discipline = discipline;
+		this.primaryArea = primaryArea;
+	}
+
+
 	
 	
 	public Accreditor(int accreditorID, String honorifics, String firstName, String lastName, String middleName,

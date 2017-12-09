@@ -339,7 +339,7 @@ $(document).ready(function() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-													<c:forEach items="${schoolsystems}" var="ss" >
+													<c:forEach items="${schoolSystems}" var="ss" >
 														<tr>
 															<td> <c:out value="${ss.getDateChanged()}"/> </td>
 															<td> <c:out value="${ss.getName()}"/> </td>

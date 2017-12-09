@@ -75,7 +75,9 @@
         
         
 <style>
-
+	td:hover {
+	 cursor:pointer;
+	}
 	#contenthole{
 		-webkit-box-shadow: 0px 4px 13px -4px rgba(0,0,0,0.5);
 		-moz-box-shadow: 0px 4px 13px -4px rgba(0,0,0,0.5);
@@ -301,15 +303,15 @@
 													
 													 <c:forEach items="${membersCountList}" var="count" >
 														<tr>
-															<td> <c:out value="${count.getYear()}"/> 
-															<td> <c:out value="${count.getGradeSchool()}"/> </td>
-															<td> <c:out value="${count.getHighSchool()}"/> </td>
-															<td> <c:out value="${count.getBasicEd()}"/> </td>
-															<td> <c:out value="${count.getTertiary()}"/> </td>
-															<td> <c:out value="${count.getGraduate()}"/> </td>
-															<td> <c:out value="${count.getMedical()}"/> </td>
-															<td> <c:out value="${count.getCecste()}"/> </td>
-															<td> <c:out value="${count.getTotal()}"/> </td>
+															<td style=""> <c:out value="${count.getYear()}"/> 
+															<td onclick="window.document.location='ViewMembership?educLevelID=1&year='+'${count.getYear()}';" title="Click to view list of grade school level members for ${count.getYear()}"> <c:out value="${count.getGradeSchool()}"/> </td>
+															<td onclick="window.document.location='ViewMembership?educLevelID=2&year='+'${count.getYear()}';" title="Click to view list of high school level members for ${count.getYear()}"> <c:out value="${count.getHighSchool()}"/> </td>
+															<td onclick="window.document.location='ViewMembership?educLevelID=3&year='+'${count.getYear()}';" title="Click to view list of basic education level members for ${count.getYear()}"> <c:out value="${count.getBasicEd()}"/> </td>
+															<td onclick="window.document.location='ViewMembership?educLevelID=4&year='+'${count.getYear()}';" title="Click to view list of tertiary level members for ${count.getYear()}"> <c:out value="${count.getTertiary()}"/> </td>
+															<td onclick="window.document.location='ViewMembership?educLevelID=5&year='+'${count.getYear()}';" title="Click to view list of graduate level members for ${count.getYear()}"> <c:out value="${count.getGraduate()}"/> </td>
+															<td onclick="window.document.location='ViewMembership?educLevelID=6&year='+'${count.getYear()}';" title="Click to view list of medical level members for ${count.getYear()}"> <c:out value="${count.getMedical()}"/> </td>
+															<td onclick="window.document.location='ViewMembership?educLevelID=7&year='+'${count.getYear()}';" title="Click to view list of CECSTE level members for ${count.getYear()}"> <c:out value="${count.getCecste()}"/> </td>
+															<td onclick="window.document.location='ViewMembership?educLevelID=0&year='+'${count.getYear()}';" title="Click to view list of all members for ${count.getYear()}"> <c:out value="${count.getTotal()}"/> </td>
 															
 															
 														</tr>
@@ -341,12 +343,9 @@
 													
 													 <c:forEach items="${programsCountList}" var="count2" >
 														<tr>
-															<td> <c:out value="${count2.getYear()}"/> 
-															<td> <c:out value="${count2.getTertiary()}"/> </td>
-															<td> <c:out value="${count2.getGraduate()}"/> </td>
-														
-															
-															
+															<td onclick="window.document.location='ViewMemberSchoolPrograms?educLevelID=0&year='+'${count2.getYear()}';" title="Click to view list of all programs for ${count2.getYear()}"> <c:out value="${count2.getYear()}"/> 
+															<td onclick="window.document.location='ViewMemberSchoolPrograms?educLevelID=4&year='+'${count2.getYear()}';" title="Click to view list of all tertiary programs for ${count2.getYear()}"> <c:out value="${count2.getTertiary()}"/> </td>
+															<td onclick="window.document.location='ViewMemberSchoolPrograms?educLevelID=5&year='+'${count2.getYear()}';" title="Click to view list of all graduate programs for ${count2.getYear()}"> <c:out value="${count2.getGraduate()}"/> </td>
 														</tr>
 													</c:forEach>
 														
@@ -679,7 +678,7 @@
 	j$ = jQuery.noConflict();
 	j$(document).ready( function () {
 		var contactTable = j$('[id$="smarttable"]').DataTable({
-			order: [[0, 'asc']],
+			order: [[0, 'dec']],
 			
 		});
 

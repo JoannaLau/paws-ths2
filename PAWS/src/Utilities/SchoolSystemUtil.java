@@ -2,7 +2,9 @@ package Utilities;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -115,7 +117,6 @@ public JSONArray getSystems(){
 		Connection conn = db.getConnection();
 		PreparedStatement ps = conn.prepareStatement("SELECT systemID, name FROM `school-systems`  ORDER BY `name`");
 		ResultSet rs = ps.executeQuery();
-		System.out.println("jugjug lang");
 		while(rs.next()){
 			job = new JSONObject();
 			job.put("systemID", rs.getInt(1));
@@ -140,9 +141,26 @@ public void addSchoolSystem(String name, String date_joined){
 		ps.setString(2, date_joined);
 		if(ps.executeUpdate() > 0)
 		{
-			ps = conn.prepareStatement("INSERT INTO `school-systems-changes` (name, dateJoined) VALUES (?,?)");
-			ps.setString(1, name);
-			ps.setString(2, date_joined);
+			try{
+				ps  = conn.prepareStatement("SELECT MAX(systemID) FROM `school-systems`");
+				ResultSet rs = ps.executeQuery();
+				if(rs.first())
+				{
+					
+					PreparedStatement ps2  = conn.prepareStatement("INSERT INTO `school-systems-changes` (systemID, name, dateJoined, dateChanged) VALUES (?,?,?,?)");
+					ps2.setInt(1, rs.getInt(1));
+					ps2.setString(2, name);
+					ps2.setString(3, date_joined);
+					Date date = new Date();
+					String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date);
+					ps2.setString(4, modifiedDate);
+					ps2.executeUpdate();
+				}
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
 		}
 	} catch (Exception e){
 		System.out.println("Error in ProgramUtil:addSystem()");
@@ -157,8 +175,47 @@ public void editSchoolSystem(int systemID, String name, String date_joined){
 		ps.setString(1, name);
 		ps.setString(2, date_joined);
 		ps.setInt(3,systemID);
-		System.out.println(name + " " + date_joined +"!!!!!!!!!!!!!!");	
-		ps.executeUpdate();
+//		System.out.println(name + " " + date_joined +"!!!!!!!!!!!!!!");	
+		if(ps.executeUpdate() > 0)
+		{
+			ps = conn.prepareStatement("SELECT * FROM `school-systems-changes` WHERE systemID = ?");
+			ps.setInt(1, systemID);
+			ResultSet rs = ps.executeQuery();
+			//ss is in change
+			if(rs.first())
+			{
+				try{
+					PreparedStatement ps2 = conn.prepareStatement("UPDATE `school-systems-changes` SET name=?, dateJoined=? WHERE systemID=?");
+					ps2.setString(1, name);
+					ps2.setString(2, date_joined);
+					ps2.setInt(3,systemID);
+					
+					ps2.executeUpdate();
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+			else
+			{
+				try{
+					PreparedStatement ps2 = conn.prepareStatement("INSERT INTO `school-systems-changes` (systemID, name, dateJoined) VALUES (?,?,?)");
+
+					ps2.setInt(1,systemID);
+					ps2.setString(2, name);
+					ps2.setString(3, date_joined);
+					
+					ps2.executeUpdate();	
+
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+			
+		}
 	} catch (Exception e){
 		System.out.println("Error in ProgramUtil:addSystem()");
 		e.printStackTrace();	

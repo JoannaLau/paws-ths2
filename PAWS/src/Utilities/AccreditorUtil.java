@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.json.JSONArray;
@@ -18,6 +19,7 @@ import Models.Accreditor;
 import Models.AccreditorCard;
 import Models.AccreditorDeck;
 import Models.Degree;
+import Models.SchoolProgram;
 import Models.Work;
 
 public class AccreditorUtil {
@@ -86,14 +88,11 @@ public class AccreditorUtil {
 			ps = conn.prepareStatement("SELECT programID FROM `school-program` WHERE SPID = ?");
 			ps.setInt(1, SPID);
 			rs = ps.executeQuery();
-			rs.next();
-			programID = rs.getInt(1);
-			
-			
-	
-			
-			if(accDisciplineID==programID) result = true;
-						
+			if(rs.first())
+			{
+				programID = rs.getInt(1);
+				if(accDisciplineID==programID) result = true;
+			}				
 		} catch (Exception e){
 			System.out.println("Error in AccreditorUtil:checkAffiliations()");
 			e.printStackTrace();
@@ -530,19 +529,45 @@ public class AccreditorUtil {
 		return id;
 	}
 	
-	//NEW
+	//MODIFIED
 	public ArrayList<Accreditation> getAccreditations(int accreditorID){
 		ArrayList<Accreditation> past = new ArrayList<Accreditation>();
 		Accreditation temp = new Accreditation();
+		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT s.surveyID, s.startDate, s.endDate, s.institutionID, ps.surveyType, ps.SPID, pa.areaID, pa.accreditorID FROM `program-area` pa JOIN `program-survey` ps ON pa.PSID = ps.PSID JOIN surveys s ON ps.surveyID = s.surveyID WHERE accreditorID = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT s.surveyID, s.startDate, s.endDate, i.name, sp.degreeName, ps.surveyType, ps.SPID, pa.areaID, a.name, pa.accreditorID FROM areas a, `program-area` pa, `program-survey` ps, surveys s, institutions i, `school-program` sp WHERE pa.areaID = a.areaID AND pa.PSID = ps.PSID AND s.surveyID = ps.surveyID AND i.institutionID = sp.institutionID AND ps.SPID = sp.SPID AND pa.accreditorID = ?");
 			ps.setInt(1, accreditorID);
 			ResultSet rs = ps.executeQuery();
 			int surveyID = 0; int tempID = 0; int programID = 0; int tempID2 = 0;
 			String programs = "";
 			String areas = "";
-			if(rs.next()){
+			
+			while(rs.next())
+			{
+				boolean isFound = false;
+				
+				for(int i = 0; i<past.size(); i++)
+				{
+					if(past.get(i).getSurveyID() == rs.getInt(1) && past.get(i).getSPID() == rs.getInt(7))
+					{
+						isFound = true;
+						if(past.get(i).getAreas() != "")
+							past.get(i).setAreas((past.get(i).getAreas() + " & " + rs.getString(9)));
+						else
+							past.get(i).setAreas((past.get(i).getAreas() + " " + rs.getString(9)));
+						
+					}
+				}
+				if(!isFound)
+				{
+					temp = new Accreditation(rs.getInt(1), rs.getInt(7), rs.getString(4), rs.getString(6), rs.getString(2), rs.getString(3), "", rs.getString(5), rs.getString(9));
+					past.add(temp);
+				}
+				
+			}
+			
+			/*if(rs.next()){
 				do{
 					tempID = rs.getInt(1);
 					tempID2 = rs.getInt(6);
@@ -575,7 +600,7 @@ public class AccreditorUtil {
 						}
 					}
 				}while(rs.next());
-			}
+			}*/
 			
 			
 		} catch (Exception e){
@@ -1581,7 +1606,58 @@ public class AccreditorUtil {
 		return jArray;
 	}
 
-	
+	//NEW
+	public ArrayList<Accreditor> getAccreditorsInSurveyFromYear(int year, int educLevelID) {
+		ArrayList<Accreditor> accreditors = new ArrayList<Accreditor>();
+		Accreditor temp = new Accreditor();
+		try{
+			Connection conn = db.getConnection();
+			if(educLevelID != 0)
+			{
+				PreparedStatement ps = conn.prepareStatement("SELECT a.accreditorID, a.honorifics, a.firstname, a.lastname, sp.degreeName, ar.name, i.name FROM areas ar, accreditors a, institutions i, `program-area` pa, `program-survey` ps, surveys s, `school-program` sp WHERE ar.areaID = pa.areaID AND pa.accreditorID = a.accreditorID AND sp.institutionID = i.institutionID AND pa.PSID = ps.PSID AND ps.surveyID = s.surveyID AND ps.SPID = sp.SPID AND ps.surveyID IN (SELECT surveyID FROM surveys WHERE YEAR(STR_TO_DATE(startDate, '%Y-%m-%d')) =?) AND sp.levelID = ?");
+				ps.setInt(1, year);
+				ps.setInt(2, educLevelID);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					
+					int accID = rs.getInt(1);
+					String honorifics = rs.getString(2);
+					String firstName = rs.getString(3);
+					String lastName = rs.getString(4);
+					String institution = rs.getString(7);
+					String discipline = rs.getString(5);
+					String primaryArea = rs.getString(6);
+					
+					temp = new Accreditor(accID, honorifics, firstName, lastName, institution, discipline, primaryArea);
+					accreditors.add(temp);
+				}				
+			}
+			else
+			{
+				PreparedStatement ps = conn.prepareStatement("SELECT a.accreditorID, a.honorifics, a.firstname, a.lastname, sp.degreeName, ar.name, i.name FROM areas ar, accreditors a, institutions i, `program-area` pa, `program-survey` ps, surveys s, `school-program` sp WHERE ar.areaID = pa.areaID AND pa.accreditorID = a.accreditorID AND sp.institutionID = i.institutionID AND pa.PSID = ps.PSID AND ps.surveyID = s.surveyID AND ps.SPID = sp.SPID AND ps.surveyID IN (SELECT surveyID FROM surveys WHERE YEAR(STR_TO_DATE(startDate, '%Y-%m-%d')) =?)");
+				ps.setInt(1, year);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					
+					int accID = rs.getInt(1);
+					String honorifics = rs.getString(2);
+					String firstName = rs.getString(3);
+					String lastName = rs.getString(4);
+					String institution = rs.getString(7);
+					String discipline = rs.getString(5);
+					String primaryArea = rs.getString(6);
+					
+					temp = new Accreditor(accID, honorifics, firstName, lastName, institution, discipline, primaryArea);
+					accreditors.add(temp);
+				}
+			}
+		} catch (Exception e){
+			System.out.println("Error in AccreditorUtil:getAccreditors()");
+			e.printStackTrace();
+		}
+		
+	    return accreditors;
+	}
 	
 	public ArrayList<Accreditor> getAccreditors(){
 		ArrayList<Accreditor> accreditors = new ArrayList<Accreditor>();
@@ -2288,7 +2364,5 @@ public class AccreditorUtil {
 		
 		return jArray;
 	}
-
-
 
 }
