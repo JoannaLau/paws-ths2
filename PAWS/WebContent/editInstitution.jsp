@@ -193,7 +193,7 @@ function getSystems(){
 	});
 	
 }
-/* 
+
 function saveInstitution() {
 
 	var id = "<c:out value='${institution.getInstitutionID()}'/>";
@@ -209,7 +209,75 @@ function saveInstitution() {
     });
     alert('Institution successfully edited! Redirecting you to the institutions page...');
 
-} */
+} 
+
+
+
+
+
+
+
+
+function validateForm() {
+	
+	
+	var ssName = document.forms["addInstForm"]["ssName"].value;
+	var institutionName = document.forms["addInstForm"]["institutionName"].value;
+    var institutionName = document.forms["addInstForm"]["institutionName"].value;
+    var institutionAcronym = document.forms["addInstForm"]["institutionAcronym"].value;
+    var membershipDate = document.forms["addInstForm"]["membershipDate"].value;
+    var city =  document.forms["addInstForm"]["city"].value;
+    
+    var entry = ssName +"|"+institutionName+"|"+city
+    
+	var errorDiv = document.getElementById('error');
+	
+   
+    if(duplicateCheck(entry)){
+    if(ssName=="0"){
+    	document.location.href = "#top";
+    	errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+        return false;	
+    }    
+    else if (institutionName == "") {
+    	alert("asd")
+    	document.location.href = "#top";
+    	errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+        return false;
+    }
+    else if (institutionAcronym == "") {
+    	document.location.href = "#top";
+    	errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+        return false;
+    }
+    else if (membershipDate == "") {
+    	document.location.href = "#top";
+    	errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+        return false;
+    }
+    else if (city == "") {
+    	document.location.href = "#top";
+    	errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+        return false;
+    }
+    else{
+    	document.location.href = "#top";
+    	errorDiv.setAttribute("style", "display: inline");
+		errorDiv.className = "alert alert-success";
+		errorDiv.innerHTML ='Institution successfully added!';
+      	
+    	location.href = 'institutions.jsp';
+        }}
+    else return false;
+}
+
+
+
 
 
 
@@ -279,7 +347,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	height: 640px;
 	position:fixed;
 	}
-
+    #error{
+        display: none;
+        }
 </style>
 
 
@@ -342,13 +412,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 				
          
                 <article class="content dashboard-page">
-				<form method="post" action="UpdateInstitution" class="form">
+				<form method="post" onsubmit="return validateForm()" action="UpdateInstitution" class="form">
 				
 				 <div class="title-block">
                         <h3 class="title" style="float:left;">
 							<a href="Institutions"> List of Institutions </a> > Edit Institution
 						</h3>
 			     </div>
+			     
+			       <div class="alert alert-danger" role="alert" id="error">
+					
+					</div>
+                
 				
 				 <section class="section" id="section">   
 				 <div class="tab-content">     
@@ -412,7 +487,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 <!-- 									Submit then add Programs  						 -->
 <!-- 									</button> -->
 									
-									<button type="submit" class="btn btn-info" alert('Successfully edited Institutions!');location.href = 'institutions.jsp';"  style="float:right; padding-right:15px;">
+									<button type="submit" class="btn btn-info"  style="float:right; padding-right:15px;">
 									Submit
 									</button>
 								</div>

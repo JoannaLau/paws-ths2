@@ -295,10 +295,8 @@ function getPrograms(){
 }
 
 function validateForm() {
-	alert($('#programID').val());
 	   location.href = 'AddProgramToInst?instID=' + ${ID} + '&educLevelID=' + $("#educLevel option:selected").val() + '&programID=' + $('#programID').val() + '&degreeName=' + $('#degName').val();
        
-	   alert('Accreditor successfully added! Redirecting you to the accreditors page...');
   //  document.location.href = "Accreditors"; 
 }
 
@@ -460,7 +458,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 												Add New Program to ${name}
 											</h3> </div>
 																<div class="form-group">
-					  						<label for="sel1">Program<b style="color:red">*</b> </label>
+					  						<label for="sel1">Discipline/Level<b style="color:red">*</b> </label>
 					  						<br>
 					  						<select class="form-control underlined chosen-select" data-placeholder="Choose a Program..." id="programForm" style="background: transparent;" name="progName">
 												 				

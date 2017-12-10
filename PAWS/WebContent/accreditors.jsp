@@ -331,7 +331,7 @@
             <div id="welcome">
 			<h1>List of Accreditors</h1>
 			
-						<button type="button"  style="float:right; position:relative;left:-50px; top:-52px; color:#3c4731;" class="btn btn-oval btn-secondary" onclick="location.href='addAccreditor.html';"><em class="fa fa-plus"></em><b> Add Accreditor</b></button>
+						<button type="button"  style="float:right; position:relative;left:-50px; top:-52px; color:#3c4731;" class="btn btn-oval btn-secondary" onclick="location.href='addAccreditor.jsp';"><em class="fa fa-plus"></em><b> Add Accreditor</b></button>
                    
 			</div>
 			   <header class="header" id="customheader">

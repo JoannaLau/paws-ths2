@@ -196,6 +196,10 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 		-moz-box-shadow: 0px 9px 24px 0px rgba(0,0,0,0.75);
 		box-shadow: 0px 9px 24px 0px rgba(0,0,0,0.75);
 	}
+	   #error{
+        display: none;
+        }
+        
 </style>
     
     
@@ -209,6 +213,27 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 <script type="text/javascript">
 
 
+function validate(){
+	var errorDiv = document.getElementById('error');
+	var title = $('#newsTitle').val();
+	var body = $('#newsBody').val();
+	
+	if(title==""){
+		document.location.href = "#top";
+		errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+	}
+	
+	else if(body==""){
+		document.location.href = "#top";
+		errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+	}
+	
+	else $('#newsForm').submit();
+
+}
+
 
 
 </script>
@@ -217,11 +242,6 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 
 <jsp:include page="sidebar.jsp" />
 <body>
-
-
-
-
-
 
     
      <div class="main-wrapper" style="z-index:1;">
@@ -239,19 +259,24 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 
 
 </div>
-          
-		<br><br>
+     
                 <article class="content dashboard-page" >
                     <section class="section" style="position: relative; top:-130px;">
                       
-					 <div class="title-block">
-                        <h6 class="title" style="float:left;">
+					 <div class="title-block" id ="top">
+                        <h3 class="title" style="float:left;">
 							Add News
-						</h6>
+						</h3>
+						<br>
 					 </div>
+					    <div class="alert alert-danger" role="alert" id="error">
 					
+					</div>
       
-                  
+                  <br><br>
+    <br> 
+ 
+    
     
  <div id="sample">
  <script type="text/javascript" src="js/nicEdit.js"></script>
@@ -266,21 +291,21 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
   </script>
   
   
-  <form method="post" action="AddNews">
+  <form method="post" action="AddNews" id="newsForm">
   
-  <label>News Title: </label>&nbsp;&nbsp;<input id="newsTitle" name="title"><br><br>
-  <label>News Content: </label><br>
-  <textarea rows="25" cols="200" id="newsBody" name="content">
+  <label><span style="color:red">*</span>News Title: </label>&nbsp;&nbsp;<input id="newsTitle" name="title"><br><br>
+  <label><span style="color:red">*</span>News Content: </label><br>
+  <textarea rows="20" cols="200" id="newsBody" name="content">
 
 </textarea>
  <br>
 <label>News Image (Optional): </label>   &nbsp;&nbsp;  
     
      <input type="file" name="filename">Select File</input><br><br>
-     <button  type="submit" value="Submit">Save News</button>
+    
 
   </form>
-      
+       <button  onclick="validate();">Save News</button>
      
 </div>    
 </section></article></div></div>

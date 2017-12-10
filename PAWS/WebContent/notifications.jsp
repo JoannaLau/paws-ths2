@@ -235,7 +235,21 @@ function deleteRead(){
 		$('#readNotifications-pills ul li').remove();
 
 		$.ajax({URL:'DeleteReadNotifications', async:false, success: function(data){
-			alerT("Successfully deleted all notifications!");
+
+			
+			var errorDiv = document.getElementById('error');
+			
+			errorDiv.setAttribute("style", "display: inline");
+			errorDiv.className = "alert alert-success";
+  		errorDiv.innerHTML ="Deleted All Notifications!";
+  		
+  		document.location.href = "#error";
+  		
+  		$("#error").fadeTo(2000, 500).slideUp(500, function(){
+  			errorDiv.setAttribute("style", "display: none");
+  		});
+			
+			
 		}
 		});
 		
@@ -593,6 +607,10 @@ function deleteNotif(notificationID, btn){
 	  cursor: pointer;
 	 
 	}
+	
+	 #error{
+        display: none;
+        }
 	#awardNotif:hover{
 	background-color:#afafaf;
 	color:white;
@@ -656,6 +674,12 @@ box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
                                             <h3 class="title">Notifications</h3> 
                                         </div>
                                         
+                                       
+                                         <div class="alert alert-danger" role="alert" id="error">
+					
+					</div>
+      
+                                       
                                        
                                     <!-- Nav tabs -->
                                         <ul class="nav nav-pills" style="width: 100%;">

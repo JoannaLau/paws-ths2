@@ -170,37 +170,49 @@
         	
         	var commissionPositionID = $('#commissionPositions').find(":selected").val();	
         	var educLevelID = $('#educLevel').find(":selected").val();	
+
+        	var errorDiv = document.getElementById('error');
         	
         	
         	if(honorifics == ""){
-        		alert("Please fill out honorifics name!");
+        		alerrorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
         		$( ".loader" ).remove();
         	}else if(firstName == ""){
-        		alert("Please fill out first name!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
         		$( ".loader" ).remove();
         	}else if(middleName == ""){
-        		alert("Please fill out middle initial!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
         		$( ".loader" ).remove();
         	}else if(lastName == ""){
-            		alert("Please fill out last name!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
             		$( ".loader" ).remove();
         	}else if(commissionPositionID == ""){
-        		alert("Please choose a board position!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
         		$( ".loader" ).remove();
         	}else if(educLevelID == ""){
-        		alert("Please choose a level!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
         		$( ".loader" ).remove();
         	}else if(year == ""){
-        		alert("Please input year!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
         		$( ".loader" ).remove();
         	}else if(position == ""){
-        		alert("Please input position!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
         		$( ".loader" ).remove();
         	}else if(institution == ""){
-        		alert("Please input institution!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
         		$( ".loader" ).remove();
         	}else if(city == ""){
-        		alert("Please input city!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
         		$( ".loader" ).remove();
         	}else{
         		var year = $("#year").val();
@@ -216,7 +228,8 @@
 						{
 							$.each(data, function(key, value) {
 	                            
-			                    alert("Error! You have already assigned " + value.name + " as a " + $('#commissionPositions').find(":selected").text() + " for " + $('#educLevel').find(":selected").text() + " for the year " + $("#year").val());
+								errorDiv.setAttribute("style", "display: inline");
+				        		errorDiv.innerHTML ="Error! You have already assigned " + value.name + " as a " + $('#commissionPositions').find(":selected").text() + " for " + $('#educLevel').find(":selected").text() + " for the year " + $("#year").val();
 			                    $( ".loader" ).remove();
 	                         });
 						}
@@ -232,7 +245,9 @@
 				
 				                }
 				            });
-				            alert('Commission Member successfully edited! Redirecting you to the commission members page...');
+							  errorDiv.setAttribute("style", "display: inline");
+								errorDiv.className = "alert alert-success";
+				        		errorDiv.innerHTML ='Commission Member successfully edited! Redirecting you to the commission members page...';
 				            document.location.href = "ViewCommissionMembers?cmID=${cmID}";
 						}
 	   		    	});
@@ -250,7 +265,9 @@
     	
     	                }
     	            });
-    	            alert('Commission Member successfully edited! Redirecting you to the commission members page...');
+    	        	  errorDiv.setAttribute("style", "display: inline");
+						errorDiv.className = "alert alert-success";
+		        		errorDiv.innerHTML ='Commission Member successfully edited! Redirecting you to the commission members page...';
     	            document.location.href = "ViewCommissionMembers?cmID=${cmID}";
     	        }
         	}
@@ -287,6 +304,10 @@
         }
         #maincard {
             height: 750px;
+        }
+        
+          #error{
+        display: none;
         }
         .loader 
 		{
@@ -327,6 +348,10 @@
      				</h3>
                 </div>
                 
+                <div class="alert alert-danger" role="alert" id="error">
+					
+					</div>
+                
                 <div id="load"></div>
                 <br>
                 	
@@ -337,27 +362,27 @@
 								<section class="section">
 									<div class="form-group row">
 	                                     <div class="col-xs-2">
-	                                         <label>Honorifics:</label>
+	                                         <label><span style="color:red">*</span>Honorifics:</label>
 	                                          <input type="text" class="form-control underlined" id="honorifics" value="${cm.getHonorifics()}" name="honorifics" list="honorificsSuggestions">
 	                                         <datalist id="honorificsSuggestions">
 	                                         </datalist>
 	                                     </div>
 	                                     <div class="col-xs-4">
-	                                         <label>First Name:</label>
+	                                         <label><span style="color:red">*</span>First Name:</label>
 	                                         <input type="text" class="form-control underlined" id="firstName" value="${cm.getFirstName()}" name="firstName">
 	                                     </div>
 	                                     <div class="col-xs-2">
-	                                         <label>Middle Initial:</label>
+	                                         <label><span style="color:red">*</span>Middle Initial:</label>
 	                                         <input type="text" class="form-control underlined" id="middleName" value="${cm.getMiddleName()}" name="middleName">
 	                                     </div>
 	                                     <div class="col-xs-4">
-	                                         <label>Last Name:</label>
+	                                         <label><span style="color:red">*</span>Last Name:</label>
 	                                         <input type="text" class="form-control underlined" id="lastName" value="${cm.getLastName()}" name="lastName">
 	                                     </div>
                                		</div>
                                  	<div class="form-group row">
                                  		<div class="col-xs-4">
-	                                     	<label>Education Level:</label>
+	                                     	<label><span style="color:red">*</span>Education Level:</label>
 	                                     	<br>
 											<select id="educLevel" name="educLevelID">
                                      			<option value="1">Elementary Education</option>
@@ -370,7 +395,7 @@
                                      		</select>
                                      	</div>
                                      	<div class="col-xs-4">
-	                                     	<label>Commission Position:</label>
+	                                     	<label><span style="color:red">*</span>Commission Position:</label>
 	                                     	<br>
 											<select id="commissionPositions" name="commissionPositionID">
                                      			<option value="1">Chair</option>
@@ -380,7 +405,7 @@
                                      		</select>
                                      	</div>
 	                                    <div class="col-xs-4">
-	                                     	<label>Year:</label>
+	                                     	<label><span style="color:red">*</span>Year:</label>
 											<input type="text" pattern="\d*" maxlength="4" value="${cm.getYear()}" class="form-control underlined" onkeypress="return isNumberKey(event)" id="year" name="year">
 	                                     </div>
                                 	 </div>
@@ -398,19 +423,19 @@
 										<section class="section"> 
 											<div class="form-group row">
 	                                       		<div class="col-xs-4">
-	                                            	<label>Position:</label>
+	                                            	<label><span style="color:red">*</span>Position:</label>
 							 						<input type="text" class="form-control underlined" id="position" value="${cm.getPosition()}" name="position" list="positionSuggestions">
 							                        <datalist id="positionSuggestions">
 								                    </datalist>
 												</div>
 												<div class="col-xs-4">
-	                                            	<label>Institution:</label>
+	                                            	<label><span style="color:red">*</span>Institution:</label>
 							 						<input type="text" class="form-control underlined" id="institution" value="${cm.getInstitution()}" name="institution" list="instSuggestions">
 							                        <datalist id="instSuggestions">
 								                    </datalist>
 												</div>
 	                                            <div class="col-xs-4">
-													<label>City:</label>
+													<label><span style="color:red">*</span>City:</label>
 							 						<input type="text" class="form-control underlined" id="city" value="${cm.getCity()}" name="city" list="citySuggestions">
 							                        <datalist id="citySuggestions">
 								                    </datalist>

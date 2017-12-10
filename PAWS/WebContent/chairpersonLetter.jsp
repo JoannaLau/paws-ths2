@@ -467,7 +467,7 @@
 						var instName = value.instName;
 						var city = value.city + " City";
 						
-						alert(value.accName);
+				
 						var accName = value.accName;
 						var position = value.position;
 						var placePos = value.placeOfPosition;
@@ -948,13 +948,7 @@
         var today = dd + '/' + mm + '/' + yyyy;
         var todayDateInput = yyyy + '-' + mm + '-' + dd;
         var textDateNum = today.toString();
-      
-        
-        function testfunction() {
-            window.alert($('#fromdate').val());
-        }
-
-       
+     
     </script>
 
     <script>

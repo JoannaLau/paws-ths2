@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Models.Infographic;
+import Models.SurveyInfographic;
 import Utilities.InfographicsUtil;
 
 /**
@@ -60,12 +61,26 @@ public class SurveyVisitInfographics extends HttpServlet {
 			endYear = Calendar.getInstance().get(Calendar.YEAR);
 			startYear = endYear-5;
 		}
+		
+		ArrayList<SurveyInfographic> surList = new ArrayList<SurveyInfographic>();
+	
+		
+		
+		int n;
+		
+		for(n=startYear; n<=endYear; n++){
+			
+			SurveyInfographic sur = new SurveyInfographic(n, ins.getTypeofSurveyCount("Preliminary", n),ins.getTypeofSurveyCount("Formal", n), ins.getTypeofSurveyCount("Resurvey", n),ins.getTypeofSurveyCount("Interim/Consultancy", n));
+			
+			surList.add(sur);
+			
+		}
+		
 	
 		ArrayList<Infographic> infList = new ArrayList<Infographic>();
 	
 		
 		
-		int n;
 		
 		for(n=startYear; n<=endYear; n++){
 			
@@ -77,6 +92,8 @@ public class SurveyVisitInfographics extends HttpServlet {
 		}
 		
 		request.setAttribute("surveyCountList", infList);
+		request.setAttribute("TypeCountList", surList);
+		
 		RequestDispatcher rd = request.getRequestDispatcher("surveyVisitInfographics.jsp");
 		rd.forward(request, response);	
 		

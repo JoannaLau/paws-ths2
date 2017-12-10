@@ -53,11 +53,20 @@ public class SyncInstitutions extends HttpServlet {
 			//for school programs
 			if(instWebUtil.getDB()!=null && spList.size() > 0)
 			{
-				if(instWebUtil.getDB()!=null && instWebUtil.updateSchoolPrograms(spList)!=0)
+				if(instWebUtil.getDB()!=null)
 				{
-					if(instUtil.deleteSchoolProgramsChanges(spList) == spList.size())
+					if(instWebUtil.updateSchoolPrograms(spList)!=0)
 					{
-						request.setAttribute("deleted", true);
+						if(instUtil.deleteSchoolProgramsChanges(spList) == spList.size())
+						{
+							request.setAttribute("deleted", true);
+						
+						}
+					}
+					else
+					{
+						request.setAttribute("deleted", false);
+						request.setAttribute("connection", true);
 					}
 				}
 				else

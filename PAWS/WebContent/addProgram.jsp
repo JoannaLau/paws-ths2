@@ -58,13 +58,6 @@
 
 
 
-<script>
-
-	$(document).ready(function() {
-		
-		/* initialize the external events
-		-----------------------------------------------------------------*/
-</script>
 <style>
 
 	body {

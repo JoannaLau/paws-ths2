@@ -237,6 +237,8 @@ function changeDetails(){
 
 
 function duplicateCheck(entry){
+
+	var errorDiv = document.getElementById('error');
 	var hasMatch = false;
 // 	alert(entry);
 	 $.ajax({
@@ -247,7 +249,8 @@ function duplicateCheck(entry){
    		  $.each(data, function (key, value){
    			var inst = value.ssID+"|"+value.institutionName+"|"+value.city;
    				if(inst.toUpperCase() == entry.toUpperCase()){
-	   				alert("This institution already exists in the database."); 
+   					errorDiv.setAttribute("style", "display: inline");
+   					errorDiv.innerHTML ="This institution already exists in the database."; 
 	   				hasMatch=true; 
 	   				return false;
    				} 
@@ -269,30 +272,47 @@ function validateForm() {
     var city =  document.forms["addInstForm"]["city"].value;
     
     var entry = ssName +"|"+institutionName+"|"+city
+    
+	var errorDiv = document.getElementById('error');
+	
    
     if(duplicateCheck(entry)){
     if(ssName=="0"){
-    	alert("School System must be selected");
+    	document.location.href = "#top";
+    	errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
         return false;	
     }    
     else if (institutionName == "") {
-        alert("Institution Name must be filled out");
+    	document.location.href = "#top";
+    	errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
         return false;
     }
     else if (institutionAcronym == "") {
-        alert("Institution Acronym must be filled out");
+    	document.location.href = "#top";
+    	errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
         return false;
     }
     else if (membershipDate == "") {
-        alert("Membership Date must be filled out");
+    	document.location.href = "#top";
+    	errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
         return false;
     }
     else if (city == "") {
-        alert("City must be filled out");
+    	document.location.href = "#top";
+    	errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
         return false;
     }
     else{
-    	alert("succesfully added institution!");
+    	document.location.href = "#top";
+    	errorDiv.setAttribute("style", "display: inline");
+		errorDiv.className = "alert alert-success";
+		errorDiv.innerHTML ='Institution successfully added!';
+      	
     	location.href = 'institutions.jsp';
         }}
     else return false;
@@ -332,6 +352,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	position:fixed;
 	}
 
+  #error{
+        display: none;
+        }
 </style>
 
 
@@ -396,11 +419,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
                 <article class="content dashboard-page">
 				<form name="addInstForm" onsubmit="return validateForm()"  method="post" action="AddInstitution" class="form">
 				
-				 <div class="title-block">
+				 <div class="title-block" id="top">
                         <h3 class="title" style="float:left;">
 							<a href="Institutions"> List of Institutions </a> > Add New Institutions
 						</h3>
 			     </div>
+			     
+			     	<div class="alert alert-danger" role="alert" id="error">
+					
+					</div> <br><br>
 				
 				 <section class="section" id="section">   
 				 <div class="tab-content">     

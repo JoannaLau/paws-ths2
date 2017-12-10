@@ -2041,14 +2041,14 @@ public class AccreditorUtil {
 			if((temp.getString("from").equals("")) || (temp.getString("from") == null)){
 				from = "";
 			}else{
-				from = formatDate(temp.getString("from"));
+				from = formatDateDash(temp.getString("from"));
 			}
 
 			
 			if((temp.getString("to").equals("")) || (temp.getString("to") == null)){
 				 to = "";
 			}else{
-				 to = formatDate(temp.getString("to"));
+				 to = formatDateDash(temp.getString("to"));
 			}
 			
 			String positionPlace = temp.getString("placepos");
@@ -2221,12 +2221,24 @@ public class AccreditorUtil {
 					}
 				}
 				
-				
+				System.out.println("-------------------------------nakalabas na");
 				
 			//Score
-				if(primaryArea.equals(area)) temp.setV1(30); 
-				if(secondaryArea.equals(area)) temp.setV1(20); 
-				if(tertiaryArea.equals(area)) temp.setV1(10); 
+				if(primaryArea.equals(area))
+				{
+					temp.setV1(30); 
+					System.out.println("first if");
+				}
+				if(secondaryArea.equals(area)) 
+					{
+					temp.setV1(20); 
+					System.out.println("sec if");
+}
+				if(tertiaryArea.equals(area)) 
+					{
+					temp.setV1(10); 
+					System.out.println("third if");
+}
 								
 			//Total Surveys
 				temp.setV3(rs.getInt(5));
@@ -2240,6 +2252,8 @@ public class AccreditorUtil {
 			//City
 				String city = getCity(SPID);
 				
+				System.out.print("city is" + city + " rs.getS is " +rs.getString(6));
+
 				if(city.equals(rs.getString(6)))
 				{
 					System.out.println("INSIDE IF-----------------------------------");

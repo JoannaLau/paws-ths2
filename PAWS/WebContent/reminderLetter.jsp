@@ -720,12 +720,7 @@
         var todayDateInput = yyyy + '-' + mm + '-' + dd;
         var textDateNum = today.toString();
       
-        
-        function testfunction() {
-            window.alert($('#fromdate').val());
-        }
-
-       
+    
     </script>
 
     <script>

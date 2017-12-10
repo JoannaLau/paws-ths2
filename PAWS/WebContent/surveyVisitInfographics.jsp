@@ -322,6 +322,42 @@
        
         <br>
         
+										<h2>Type of Visits</h2>
+											   
+											     <br>
+											     <table id="smarttable" class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                      <tr>
+                                                            <th>Year</th>
+                                                            <th>Preliminary</th>
+                                                            <th>Formal</th>
+                                                            <th>Resurvey</th>
+                                                            <th>Interim/Consultancy</th>
+                                                             <th>Total</th>
+                                                    
+                                                            
+                                                        
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id = "tableInstitutions">
+													
+													 <c:forEach items="${TypeCountList}" var="count2" >
+														<tr>
+															<td> <c:out value="${count2.getYear()}"/> 
+															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Preliminary&year='+'${count2.getYear()}';" title="Click to view list of preliminary surveys for ${count2.getYear()}"> <c:out value="${count2.getPreliminary()}"/> </td>
+															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Formal&year='+'${count2.getYear()}';" title="Click to view list of formal surveys for ${count2.getYear()}"> <c:out value="${count2.getFormal()}"/> </td>
+															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Resurvey&year='+'${count2.getYear()}';" title="Click to view list of resurveys for ${count2.getYear()}"> <c:out value="${count2.getResurvey()}"/> </td>
+															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Consultancy&year='+'${count2.getYear()}';" title="Click to view list of consultancy/interim surveys for ${count2.getYear()}"> <c:out value="${count2.getInterim()}"/> </td>
+															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=&year='+'${count2.getYear()}';" title="Click to view list of all surveys for ${count2.getYear()}"> <c:out value="${count2.getTotal()}"/> </td>
+														
+															
+															
+														</tr>
+													</c:forEach>
+														
+                                                    </tbody>
+                                                </table>
+        
         
         	<%-- 
 										<h2>Member School Programs</h2>
@@ -361,7 +397,7 @@
           
 <canvas id="canvas"></canvas>
                            
-                                                     
+                   <canvas id="canvas2"></canvas>                                  
                </center>              
                         
                            
@@ -458,7 +494,7 @@
 	        
 	        
 
-		        window.onload = function() {
+		    	function load1() {
 		            var ctx = document.getElementById("canvas").getContext("2d");
 		            window.myBar = new Chart(ctx, {
 		                type: 'bar',
@@ -482,7 +518,7 @@
 
 		              console.log(CombinedBar[x]);
 
-		        };
+		        }
 
 		        function getRandomColor() {
 		            var letters = '0123456789ABCDEF'.split('');
@@ -505,6 +541,109 @@
 	        
 	        
 
+		        
+		        
+		        
+		    	var Year2 = new Array();
+				
+				var Preliminary = new Array();
+				var Formal = new Array();
+				var Resurvey = new Array();
+				var Interim = new Array();
+			
+				
+			
+				
+				 <c:forEach items="${TypeCountList}" var="count2" >	 
+				 
+				 Year2.push("${count2.getYear()}");
+				 Preliminary.push(parseInt("${count2.getPreliminary()}"));
+				 Formal.push(parseInt("${count2.getFormal()}"));
+				 Resurvey.push(parseInt("${count2.getResurvey()}"));
+				 Interim.push(parseInt("${count2.getInterim()}"));
+			
+				 </c:forEach>
+				
+
+				var CombinedBarNames2 = new Array();
+				CombinedBarNames2 = ['Preliminary', 'Formal', 'Resurvey', 'Interim/Consultancy'];		
+
+				var CombinedBar2 = new Array();
+				CombinedBar2 = [Preliminary, Formal, Resurvey, Interim];
+				   
+
+			        var colors2 = new Array();
+			        colors2 = [GREEN, ORANGE];
+
+
+			        var barChartData2 = {
+			            labels: Year2
+			        };
+
+			        function load2() {
+			            var ctx2 = document.getElementById("canvas2").getContext("2d");
+			            window.myBar = new Chart(ctx2, {
+			                type: 'bar',
+			                data: barChartData2,
+			                options: {
+			                    responsive: true,
+			                    legend: {
+			                        position: 'top',
+			                    },
+			                    title: {
+			                        display: true,
+			                        text: 'Types of Visits'
+			                    }
+			                }
+			            });
+
+			            for (var x = 0; x < CombinedBar2.length; x++){
+			                addData(myBar, CombinedBarNames2[x], colors2[x], CombinedBar2[x]);
+			            }
+
+
+			        };
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+
+		        function getRandomColor() {
+		            var letters = '0123456789ABCDEF'.split('');
+		            var color = '#';
+		            for (var i = 0; i < 6; i++ ) {
+		                color += letters[Math.floor(Math.random() * 16)];
+		            }
+		            return color;
+		        }
+
+		        function addData(chart, label, color, data) {
+		            chart.data.datasets.push({
+		                label: label,
+		                backgroundColor: color,
+		                data: data
+		                });
+		            chart.update();
+		        }
+
+			
+
+		        
+		        window.onload = function() {
+		        	
+		        	
+		        	
+		        	load1();
+		        	load2();
+		        }
+	        
+			
+			
 
 		        
 		        

@@ -44,13 +44,32 @@
       //BLANK FIELD CHECKERS
 	  	
             $(document).ready(function() {
+            	
+            	
+
+
+            	var errorDiv1 = document.getElementById('error1');
+            	
+
 
 
     			$( "#checkStep1" ).click(function(event) {
     				
+    				
+    				
+    				if($('#systemForm').find(":selected").val() == 0)
+    				{
+    					errorDiv1.setAttribute("style", "display: inline");
+    	        		errorDiv1.innerHTML ="Please choose a school system!";
+    					event.preventDefault();
+	    				event.stopPropagation();
+    				}
+    		
+    				
     				if($('#institutionForm').find(":selected").val() == 0)
     				{
-    					alert("Please choose an institution!");
+    					errorDiv1.setAttribute("style", "display: inline");
+    	        		errorDiv1.innerHTML = "Please choose an institution!";
     					event.preventDefault();
 	    				event.stopPropagation();
     				}
@@ -114,6 +133,8 @@
 					$('#programForm').empty();
 					$('#divProgramForm').empty();
 					var institutionID = $('#institutionForm').find(":selected").val();
+					
+
 					
 					$.getJSON("ProgramLoader?institutionID=" + institutionID, function(data){
 						    if ( data.length == 0 ) {
@@ -199,9 +220,13 @@
                         });
                     }
                 });
-
+                
+            	
                 $('#smarttable tbody').on('click', 'tr', function() {
-                    alert('Successfully selected an accreditor!');
+                	var errorDiv3 = document.getElementById('error3');
+                	errorDiv3.className = "alert alert-success";
+                	errorDiv3.setAttribute("style", "display: inline");
+            		errorDiv3.innerHTML ='Successfully selected an accreditor!';
                     $('#addModal').modal('toggle');
                 });
 
@@ -230,7 +255,10 @@
                 });
 
                 $('#smarttable2 tbody').on('click', 'tr', function() {
-                    alert('Successfully selected an accreditor!');
+                	var errorDiv3 = document.getElementById('error3');
+                	errorDiv3.className = "alert alert-success";
+                	errorDiv3.setAttribute("style", "display: inline");
+            		errorDiv3.innerHTML ='Successfully selected an accreditor!';
                     $('#addModal').modal('toggle');
                 });
 
@@ -259,7 +287,10 @@
                 });
 
                 $('#smarttable3 tbody').on('click', 'tr', function() {
-                    alert('Successfully selected an accreditor!');
+                	var errorDiv3 = document.getElementById('error3');
+                	errorDiv3.className = "alert alert-success";
+                	errorDiv3.setAttribute("style", "display: inline");
+            		errorDiv3.innerHTML ='Successfully selected an accreditor!';
                     $('#addModal').modal('toggle');
                 });
 
@@ -788,8 +819,7 @@
 
                     };
 
-                    $("#programLi" + lel).find("h6").append(btnX);
-
+                    $("#programLi" + lel).find("h6").append(btnX); 
                     var lal = document.getElementById("added");
                     lal.scrollTop = lal.scrollHeight;
 
@@ -798,7 +828,11 @@
                     $('#addedList2').append(tableDiv);
 
                 } else {
-                    alert("You have already selected this program!");
+
+                    var error2 = document.getElementById("error2");
+                   
+                	error2.setAttribute("style", "display: inline");
+            		error2.innerHTML ="You have already selected this program!";
                 }
             }
 
@@ -868,7 +902,8 @@
             }
 
             function addAccreditor(area, program, survey, areaCounter, programCounter, btn) {
-                var add = "";
+            	
+               var add = "";
                 var aff = false;
                 //BUILDING THE ACCREDITOR TABLE SPECIFICALLY TAILORED FOR EACH INSTITUTION - PROGRAM - AREA
                 var accreditors = [];
@@ -895,16 +930,16 @@
 
                 var removes = [];
                 //VALIDATOR AND STYLE CHANGER
+
+                
                 var removal = accreditors[accreditors.length - 1].rank;
 
                 for (var i = 0; i < accreditors.length; i++) {
                     if (accreditors[i].rank == -1) {
                     	aff = true;
-                    	alert("sdadad");
-                    	alert(accreditors[i].accreditorName);
+                  
                         removes.push(accreditors[i]);
                     } else {
-                    	alert(accreditors[i].accreditorName);
                         
                     	add += "<tr>";
                         add += '<td>' + accreditors[i].accreditorID + '</td>';
@@ -1078,11 +1113,11 @@
                         surveyObject: JSON.stringify(surveyObject)
                     },
                     success: function(result) {
-                        alert('Survey successfully added! Redirecting you to the survey page...')
+                        //alert('Survey successfully added! Redirecting you to the survey page...')
 
                     }
                 });
-                alert("Survey Successfully Added");
+//                alert("Survey Successfully Added");
                 document.location.href = "survey.jsp";
 
             }
@@ -1116,6 +1151,17 @@
                 height: 640px;
                 position: fixed;
             }
+            
+            
+        #error1{
+        display: none;
+        }
+        #error2{
+        display: none;
+        }
+        #error3{
+        display: none;
+        }
         </style>
     </head>
 
@@ -1145,6 +1191,13 @@
 
                     <!-- MENU 1 -->
                     <div id="menu1" class="tab-pane fade in active">
+                    
+                    
+			     	<div class="alert alert-danger" role="alert" id="error1">
+					
+					</div> <br><br>
+                    
+                    
                         <section class="section" id="section1">
                             <form style="height:420px; overflow:scroll;">
                                 <div class="form-group">
@@ -1157,7 +1210,7 @@
 
                                 <div class="form-group">
                                     <label for="sel1">Institutions:</label>
-                                    <select class="form-control underlined chosen-select" data-placeholder="Choose an Institution..." id="institutionForm" style="background: transparent;">
+                                    <select  class="form-control underlined chosen-select" data-placeholder="Choose an Institution..." id="institutionForm" style="background: transparent;">
                                     </select>
                                 </div>
 
@@ -1176,6 +1229,13 @@
                     <!-- MENU 2 -->
 
                     <div id="menu2" class="tab-pane fade">
+                    
+                    				
+								
+			     	<div class="alert alert-danger" role="alert" id="error2">
+					
+					</div> <br>
+                    
 				<section class="section" id="section2">
 					<form style="height:420px; width:100%; overflow:scroll;">
 						<div id="add" style="float:left; width: 50%; height: relative;" class="card sameheight-item">
@@ -1183,11 +1243,12 @@
 								<h3 id="institutionName">
 								
 								</h3>
+				
+								
 								<div class="form-group" id="divProgramForm">
 									
 								</div>
 								<div class="form-group">
-									<label id="suggestedSurveyType"></label>
 									<br>
 									<label for="sel1">Type of Survey:</label>
 									<select class="form-control underlined" id="surveyForm">
@@ -1256,6 +1317,9 @@
                                 <h3>Assign Accreditors</h3>
 
 
+			     	<div class="alert alert-danger" role="alert" id="error3">
+					
+					</div>
 
                                 <div id="added2" class="form-group">
                                     <ul id="addedList2" class="list-group">

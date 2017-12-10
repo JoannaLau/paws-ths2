@@ -49,7 +49,7 @@ public class ConfirmationUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("UPDATE `decisions` SET decision=?, `remarks`=? , `for_interim`=? ,`for_consultation`=?, `for_progressReport`=?  WHERE  PSID= ? AND `decisionBy`=?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE `decisions` SET decision=?, `remarks`=? , `forInterim`=? ,`forConsultation`=?, `forProgressReport`=?  WHERE  PSID= ? AND `decisionBy`=?");
 			ps.setString(1, decision);
 			System.out.println(remarks +" BY "+ by);
 			ps.setString(2, remarks);

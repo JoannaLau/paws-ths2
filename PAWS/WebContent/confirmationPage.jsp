@@ -107,7 +107,11 @@ $.ajax({
 	  url: "ConfirmationPageLoader?surveyID=" + ID,
 	  dataType: 'json',
 	  async: false,
-	  error:function(){alert("fail")},
+	  error:function(){
+			var errorDiv = document.getElementById('error');
+        	errorDiv.setAttribute("style", "display: inline");
+    		errorDiv.innerHTML ="An Error Has Occured";
+		  },
 	  success: function(data) {
 		  var add = "";
 		  add += ("<ul class='list-group'> <br>") ;		  
@@ -122,7 +126,7 @@ $.ajax({
 	var link = getLink(value.programs[i].surveyType,value.programs[i].PSID, ID, decisionJSON, value.programs[i].boardApprovalDate);	
 			 add += (" <li class='list-group-item'>");
 			 add += ("<div class='col-md-9' style='position:relative; left:-15px;''><label><h4><p id='program"+value.programs[i].PSID+"'>" + value.programs[i].programName + " : " + value.programs[i].surveyType + "</p></h4></label> </div>	"); 
-			    add += (" <button style='position:relative; left:-38px; type='button' class='btn btn-danger btn-sm' onClick="+link+"><i class='fa fa-pencil-square-o'></i> Update Decision</button><br><br> 		");
+			    add += (" <button style='position:relative; left:-38px; type='button' class='btn btn-danger btn-sm' onclick=\"location.href='UpdateDecisions?surveyID=${surveyID}&PSID=" + value.programs[i].PSID + "'\"><i class='fa fa-pencil-square-o'></i> Update Decision</button><br><br> 		");
 			    add += ("<table class='table'> ");
 			   		add += ("<thead><tr><th style='width: 20%;'>Name</th> <th style='width: 50%;'>Area</th> <th style='width: 30%;'>Confirm Attendance</th></tr></thead> ");
 			    	add += (" <tbody> ");			    	
@@ -130,7 +134,7 @@ $.ajax({
 			var checked = checkAttendance(value.programs[i].areas[j].confirmation)			    	 
 			    		add += ("<tr > ");
 			    		add += ("<td><a id='accLink"+value.programs[i].areas[j].areaID +"' href='ViewAccreditor?accreditorID=" + value.programs[i].areas[j].accreditorID + "' data-toggle='tooltip' title='This will take you to the accreditor page.'>"+ value.programs[i].areas[j].accreditor + "</a></td><td id='area"+value.programs[i].areas[j].areaID +"'>" + value.programs[i].areas[j].area + "</td>"); 
-			    			add += ("<td><label><input type='checkbox' "+ checked +" onclick='confirmAccreditor(" + value.programs[i].PSID + "," + value.programs[i].areas[j].areaID + "," + value.programs[i].areas[j].accreditorID + ","+checked+")' class='checkbox rounded' value='Confirm Attendance' id='checkbox_confirm"+value.programs[i].areas[j].accreditorID+"'><span>Confirm</span></label> <button class='btn btn-link btn-sm' onclick='changeAcc(" + value.programs[i].areas[j].areaID + ","+value.systemID+","+value.programs[i].PSID+","+ value.programs[i].areas[j].accreditorID+" )' id='changedbutton"+value.programs[i].areas[j].accreditorID+"," + value.programs[i].PSID + "," + value.programs[i].areas[j].areaID + "'><i class='fa fa-pencil'></i>Replace Accreditor</button></td>");
+			    			add += ("<td><label><input type='checkbox' "+ checked +" onclick='confirmAccreditor(" + value.programs[i].PSID + "," + value.programs[i].areas[j].areaID + "," + value.programs[i].areas[j].accreditorID + ","+checked+")' class='checkbox rounded' value='Confirm Attendance' id='checkbox_confirm"+value.programs[i].areas[j].accreditorID+"'><span>Confirm</span></label></td>");
 			 				add += ("</tr> ");
 			}
 			    		add += ("</tbody> ");
@@ -149,7 +153,6 @@ function getLink(type,i,ID,decisionJSON,boardApprovalDate){
 if(boardApprovalDate=="Date Error"){boardApprovalDate="-Select-"}
 globalApprovalDate = boardApprovalDate
 
-alert(type);
 	if(type=="Formal"){return "'formalConfirm("+i+","+ID+","+decisionJSON+")'"};
 	if(type=="Consultancy"){return "'consultancyConfirm("+i+","+ID+","+decisionJSON+")'"};
 	if(type=="Preliminary"){return "'preliminaryConfirm("+i+","+ID+","+decisionJSON+")'"};	
@@ -169,7 +172,10 @@ function confirmAccreditor(PSID, areaID, accID, checked){
 		$.ajax({ //CALLING ACCREDITORS WITH EXTRA CHECKING FOR AFFILIATION CONFLICTS
 			  url: "ConfirmAttendance?PSID=" + PSID +"&areaID=" + areaID+"&accID=" + accID+"&add=-1",		 
 			  success: function() {
-				 alert("Attendance Unconfirmed")
+				  errorDiv.setAttribute("style", "display: inline");
+					errorDiv.className = "alert alert-danger";
+	        		errorDiv.innerHTML ="Attendance Unconfirmed";
+	        		
 				 document.getElementById("changedbutton"+id+"").style.visibility = 'visible';
 				}
 		});		
@@ -178,7 +184,16 @@ function confirmAccreditor(PSID, areaID, accID, checked){
 		$.ajax({ //CALLING ACCREDITORS WITH EXTRA CHECKING FOR AFFILIATION CONFLICTS
 			  url: "ConfirmAttendance?PSID=" + PSID +"&areaID=" + areaID+"&accID=" + accID+"&add=1",		 
 			  success: function() {
-				 alert("Attendance Confirmed")
+				  errorDiv.setAttribute("style", "display: inline");
+					errorDiv.className = "alert alert-success";
+	        		errorDiv.innerHTML ="Confirmation status Changed!";
+	        		
+	        		document.location.href = "#error";
+	        		
+	        		$("#error").fadeTo(2000, 500).slideUp(500, function(){
+	        			errorDiv.setAttribute("style", "display: none");
+	        		});
+	        		
 				  document.getElementById("changedbutton"+id+"").style.visibility = 'hidden';
 				}
 		});		
@@ -906,15 +921,16 @@ function preliminaryConfirm(PSID, surveyID, decisionJSON) {
 
 $('#modalBody2').html("<div style='width: 49%; float:left;'><h4>Preliminary Survey</h4></div>");  
 	add+=("<ul class='nav nav-tabs nav-tabs-bordered'>"
-		    +"<li class='nav-item'><a class='nav-link active' data-target='#team' data-toggle='tab' aria-controls='team' role='tab'>Team Decision</a></li>"
+		    +"<li class='nav-item'><a class='nav-link active' data-target='#team' data-toggle='tab' aria-controls='team' role='tab' href='#team'>Team Decision</a></li>"
 		    +"<li class='nav-item'><a class='nav-link' data-target='#committee' data-toggle='tab' aria-controls='committee' role='tab' href='#committee'>Commission Decision</a></li>"
 		    +"<li class='nav-item'><a class='nav-link' data-target='#board' data-toggle='tab' aria-controls='board' role='tab' href='#board'>Board Decision</a></li>"
 		 +"</ul>");
 	add += ("<form method='post' action='SurveyProgramDecision'>");
  add += ("<div id='modalBody' class='modal-body'> <div class='tab-content tabs-bordered'>");
 
+ alert(decisionJSON.length);
  $.each(decisionJSON, function (key, value){
-
+	
  if(value.decisionBy == "Team"){
 //  START OF TEAM TAB CONTENT	-PRELIMINARY
  	add+=("<div id='team' class='tab-pane fade in active'>");
@@ -1521,8 +1537,11 @@ function addAccreditor(PSID,areaID, oldAccreditorID, area, program, survey, data
          		  url: "ChangeAccreditor?PSID=" + PSID +"&AreaID=" + areaID+"&newAccreditorID=" + chosenAccreditor[0] + "&oldAccreditorID=" + oldAccreditorID,
          		 
          		  success: function() {
-         			 alert("Accreditor Successfully Changed");
-         			}
+         			 var errorDiv = document.getElementById('error');
+      				errorDiv.className = "alert alert-success";
+      	        	errorDiv.setAttribute("style", "display: inline");
+      	    		errorDiv.innerHTML ="Accreditor Successfully Changed";
+      	    		}
          	});		
 			$('#addModal').modal('toggle');
     } );
@@ -1717,6 +1736,10 @@ function addAccreditor(PSID,areaID, oldAccreditorID, area, program, survey, data
 		-moz-box-shadow: 0px 4px 7px 1px rgba(0,0,0,0.41);
 		box-shadow: 0px 4px 7px 1px rgba(0,0,0,0.41);
 		}
+		
+	#error{
+        display: none;
+        }
 	#bPending:hover{
 		top:3px;
 		-webkit-box-shadow: 0px 1px 7px 1px rgba(0,0,0,0.41);
@@ -1733,57 +1756,7 @@ function addAccreditor(PSID,areaID, oldAccreditorID, area, program, survey, data
         <div class="main-wrapper" style="z-index:1;">
             <div class="app" id="app">
 				   
-               <aside class="sidebar" style="position:fixed">
-				<img id="bg" src="assets/bg.jpg">
-                    <div class="sidebar-container">
-                          <div class="sidebar-header" >
-                            <div class="brand" style="background-color:#1c252e;position:relative;left:-17%;width:150%;box-shadow: 10px 9px 24px 0px rgba(1,1,1,1);"  >
-                                 <div class="logo" id="logoDiv" style="width:100%;"> <img src="assets/logoicon.png" style="width:52%;height:185%; top:-40%;left:9%; opacity:1"> </div>
-                       
-                        </div><br>
-                        <nav class="menu">
-                            <ul class="nav metismenu" id="sidebar-menu">
-                                <li>
-                                    <a href="Notifications"> <i class="fa fa-home"></i> Dashboard </a>
-                                </li>
-								<li class="active open">
-                                    <a href="survey.jsp"> <i class="fa fa-table"></i> Survey Schedule </a>
-								
-                                </li>
-								<li>
-                                    <a href="addSurvey.jsp"> <i class="fa fa-pencil-square-o"></i> Add New Survey </a>
-								</li>
-								<li >
-                                <a href="#demo" data-toggle="collapse"> <i class="fa fa-file-text-o"></i> Database <i class="fa arrow"></i> </a>
-                                    
-                                    <ul id="demo" class="collapse">
-                                  
-                                        <li class="active"> <a href="Accreditors">
-    								Accreditors
-    							</a> </li>
-                                        <li> <a href="Institutions">
-    								Institutions
-    							</a> </li>
-								 <li> <a href="SchoolSystems">
-    							                School Systems
-    							</a> </li>
-								 <li> <a href="Programs">
-    								Disciplines </a></li>
-								 
-                                 
-                                    </ul>
-                                </li>
-                               
-                                
-                               
-                            </ul>
-                        </nav>
-                    </div>
-                    <footer class="sidebar-footer">
-            
-			
-					
-                </aside>
+              <jsp:include page="sidebar.jsp"></jsp:include>
 				  
 				<div class="container">
 	<video poster="assets/banner.jpg" id="bgvid"  playsinline autoplay muted loop>
@@ -1800,6 +1773,9 @@ function addAccreditor(PSID,areaID, oldAccreditorID, area, program, survey, data
 			   
 					
                 </header>
+                <div class="alert alert-danger" role="alert" id="error">
+					
+					</div>
                 <article class="content dashboard-page"  >
                     <section class="section" style="position: relative; top:-135px; left:-25px; width:105%;" >
                       

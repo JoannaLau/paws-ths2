@@ -313,7 +313,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 <!-- 									Submit then add an Institutions 						 -->
 <!-- 									</button> -->
 									
-									<button type="submit" class="btn btn-info" onclick="alert('Successfully added a School System!');location.href = 'SchoolSystems';"  style="float:right; padding-right:15px;">
+									<button type="submit" class="btn btn-info" onclick="location.href = 'SchoolSystems';"  style="float:right; padding-right:15px;">
 									Save
 									</button>
 								</div>

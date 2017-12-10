@@ -162,42 +162,61 @@
         	var institution = $('#institution').val();
         	
         	var boardPositionID = $('#boardPositionID').find(":selected").val();	
-        	
+
+        	var errorDiv = document.getElementById('error');
         	
         	if(honorifics == ""){
-        		alert("Please fill out honorifics name!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
+
        		   $( ".loader" ).remove();
                    
         	}else if(firstName == ""){
-        		alert("Please fill out first name!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
+
         		   $( ".loader" ).remove();
                    
         	}else if(middleName == ""){
-        		alert("Please fill out middle initial!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
+
         		   $( ".loader" ).remove();
                    
         	}else if(lastName == ""){
-           		alert("Please fill out last name!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
+
           		$( ".loader" ).remove();
                       
         	}else if(boardPositionID == ""){
-        		alert("Please fill out board position!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
+
         		   $( ".loader" ).remove();
                    
         	}else if(year == ""){
-        		alert("Please choose a year!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
+
         		   $( ".loader" ).remove();
                    
         	}else if(position == ""){
-        		alert("Please input position!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
+
         		   $( ".loader" ).remove();
                 
         	}else if(institution == ""){
-        		alert("Please input institution!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
+
         		   $( ".loader" ).remove();
                    
         	}else if(city == ""){
-        		alert("Please input city!");
+        		errorDiv.setAttribute("style", "display: inline");
+        		errorDiv.innerHTML = 'One or more required fields has not been filled';
+
         		   $( ".loader" ).remove();
                    
         		
@@ -215,7 +234,8 @@
 						{
 							$.each(data, function(key, value) {
 	                            
-			                    alert("Error! You have already assigned " + value.name + " as a " + $('#boardPositions').find(":selected").text() + " for the year " + $("#year").val());
+								errorDiv.setAttribute("style", "display: inline");
+				        		errorDiv.innerHTML ="Error! You have already assigned " + value.name + " as a " + $('#boardPositions').find(":selected").text() + " for the year " + $("#year").val();
 			                    $( ".loader" ).remove();
 	                         });
 						}
@@ -231,7 +251,9 @@
 				
 				                }
 				            });
-				            alert('Accreditor successfully added! Redirecting you to the accreditors page...');
+							errorDiv.setAttribute("style", "display: inline");
+							errorDiv.className = "alert alert-success";
+			        		errorDiv.innerHTML = 'Board Member successfully added! Redirecting you to the Board Members page...';
 				          	document.location.href = "BoardMembers";
 						}
 	   		    	});
@@ -248,7 +270,9 @@
 		
 		                }
 		            });
-		            alert('Accreditor successfully added! Redirecting you to the accreditors page...');
+					errorDiv.setAttribute("style", "display: inline");
+					errorDiv.className = "alert alert-success";
+	        		errorDiv.innerHTML = 'Board Member successfully added! Redirecting you to the Board Members page...';
 		          	document.location.href = "BoardMembers";
 				}
             	
@@ -292,6 +316,12 @@
         #maincard {
             height: 750px;
         }
+        
+          
+        #error{
+        display: none;
+        }
+        
 		.loader 
 		{
 				    border: 10px solid #e7e7e7; /* Light grey */
@@ -328,6 +358,12 @@
       					<a href="BoardMembers"> List of Board Members </a> > Add New Board Member
      				</h3>
                 </div>
+                
+                
+                	<div class="alert alert-danger" role="alert" id="error">
+					
+					</div>
+                
                 <div id="load"></div>
                 <br>
                 <div class="row sameheight-container" id="formID">
@@ -337,27 +373,27 @@
 								<section class="section">
 									<div class="form-group row">
 	                                     <div class="col-xs-2">
-	                                         <label>Honorifics:</label>
+	                                         <label><span style="color:red">*</span>Honorifics:</label>
 	                                          <input type="text" class="form-control underlined" id="honorifics" name="honorifics" list="honorificsSuggestions">
 	                                         <datalist id="honorificsSuggestions">
 	                                         </datalist>
 	                                     </div>
 	                                     <div class="col-xs-4">
-	                                         <label>First Name:</label>
+	                                         <label><span style="color:red">*</span>First Name:</label>
 	                                         <input type="text" class="form-control underlined" id="firstName" name="firstName">
 	                                     </div>
 	                                     <div class="col-xs-2">
-	                                         <label>Middle Initial:</label>
+	                                         <label><span style="color:red">*</span>Middle Initial:</label>
 	                                         <input type="text" class="form-control underlined" id="middleName" name="middleName">
 	                                     </div>
 	                                     <div class="col-xs-4">
-	                                         <label>Last Name:</label>
+	                                         <label><span style="color:red">*</span>Last Name:</label>
 	                                         <input type="text" class="form-control underlined" id="lastName" name="lastName">
 	                                     </div>
                                		</div>
                                  	<div class="form-group row">
                                      	<div class="col-xs-4">
-	                                     	<label>Board Position:</label>
+	                                     	<label><span style="color:red">*</span>Board Position:</label>
 	                                     	<br>
 											<select id="boardPositions" name="boardPositionID">
                                      			<option value="1">President</option>
@@ -367,7 +403,7 @@
                                      		</select>
                                      	</div>
 	                                    <div class="col-xs-4">
-	                                     	<label>Year:</label>
+	                                     	<label><span style="color:red">*</span>Year:</label>
 											<input type="text" pattern="\d*" maxlength="4" class="form-control underlined" onkeypress="return isNumberKey(event)" id="year" name="year">
 	                                     </div>
                                 	 </div>
@@ -385,19 +421,19 @@
 										<section class="section"> 
 											<div class="form-group row">
 	                                       		<div class="col-xs-4">
-	                                            	<label>Position:</label>
+	                                            	<label><span style="color:red">*</span>Position:</label>
 							 						<input type="text" class="form-control underlined" id="position" name="position" list="positionSuggestions">
 							                        <datalist id="positionSuggestions">
 								                    </datalist>
 												</div>
 												<div class="col-xs-4">
-	                                            	<label>Institution:</label>
+	                                            	<label><span style="color:red">*</span>Institution:</label>
 							 						<input type="text" class="form-control underlined" id="institution" name="institution" list="instSuggestions">
 							                        <datalist id="instSuggestions">
 								                    </datalist>
 												</div>
 	                                            <div class="col-xs-4">
-													<label>City:</label>
+													<label><span style="color:red">*</span>City:</label>
 							 						<input type="text" class="form-control underlined" id="city" name="city" list="citySuggestions">
 							                        <datalist id="citySuggestions">
 								                    </datalist>

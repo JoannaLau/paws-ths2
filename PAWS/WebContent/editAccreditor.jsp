@@ -415,6 +415,8 @@ function changeDetails(){
 function saveAccreditor(){
 	var id = "<c:out value='${accreditor.getAccreditorID()}'/>";
 
+	var errorDiv = document.getElementById('error');
+	
 	$.ajax({
 		url: 'SaveEditAccreditor?accreditorID=' + id + "&" + $('#accForm').serialize(),
 		type: 'POST',
@@ -425,7 +427,10 @@ function saveAccreditor(){
 			
 		}
 	});
-	alert('Accreditor successfully edited! Redirecting you to the accreditors page...')
+	document.location.href = "#top";
+	errorDiv.setAttribute("style", "display: inline");
+	errorDiv.className = "alert alert-success";
+	errorDiv.innerHTML ='Accreditor successfully edited! Redirecting you to the accreditors page...';
 
 	document.location.href = "Accreditors";
 }
@@ -527,7 +532,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	height:750px;
 	}
 	
-	
+	 #error{
+        display: none;
+        }
 
 </style>
     </head>
@@ -554,6 +561,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 							<a href="Accreditors"> List of Accreditors </a> > Edit Accreditor
 						</h3>
 			     </div>
+			     
+			     
+                	<div class="alert alert-danger" role="alert" id="error">
+					
+					</div><br>
 				<div class="col-md-12"id="maincard" >
 				<div class="card card-block sameheight-item"id="maincard">		
 				 <section class="section" id="section">  

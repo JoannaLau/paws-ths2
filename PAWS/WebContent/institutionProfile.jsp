@@ -99,7 +99,6 @@ $.fn.dataTable.ext.errMode = 'none';
             
 function goToAddProgramToInstitution(ID, Name){
 	var apoName = Name.replace("&apo;","'");
-	alert(apoName);
 	document.location.href='AddProgramToInstitution?ID=' + ID+'&name=' + apoName;
 
 	

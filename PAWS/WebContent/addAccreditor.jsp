@@ -4,6 +4,11 @@
 <head>
     <!-- IMPORTS -->
     <script src='js/jquery.min.js'></script>
+    
+    
+     
+    
+    
     <!--     <script src='js/jquery-ui.min.js'></script> -->
     <link rel="stylesheet" href="css/bootstrap.css">
     <script src="js/bootstrap.min.js"></script>
@@ -42,6 +47,10 @@
     <!-- <script src='calendar/lib/moment.min.js'></script> -->
     <!-- <script src='calendar/fullcalendar.min.js'></script> -->
     <script>
+    
+    
+    
+    
         $(document).ready(function() {
         	var institutionForm = document.getElementById('institutionFormWork');
 			
@@ -143,6 +152,15 @@
                 $(this).attr('style', 'width: 100%');
             });
         }
+        
+        
+
+
+        
+        
+        
+        
+        
 
         function addDet() {
             $("#progBar").html("<div class='progress-bar progress-bar-success progress-bar-striped' role='progressbar' style='width:50%' id='progDetails'>1. Details</div>");
@@ -384,6 +402,8 @@
 
 
         function saveAccreditor() {
+        	
+  	
         	console.log( $('#accForm').serializeArray() );
         	  $.ajax({
                 url: 'AddAccreditor?' + $('#accForm').serialize(),
@@ -398,16 +418,163 @@
 
                 }
             });
-            alert('Accreditor successfully added! Redirecting you to the accreditors page...');
-          //  document.location.href = "Accreditors";
+        	  var errorDiv = document.getElementById('error');
+        	  errorDiv.setAttribute("style", "display: inline");
+				errorDiv.className = "alert alert-success";
+      		errorDiv.innerHTML ='Accreditor successfully added! Redirecting you to the accreditors page...';
+            document.location.href = "Accreditors";
         }
 
+        
+        
+  
+        
+        
         function togglePresent() {
             $('#datepicker3').prop('disabled', function(i, v) {
                 return !v;
             });
-        }
+        
+        
+        
+        
+        
+        
+        
+        
+   
     </script>
+   
+   
+   
+   
+   
+   
+   
+   
+            
+            <script>
+
+
+            function validate(){
+            	
+            	var honorifics = document.getElementById("honorifics").value;
+            	var firstName = document.getElementById("firstName").value;
+            	var middleName = document.getElementById("middleName").value;
+            	var lastName = document.getElementById("lastName").value;
+            	var email= document.getElementById("email").value;
+            	var contact= document.getElementById("contact").value;
+            	var address= document.getElementById("address").value;
+            	var city= document.getElementById("city").value;
+            	var country= document.getElementById("country").value;
+            	var discipline= document.getElementById("disciplineForm").value;
+            	var venue= document.getElementById("venueTrained").value;
+            	var date= document.getElementById("datepicker1").value;
+            	var primary= document.getElementById("primaryArea").value;
+            	var secondary= document.getElementById("secondaryArea").value;
+            	var tertiary= document.getElementById("tertiaryArea").value;
+            	
+            	var errorDiv = document.getElementById('error');
+          
+
+            	/* if(honorifics==""||firstName==""||middleName==""||lastName==""||email==""||contact==""||address==""||city==""||country=""||discipline=""||venue==""||date==""||primaryArea==""||secondaryArea==""||teriaryArea==""){
+            		alert("fuk"); */
+ 
+            		
+            		if(honorifics==""){
+            			
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		else if(firstName==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		
+            		else if(middleName==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		
+            		else if(lastName==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		
+            		else if(email==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		
+            		else if(contact==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		
+            		else if(address==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		else if(city==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		else if(country==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		else if(discipline==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		else if(venue==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		else if(date==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		
+            		else if(primaryArea==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		
+            		else if(secondaryArea==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		
+            		else if(tertiaryArea==""){
+            			document.location.href = "#error";
+            			errorDiv.setAttribute("style", "display: inline");
+                		errorDiv.innerHTML = 'One or more required fields has not been filled';
+            		}
+            		
+            		else  document.location.href = "#menu2";
+            	
+            }
+
+
+            </script>
+   
+   
+   
     <style>
         body {
             font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
@@ -434,6 +601,9 @@
             height: 640px;
             position: fixed;
         }
+         #error{
+        display: none;
+        }
         #maincard {
             height: 750px;
         }
@@ -441,115 +611,15 @@
 </head>
 
 <body>
+
+
+
+
     <div class="main-wrapper">
     </div>
     <div class="app" id="app">
-        <header class="header">
-            <div class="header-block header-block-collapse hidden-lg-up">
-                <button class="collapse-btn" id="sidebar-collapse-btn">
-                    <i class="fa fa-bars"></i>
-                </button>
-            </div>
-            <div class="header-block header-block-search hidden-sm-down">
-                <form role="search">
-                    <div class="input-container">
-                        <i class="fa fa-search"></i>
-                        <input type="search" placeholder="Search">
-                        <div class="underline"></div>
-                    </div>
-                </form>
-            </div>
-            <div style="margin-left:-150px;">
-                <div class="progress" style="width:500px; height:20px;" id="progBar">
-                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width:50%" id="progDetails">
-                        1. Details
-                    </div>
-                </div>
-            </div>
-            <div class="header-block header-block-nav">
-                <ul class="nav-profile">
-                    <li class="notifications new">
-                        <a href="" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <sup>
-                  <span class="counter">1</span>
-                  </sup> </a>
-                        <div class="dropdown-menu notifications-dropdown-menu">
-                            <ul class="notifications-container">
-                                <li>
-                                    <a href="" class="notification-item">
-                                        <div class="img-col">
-                                            <div class="img" style="background-image: url('assets/faces/marcos,nelson.jpg')"></div>
-                                        </div>
-                                        <div class="body-col">
-                                            <p> <span class="accent">Marcos, Nelson Phd</span> Achievement: <span class="accent">Completed 100th survey</span>. </p>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                            <footer>
-                                <ul>
-                                    <li> <a href="">
-                              View All
-                              </a>
-                                    </li>
-                                </ul>
-                            </footer>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </header>
-        <aside class="sidebar">
-            <img id="bg" src="assets/bg.jpg">
-            <div class="sidebar-container">
-                <div class="sidebar-header">
-                    <div class="brand">
-                        <div class="logo" style="width:100%"> <img src="assets/logoicon.png" style="width:90%;height:170%; top:-5%;left:-5%; opacity:1"> </div>
-                    </div>
-                    <nav class="menu">
-                        <ul class="nav metismenu" id="sidebar-menu">
-                            <li>
-                                <a href="index.html"> <i class="fa fa-home"></i> Dashboard </a>
-                                <li>
-                                    <a href="survey.jsp"> <i class="fa fa-table"></i> Survey Schedule </a>
-                                </li>
-                                <li>
-                                    <a href="addSurvey.jsp"> <i class="fa fa-pencil-square-o"></i> Add New Survey </a>
-                                </li>
-                                <li class="active" id="activeopen">
-                                    <a href="#demo" data-toggle="collapse"> <i class="fa fa-file-text-o"></i> Database <i class="fa arrow"></i> </a>
-                                    <ul id="demo" class="collapse">
-                                        <li class="active"> <a href="Accreditors">
-                              Accreditors
-                              </a>
-                                        </li>
-                                        <li> <a href="Institutions">
-                              Institution
-                              </a>
-                                        </li>
-                                        <li> <a href="SchoolSystems">
-                              Schools
-                              </a>
-                                        </li>
-                                        <li> <a href="Programs">
-                              Disciplines </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#demo3" data-toggle="collapse"> <i class="fa fa-bar-chart"></i> Reports <i class="fa arrow"></i> </a>
-                                    <ul id="demo3" class="collapse">
-                                        <li> <a href="reportGA.html">GA Awardees</a> </li>
-                                        <li> <a href="reportHistory.html">History</a> </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="settings.html"> <i class="fa fa-cog"></i> Settings </a>
-                                </li>
-                        </ul>
-                    </nav>
-                </div>
-                <footer class="sidebar-footer">
-        </aside>
+        
+        <jsp:include page="sidebar.jsp" />
         <div class="sidebar-overlay" id="sidebar-overlay"></div>
         <form id="accForm">
             <article class="content dashboard-page">
@@ -557,7 +627,21 @@
                     <h3 class="title" style="float:left;">
       <a href="Accreditors"> List of Accreditors </a> > Add New Accreditor
       </h3>
+      
+      
+      
                 </div>
+      
+      
+      	    <div class="alert alert-danger" role="alert" id="error">
+					
+					</div>
+      
+
+      
+      
+      
+      
                 <div class="col-md-12" id="maincard">
                     <div class="card card-block sameheight-item" id="maincard">
                         <section class="section" id="section">
@@ -566,42 +650,42 @@
                                     <section class="section" id="section" style="height:450px;">
                                         <div class="form-group row">
                                             <div class="col-xs-2">
-                                                <label>Title:</label>
-                                                 <input type="text" class="form-control underlined" id="surveyName" name="honorifics" list="honorificsSuggestions">
+                                                <label><b style="color:red">*</b>Title:</label>
+                                                 <input type="text" class="form-control underlined" id="honorifics" name="honorifics" list="honorificsSuggestions">
                                                 <datalist id="honorificsSuggestions">
                                                 </datalist>
                                             </div>
                                             <div class="col-xs-5">
-                                                <label>First Name:</label>
-                                                <input type="text" class="form-control underlined" id="surveyName" name="firstName">
+                                                <label><b style="color:red">*</b>First Name:</label>
+                                                <input type="text" class="form-control underlined" id="firstName" name="firstName">
                                             </div>
                                             <div class="col-xs-1">
-                                                <label>M.I.:</label>
-                                                <input type="text" class="form-control underlined" id="surveyName" name="middleName">
+                                                <label><b style="color:red">*</b>M.I.:</label>
+                                                <input type="text" class="form-control underlined" id="middleName" name="middleName">
                                             </div>
                                             <div class="col-xs-4">
-                                                <label>Last Name:</label>
-                                                <input type="text" class="form-control underlined" id="surveyName" name="lastName">
+                                                <label><b style="color:red">*</b>Last Name:</label>
+                                                <input type="text" class="form-control underlined" id="lastName" name="lastName">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-xs-7">
-                                                <label>Email:</label>
-                                                <input type="text" class="form-control underlined" id="surveyName" name="email">
+                                                <label><b style="color:red">*</b>Email:</label>
+                                                <input type="text" class="form-control underlined" id="email" name="email">
                                             </div>
                                             <div class="col-xs-5">
-                                                <label>Contact Number:</label>
-                                                <input type="number" class="form-control underlined" id="surveyName" name="contact">
+                                                <label><b style="color:red">*</b>Contact Number:</label>
+                                                <input type="number" class="form-control underlined" id="contact" name="contact">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-xs-7">
-                                                <label>Address:</label>
-                                                <input type="text" class="form-control underlined" id="surveyName" name="address">
+                                                <label><b style="color:red">*</b>Address:</label>
+                                                <input type="text" class="form-control underlined" id="address" name="address">
                                             </div>
                                             <div class="col-xs-5">
-												<label>City:</label>
-						 						<input type="text" class="form-control underlined" id="surveyName" name="city" list="citySuggestions">
+												<label><b style="color:red">*</b>City:</label>
+						 						<input type="text" class="form-control underlined" id="city" name="city" list="citySuggestions">
 						                        <datalist id="citySuggestions">
 							                    </datalist></div>
 						  					</div>
@@ -609,8 +693,8 @@
 											<div class="form-group row">
 											
 											<div class="col-xs-7">
-												<label><b>Country:</b></label>
-						  						<input type="text" class="form-control underlined" id="surveyName" name="country" list="countrySuggestions">
+												<label><b style="color:red">*</b><b>Country:</b></label>
+						  						<input type="text" class="form-control underlined" id="country" name="country" list="countrySuggestions">
 						                        <datalist id="countrySuggestions">
 							                    </datalist>
 						                    </div>
@@ -622,12 +706,12 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-xs-7">
-                                                <label><b>Venue Trained:</b>
+                                                <label><b style="color:red">*</b><b>Venue Trained:</b>
                                                 </label>
-                                                <input type="text" class="form-control underlined" id="surveyName" name="venue_trained">
+                                                <input type="text" class="form-control underlined" id="venueTrained" name="venue_trained">
                                             </div>
                                             <div class="col-xs-5">
-                                                <label><b>Date Trained:</b>
+                                                <label><b style="color:red">*</b><b>Date Trained:</b>
                                                 </label>
                                                 <div class="input-daterange input-group">
                                                     <input type="text" class="form-control underlined" id="datepicker1" name="date_trained" />
@@ -636,7 +720,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-xs-12">
-                                                <label>Primary Survey Area:</label>
+                                                <label><b style="color:red">*</b>Primary Survey Area:</label>
                                                 <select class="form-control underlined" name="primaryArea" id="primaryArea">
                                                   
                                                 </select>
@@ -644,7 +728,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-xs-12">
-                                                <label>Secondary Survey Area:</label>
+                                                <label><b style="color:red">*</b>Secondary Survey Area:</label>
                                                 <select class="form-control underlined" name="secondaryArea" id="secondaryArea">
                                                     
                                                 </select>
@@ -652,14 +736,14 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-xs-12">
-                                                <label>Tertiary Survey Area:</label>
+                                                <label><b style="color:red">*</b>Tertiary Survey Area:</label>
                                                 <select class="form-control underlined" name="tertiaryArea" id="tertiaryArea">
                                                    
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group" style="float:right;top:25px;">
-                                            <button type="button" class="btn btn-success" onclick="addProp();" style="position:relative;top:35px; right:0px;" data-toggle="tab" href="#menu2">
+                                            <button type="button" class="btn btn-success" onclick="validate();" style="position:relative;top:35px; right:0px;" data-toggle="tab">
                                                 Next Step
                                             </button>
                                         </div>
@@ -765,6 +849,7 @@
             </div>
         </div>
         </div>
+        
         <script src="js/app.js"></script>
 </body>
 

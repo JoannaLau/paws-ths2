@@ -44,6 +44,34 @@
     
     
     
+
+<script type="text/javascript">
+
+
+function validate(){
+	var errorDiv = document.getElementById('error');
+	var title = $('#newsTitle').val();
+	var body = $('#newsBody').val();
+	
+	if(title==""){
+		document.location.href = "#top";
+		errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+	}
+	
+	else if(body==""){
+		document.location.href = "#top";
+		errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+	}
+	
+	else $('#newsForm').submit();
+
+}
+
+
+
+</script>
     
     
     
@@ -175,7 +203,9 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 		width:87%;
 		left:15px;
 	}
-	
+	 #error{
+        display: none;
+        }
 	#maincard{
 		width:100%;
 		padding:0px;
@@ -198,10 +228,6 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
     <script src="js/bootstrap.min.js"></script>
     
     
-    
-
-<script type="text/javascript">
-</script>
 
 </head>
 
@@ -229,6 +255,8 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 
 
 </div>
+
+
           
 		<br><br>
                 <article class="content dashboard-page" >
@@ -241,7 +269,11 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
 					 </div>
 					
 			
-
+    <div class="alert alert-danger" role="alert" id="error">
+					
+					</div>
+      
+                  <br><br>
                         
                   
     
@@ -266,8 +298,8 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
   <form method="post" action="UpdateNews" id="form1">
     <c:set var="news" scope="session" value="${News}"/>
     <input type="hidden" name="newsID" value="${news.getNewsID()}">
-  <label>News Title: </label>&nbsp;&nbsp;<input id="newsTitle" name="title" value="<c:out value="${news.getTitle()}"/>"><br><br>
-  <label>News Content: </label><br>
+  <label><span style="color:red">*</span>News Title: </label>&nbsp;&nbsp;<input id="newsTitle" name="title" value="<c:out value="${news.getTitle()}"/>"><br><br>
+  <label><span style="color:red">*</span>News Content: </label><br>
   
    <div id="myNicPanel" style="width: 525px;"></div>
  
@@ -287,7 +319,7 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
      
     <input type="file"><br><br>
      
-     <button onclick="submitForm();">Update News</button>
+     <button  onclick="validate();">Update News</button>
   
 
   

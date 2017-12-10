@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import com.mysql.jdbc.Connection;
 
 import Models.BoardMember;
+import Models.Decision;
 import Models.Infographic;
 import Models.Institution;
 import Models.SchoolProgram;
@@ -421,6 +422,40 @@ public class InstitutionsUtil {
 	    return institutions;
 	}
 	
+	//NEW
+	public JSONArray getExistingDecisionJSON(int PSID){
+		
+		JSONArray jArray = new JSONArray();
+		JSONObject job = new JSONObject();
+		
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT d.decisionID, d.decisionBy, d.decision, d.validThru, d.remarks, d.PSID, i.name, sp.degreeName FROM `decisions` d, institutions i, `school-program` sp, `program-survey` ps WHERE d.PSID = ps.PSID AND ps.SPID = sp.SPID AND sp.institutionID = i.institutionID AND d.PSID = ?");
+			ps.setInt(1, PSID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				job = new JSONObject();
+				job.put("decisionID", rs.getString(1));
+				job.put("decisionBy", rs.getString(2));
+				job.put("decision", rs.getString(3));
+				job.put("validThru", rs.getString(4));
+				job.put("remarks", rs.getString(5));
+				job.put("PSID", rs.getInt(6));
+				job.put("name", rs.getString(7));
+				job.put("degreeName", rs.getString(8));
+		
+				jArray.put(job);
+				
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getAllInstitutionsJSON()");
+			e.printStackTrace();
+		}
+		
+		return jArray;
+		
+		
+	}
 	
 	/*
 	//NEW
@@ -1616,11 +1651,114 @@ public class InstitutionsUtil {
 		return jArray;
 	}
 
+	//NEW
+	public String getInstitutionAndDegreeProgram(int PSID) {
+		String temp = "";
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT i.name, sp.degreeName FROM institutions i, `school-program` sp, `program-survey` ps WHERE ps.SPID = sp.SPID AND i.institutionID = sp.institutionID AND ps.PSID = ?");
+			ps.setInt(1,  PSID);
+			ResultSet rs = ps.executeQuery();
+			if(rs.first()){
+				temp = rs.getString(1) + " - " + rs.getString(2);
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitution()");
+			e.printStackTrace();
+		}
+		
+	    return temp;
+		
+		
+	}
+
+	//NEW
+	public String getSurveyType(int PSID) {
+		String temp = "";
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT surveyType FROM `program-survey` WHERE PSID = ?");
+			ps.setInt(1,  PSID);
+			ResultSet rs = ps.executeQuery();
+			if(rs.first()){
+				temp = rs.getString(1);
+			}
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:getInstitution()");
+			e.printStackTrace();
+		}
+		
+	    return temp;
+	}
 
 
-
-
-	
-
+	public void updateDecision(int PSID, String boardChoice, String commChoice, String teamChoice, String text) {
+		try{
+			Connection conn = db.getConnection();
+			PreparedStatement ps = conn.prepareStatement("DELETE from `decisions` WHERE PSID = ?");
+			ps.setInt(1, PSID);
+			ps.executeUpdate();
+		} catch (Exception e){
+			System.out.println("Error in AccreditorUtil:addAccreditor()");
+			e.printStackTrace();
+		}
+		
+		//BOARD
+		try{
+		
+			
+			Connection conn = db.getConnection();
+			PreparedStatement ps4 = conn.prepareStatement("INSERT INTO `decisions` (decisionBy, decision, remarks, PSID) VALUES (?,?,?,?)");
+			ps4.setString(1, "Board");
+			ps4.setString(2, boardChoice);
+			ps4.setString(3, text);
+			ps4.setInt(4, PSID);
+			
+			
+			ps4.executeUpdate();
+			
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:addInstitution()");
+			e.printStackTrace();	
+		}
+		
+		//TEAM
+		try{
+		
+			
+			Connection conn = db.getConnection();
+			PreparedStatement ps4 = conn.prepareStatement("INSERT INTO `decisions` (decisionBy, decision, remarks, PSID) VALUES (?,?,?,?)");
+			ps4.setString(1, "Team");
+			ps4.setString(2, teamChoice);
+			ps4.setString(3, text);
+			ps4.setInt(4, PSID);
+			
+			
+			ps4.executeUpdate();
+			
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:addInstitution()");
+			e.printStackTrace();	
+		}
+		
+		//Commision
+		try{
+		
+			
+			Connection conn = db.getConnection();
+			PreparedStatement ps4 = conn.prepareStatement("INSERT INTO `decisions` (decisionBy, decision, remarks, PSID) VALUES (?,?,?,?)");
+			ps4.setString(1, "Commission");
+			ps4.setString(2, commChoice);
+			ps4.setString(3, text);
+			ps4.setInt(4, PSID);
+			
+			
+			ps4.executeUpdate();
+			
+		} catch (Exception e){
+			System.out.println("Error in InstitutionsUtil:addInstitution()");
+				e.printStackTrace();	
+			}
+	}
 	
 }

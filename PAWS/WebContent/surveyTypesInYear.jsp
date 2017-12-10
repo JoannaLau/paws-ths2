@@ -269,7 +269,7 @@
                     <section class="section" style="position: relative; top:-135px; left:-25px; width:105%;" >
                        <div class="table-responsive" style="width:100%; float:right;" id="contenthole">
 								<h3 class="title" style="float:left;">
-			       <a href="AccreditorInfographics"> Accreditor Visits </a> &nbsp;> List of ${surveyType} Surveys Done for ${year}
+			       <a href="SurveyVisitInfographics"> Survey Visits </a> &nbsp;> List of ${surveyType} Surveys Done for ${year}
     			</h3>		
 						
 						<br>			

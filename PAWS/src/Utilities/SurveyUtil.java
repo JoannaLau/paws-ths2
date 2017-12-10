@@ -778,7 +778,7 @@ public class SurveyUtil {
 			}
 			
 			ps = conn.prepareStatement("SELECT COUNT(*) FROM surveys WHERE `startDate` LIKE ?");
-			ps.setString(1, today.substring(0, 6) + "%");
+			ps.setString(1, today.substring(0, 7) + "%");
 			rs = ps.executeQuery();
 			if(rs.first()){
 				job.put("countMonth", rs.getInt(1));

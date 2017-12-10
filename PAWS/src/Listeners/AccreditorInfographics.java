@@ -62,7 +62,7 @@ public class AccreditorInfographics extends HttpServlet {
 			startYear = endYear-5;
 		}
 	
-		ArrayList<SurveyInfographic> surList = new ArrayList<SurveyInfographic>();
+		/*ArrayList<SurveyInfographic> surList = new ArrayList<SurveyInfographic>();
 	
 		
 		
@@ -74,14 +74,14 @@ public class AccreditorInfographics extends HttpServlet {
 			
 			surList.add(sur);
 			
-		}
+		}*/
 		
 		
 ArrayList<Infographic> infList = new ArrayList<Infographic>();
 	
 		
 		
-		 n=0;
+		int n=0;
 		
 		for(n=startYear; n<=endYear; n++){
 			
@@ -93,7 +93,6 @@ ArrayList<Infographic> infList = new ArrayList<Infographic>();
 		
 		
 		request.setAttribute("SurveyCountList", infList);
-		request.setAttribute("TypeCountList", surList);
 		RequestDispatcher rd = request.getRequestDispatcher("accreditorInfographics.jsp");
 		rd.forward(request, response);	
 		
