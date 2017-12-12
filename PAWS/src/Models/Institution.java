@@ -338,6 +338,7 @@ public class Institution {
 		String day;
 		String year;
 		String[] parts = date.split("-");
+		try{
 		if(parts[1].equals("01")){
 			month = "January";
 		}else if(parts[1].equals("02")){
@@ -369,6 +370,11 @@ public class Institution {
 		day = parts[2];
 		
 		format = month + " " + day + ", "+ year;
+		}
+		catch(Exception e)
+		{
+			
+		}
 		return format;
 	}
 	
@@ -378,6 +384,8 @@ public class Institution {
 		String day;
 		String year;
 		String[] parts = date.split("-");
+		
+		try{
 		if(parts[1].equals("01")){
 			month = "January";
 		}else if(parts[1].equals("02")){
@@ -409,6 +417,11 @@ public class Institution {
 		day = parts[2];
 		
 		format = year + " " + month + " "+ day;
+		}
+		catch(Exception e)
+		{
+			
+		}
 		return format;
 	}
 	

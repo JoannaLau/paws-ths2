@@ -381,7 +381,7 @@ public class InstitutionsUtil {
 				
 			
 				System.out.println(rs.getString(3));
-				temp = new Institution(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), rs.getString(17), rs.getString(18));
+				temp = new Institution(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), "", rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), rs.getString(17), rs.getString(18));
 				temp.setSchoolSystemName(getSchoolSystemName(rs.getInt(2)));
 				
 				institutions.add(temp);
@@ -715,7 +715,7 @@ public class InstitutionsUtil {
 					{
 						int ID = rs.getInt(1);	
 						
-						PreparedStatement ps2 = conn.prepareStatement("INSERT INTO `institutions-changes` (institutionID, systemID, name, head, hPosition, hEmail, address, status, dateAdded, city, fax, contactPerson, contactPosition, contactNumber, website, country, contactEmail, acronym, longitude, latitude) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+						PreparedStatement ps2 = conn.prepareStatement("INSERT INTO `institutions-changes` (institutionID, systemID, name, head, hPosition, hEmail, address, status, dateAdded, city, fax, contactPerson, contactPosition, contactNumber, website, country, contactEmail, acronym, longitude, latitude, dateChanged) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 	
 						ps2.setInt(1, ID);
 						ps2.setInt(2, ssID_int);
@@ -736,7 +736,10 @@ public class InstitutionsUtil {
 						ps2.setString(17, contactEmail);
 						ps2.setString(18, institutionAcronym);
 						ps2.setDouble(19, lng);
-						ps2.setDouble(20, lat);
+						ps2.setDouble(20, lat);Date date = new Date();
+						String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date);
+						ps1.setString(21, modifiedDate);
+						ps1.executeUpdate();
 						
 						ps2.executeUpdate();
 				
@@ -1421,7 +1424,7 @@ public class InstitutionsUtil {
 		try{
 			Connection conn = db.getConnection();
 			
-			if(surveyType!="" && surveyType!="Consultancy")
+			if(surveyType!="" && surveyType!="Interim/Consultancy")
 			{
 				PreparedStatement ps = conn.prepareStatement("SELECT s.surveyID, i.name, sp.degreeName, e.levelName, ps.boardApprovalDate FROM educationlevel e, institutions i, `program-survey` ps, surveys s, `school-program` sp WHERE e.levelID = sp.levelID AND sp.institutionID = i.institutionID AND ps.SPID = sp.SPID AND ps.surveyID = s.surveyID AND ps.surveyType = ? AND ps.boardApprovalDate LIKE ?");
 				ps.setString(1, surveyType);
@@ -1432,9 +1435,9 @@ public class InstitutionsUtil {
 					sp.add(temp);
 				}
 			}
-			else if(surveyType!="" && surveyType=="Consultancy")
+			else if(surveyType!="" && surveyType=="Interim/Consultancy")
 			{
-				PreparedStatement ps = conn.prepareStatement("SELECT s.surveyID, i.name, sp.degreeName, e.levelName, ps.boardApprovalDate FROM educationlevel e, institutions i, `program-survey` ps, surveys s, `school-program` sp WHERE e.levelID = sp.levelID AND sp.institutionID = i.institutionID AND ps.SPID = sp.SPID AND ps.surveyID = s.surveyID AND (ps.surveyType = 'Interim' OR ps.surveyType = 'Consultancy' AND ps.boardApprovalDate LIKE ?");
+				PreparedStatement ps = conn.prepareStatement("SELECT s.surveyID, i.name, sp.degreeName, e.levelName, ps.boardApprovalDate FROM educationlevel e, institutions i, `program-survey` ps, surveys s, `school-program` sp WHERE e.levelID = sp.levelID AND sp.institutionID = i.institutionID AND ps.SPID = sp.SPID AND ps.surveyID = s.surveyID AND ps.surveyType = 'Interim/Consultancy' AND ps.boardApprovalDate LIKE ?");
 				ps.setString(1,  "%" + year + "%");
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()){
@@ -1703,62 +1706,97 @@ public class InstitutionsUtil {
 			e.printStackTrace();
 		}
 		
-		//BOARD
-		try{
 		
+
+		if(teamChoice != "")
+		{
+			//TEAM
+			try{
 			
-			Connection conn = db.getConnection();
-			PreparedStatement ps4 = conn.prepareStatement("INSERT INTO `decisions` (decisionBy, decision, remarks, PSID) VALUES (?,?,?,?)");
-			ps4.setString(1, "Board");
-			ps4.setString(2, boardChoice);
-			ps4.setString(3, text);
-			ps4.setInt(4, PSID);
-			
-			
-			ps4.executeUpdate();
-			
-		} catch (Exception e){
-			System.out.println("Error in InstitutionsUtil:addInstitution()");
-			e.printStackTrace();	
-		}
-		
-		//TEAM
-		try{
-		
-			
-			Connection conn = db.getConnection();
-			PreparedStatement ps4 = conn.prepareStatement("INSERT INTO `decisions` (decisionBy, decision, remarks, PSID) VALUES (?,?,?,?)");
-			ps4.setString(1, "Team");
-			ps4.setString(2, teamChoice);
-			ps4.setString(3, text);
-			ps4.setInt(4, PSID);
-			
-			
-			ps4.executeUpdate();
-			
-		} catch (Exception e){
-			System.out.println("Error in InstitutionsUtil:addInstitution()");
-			e.printStackTrace();	
-		}
-		
-		//Commision
-		try{
-		
-			
-			Connection conn = db.getConnection();
-			PreparedStatement ps4 = conn.prepareStatement("INSERT INTO `decisions` (decisionBy, decision, remarks, PSID) VALUES (?,?,?,?)");
-			ps4.setString(1, "Commission");
-			ps4.setString(2, commChoice);
-			ps4.setString(3, text);
-			ps4.setInt(4, PSID);
-			
-			
-			ps4.executeUpdate();
-			
-		} catch (Exception e){
-			System.out.println("Error in InstitutionsUtil:addInstitution()");
+				
+				Connection conn = db.getConnection();
+				PreparedStatement ps4 = conn.prepareStatement("INSERT INTO `decisions` (decisionBy, decision, remarks, PSID) VALUES (?,?,?,?)");
+				ps4.setString(1, "Team");
+				ps4.setString(2, teamChoice);
+				ps4.setString(3, text);
+				ps4.setInt(4, PSID);
+				
+				
+				ps4.executeUpdate();
+				
+				
+				ps4 = conn.prepareStatement("UPDATE `program-survey` SET currentDecisionBy = ? WHERE PSID = ?");
+				ps4.setString(1, "Team");
+				ps4.setInt(2, PSID);
+				
+				
+				ps4.executeUpdate();
+				
+			} catch (Exception e){
+				System.out.println("Error in InstitutionsUtil:addInstitution()");
 				e.printStackTrace();	
 			}
+		}
+
+		if(commChoice != "")
+		{
+			//Commission
+			try{
+			
+				
+				Connection conn = db.getConnection();
+				PreparedStatement ps4 = conn.prepareStatement("INSERT INTO `decisions` (decisionBy, decision, remarks, PSID) VALUES (?,?,?,?)");
+				ps4.setString(1, "Commission");
+				ps4.setString(2, commChoice);
+				ps4.setString(3, text);
+				ps4.setInt(4, PSID);
+				
+				
+				ps4.executeUpdate();
+				
+				ps4 = conn.prepareStatement("UPDATE `program-survey` SET currentDecisionBy = ? WHERE PSID = ?");
+				ps4.setString(1, "Commission");
+				ps4.setInt(2, PSID);
+				
+				
+				ps4.executeUpdate();
+				
+			} catch (Exception e){
+				System.out.println("Error in InstitutionsUtil:addInstitution()");
+					e.printStackTrace();	
+			}
+		}
+	
+		if(boardChoice != "")
+		{
+			//BOARD
+			
+			try{
+			
+				
+				Connection conn = db.getConnection();
+				PreparedStatement ps4 = conn.prepareStatement("INSERT INTO `decisions` (decisionBy, decision, remarks, PSID) VALUES (?,?,?,?)");
+				ps4.setString(1, "Board");
+				ps4.setString(2, boardChoice);
+				ps4.setString(3, text);
+				ps4.setInt(4, PSID);
+				
+				
+				ps4.executeUpdate();
+				
+				
+				ps4 = conn.prepareStatement("UPDATE `program-survey` SET currentDecisionBy = ? WHERE PSID = ?");
+				ps4.setString(1, "Board");
+				ps4.setInt(2, PSID);
+				
+				
+				ps4.executeUpdate();
+				
+			} catch (Exception e){
+				System.out.println("Error in InstitutionsUtil:addInstitution()");
+				e.printStackTrace();	
+			}
+		}
 	}
 	
 }

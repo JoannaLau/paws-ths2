@@ -842,7 +842,7 @@
 
 
                 $.ajax({ //CALLING ACCREDITORS WITH EXTRA CHECKING FOR AFFILIATION CONFLICTS
-                    url: "AccreditorsLoader?SPID=0&systemID=0",
+                    url: "AccreditorsLoader?SPID="+$('#programForm option:selected').val()+"&systemID=0",
                     dataType: 'json',
                     async: false,
                     success: function(data) {

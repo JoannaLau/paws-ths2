@@ -367,6 +367,8 @@
                 </div>
                 <div id="welcome">
                     <h4>Decision for ${title}</h4>
+                    <br>
+                    <h6>${surveyType}</h6>
                 </div>
                 
                 <article class="content dashboard-page" style="padding-bottom:10px;">

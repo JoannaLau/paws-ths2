@@ -432,7 +432,7 @@ function saveAccreditor(){
 	errorDiv.className = "alert alert-success";
 	errorDiv.innerHTML ='Accreditor successfully edited! Redirecting you to the accreditors page...';
 
-	document.location.href = "Accreditors";
+	document.location.href = "ViewAccreditor?accreditorID="+id;
 }
 var affObject = {
 		works: [],

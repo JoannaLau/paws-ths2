@@ -66,6 +66,8 @@ function buildHome(currPage){
 	
 	$('#home-pills').empty();
 	var allSize = ${all.size()};
+	
+	document.getElementById("notifNum").innerHTML = allSize + " Notifications";;
 	var pages = allSize / 10;
 	
 	if(allSize%10 > 0)
@@ -127,6 +129,7 @@ function buildRead(currPage){
 	var allSize = ${read.size()};
 	var pages = allSize / 10;
 	
+	document.getElementById("notifNum").innerHTML = allSize  + " Notifications";;
 	if(allSize%10 > 0)
 		pages++;
 	
@@ -184,6 +187,7 @@ function buildAwards(currPage){
 	$('#award-pills').empty();
 	var allSize = ${awards.size()};
 	var pages = allSize / 10;
+	document.getElementById("notifNum").innerHTML = allSize + " Notifications";
 	
 	if(allSize%10 > 0)
 		pages++;
@@ -266,7 +270,7 @@ function buildExpirations(currPage){
 	$('#expiration-pills').empty();
 	var allSize = ${expirations.size()};
 	var pages = allSize / 10;
-	
+	document.getElementById("notifNum").innerHTML = allSize + " Notifications";
 	if(allSize%10 > 0)
 		pages++;
 	
@@ -321,6 +325,7 @@ function buildUnconfirmedSurveys(currPage){
 	$('#unconfirmedSurvey-pills').empty();
 	var allSize = ${unconfirmedSurveys.size()};
 	var pages = allSize / 10;
+	document.getElementById("notifNum").innerHTML = allSize + " Notifications";;
 	
 	if(allSize%10 > 0)
 		pages++;
@@ -682,6 +687,7 @@ box-shadow:         0px 2px 11px 2px rgba(50, 50, 50, 0.58); ">
                                        
                                        
                                     <!-- Nav tabs -->
+                                    	<h6 id="notifNum"></h6>
                                         <ul class="nav nav-pills" style="width: 100%;">
                                         
                                             <li class="nav-item"> <a href="" onclick="buildHome(1);" id = "homeBtn" class="nav-link active" data-target="#home-pills" aria-controls="home-pills" data-toggle="tab" role="tab">All</a> </li>

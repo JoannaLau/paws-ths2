@@ -46,6 +46,8 @@ public class UpdateDecisions extends HttpServlet {
 		
 		if(surveyType.equals("Preliminary"))
 		{
+			request.setAttribute("surveyType", "Preliminary Survey");
+			
 			System.out.print("INSIDE PRELIMINARY");
 			RequestDispatcher rd = request.getRequestDispatcher("updateDecisionsPreliminary.jsp");
 			rd.forward(request, response);
@@ -54,6 +56,8 @@ public class UpdateDecisions extends HttpServlet {
 		
 		else if(surveyType.equals("Formal"))
 		{
+			request.setAttribute("surveyType", "Formal Survey");
+			
 			System.out.print("INSIDE FORMAL");
 			RequestDispatcher rd = request.getRequestDispatcher("updateDecisionsFormal.jsp");
 			rd.forward(request, response);
@@ -62,6 +66,8 @@ public class UpdateDecisions extends HttpServlet {
 
 		else if(surveyType.equals("Interim"))
 		{
+			request.setAttribute("surveyType", "Interim Survey");
+			
 			System.out.print("INSIDE INTERIM");
 			RequestDispatcher rd = request.getRequestDispatcher("updateDecisionsInterim.jsp");
 			rd.forward(request, response);
@@ -69,12 +75,16 @@ public class UpdateDecisions extends HttpServlet {
 
 		else if(surveyType.equals("Consultancy"))
 		{
+			request.setAttribute("surveyType", "Consultancy Survey");
+			
 			System.out.print("INSIDE CONSULTANCY");
 			RequestDispatcher rd = request.getRequestDispatcher("updateDecisionsConsultancy.jsp");
 			rd.forward(request, response);
 		}
 		else if(surveyType.equals("Resurvey"))
 		{
+			request.setAttribute("surveyType", "Resurvey");
+			
 			System.out.print("INSIDE Resurvey");
 			RequestDispatcher rd = request.getRequestDispatcher("updateDecisionsResurvey.jsp");
 			rd.forward(request, response);
@@ -82,6 +92,8 @@ public class UpdateDecisions extends HttpServlet {
 		
 		else if(surveyType.equals("Revisit"))
 		{
+			request.setAttribute("surveyType", "Revisit");
+			
 			System.out.print("INSIDE REVISIT");
 			RequestDispatcher rd = request.getRequestDispatcher("updateDecisionsRevisit.jsp");
 			rd.forward(request, response);

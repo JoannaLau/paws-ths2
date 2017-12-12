@@ -347,7 +347,7 @@
 															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Preliminary&year='+'${count2.getYear()}';" title="Click to view list of preliminary surveys for ${count2.getYear()}"> <c:out value="${count2.getPreliminary()}"/> </td>
 															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Formal&year='+'${count2.getYear()}';" title="Click to view list of formal surveys for ${count2.getYear()}"> <c:out value="${count2.getFormal()}"/> </td>
 															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Resurvey&year='+'${count2.getYear()}';" title="Click to view list of resurveys for ${count2.getYear()}"> <c:out value="${count2.getResurvey()}"/> </td>
-															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Consultancy&year='+'${count2.getYear()}';" title="Click to view list of consultancy/interim surveys for ${count2.getYear()}"> <c:out value="${count2.getInterim()}"/> </td>
+															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=Interim/Consultancy&year='+'${count2.getYear()}';" title="Click to view list of consultancy/interim surveys for ${count2.getYear()}"> <c:out value="${count2.getInterim()}"/> </td>
 															<td onclick="window.document.location='ViewSurveyTypesFromYear?surveyType=&year='+'${count2.getYear()}';" title="Click to view list of all surveys for ${count2.getYear()}"> <c:out value="${count2.getTotal()}"/> </td>
 														
 															

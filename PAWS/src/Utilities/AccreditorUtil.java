@@ -2071,7 +2071,7 @@ public class AccreditorUtil {
 				
 				ps.setInt(1, institutionID);
 				ps.setInt(2, accreditorID);
-				ps.setString(3, from);
+				ps.setString(3, "2017-12-07");
 				ps.setString(4, position);
 				ps.setString(5, placePos);
 				
@@ -2081,8 +2081,8 @@ public class AccreditorUtil {
 				
 				ps.setInt(1, institutionID);
 				ps.setInt(2, accreditorID);
-				ps.setString(3, from);
-				ps.setString(4, to);
+				ps.setString(3, "2017-12-07");
+				ps.setString(4, "2017-12-08");
 				ps.setString(5, position);
 				ps.setString(6, placePos);
 				

@@ -773,7 +773,7 @@ function formatDate(date) {
 		    	var d2 = Date.parse(event.start.format());
 		    	var d3 = Date.parse(event.start.format());
 		        event.start.stripTime();
-				s
+				
 		        event.end = event.start;
 		        
 		        $.ajax({url: "ScheduleSurveyNew?surveyID=" + event.id + "&start=" + event.start.format() + "&end=" + event.start.format(), async:false, success: function(result){
@@ -953,7 +953,6 @@ function formatDate(date) {
 		            
 		            },
 		            error: function() {
-		                alert('there was an error while fetching events!');
 		            },
 		          // a non-ajax option
 		            textColor: 'white' // a non-ajax option
@@ -1933,7 +1932,7 @@ left:5px;
 									    <li><span style='background:rgb(0,119,29);'></span>Complete</li>
 									    <li><span style='background:rgb(12, 48, 107); border-width: 2px; border-color:rgb(149, 209, 229)'></span>Confirmed by Team</li>
 									    <li><span style='background:rgb(12, 48, 107); border-width: 2px; border-color:rgb(234, 232, 114)'></span>Confirmed by Board</li>
-									    <li><span style='background:rgb(12, 48, 107);'></span>Confirmed by Commitee</li>
+									    <li><span style='background:rgb(12, 48, 107);'></span>Confirmed by Commission</li>
 									  </ul>
 									</div>
                                     </div>

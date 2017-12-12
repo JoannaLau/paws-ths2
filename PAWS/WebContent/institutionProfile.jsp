@@ -116,7 +116,6 @@ function saveLevel(){
  	   var SPID =  row.cells[0].innerHTML;
  	   var level= levelTemp;
  	  $.ajax({url: "UpdateLevel?SPID=" + SPID+"&level="+level, success: function(result){
- 	        alert(result);
  	    }});
  		
 	}
