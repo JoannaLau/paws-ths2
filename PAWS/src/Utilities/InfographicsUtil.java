@@ -29,7 +29,7 @@ public class InfographicsUtil {
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(`SPID`) FROM `school-program` s, `institutions` i WHERE s.institutionID=i.institutionID AND s.levelID = ? AND YEAR(STR_TO_DATE(sp.dateAdded, '%Y-%m-%d')) = ? AND i.status = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(`SPID`) FROM `school-program` s, `institutions` i WHERE s.institutionID=i.institutionID AND s.levelID = ? AND YEAR(STR_TO_DATE(s.dateAdded, '%Y-%m-%d')) = ? AND i.status = ?");
 			ps.setInt(1, educLevelID);
 			ps.setInt(2, year);
 			ps.setString(3, status);
@@ -161,9 +161,9 @@ int year=0;
 		
 		try{
 			Connection conn = db.getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(`surveyType`) FROM `program-survey` WHERE surveyType=? AND YEAR(STR_TO_DATE(`boardApprovalDate`, '%Y-%m-%d')) =?");
+			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM educationlevel e, institutions i, `program-survey` ps, surveys s, `school-program` sp WHERE e.levelID = sp.levelID AND sp.institutionID = i.institutionID AND ps.SPID = sp.SPID AND ps.surveyID = s.surveyID AND ps.surveyType = ? AND ps.boardApprovalDate LIKE ?");
 			ps.setString(1, type);
-			ps.setInt(2, year); 
+			ps.setString(2, "%" + year + "%");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){				
 			

@@ -1785,9 +1785,12 @@ public class InstitutionsUtil {
 				ps4.executeUpdate();
 				
 				
-				ps4 = conn.prepareStatement("UPDATE `program-survey` SET currentDecisionBy = ? WHERE PSID = ?");
+				ps4 = conn.prepareStatement("UPDATE `program-survey` SET currentDecisionBy = ?, boardApprovalDate = ? WHERE PSID = ?");
 				ps4.setString(1, "Board");
-				ps4.setInt(2, PSID);
+				Date date1 = new Date();
+				String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date1);
+				ps4.setString(2, modifiedDate);
+				ps4.setInt(3, PSID);
 				
 				
 				ps4.executeUpdate();
@@ -1796,6 +1799,7 @@ public class InstitutionsUtil {
 				System.out.println("Error in InstitutionsUtil:addInstitution()");
 				e.printStackTrace();	
 			}
+		
 		}
 	}
 	

@@ -129,7 +129,7 @@
 		                        	"className": 'td-limit'
 		                        }
 		                    ],
-		                    "order": [[1, 'asc']]
+		                    "order": [[3, 'desc']]
 		                } );
 		                // Add event listener for opening and closing details
 		                $('#smarttable tbody').on('click', 'td.details-control', function () {

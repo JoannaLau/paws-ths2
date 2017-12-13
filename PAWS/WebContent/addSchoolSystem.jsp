@@ -207,67 +207,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     </head>
 
     <body>
-    	 
-        <div class="main-wrapper">
-      				
-        			
-      			</div>
-      			
-    		
-
-  	
-			
-            <div class="app" id="app">
-                <header class="header">
-                    <div class="header-block header-block-collapse hidden-lg-up"> <button class="collapse-btn" id="sidebar-collapse-btn">
-    			<i class="fa fa-bars"></i>
-    		</button> </div>
-                    <div class="header-block header-block-search hidden-sm-down">
-                        <form role="search">
-                            <div class="input-container"> <i class="fa fa-search"></i> <input type="search" placeholder="Search">
-                                <div class="underline"></div>
-                            </div>
-                        </form>
-                    </div>
-					 <div style="margin-left:-150px;">
-					 	
-  							
-						
-					 </div>
-                    
-                    <div class="header-block header-block-nav">
-                        <ul class="nav-profile">
-                            <li class="notifications new">
-                                <a href="" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <sup>
-    			      <span class="counter">1</span>
-    			    </sup> </a>
-                                <div class="dropdown-menu notifications-dropdown-menu">
-                                    <ul class="notifications-container">
-                                        <li>
-                                            <a href="" class="notification-item">
-                                                <div class="img-col">
-                                                    <div class="img" style="background-image: url('assets/faces/marcos,nelson.jpg')"></div>
-                                                </div>
-                                                <div class="body-col">
-                                                    <p> <span class="accent">Marcos, Nelson Phd</span> Achievement: <span class="accent">Completed 100th survey</span>. </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                       
-                                    </ul>
-                                    <footer>
-                                        <ul>
-                                            <li> <a href="">
-    			            View All
-    			          </a> </li>
-                                        </ul>
-                                    </footer>
-                                </div>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                </header>
+    	  <div class="app" id="app">
+               
                 <jsp:include page="sidebar.jsp" />
 				
                 <div class="sidebar-overlay" id="sidebar-overlay"></div>
@@ -320,13 +261,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 						</div>
 						</form>
         			</div>
+        			</div>
 				   </section>
 				   
 					
 				  
                 </article>
              
-             
+             </div>
         		  
         <!-- Reference block for JS -->
         <div class="ref" id="ref">
@@ -336,7 +278,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
                 <div class="color-secondary"></div>
             </div>
         </div>
-       </div></div>
         <script src="js/app.js"></script>
 		
 		

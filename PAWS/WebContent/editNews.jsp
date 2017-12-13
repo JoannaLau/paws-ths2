@@ -71,6 +71,41 @@ function validate(){
 
 
 
+function showPreview(){
+	var errorDiv = document.getElementById('error');
+	var title = $('#newsTitle').val();
+	var body = $('#newsBody').val();
+	
+	if(title==""){
+		document.location.href = "#top";
+		errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+	}
+	
+	else if(body==""){
+		document.location.href = "#top";
+		errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+	}
+	
+	else 
+	{
+		var title = $('#newsTitle').val();
+		var body = $('.nicEdit-main').html();
+		var filename = $('#fileName').val();
+		
+		filename = filename.substring(12, filename.length);
+		
+		window.open('NewsPreview?title=' + title + '&content=' + body + '&filename=' + filename);
+				
+	
+	}
+
+}
+
+
+
+
 </script>
     
     
@@ -244,19 +279,6 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
             <div class="app" id="app">
 				   
               
-				
-				<div class="container">
-	<video poster="assets/banner.jpg" id="bgvid"  playsinline autoplay muted loop>
-  <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
-
-<source src="assets/vid.mp4" type="video/mp4">
-</video>
-
-
-
-</div>
-
-
           
 		<br><br>
                 <article class="content dashboard-page" >
@@ -318,9 +340,8 @@ box-shadow:         0px 1px 5px 0px rgba(50, 50, 50, 0.58);
     
      
     <input type="file"><br><br>
-     
-     <button  onclick="validate();">Update News</button>
-  
+  <button  type="submit" class="btn btn-info"  onclick="validate();">Update News</button>
+<button  type="submit" class="btn btn-info"  onclick="showPreview();">Show Preview</button>
 
   
   
@@ -370,3 +391,5 @@ function submitForm(){
 
 
 </html>
+
+

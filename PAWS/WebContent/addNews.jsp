@@ -235,6 +235,41 @@ function validate(){
 }
 
 
+function showPreview(){
+	var errorDiv = document.getElementById('error');
+	var title = $('#newsTitle').val();
+	var body = $('#newsBody').val();
+	
+	if(title==""){
+		document.location.href = "#top";
+		errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+	}
+	
+	else if(body==""){
+		document.location.href = "#top";
+		errorDiv.setAttribute("style", "display: inline");
+		errorDiv.innerHTML = 'One or more required fields has not been filled';
+	}
+	
+	else 
+	{
+		var title = $('#newsTitle').val();
+		var body = $('.nicEdit-main').html();
+		var filename = $('#fileName').val();
+		
+		filename = filename.substring(12, filename.length);
+		
+		window.open('NewsPreview?title=' + title + '&content=' + body + '&filename=' + filename);
+				
+	
+	}
+
+}
+
+
+
+
 
 </script>
 
@@ -244,41 +279,57 @@ function validate(){
 <body>
 
     
-     <div class="main-wrapper" style="z-index:1;">
-            <div class="app" id="app">
-				   
-              
-				
-				<div class="container">
-	<video poster="assets/banner.jpg" id="bgvid"  playsinline autoplay muted loop>
-  <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
-
-<source src="assets/vid.mp4" type="video/mp4">
-</video>
-
-
-
-</div>
-     
-                <article class="content dashboard-page" >
-                    <section class="section" style="position: relative; top:-130px;">
-                      
-					 <div class="title-block" id ="top">
-                        <h3 class="title" style="float:left;">
-							Add News
+     <div class="main-wrapper">
+            <div class="app" id="app" style="margin: 20px;">
+				<div class="title-block" id="top">
+                        <h3 style="float:left;">
+							<b><a href="ViewNews"> List of News </a> > Add News</b>
 						</h3>
-						<br>
-					 </div>
-					    <div class="alert alert-danger" role="alert" id="error">
+			     </div>
+				<div class="sidebar-overlay" id="sidebar-overlay"></div>
+				
+		 <div class="alert alert-danger" role="alert" id="error">
+			    </div>
+			    <br><br>
+				 <div class="tab-content">     
+				 	<div id="menu1" class="tab-pane fade in active">          
+							
+					  <form method="post" action="AddNews" id="newsForm">
+					  
+					  <label><span style="color:red">*</span>News Title: </label>&nbsp;&nbsp;<input id="newsTitle" name="title"><br><br>
+					  <label><span style="color:red">*</span>News Content: </label><br>
+					  <textarea rows="13" cols="200" id="newsBody" name="content" style="max-width: 900px;">
 					
-					</div>
-      
-                  <br><br>
-    <br> 
- 
+					</textarea>
+					 <br>
+					<label>News Image (Optional): </label>   &nbsp;&nbsp;  
+					    
+					     <input id="fileName" type="file" name="filename">Select File</input><br><br>
+					    
+					
+
+							
+				
+						
+						</form>
+						
+						 <button  type="submit" class="btn btn-info"  onclick="validate();">Save News</button>
+      						<button  type="submit" class="btn btn-info"  onclick="showPreview();">Show Preview</button>
+       				<br><br><br>
+        			</div>
+        			</div>
+				   </section>
+				   
+					
+				  
+                </article>
+             
+             </div>
+             
+             
+      </div>
     
     
- <div id="sample">
  <script type="text/javascript" src="js/nicEdit.js"></script>
      
     <script type="text/javascript">
@@ -290,12 +341,12 @@ function validate(){
   //]]>
   </script>
   
-  
+  <!-- 
   <form method="post" action="AddNews" id="newsForm">
   
   <label><span style="color:red">*</span>News Title: </label>&nbsp;&nbsp;<input id="newsTitle" name="title"><br><br>
   <label><span style="color:red">*</span>News Content: </label><br>
-  <textarea rows="20" cols="200" id="newsBody" name="content">
+  <textarea rows="20" cols="200" id="newsBody" name="content" style="max-width: 900px;">
 
 </textarea>
  <br>
@@ -306,9 +357,10 @@ function validate(){
 
   </form>
        <button  onclick="validate();">Save News</button>
+       <button  onclick="">Show Preview</button>
      
 </div>    
-</section></article></div></div>
+</div></div> -->
 
 	
 
